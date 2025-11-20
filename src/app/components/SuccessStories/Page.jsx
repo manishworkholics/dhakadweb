@@ -14,10 +14,10 @@ export default function SuccessStories() {
     const nextRef = useRef(null);
 
     const successStories = [
-        { img: "/assets/success/s1.jpg" },
-        { img: "/assets/success/s2.jpg" },
-        { img: "/assets/success/s3.jpg" },
-        { img: "/assets/success/s4.jpg" },
+        // { img: "/assets/success/s1.jpg" },
+        // { img: "/assets/success/s2.jpg" },
+        // { img: "/assets/success/s3.jpg" },
+        // { img: "/assets/success/s4.jpg" },
     ];
 
     return (

@@ -1,26 +1,130 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@font-face {
+  font-family: 'Serotiva';
+  src: url('/fonts/Serotiva-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@font-face {
+  font-family: 'Serotiva';
+  src: url('/fonts/Serotiva-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Serotiva, sans-serif !important;
 }
+
+/* Background Colors Start */
+.bg-FDFBF7 {
+  background-color: #FDFBF7;
+}
+
+.bg-D4AF37 {
+  background-color: #D4AF37 !important;
+}
+
+.bg-FFF1C4 {
+  background-color: #FFF1C4 !important;
+}
+
+.bg-FFEEEE {
+  background-color: #FFEEEE !important;
+}
+
+/* Background Colors End */
+
+/* Text Colors Start */
+.text-6B6B6B {
+  color: #6B6B6B;
+}
+
+.text-D4AF37 {
+  color: #D4AF37;
+}
+
+/* Text Colors End */
+
+.form-select,
+.form-control {
+  box-shadow: none !important;
+  outline: none;
+}
+
+.form-select:focus,
+.form-control:focus {
+  border-color: #D4AF37 !important;
+}
+
+.form-check-input:checked {
+  background-color: #D4AF37 !important;
+  border-color: #D4AF37 !important;
+}
+
+.form-check-input:checked[type=radio] {
+  --bs-form-check-bg-image: none !important;
+}
+
+.form-check-input:focus {
+  border-color: #D4AF37 !important;
+  outline: 0;
+  box-shadow: none !important;
+}
+
+
+/* OTP Page Start */
+.otp-page {
+  .otp-inputs input {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 24px;
+  }
+}
+
+/* OTP Page End */
+
+
+/* Mayank */
+.sub-bg {
+  background-image: url(/assets/images/subheader.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-E3E3E3 {
+  background-color: #E3E3E3 !important;
+}
+
+.bg-FDFBF7 {
+  background-color: #FDFBF7 !important;
+}
+
+.bg-FFECAE {
+  background-color: #FFECAE !important;
+}
+
+.bg-D4AF37 {
+  background-color: #D4AF37 !important;
+}
+
+.bg-C8C8C8 {
+  background-color: #C8C8C8 !important;
+}
+
+.bg-4CAF50 {
+  background-color: #4CAF50 !important;
+}
+
+.bg-E9E9E9 {
+  background-color: #E9E9E9 !important;
+}
+
+.text-4CAF50 {
+  color: #4CAF50 !important;
+}
+
+/* Mayank */
