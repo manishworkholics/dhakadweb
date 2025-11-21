@@ -186,7 +186,7 @@ const HomePage = () => {
                                     <div className="col-12 col-md-6 col-lg-4">
                                         <div className="p-4 rounded-4 border h-100 shadow-sm" style={{ background: "#fdf7ee" }}>
                                             <div className="mb-3">
-                                                <Image
+                                                <img
                                                     src="/assets/images/user-icon.png"
                                                     width={50}
                                                     height={50}
@@ -205,7 +205,7 @@ const HomePage = () => {
                                     <div className="col-12 col-md-6 col-lg-4">
                                         <div className="p-4 rounded-4 border h-100 shadow-sm" style={{ background: "#fdf7ee" }}>
                                             <div className="mb-3">
-                                                <Image
+                                                <img
                                                     src="/assets/images/magnifier-icon.png"
                                                     width={50}
                                                     height={50}
@@ -224,7 +224,7 @@ const HomePage = () => {
                                     <div className="col-12 col-md-6 col-lg-4">
                                         <div className="p-4 rounded-4 border h-100 shadow-sm" style={{ background: "#fdf7ee" }}>
                                             <div className="mb-3">
-                                                <Image
+                                                <img
                                                     src="/assets/images/privacy-policy-icon.png"
                                                     width={50}
                                                     height={50}
