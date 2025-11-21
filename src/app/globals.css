@@ -128,3 +128,178 @@ body {
 }
 
 /* Mayank */
+
+
+
+/* manish */
+
+/* --- Component-Specific Styles for Readytomeet --- */
+
+/* The main dark card with rounded corners and gradient/texture */
+.ready-card {
+  /* Dimensions and Layout */
+  width: 100%;
+  max-width: 900px; /* Adjust as needed, but gives it a controlled width */
+  margin: 50px auto; /* Centers the card and adds vertical space */
+  padding: 40px 20px;
+  
+  /* Background and Border */
+  background-color: #1a1a1a; /* Dark background color */
+  background-image: radial-gradient(circle at center, #333333 0%, #1a1a1a 100%); /* Adds a slight gradient/depth */
+  border-radius: 20px; /* Rounded corners */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Subtle shadow for lift */
+  
+  /* Text Alignment */
+  text-align: center;
+}
+
+/* Main Heading: "Ready to Meet Your Match?" */
+.ready-card h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #ffffff; /* White text */
+  margin-bottom: 5px; /* Space above sub-heading */
+}
+
+/* Sub-heading: "Create your profile in minutes..." */
+.ready-card h6 {
+  font-size: 1rem;
+  font-weight: 300;
+  color: #aaaaaa; /* Lighter/muted text for secondary message */
+  margin-top: 0;
+  margin-bottom: 25px; /* Space above the button */
+}
+
+/* The 'Register Now' Button */
+.ready-card button {
+  /* Color */
+  background-color: #d4ac4a; /* The golden/yellow color */
+  color: #1a1a1a; /* Dark text for contrast */
+  
+  /* Shape and Size */
+  border: none;
+  border-radius: 5px;
+  padding: 12px 30px;
+  cursor: pointer;
+  
+  /* Typography */
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  
+  /* Transition for hover effect */
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+/* Button Hover Effect */
+.ready-card button:hover {
+  background-color: #e0b852; /* Slightly lighter shade on hover */
+  transform: translateY(-1px); /* Subtle lift effect */
+}
+
+/* Media Query for smaller screens (optional, but good practice) */
+@media (max-width: 768px) {
+  .ready-card {
+    padding: 30px 15px;
+    margin: 30px 15px; /* Add horizontal margin on small screens */
+  }
+  .ready-card h1 {
+    font-size: 1.8rem;
+  }
+}
+
+
+
+
+
+/* --- Testimonials Section Styling --- */
+
+.testimonials-section {
+  padding: 80px 0;
+  background-color: #ffffff; /* Assuming a white or light background for the page */
+}
+
+/* Section Title Styling */
+.testimonials-title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 400; /* Regular weight for "What" */
+  color: #000000;
+  margin-bottom: 50px;
+}
+
+.testimonials-title .highlight-text {
+  color: #ff3366; /* The pink/red color for "Members Say" */
+  font-weight: 600; /* Bolder weight for the highlighted part */
+}
+
+/* Grid Layout (Assuming Bootstrap or similar grid system, this handles spacing) */
+.testimonials-grid {
+  display: flex; /* Makes the grid a flex container */
+  justify-content: center;
+  gap: 20px; /* Space between cards */
+}
+
+/* Individual Testimonial Card */
+.testimonial-card {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  /* Thin white/light gray border and subtle shadow for the lifted effect */
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
+  height: 100%; /* Ensures all cards are the same height */
+  display: flex;
+  flex-direction: column;
+}
+
+/* The Quote Text */
+.testimonial-quote {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333333;
+  margin-bottom: auto; /* Pushes the author info to the bottom */
+}
+
+/* Author Container (for image and info) */
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+/* Author Profile Image (only for the third card in the image) */
+.author-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+/* Author Name and Location Text */
+.author-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #000000;
+  margin: 0;
+}
+
+.author-location {
+  font-size: 0.9rem;
+  color: #777777;
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .testimonials-grid {
+    flex-direction: column; /* Stacks cards on smaller screens */
+    align-items: center;
+  }
+  .col-md-4 {
+    margin-bottom: 20px;
+  }
+}
+
+/* manish */

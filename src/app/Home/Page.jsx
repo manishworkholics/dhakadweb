@@ -6,6 +6,8 @@ import "swiper/css";
 import Image from "next/image";
 import SuccessStories from "../components/SuccessStories/Page";
 import FeaturesProfile from "../components/FeaturesProfile/page";
+import Readytomeet from "../components/Readytomeet/page";
+import MemberTestimonials from "../components/MemberTestimonials/page";
 
 const HomePage = () => {
     return (
@@ -303,6 +305,14 @@ const HomePage = () => {
 
                      <div className="home-section-3">
                         <FeaturesProfile />
+                    </div>
+
+                     <div className="home-section-3">
+                        <MemberTestimonials />
+                    </div>
+
+                     <div className="home-section-3">
+                        <Readytomeet />
                     </div>
                 </div>
             </div>
