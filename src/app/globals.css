@@ -148,7 +148,6 @@ body {
 .ready-card {
   /* Dimensions and Layout */
   width: 100%;
-  max-width: 900px;
   /* Adjust as needed, but gives it a controlled width */
   margin: 50px auto;
   /* Centers the card and adds vertical space */
