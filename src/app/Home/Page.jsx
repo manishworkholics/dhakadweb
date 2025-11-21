@@ -5,6 +5,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import Image from "next/image";
 import SuccessStories from "../components/SuccessStories/Page";
+import FeaturesProfile from "../components/FeaturesProfile/page";
+import Readytomeet from "../components/Readytomeet/page";
+import MemberTestimonials from "../components/MemberTestimonials/page";
+import Footer from "../components/Footer/page";
 
 const HomePage = () => {
     return (
@@ -247,6 +251,72 @@ const HomePage = () => {
                     <div className="home-section-3">
                         <SuccessStories />
                     </div>
+
+                    {/* Home-Section-3 */}
+                    <div className="home-section-3">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="card border-0 rounded-5 bg-FFEEEE mt-5">
+                                        <div className="card-body p-5 mt-4">
+                                            <div className="row">
+                                                <div className="col-12 col-lg-6 mb-5 mb-lg-0">
+                                                    <button className="btn btn-outline-warning rounded-pill bg-FFF1C4 text-dark mb-3 px-4">Download</button>
+                                                    <h3 className='fw-semibold mb-3'>Dhakar Matrimony
+                                                        <span className="text-danger"> Mobile App</span>
+                                                    </h3>
+                                                    <p className='mb-4 text-6B6B6B'>Access quick & simple search, instant updates and a great user experience on your phone. Download our app which are the best matrimony app for dhakar samaj.</p>
+                                                    <div className="row">
+                                                        <div className="col-12 col-lg-9 me-auto ">
+                                                            <div className="card border-0 rounded-5 bg-white shadow p-3 w-fit-content">
+                                                                <div className="row">
+                                                                    <p className="mb-4 text-6B6B6B text-center">Point your phone camera at the QR code or use one of the download links below</p>
+                                                                    <div className="col-12 col-lg-6 mb-lg-0 mb-4">
+                                                                        <div className="text-center">
+                                                                            <img src="/assets/images/download-barcode.png" alt="qr-code" className='w-75' />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="col-12 col-lg-6 d-flex flex-column justify-content-center align-items-center">
+                                                                        <img src="/assets/images/appstore.png" alt="app-store" className='mb-2 w-75' />
+                                                                        <img src="/assets/images/playstore.png" alt="google-play" className='w-75' />
+                                                                    </div>
+                                                                    <p className="mt-4 text-6B6B6B text-center">Or
+                                                                        <span className="text-danger fw-medium"> Get Download </span>
+                                                                        on yur SMS/Email
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div className="col-12 col-lg-6">
+                                                    <div className="">
+                                                        <img src="/assets/images/download-app-img.png" alt="" className="w-100" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                     <div className="home-section-3">
+                        <FeaturesProfile />
+                    </div>
+
+                     <div className="home-section-3">
+                        <MemberTestimonials />
+                    </div>
+
+                     <div className="home-section-3">
+                        <Readytomeet />
+                    </div>
+
+                    <Footer/>
                 </div>
             </div>
         </div>

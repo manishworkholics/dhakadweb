@@ -75,6 +75,7 @@ export default function profile() {
                             </div>
                             <hr />
                             <div className="row">
+
                                 <div className="col-lg-4 col-md-4 col-12 mb-3">
                                     <div className="card">
                                         <img src="/assets/images/muskan.png" className="card-img-top p-1" alt="..." />
@@ -99,6 +100,7 @@ export default function profile() {
                                         </div>
                                     </div>
                                 </div>
+
                                 <div className="col-lg-4 col-md-4 col-12 mb-3">
                                     <div className="card">
                                         <img src="/assets/images/muskan.png" className="card-img-top p-1" alt="..." />
@@ -118,11 +120,12 @@ export default function profile() {
                                             <div className="btn-bottom">
                                                 <Link href="/" className="btn bg-4CAF50 text-white px-2 rounded-5 fw-medium" type="submit" style={{ fontSize: "10px" }}>Chat Now</Link>
                                                 <button className="btn text-black px-2 rounded-5 mx-2 fw-medium border" type="submit" style={{ fontSize: "10px" }}>Send Interest</button>
-                                                <Link href="/ProfileDetail" className="btn text-black px-2 rounded-5 fw-medium border" type="submit" style={{ fontSize: "10px" }}>More Detail</Link>
+                                                <Link href="/profiledetail" className="btn text-black px-2 rounded-5 fw-medium border" type="submit" style={{ fontSize: "10px" }}>More Detail</Link>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div className="col-lg-4 col-md-4 col-12 mb-3">
                                     <div className="card">
                                         <img src="/assets/images/muskan.png" className="card-img-top p-1" alt="..." />
@@ -142,11 +145,12 @@ export default function profile() {
                                             <div className="btn-bottom">
                                                 <Link href="/" className="btn bg-4CAF50 text-white px-2 rounded-5 fw-medium" type="submit" style={{ fontSize: "10px" }}>Chat Now</Link>
                                                 <button className="btn text-black px-2 rounded-5 mx-2 fw-medium border" type="submit" style={{ fontSize: "10px" }}>Send Interest</button>
-                                                <Link href="/ProfileDetail" className="btn text-black px-2 rounded-5 fw-medium border" type="submit" style={{ fontSize: "10px" }}>More Detail</Link>
+                                                <Link href="/profiledetail" className="btn text-black px-2 rounded-5 fw-medium border" type="submit" style={{ fontSize: "10px" }}>More Detail</Link>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div className="col-lg-4 col-md-4 col-12 mb-3">
                                     <div className="card">
                                         <img src="/assets/images/muskan.png" className="card-img-top p-1" alt="..." />
@@ -166,11 +170,12 @@ export default function profile() {
                                             <div className="btn-bottom">
                                                 <Link href="/" className="btn bg-4CAF50 text-white px-2 rounded-5 fw-medium" type="submit" style={{ fontSize: "10px" }}>Chat Now</Link>
                                                 <button className="btn text-black px-2 rounded-5 mx-2 fw-medium border" type="submit" style={{ fontSize: "10px" }}>Send Interest</button>
-                                                <Link href="/ProfileDetail" className="btn text-black px-2 rounded-5 fw-medium border" type="submit" style={{ fontSize: "10px" }}>More Detail</Link>
+                                                <Link href="/profiledetail" className="btn text-black px-2 rounded-5 fw-medium border" type="submit" style={{ fontSize: "10px" }}>More Detail</Link>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div className="col-lg-4 col-md-4 col-12 mb-3">
                                     <div className="card">
                                         <img src="/assets/images/muskan.png" className="card-img-top p-1" alt="..." />
@@ -190,11 +195,12 @@ export default function profile() {
                                             <div className="btn-bottom">
                                                 <Link href="/" className="btn bg-4CAF50 text-white px-2 rounded-5 fw-medium" type="submit" style={{ fontSize: "10px" }}>Chat Now</Link>
                                                 <button className="btn text-black px-2 rounded-5 mx-2 fw-medium border" type="submit" style={{ fontSize: "10px" }}>Send Interest</button>
-                                                <Link href="/ProfileDetail" className="btn text-black px-2 rounded-5 fw-medium border" type="submit" style={{ fontSize: "10px" }}>More Detail</Link>
+                                                <Link href="/profiledetail" className="btn text-black px-2 rounded-5 fw-medium border" type="submit" style={{ fontSize: "10px" }}>More Detail</Link>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div className="col-lg-4 col-md-4 col-12 mb-3">
                                     <div className="card">
                                         <img src="/assets/images/muskan.png" className="card-img-top p-1" alt="..." />
@@ -214,7 +220,7 @@ export default function profile() {
                                             <div className="btn-bottom">
                                                 <Link href="/" className="btn bg-4CAF50 text-white px-2 rounded-5 fw-medium" type="submit" style={{ fontSize: "10px" }}>Chat Now</Link>
                                                 <button className="btn text-black px-2 rounded-5 mx-2 fw-medium border" type="submit" style={{ fontSize: "10px" }}>Send Interest</button>
-                                                <Link href="/ProfileDetail" className="btn text-black px-2 rounded-5 fw-medium border" type="submit" style={{ fontSize: "10px" }}>More Detail</Link>
+                                                <Link href="/profiledetail" className="btn text-black px-2 rounded-5 fw-medium border" type="submit" style={{ fontSize: "10px" }}>More Detail</Link>
                                             </div>
                                         </div>
                                     </div>
