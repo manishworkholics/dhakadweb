@@ -8,6 +8,7 @@ import SuccessStories from "../components/SuccessStories/Page";
 import FeaturesProfile from "../components/FeaturesProfile/page";
 import Readytomeet from "../components/Readytomeet/page";
 import MemberTestimonials from "../components/MemberTestimonials/page";
+import Footer from "../components/Footer/page";
 
 const HomePage = () => {
     return (
@@ -314,6 +315,8 @@ const HomePage = () => {
                      <div className="home-section-3">
                         <Readytomeet />
                     </div>
+
+                    <Footer/>
                 </div>
             </div>
         </div>
