@@ -58,7 +58,7 @@ export default function Footer() {
                                 <div className="icon border border-1 rounded-circle px-2 py-1">
                                     <Link href=""> <i className="fa-brands fa-x-twitter text-secondary"></i></Link>
                                 </div>
-                                <div className="icon border border-1 rounded-circle px-2 py-1">
+                                <div className="icon border border-1 rounded-circle px-2 py-1 me-1">
                                     <Link href=""><i className="fa-brands fa-instagram text-secondary"></i></Link>
                                 </div>
                                 <div className="icon border border-1 rounded-circle px-2 py-1">

@@ -36,7 +36,7 @@ const Header = () => {
                                     </li>
                                 </ul>
                                 <div className="d-flex mb-2 mb-lg-0 gap-4">
-                                    <button className='btn btn btn-danger'>Registration</button>
+                                    <Link  href="/registrationform"className='btn btn btn-danger'>Registration</Link>
                                     <Link href='/login' className='btn btn-outline-secondary'>Login</Link>
                                 </div>
                             </div>

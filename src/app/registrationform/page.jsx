@@ -10,6 +10,8 @@ const registrationform = () => {
     const [submitted, setSubmitted] = useState(false);
 
     const [formData, setFormData] = useState({
+        name: "",
+        number: "",
         day: "",
         month: "",
         year: "",
@@ -71,6 +73,39 @@ const registrationform = () => {
                                     {/* ---------------- STEP 1 ---------------- */}
                                     {step === 1 && (
                                         <form>
+                                            <label className="form-label">Full Name</label>
+                                            <div className="mb-3">
+                                                <input
+                                                    name="name"
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Full Name"
+                                                    value={formData.name}
+                                                    onChange={handleChange}
+                                                />
+                                            </div>
+                                            <label className="form-label">Contact No.</label>
+                                            <div className="mb-3">
+                                                <input
+                                                    name="contact"
+                                                    type="number"
+                                                    className="form-control"
+                                                    placeholder="Contact No."
+                                                    value={formData.number}
+                                                    onChange={handleChange}
+                                                />
+                                            </div>
+                                            <div className="mb-3">
+                                                <label className="form-label">Email</label>
+                                                <input
+                                                    name="email"
+                                                    type="email"
+                                                    className="form-control"
+                                                    placeholder="Email"
+                                                    value={formData.email}
+                                                    onChange={handleChange}
+                                                />
+                                            </div>
                                             <div className="mb-3">
                                                 <label className="form-label">Date of birth</label>
                                                 <div className="d-flex gap-3">
@@ -109,29 +144,6 @@ const registrationform = () => {
                                                     <option value="English">English</option>
                                                     <option value="Gujarati">Gujarati</option>
                                                 </select>
-                                            </div>
-
-                                            <div className="mb-3">
-                                                <input
-                                                    name="email"
-                                                    type="email"
-                                                    className="form-control"
-                                                    placeholder="Email"
-                                                    value={formData.email}
-                                                    onChange={handleChange}
-                                                />
-                                            </div>
-
-                                            <div className="mb-3">
-                                                <input
-                                                    name="password"
-                                                    type="password"
-                                                    className="form-control"
-                                                    placeholder="Create password"
-                                                    value={formData.password}
-                                                    onChange={handleChange}
-                                                />
-                                                <div className="form-text">Your password must be within 8-10 characters</div>
                                             </div>
 
                                             <button type="button" onClick={nextStep} className="btn bg-D4AF37 w-100 text-white mb-2">
@@ -320,14 +332,6 @@ const registrationform = () => {
                                                     <option value="6">6</option>
                                                 </select>
                                             </div>
-
-                                            <button onClick={nextStep} className="btn bg-D4AF37 text-white w-100">Next</button>
-                                        </>
-                                    )}
-
-                                    {/* ---------------- STEP 4 ---------------- */}
-                                    {step === 4 && (
-                                        <>
                                             <div className="mb-3">
                                                 <label className="form-label">Select family status</label>
 
@@ -369,7 +373,6 @@ const registrationform = () => {
 
                                                 </div>
                                             </div>
-
                                             <div className="mb-3">
                                                 <label className="form-label">Diet</label>
 
@@ -439,11 +442,52 @@ const registrationform = () => {
                                                 </div>
                                             </div>
 
+                                            <button onClick={nextStep} className="btn bg-D4AF37 text-white w-100">Next</button>
+                                        </>
+                                    )}
+
+                                    {/* ---------------- STEP 4 ---------------- */}
+                                    {step === 4 && (
+                                        <>
+
                                             <div className="mb-3">
                                                 <label htmlFor="exampleFormControlTextarea1" className="form-label">A few words about myself</label>
                                                 <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="I have a Bachelor's degree and I am employed in private Sector as a teaching / academician currently based in Amadalavalasa."></textarea>
                                             </div>
-
+                                            <div className="mb-3">
+                                                <label htmlFor="imageFile" className="form-label">
+                                                    Image File:
+                                                </label>
+                                                <input
+                                                    className="form-control"
+                                                    type="file"
+                                                    id="imageFile"
+                                                    accept="image/jpeg,image/png" // Restrict file types
+                                                />
+                                            </div>
+                                            <div className="mb-3">
+                                                <label className="form-label">Create Password</label>
+                                                <input
+                                                    name="password"
+                                                    type="password"
+                                                    className="form-control"
+                                                    placeholder="Create password"
+                                                    value={formData.password}
+                                                    onChange={handleChange}
+                                                />
+                                                <div className="form-text">Your password must be within 8-10 characters</div>
+                                            </div>
+                                            <div className="mb-3">
+                                                <label className="form-label">Confirm Password</label>
+                                                <input
+                                                    name="password"
+                                                    type="password"
+                                                    className="form-control"
+                                                    placeholder="Confirm password"
+                                                    value={formData.password}
+                                                    onChange={handleChange}
+                                                />
+                                            </div>
                                             <button
                                                 className="btn bg-D4AF37 text-white w-100"
                                                 onClick={() => setSubmitted(true)}
