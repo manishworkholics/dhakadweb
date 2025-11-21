@@ -31,6 +31,9 @@ const Header = () => {
                                     <li className="nav-item">
                                         <a className="nav-link" href="#">Contact us</a>
                                     </li>
+                                      <li className="nav-item">
+                                         <Link className="nav-link " aria-current="page" href="/myprofile">My profile</Link>
+                                    </li>
                                 </ul>
                                 <div className="d-flex mb-2 mb-lg-0 gap-4">
                                     <button className='btn btn btn-danger'>Registration</button>

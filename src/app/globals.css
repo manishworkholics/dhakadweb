@@ -337,4 +337,1716 @@ body {
   }
 }
 
+
+
+
+
+
+
+/* --- Sidebar Styles --- */
+
+.sidebar-wrapper {
+    width: 280px; /* Fixed width for the sidebar area */
+    background-color: #ffffff; /* White background for the entire sidebar */
+    padding: 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05); /* Subtle shadow on the right edge */
+    border-radius: 10px; /* Matches the rounded corners in the design */
+    overflow: hidden; /* Ensures contents stay within rounded corners */
+}
+
+/* User Profile Section at the Top */
+.sidebar-profile {
+    background-color: #e6f7ff; /* Light blue background color */
+    padding: 25px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.profile-image-container {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 10px;
+    border: 3px solid #ffffff; /* White border around the image */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333333;
+    margin: 0;
+}
+
+.profile-status {
+    font-size: 0.9rem;
+    color: #008cba; /* A blue color for the status */
+    margin: 0;
+}
+
+/* Navigation Section */
+.sidebar-nav {
+    padding: 20px 0;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-item {
+    margin: 5px 0;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: #555555; /* Default dark text color */
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.nav-link:hover {
+    background-color: #f5f5f5; /* Light hover background */
+    color: #333333;
+}
+
+.nav-icon {
+    margin-right: 15px;
+    font-size: 1.2rem;
+    width: 25px; /* Consistent width for icons */
+    text-align: center;
+}
+
+/* Active Dashboard Link Styling (Crucial part of the design) */
+.nav-item.active {
+    position: relative;
+}
+
+.nav-item.active .nav-link {
+    background-color: #ff3366; /* The distinct red background for active link */
+    color: #ffffff; /* White text for active link */
+    font-weight: 600;
+    border-radius: 5px;
+    margin: 0 10px; /* Creates the space for the red pill shape */
+}
+
+/* Optional: Add a subtle effect to the active link to show depth */
+.nav-item.active .nav-link:hover {
+    background-color: #e02d5e;
+    color: #ffffff;
+}
+
+
+/* --- Dashboard Layout Styles --- */
+
+/* The overall application wrapper (if needed) */
+.app-container {
+    min-height: 100vh; /* Ensures footer is at the bottom */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main Dashboard Area - Separates header/footer */
+.dashboard-wrapper {
+    flex-grow: 1; /* Allows the main content area to expand */
+    background-color: #f5f5f5; /* Light gray background color from your Figma design */
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+/* Inner Container for Sidebar and Content */
+/* Using 'container-fluid' will make it edge-to-edge but with internal padding */
+.dashboard-inner-content {
+    /* Max-width to control the overall design width, adjust as needed */
+    max-width: 1300px; 
+    margin: 0 auto;
+}
+
+/* Styling for the content area *next* to the sidebar */
+.page-content-container {
+    background-color: #ffffff; /* White background for the main content block */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    min-height: calc(100vh - 180px); /* Adjust based on header/footer height */
+}
+
+/* Make sure the sidebar fills the height of its column */
+.col-md-3 .sidebar-wrapper {
+    height: 100%;
+}
+
+/* Media Query for Mobile/Tablet layout */
+@media (max-width: 992px) {
+    /* Sidebar goes to full width on small screens */
+    .col-md-3 {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .col-md-9 {
+        width: 100%;
+    }
+    .page-content-container {
+        padding: 15px;
+    }
+}
+
+
+
+
+/* --- Profile Card Styles --- */
+
+.profile-card {
+    /* Dimensions and Layout */
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden; /* Clips the image edges */
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for lift */
+    position: relative; /* For the overlay effect */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+/* Hover effect for the entire card */
+.profile-card:hover {
+    transform: translateY(-3px); /* Lifts the card slightly */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Image Container */
+.profile-image-wrapper {
+    width: 100%;
+    /* 4:3 aspect ratio (4 units wide, 3 units high) is common for gallery/grid views */
+    padding-top: 75%; 
+    position: relative;
+}
+
+.profile-photo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+}
+
+/* Profile Details Text Area */
+.profile-details {
+    padding: 10px 15px;
+    text-align: left;
+}
+
+.profile-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333333;
+    margin-top: 0;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.profile-location {
+    font-size: 0.85rem;
+    color: #777777;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.location-icon {
+    font-size: 0.9rem;
+    color: #ff3366; /* Use the brand color */
+    margin-right: 5px;
+}
+
+/* Optional Overlay for interaction/hover (if desired) */
+.profile-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Dark semi-transparent overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.3s ease;
+    border-radius: 8px;
+}
+
+.profile-card:hover .profile-overlay {
+    opacity: 1; /* Shows overlay on hover */
+}
+
+.view-profile-btn {
+    background-color: #ff3366; /* Match brand color */
+    color: #ffffff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+.card-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 1200px) {
+    .card-grid-4 {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns on smaller desktops */
+    }
+}
+@media (max-width: 768px) {
+    .card-grid-4 {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
+    }
+}
+@media (max-width: 576px) {
+    .card-grid-4 {
+        grid-template-columns: 1fr; /* Single column on phones */
+    }
+}
+
+
+/* --- Profile Completeness Styles --- */
+
+.profile-completeness-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    height: 100%; /* Ensures it fits well in the grid column */
+}
+
+/* Gauge Container */
+.completeness-gauge {
+    position: relative;
+    width: 120px; /* Match SVG width/viewBox for easy centering */
+    height: 120px;
+    margin: 0 auto 20px auto;
+}
+
+/* SVG Styling */
+.progress-ring {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg); /* Start the circle from the top */
+}
+
+/* Track Circle (Background) */
+.progress-ring-track {
+    fill: none;
+    stroke: #e0e0e0; /* Light gray color for the background track */
+    stroke-width: 10; /* Width of the progress line */
+}
+
+/* Progress Arc (Foreground) */
+.progress-ring-progress {
+    fill: none;
+    stroke: #ff3366; /* Your brand red/pink color for the progress */
+    stroke-width: 10;
+    /* transition makes the progress bar animate smoothly */
+    transition: stroke-dashoffset 0.8s ease-in-out; 
+    stroke-linecap: round; /* Gives the ends a rounded finish */
+}
+
+/* Percentage Text */
+.percentage-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.percent-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333333;
+}
+
+/* Action Links/Text Below the Gauge */
+.completeness-actions {
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    margin-top: 15px;
+}
+
+.action-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 5px;
+    cursor: pointer;
+    text-decoration: underline; /* To match the look in your design */
+}
+
+.action-detail {
+    font-size: 0.9rem;
+    color: #ff3366; /* Use brand color for the secondary link */
+    margin: 0;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+
+/* --- Paid Membership Card Styles --- */
+
+.paid-member-card {
+    background-color: #f7f7f7; /* Very light gray background */
+    border: 1px solid #eeeeee;
+    border-radius: 8px;
+    padding: 15px 20px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    height: 100%; /* Ensures it fills the column height */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Discount Header Styling */
+.discount-header {
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #dddddd; /* Dashed line separator */
+    margin-bottom: 15px;
+}
+
+.discount-text {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #555555;
+    margin: 0;
+}
+
+.discount-percentage {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ff3366; /* Use your brand color for emphasis */
+}
+
+/* Benefits List */
+.benefits-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+    flex-grow: 1; /* Pushes the CTA button to the bottom */
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    color: #333333;
+    margin-bottom: 8px;
+}
+
+.check-icon {
+    font-size: 1.1rem;
+    color: #4CAF50; /* Green checkmark for success/benefit */
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* CTA Button */
+.cta-container {
+    text-align: center;
+}
+
+.membership-cta-btn {
+    width: 100%; /* Full width button */
+    background-color: #ff3366; /* Your brand color */
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.membership-cta-btn:hover {
+    background-color: #e02d5e;
+}
+
+
+/* --- Recent Chat List Styles --- */
+
+.recent-chat-list-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 10px 0; /* Padding inside the card, focusing on list structure */
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    height: 100%;
+}
+
+.chat-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.chat-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 15px; /* Padding for each list item */
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.chat-item:hover {
+    background-color: #f7f7f7; /* Slight highlight on hover */
+}
+
+/* Profile Avatar */
+.chat-avatar-wrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px;
+    flex-shrink: 0; /* Prevents avatar from shrinking */
+}
+
+.chat-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Chat Info (Name and Location) */
+.chat-info {
+    flex-grow: 1; /* Takes up available space */
+    min-width: 0; /* Ensures overflow hidden works */
+}
+
+.chat-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333333;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chat-location {
+    font-size: 0.8rem;
+    color: #777777;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.location-dot {
+    color: #ff3366; /* Brand color dot */
+    font-size: 1.2rem;
+    line-height: 0;
+    margin-right: 4px;
+}
+
+/* Status/Arrow on the right */
+.chat-status-arrow {
+    font-size: 1.1rem;
+    color: #cccccc;
+    margin-left: 10px;
+}
+
+
+/* --- View All Button Styles --- */
+
+.view-all-button {
+    /* Alignment */
+    display: inline-block; /* Allows padding and keeps it centered if parent is text-align: center */
+    margin: 15px auto 0 auto; /* Adds margin on top and centers it */
+    
+    /* Colors and Background */
+    background-color: #d4ac4a; /* The golden/yellow color */
+    color: #1a1a1a; /* Dark text for contrast */
+    
+    /* Shape and Typography */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 25px;
+    text-decoration: none; /* Removes underline from <a> tag */
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    
+    /* Transition for hover effect */
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+/* Button Hover Effect */
+.view-all-button:hover {
+    background-color: #e0b852; /* Slightly lighter shade on hover */
+    transform: translateY(-1px); /* Subtle lift effect */
+}
+
+
+
+/* --- Dashboard-specific CSS helpers (Add this to your main CSS file) --- */
+
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #444444;
+    margin-bottom: 20px;
+}
+
+.dashboard-section {
+    margin-bottom: 30px;
+}
+
+.status-row-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three equal columns */
+    gap: 20px;
+    align-items: stretch; /* Ensures items fill the height */
+}
+
+.view-all-wrapper {
+    text-align: right; /* Aligns the button to the right */
+}
+
+@media (max-width: 992px) {
+    .status-row-grid {
+        grid-template-columns: 1fr; /* Stack components on smaller screens */
+    }
+}
+
+
+/* --- Profile Page Styles --- */
+
+.profile-page-content {
+    padding: 10px;
+}
+
+.page-header-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ff3366; /* Match brand color */
+    display: inline-block; /* Only underline the text */
+}
+
+/* Section Styling */
+.profile-section {
+    margin-bottom: 30px;
+}
+
+.section-title-profile {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 20px;
+}
+
+.section-divider {
+    border: 0;
+    height: 1px;
+    background-color: #f0f0f0;
+    margin-top: 30px;
+}
+
+/* Grid Layout for Form Inputs (2-Column) */
+.section-content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive 2-column layout */
+    gap: 20px 30px;
+}
+
+/* Form Elements */
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #555555;
+    margin-bottom: 5px;
+}
+
+.form-input {
+    padding: 10px 12px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus {
+    border-color: #ff3366;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 51, 102, 0.1); /* Light shadow on focus */
+}
+
+/* Save Button */
+.save-button-container {
+    text-align: right;
+    padding-top: 20px;
+}
+
+.save-profile-btn {
+    background-color: #ff3366; /* Your brand color */
+    color: #ffffff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.save-profile-btn:hover {
+    background-color: #e02d5e;
+}
+
+
+
+
+
+/* --- Chat List Page Styles --- */
+
+/* Ensures the chat takes up the full available height */
+.chat-list-page-container {
+    display: flex;
+    height: 70vh; /* Adjust as needed, use VH for full screen effect */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden; /* Important for containing the scrolling areas */
+}
+
+/* ------------------- Left Panel: Conversation List ------------------- */
+.conversation-list-panel {
+    flex-basis: 350px; /* Fixed width for the list panel */
+    border-right: 1px solid #e0e0e0;
+    background-color: #fcfcfc;
+    overflow-y: auto; /* Scrollable list */
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-search {
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    flex-shrink: 0;
+}
+
+.search-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.conversation-item {
+    display: flex;
+    padding: 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s;
+    align-items: center;
+}
+
+.conversation-item:hover, .conversation-item.active {
+    background-color: #ffe8ee; /* Light brand color background on active/hover */
+}
+
+.conversation-item.active {
+    border-left: 4px solid #ff3366;
+}
+
+/* Avatar and Status Dot */
+.avatar-status {
+    position: relative;
+    width: 45px;
+    height: 45px;
+    margin-right: 10px;
+}
+
+.conv-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.avatar-status::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid #fcfcfc;
+}
+
+.avatar-status.online::after {
+    background-color: #4CAF50; /* Green */
+}
+.avatar-status.offline::after {
+    background-color: #999999; /* Gray */
+}
+
+.conv-details {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.conv-name {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 3px 0;
+    color: #333;
+}
+
+.conv-message {
+    font-size: 0.85rem;
+    color: #777;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.conv-time {
+    font-size: 0.75rem;
+    color: #999;
+    align-self: flex-start;
+    margin-left: 5px;
+}
+
+
+/* ------------------- Right Panel: Chat Window ------------------- */
+.chat-window-panel {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+}
+
+.chat-empty {
+    justify-content: center;
+    align-items: center;
+    color: #999;
+}
+
+/* Chat Header */
+.chat-header {
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.chat-partner-name {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-right: 10px;
+}
+
+.chat-partner-status {
+    font-size: 0.8rem;
+    text-transform: capitalize;
+    padding: 3px 8px;
+    border-radius: 15px;
+    color: #fff;
+}
+.chat-partner-status.online { background-color: #4CAF50; }
+.chat-partner-status.offline { background-color: #999999; }
+
+/* Messages Container */
+.messages-container {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto; /* Scrollable messages */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Message Bubbles */
+.message-bubble {
+    max-width: 70%;
+    padding: 10px 15px;
+    border-radius: 15px;
+    position: relative;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+.message-bubble.other {
+    align-self: flex-start;
+    background-color: #f0f0f0;
+    color: #333;
+    border-bottom-left-radius: 2px;
+}
+
+.message-bubble.self {
+    align-self: flex-end;
+    background-color: #ff3366; /* Your brand color for sent messages */
+    color: #ffffff;
+    border-bottom-right-radius: 2px;
+}
+
+.message-text {
+    margin-bottom: 5px;
+}
+
+.message-time {
+    display: block;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: right;
+    margin-top: 3px;
+}
+.message-bubble.other .message-time {
+    color: #888;
+}
+
+/* Input Footer */
+.chat-input-footer {
+    padding: 15px;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    flex-shrink: 0;
+}
+
+.message-input {
+    flex-grow: 1;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    margin-right: 10px;
+    font-size: 1rem;
+}
+
+.send-btn {
+    background-color: #ff3366;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Media Query for Mobile: Stack panels */
+@media (max-width: 800px) {
+    .chat-list-page-container {
+        flex-direction: column;
+        height: 85vh;
+    }
+    .conversation-list-panel {
+        flex-basis: 30vh; /* Make list small but still visible */
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+    }
+}
+
+
+/* --- Shortlist Page Styles --- */
+
+.shortlist-page-content {
+    padding: 10px;
+}
+
+.page-header-title {
+    /* Reuse style from other pages */
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ff3366;
+    display: inline-block;
+}
+
+/* Profile Grid (Reuse the Interests grid style) */
+.shortlist-profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+/* Card and Actions Group */
+.shortlist-card-wrapper {
+    /* Ensures the card and actions are grouped together vertically */
+}
+
+/* Action Buttons below the ProfileCard */
+.shortlist-actions {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+}
+
+.action-btn {
+    width: 48%; /* Ensures buttons are side-by-side */
+    padding: 10px 0;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+/* Specific Button Styles */
+.message-btn {
+    background-color: #ff3366; /* Brand color for primary action (Message/Connect) */
+    color: #ffffff;
+}
+.message-btn:hover {
+    background-color: #e02d5e;
+}
+
+.remove-btn {
+    background-color: #f0f0f0; /* Neutral color for secondary action */
+    color: #777777;
+    border: 1px solid #cccccc;
+}
+.remove-btn:hover {
+    background-color: #e6e6e6;
+}
+
+/* Empty State Message */
+.empty-shortlist-message {
+    text-align: center;
+    padding: 50px;
+    font-size: 1.1rem;
+    color: #999999;
+    border: 1px dashed #e0e0e0;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.browse-link {
+    display: block;
+    margin-top: 15px;
+    font-weight: 600;
+    color: #ff3366;
+    text-decoration: none;
+}
+
+.browse-link:hover {
+    text-decoration: underline;
+}
+
+
+
+/* --- Notification Page Styles --- */
+
+.notification-page-content {
+    padding: 10px;
+}
+
+.page-header-title {
+    /* Reuse style */
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ff3366;
+    display: inline-block;
+}
+
+.notification-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.notification-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: #fcfcfc;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #333333;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.notification-item:hover {
+    background-color: #fff5f8; /* Light highlight on hover */
+    box-shadow: 0 2px 5px rgba(255, 51, 102, 0.1);
+}
+
+.notification-icon-wrapper {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background-color: #ffe8ee; /* Very light pink background */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.notification-icon {
+    font-size: 1.2rem;
+}
+
+.notification-details {
+    flex-grow: 1;
+}
+
+.notification-message {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.notification-time {
+    display: block;
+    font-size: 0.8rem;
+    color: #999999;
+    margin-top: 2px;
+}
+
+.go-to-arrow {
+    font-size: 1.2rem;
+    color: #cccccc;
+    margin-left: 10px;
+}
+
+.no-notifications-message {
+    text-align: center;
+    padding: 50px;
+    font-size: 1.1rem;
+    color: #999999;
+    border: 1px dashed #e0e0e0;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+
+/* --- Setting Page Styles --- */
+
+.setting-page-content {
+    padding: 10px;
+}
+
+.page-header-title {
+    /* Reuse style */
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ff3366;
+    display: inline-block;
+}
+
+/* Tab Navigation (Reuse Interests tab style) */
+.settings-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.settings-tabs .tab-button {
+    background: none;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #777777;
+    cursor: pointer;
+    transition: color 0.3s, border-bottom 0.3s;
+    margin-right: 10px;
+    border-bottom: 3px solid transparent;
+}
+
+.settings-tabs .tab-button.active {
+    color: #ff3366;
+    font-weight: 600;
+    border-bottom: 3px solid #ff3366;
+}
+
+.tab-content-area-setting {
+    padding-top: 10px;
+}
+
+/* Form Styling */
+.setting-sub-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 15px;
+    margin-top: 30px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.settings-form-section {
+    background-color: #fcfcfc;
+    border: 1px solid #eee;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.form-group-setting {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.grid-2-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #555555;
+    margin-bottom: 5px;
+}
+
+.form-input, select.form-input {
+    padding: 10px 12px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* Action Buttons */
+.setting-action-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+.primary-btn {
+    background-color: #ff3366;
+    color: #ffffff;
+}
+
+.primary-btn:hover {
+    background-color: #e02d5e;
+}
+
+/* Toggle Switch Styling */
+.setting-toggle-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dotted #e0e0e0;
+}
+
+.setting-toggle-label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Danger Zone */
+.danger-zone-title {
+    color: #dc3545; /* Red for warning */
+    margin-top: 40px;
+    border-color: #dc3545;
+}
+.danger-zone-text {
+    color: #777;
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+}
+.delete-btn {
+    background-color: #dc3545;
+    color: #ffffff;
+}
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+
+
+
+
+/* --- Profile Page Styles (Figma Redesign) --- */
+
+.profile-page-content-custom {
+    background-color: #fcfcfc; /* Very light background for the content area */
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* --- 1. Top Header Status Grid --- */
+
+.profile-header-status-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr 300px; /* Photo | Info | CTA */
+    gap: 30px;
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+/* Left Column: Photo */
+.profile-photo-column {
+    text-align: center;
+}
+
+.main-profile-photo {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 3px solid #ff3366;
+}
+
+.add-photo-btn {
+    background: #d4ac4a;
+    color: #1a1a1a;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.doc-verification-text {
+    font-size: 0.9rem;
+    color: #4CAF50; /* Green */
+    font-weight: 600;
+}
+
+/* Center Column: Info */
+.profile-name-header {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0 0 5px 0;
+}
+
+.profile-id-text {
+    font-size: 1rem;
+    color: #999;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.profile-key-details span {
+    display: inline-block;
+    color: #555;
+    font-size: 1rem;
+    margin-right: 15px;
+    font-weight: 500;
+}
+
+.profile-contact-info {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.contact-phone, .contact-email {
+    margin: 5px 0;
+    font-weight: 500;
+}
+
+/* Right Column: CTA Box */
+.profile-paid-member-column {
+    /* Aligning the CTA box to the right */
+    display: flex;
+    justify-content: flex-end;
+}
+
+.paid-member-cta-box {
+    background-color: #fff8e1; /* Light yellow background */
+    border: 1px solid #ffe0b2;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 280px;
+    text-align: center;
+}
+
+.cta-title {
+    font-size: 1.1rem;
+    color: #d4ac4a;
+    margin-top: 0;
+}
+
+.cta-discount {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ff3366;
+    margin-bottom: 15px;
+}
+
+.paid-member-cta-box ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.paid-member-cta-box li {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #666;
+}
+
+.see-membership-btn, .show-photos-btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.see-membership-btn {
+    background-color: #ff3366;
+    color: #ffffff;
+}
+
+.show-photos-btn {
+    background-color: #d4ac4a;
+    color: #1a1a1a;
+}
+
+
+/* --- 2. Profile Sections --- */
+
+.profile-edit-section {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.section-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-title-profile {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #333333;
+    margin: 0;
+}
+
+.edit-btn {
+    background: none;
+    border: 1px solid #ff3366;
+    color: #ff3366;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.edit-btn:hover {
+    background-color: #ffe8ee;
+}
+
+.in-my-own-words-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555;
+    margin: 0;
+}
+
+/* Detail Grid Layout (Similar to Basic Details in Figma) */
+.section-content-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three columns for details */
+    gap: 15px 30px;
+}
+
+.profile-detail-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dotted #f0f0f0;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.detail-value {
+    font-weight: 500;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.placeholder-text {
+    grid-column: 1 / -1; /* Spans all columns */
+    color: #999;
+    font-style: italic;
+    padding: 10px 0;
+}
+
+/* --- Media Queries --- */
+@media (max-width: 1200px) {
+    .profile-header-status-grid {
+        grid-template-columns: 1fr; /* Stack on smaller screens */
+        gap: 20px;
+    }
+    .profile-photo-column, .profile-info-column, .profile-paid-member-column {
+        text-align: center;
+    }
+    .profile-paid-member-column {
+        justify-content: center;
+    }
+    .profile-key-details span {
+        display: block;
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .section-content-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Less strict 2-column on mobile */
+    }
+}
+
+
+
+
+
+/* --- Interests Page Styles (Figma Redesign) --- */
+
+.interests-page-content-custom {
+    padding: 10px;
+}
+
+.page-header-title {
+    /* Retain general heading style but remove bottom border to match Figma */
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 25px;
+    padding-bottom: 0; 
+    border-bottom: none;
+    display: block;
+}
+
+/* --- Tab Navigation --- */
+.interests-tabs-custom {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.interests-tabs-custom .tab-button {
+    background: none;
+    border: 1px solid #ccc;
+    border-right: none;
+    padding: 8px 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #777777;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+/* Specific button styles for the group */
+.interests-tabs-custom .tab-button:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.interests-tabs-custom .tab-button:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-right: 1px solid #ccc; /* Add border back to the last button */
+}
+
+.interests-tabs-custom .tab-button.active {
+    background-color: #ff3366; /* Brand color for active tab */
+    color: #ffffff;
+    border-color: #ff3366;
+    font-weight: 600;
+}
+
+
+/* --- Request List Item (The Main Card Replacement) --- */
+
+.tab-content-area-custom {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.request-list-item {
+    display: flex;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.profile-image-col {
+    flex-shrink: 0;
+    margin-right: 15px;
+}
+
+.request-profile-image {
+    width: 100px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.profile-details-col {
+    flex-grow: 1;
+}
+
+.request-profile-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ff3366;
+    margin: 0 0 5px 0;
+}
+
+.request-meta-info {
+    font-size: 0.9rem;
+    color: #555;
+    margin: 3px 0;
+}
+
+.request-meta-info strong {
+    font-weight: 600;
+}
+
+.request-time {
+    color: #888;
+    margin-bottom: 10px;
+}
+
+.view-full-profile-btn {
+    background: #d4ac4a; /* Yellowish button color */
+    color: #1a1a1a;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+/* Action Buttons Column */
+.action-buttons-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 20px;
+    flex-shrink: 0;
+}
+
+.request-action-btn {
+    padding: 8px 20px;
+    border: 1px solid;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    min-width: 100px;
+    transition: background-color 0.2s;
+}
+
+.accept-btn {
+    background-color: #4CAF50; /* Green */
+    color: #ffffff;
+    border-color: #4CAF50;
+}
+.accept-btn:hover { background-color: #45a049; }
+
+.deny-btn {
+    background-color: #f44336; /* Red */
+    color: #ffffff;
+    border-color: #f44336;
+}
+.deny-btn:hover { background-color: #da362d; }
+
+/* Media Query adjustments */
+@media (max-width: 600px) {
+    .request-list-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .profile-image-col {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    .action-buttons-col {
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-around;
+        margin-top: 15px;
+        margin-left: 0;
+        border-top: 1px dashed #eee;
+        padding-top: 10px;
+    }
+}
+
+
+
 /* manish */

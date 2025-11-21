@@ -1,0 +1,55 @@
+// myprofile/components/Dashboard/ProfileCompleteness.jsx
+"use client";
+
+import React from 'react';
+
+// Define standard SVG properties for a consistent look
+const radius = 50; // Radius of the circle
+const circumference = 2 * Math.PI * radius; // Full circumference
+const center = 60; // Center point of the SVG viewbox (120x120)
+
+export default function ProfileCompleteness({ percentage = 60 }) {
+    // Calculate the stroke-dashoffset for the progress arc
+    // offset = (1 - percentage/100) * circumference
+    const offset = circumference - (percentage / 100) * circumference;
+
+    return (
+        <div className="profile-completeness-card">
+            <div className="completeness-gauge">
+                <svg
+                    viewBox="0 0 120 120" // Define the area of the SVG
+                    className="progress-ring"
+                >
+                    {/* 1. Track Circle (the gray background) */}
+                    <circle
+                        className="progress-ring-track"
+                        cx={center}
+                        cy={center}
+                        r={radius}
+                    />
+
+                    {/* 2. Progress Arc (the red filling) */}
+                    <circle
+                        className="progress-ring-progress"
+                        cx={center}
+                        cy={center}
+                        r={radius}
+                        strokeDasharray={circumference} // Total length of the stroke
+                        strokeDashoffset={offset}       // How much of the stroke is visible
+                    />
+                </svg>
+
+                {/* Percentage Text in the center */}
+                <div className="percentage-text">
+                    <span className="percent-number">{percentage}%</span>
+                </div>
+            </div>
+
+            {/* Action buttons and text below the gauge */}
+            <div className="completeness-actions">
+                <h6 className="action-title">Add Photo</h6>
+                <p className="action-detail">Family Details</p>
+            </div>
+        </div>
+    );
+}
