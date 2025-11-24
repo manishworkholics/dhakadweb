@@ -18,7 +18,7 @@ const enterotp = () => {
                                 <div className="card-body p-4">
                                     <div className="login-form">
                                         <div className="text-center">
-                                            <img src="/assets/images/otp-icon.png" alt="" className="mb-4" />
+                                            <img src="/dhakadweb/assets/images/otp-icon.png" alt="" className="mb-4" />
                                             <h6 className='text-center mb-4 fw-medium'>Please enter 4-digit code sent to +9589465655</h6>
                                         </div>
                                         <form>

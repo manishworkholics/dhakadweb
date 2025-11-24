@@ -499,7 +499,7 @@ const registrationform = () => {
 
                                     {submitted && (
                                         <div className="text-center">
-                                            <Image src="/assets/images/checkmark.png" alt="success" width={100} height={100} className="mb-4" />
+                                            <img src="/dhakadweb/assets/images/checkmark.png" alt="success" width={100} height={100} className="mb-4" />
                                             <h5 className="text-success">Congratulation</h5>
                                             <h6 className="">Your profile has been crated!</h6>
                                             <p className="">You're almost there! Add the remaining details to enhance your profile and connect with your perfect match sooner</p>

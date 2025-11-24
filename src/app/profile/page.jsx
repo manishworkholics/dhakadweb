@@ -78,7 +78,7 @@ export default function profile() {
 
                                 <div className="col-lg-4 col-md-4 col-12 mb-3">
                                     <div className="card">
-                                        <img src="/assets/images/muskan.png" className="card-img-top p-1" alt="..." />
+                                        <img src="/dhakadweb/assets/images/muskan.png" className="card-img-top p-1" alt="..." />
                                         <div className="card-body">
                                             <h6 className="card-title fw-semibold">Muskan Dhakad </h6>
                                             <p className="card-text d-flex align-items-center">
@@ -103,7 +103,7 @@ export default function profile() {
 
                                 <div className="col-lg-4 col-md-4 col-12 mb-3">
                                     <div className="card">
-                                        <img src="/assets/images/muskan.png" className="card-img-top p-1" alt="..." />
+                                        <img src="/dhakadweb/assets/images/muskan.png" className="card-img-top p-1" alt="..." />
                                         <div className="card-body">
                                             <h6 className="card-title fw-semibold">Muskan Dhakad </h6>
                                             <p className="card-text d-flex align-items-center">
@@ -128,7 +128,7 @@ export default function profile() {
 
                                 <div className="col-lg-4 col-md-4 col-12 mb-3">
                                     <div className="card">
-                                        <img src="/assets/images/muskan.png" className="card-img-top p-1" alt="..." />
+                                        <img src="/dhakadweb/assets/images/muskan.png" className="card-img-top p-1" alt="..." />
                                         <div className="card-body">
                                             <h6 className="card-title fw-semibold">Muskan Dhakad </h6>
                                             <p className="card-text d-flex align-items-center">
@@ -153,7 +153,7 @@ export default function profile() {
 
                                 <div className="col-lg-4 col-md-4 col-12 mb-3">
                                     <div className="card">
-                                        <img src="/assets/images/muskan.png" className="card-img-top p-1" alt="..." />
+                                        <img src="/dhakadweb/assets/images/muskan.png" className="card-img-top p-1" alt="..." />
                                         <div className="card-body">
                                             <h6 className="card-title fw-semibold">Muskan Dhakad </h6>
                                             <p className="card-text d-flex align-items-center">
@@ -178,7 +178,7 @@ export default function profile() {
 
                                 <div className="col-lg-4 col-md-4 col-12 mb-3">
                                     <div className="card">
-                                        <img src="/assets/images/muskan.png" className="card-img-top p-1" alt="..." />
+                                        <img src="/dhakadweb/assets/images/muskan.png" className="card-img-top p-1" alt="..." />
                                         <div className="card-body">
                                             <h6 className="card-title fw-semibold">Muskan Dhakad </h6>
                                             <p className="card-text d-flex align-items-center">
@@ -203,7 +203,7 @@ export default function profile() {
 
                                 <div className="col-lg-4 col-md-4 col-12 mb-3">
                                     <div className="card">
-                                        <img src="/assets/images/muskan.png" className="card-img-top p-1" alt="..." />
+                                        <img src="/dhakadweb/assets/images/muskan.png" className="card-img-top p-1" alt="..." />
                                         <div className="card-body">
                                             <h6 className="card-title fw-semibold">Muskan Dhakad </h6>
                                             <p className="card-text d-flex align-items-center">

@@ -17,7 +17,7 @@ const Login = () => {
                                 <div className="card-body p-4">
                                     <div className="login-form">
                                         <div className="text-center">
-                                            <img src="/assets/images/dhakad-logo.png" alt="" className="mb-4" />
+                                            <img src="/dhakadweb/assets/images/dhakad-logo.png" alt="" className="mb-4" />
                                             <h5 className='text-center mb-4 fw-medium'>Welcome back! Please Login</h5>
                                         </div>
                                         <form>
@@ -72,12 +72,12 @@ const Login = () => {
                                                             <p className="mb-4 text-6B6B6B text-center">Point your phone camera at the QR code or use one of the download links below</p>
                                                             <div className="col-12 col-lg-6 mb-lg-0 mb-4">
                                                                 <div className="text-center">
-                                                                    <img src="/assets/images/download-barcode.png" alt="qr-code" className='w-75' />
+                                                                    <img src="/dhakadweb/assets/images/download-barcode.png" alt="qr-code" className='w-75' />
                                                                 </div>
                                                             </div>
                                                             <div className="col-12 col-lg-6 d-flex flex-column justify-content-center align-items-center">
-                                                                <img src="/assets/images/appstore.png" alt="app-store" className='mb-2 w-75' />
-                                                                <img src="/assets/images/playstore.png" alt="google-play" className='w-75' />
+                                                                <img src="/dhakadweb/assets/images/appstore.png" alt="app-store" className='mb-2 w-75' />
+                                                                <img src="/dhakadweb/assets/images/playstore.png" alt="google-play" className='w-75' />
                                                             </div>
                                                             <p className="mt-4 text-6B6B6B text-center">Or
                                                                 <span className="text-danger fw-medium"> Get Download </span>
@@ -91,7 +91,7 @@ const Login = () => {
                                         </div>
                                         <div className="col-12 col-lg-6">
                                             <div className="">
-                                                <img src="/assets/images/download-app-img.png" alt="" className="w-100" />
+                                                <img src="/dhakadweb/assets/images/download-app-img.png" alt="" className="w-100" />
                                             </div>
                                         </div>
                                     </div>

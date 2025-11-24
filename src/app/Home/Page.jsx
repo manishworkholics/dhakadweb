@@ -91,7 +91,7 @@ const HomePage = () => {
                             <SwiperSlide>
                                 <div className="banner-content position-relative" style={{ height: "85vh" }}>
                                     <img
-                                        src="/assets/images/home-banner.png"
+                                        src="/dhakadweb/assets/images/home-banner.png"
                                         alt="Home Banner"
                                         className="w-100 h-100 object-fit-cover"
                                     />
@@ -130,7 +130,7 @@ const HomePage = () => {
                             <SwiperSlide>
                                 <div className="banner-content position-relative" style={{ height: "85vh" }}>
                                     <img
-                                        src="/assets/images/home-banner.png"
+                                        src="/dhakadweb/assets/images/home-banner.png"
                                         alt="Home Banner"
                                         className="w-100 h-100 object-fit-cover"
                                     />
@@ -191,7 +191,7 @@ const HomePage = () => {
                                         <div className="p-4 rounded-4 border h-100 shadow-sm" style={{ background: "#fdf7ee" }}>
                                             <div className="mb-3">
                                                 <img
-                                                    src="/assets/images/user-icon.png"
+                                                    src="/dhakadweb/assets/images/user-icon.png"
                                                     width={50}
                                                     height={50}
                                                     alt="Verified Profiles"
@@ -210,7 +210,7 @@ const HomePage = () => {
                                         <div className="p-4 rounded-4 border h-100 shadow-sm" style={{ background: "#fdf7ee" }}>
                                             <div className="mb-3">
                                                 <img
-                                                    src="/assets/images/magnifier-icon.png"
+                                                    src="/dhakadweb/assets/images/magnifier-icon.png"
                                                     width={50}
                                                     height={50}
                                                     alt="Verification Visits"
@@ -229,7 +229,7 @@ const HomePage = () => {
                                         <div className="p-4 rounded-4 border h-100 shadow-sm" style={{ background: "#fdf7ee" }}>
                                             <div className="mb-3">
                                                 <img
-                                                    src="/assets/images/privacy-policy-icon.png"
+                                                    src="/dhakadweb/assets/images/privacy-policy-icon.png"
                                                     width={50}
                                                     height={50}
                                                     alt="Your Privacy" />
@@ -273,12 +273,12 @@ const HomePage = () => {
                                                                     <p className="mb-4 text-6B6B6B text-center">Point your phone camera at the QR code or use one of the download links below</p>
                                                                     <div className="col-12 col-lg-6 mb-lg-0 mb-4">
                                                                         <div className="text-center">
-                                                                            <img src="/assets/images/download-barcode.png" alt="qr-code" className='w-75' />
+                                                                            <img src="/dhakadweb/assets/images/download-barcode.png" alt="qr-code" className='w-75' />
                                                                         </div>
                                                                     </div>
                                                                     <div className="col-12 col-lg-6 d-flex flex-column justify-content-center align-items-center">
-                                                                        <img src="/assets/images/appstore.png" alt="app-store" className='mb-2 w-75' />
-                                                                        <img src="/assets/images/playstore.png" alt="google-play" className='w-75' />
+                                                                        <img src="/dhakadweb/assets/images/appstore.png" alt="app-store" className='mb-2 w-75' />
+                                                                        <img src="/dhakadweb/assets/images/playstore.png" alt="google-play" className='w-75' />
                                                                     </div>
                                                                     <p className="mt-4 text-6B6B6B text-center">Or
                                                                         <span className="text-danger fw-medium"> Get Download </span>
@@ -292,7 +292,7 @@ const HomePage = () => {
                                                 </div>
                                                 <div className="col-12 col-lg-6">
                                                     <div className="">
-                                                        <img src="/assets/images/download-app-img.png" alt="" className="w-100" />
+                                                        <img src="/dhakadweb/assets/images/download-app-img.png" alt="" className="w-100" />
                                                     </div>
                                                 </div>
                                             </div>

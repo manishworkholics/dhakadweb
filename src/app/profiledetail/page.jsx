@@ -12,7 +12,7 @@ export default function ProfileDetail() {
                     <div className="row py-5">
                         <div className="col-md-4 px-3">
                             <div className="card rounded-3">
-                                <img src="/assets/images/priya.png" className="card-img-top" alt="..." />
+                                <img src="/dhakadweb/assets/images/priya.png" className="card-img-top" alt="..." />
                                 <div className="btn-bottom">
                                     <Link href="/" className="btn bg-danger text-white fw-medium rounded-top-0 rounded-end-0 p-3" style={{ fontSize: "15px" }}>Chat Now</Link>
                                     <Link href="/" className="btn text-white fw-medium rounded-0 bg-D4AF37 p-3" style={{ fontSize: "15px" }}>Send Interest</Link>
@@ -41,16 +41,16 @@ export default function ProfileDetail() {
                                 <h3 className="mb-3">PHOTO GALLERY</h3>
                                 <div className="row justify-content-between">
                                     <div className="col-md-3">
-                                        <img src="/assets/images/gallery.png" alt="" srcset="" className="w-100" />
+                                        <img src="/dhakadweb/assets/images/gallery.png" alt="" srcset="" className="w-100" />
                                     </div>
                                     <div className="col-md-3">
-                                        <img src="/assets/images/gallery1.png" alt="" srcset="" className="w-100" />
+                                        <img src="/dhakadweb/assets/images/gallery1.png" alt="" srcset="" className="w-100" />
                                     </div>
                                     <div className="col-md-3">
-                                        <img src="/assets/images/gallery2.png" alt="" srcset="" className="w-100" />
+                                        <img src="/dhakadweb/assets/images/gallery2.png" alt="" srcset="" className="w-100" />
                                     </div>
                                     <div className="col-md-3">
-                                        <img src="/assets/images/gallery3.png" alt="" srcset="" className="w-100" />
+                                        <img src="/dhakadweb/assets/images/gallery3.png" alt="" srcset="" className="w-100" />
                                     </div>
                                 </div>
                             </div>
