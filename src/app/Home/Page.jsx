@@ -9,10 +9,111 @@ import FeaturesProfile from "../components/FeaturesProfile/page";
 import Readytomeet from "../components/Readytomeet/page";
 import MemberTestimonials from "../components/MemberTestimonials/page";
 import Footer from "../components/Footer/page";
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 
 const HomePage = () => {
+    const router = useRouter();
+    const [formData, setFormData] = useState({
+        createdfor: "",
+        name: "",
+        email: "",
+        phone: "",
+        password: "",
+        agree: false
+    });
+
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        if (name === "phone") {
+            const numericVal = value.replace(/\D/g, ""); // Remove non-numeric
+            if (numericVal.length <= 10) {
+                setFormData({ ...formData, phone: numericVal });
+            }
+            return;
+        }
+        if (name === "name") {
+            if (/^[A-Za-z ]*$/.test(value)) {
+                setFormData({ ...formData, name: value });
+            }
+            return;
+        }
+        setFormData({
+            ...formData,
+            [name]: type === 'checkbox' ? checked : value,
+        });
+    };
+
+    const validateForm = () => {
+        if (!formData.createdfor)
+            return "Please select profile type";
+
+        if (!formData.name.trim())
+            return "Name is required";
+
+        if (formData.name.trim().length < 3)
+            return "Name must be at least 3 characters";
+
+        if (!formData.email)
+            return "Email is required";
+
+        // Basic Email Validation
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+        if (!emailPattern.test(formData.email))
+            return "Invalid email address";
+
+        if (!formData.phone)
+            return "Mobile number is required";
+
+        if (formData.phone.length !== 10)
+            return "Mobile number must be exactly 10 digits";
+
+        if (!formData.password)
+            return "Password is required";
+
+        if (formData.password.length < 6)
+            return "Password should be minimum 6 characters";
+
+        if (!formData.agree)
+            return "Please agree to the terms and conditions";
+
+        return null;
+    };
+
+    const handleSubmit = async () => {
+        const errorMessage = validateForm();
+        if (errorMessage) {
+            toast.error(errorMessage);
+            return;
+        }
+        try {
+            const response = await axios.post('http://206.189.130.102:5000/api/auth/register', {
+                name: formData.name,
+                email: formData.email,
+                password: formData.password,
+                createdfor: formData.createdfor,
+                phone: formData.phone
+            });
+            if (response?.data?.success) {
+                toast.success("Registration Successful");
+                localStorage.setItem("token", response?.data?.token);
+                 router.push("/enterotp");
+            } else {
+                toast.error(response?.data?.message || "Registration Failed");
+            }
+        } catch (error) {
+            toast.error(error?.response?.data?.message || "Registration Failed!");
+        }
+    }
+
+
     return (
         <div>
+            <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
             <div className="main-container">
                 <div className="">
                     <Header />
@@ -26,36 +127,55 @@ const HomePage = () => {
                                     style={{ background: "rgba(0,0,0,0.55)" }}>
                                     {/* Profile Dropdown */}
                                     <div className="mb-3">
-                                        <select className="form-select bg-dark border-white shadow-none text-white py-2">
-                                            <option>Create Profile For</option>
-                                            <option>Self</option>
-                                            <option>Son</option>
-                                            <option>Daughter</option>
+                                        <select className="form-select bg-dark border-white shadow-none text-white py-2" name="createdfor" value={formData.createdfor} onChange={handleChange}>
+                                            <option value="">Create Profile For</option>
+                                            <option value="self">Self</option>
+                                            <option value="son">Son</option>
+                                            <option value="daughter">Daughter</option>
                                         </select>
+                                    </div>
+
+                                    {/* Name */}
+                                    <div className="mb-3">
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            value={formData.name}
+                                            onChange={handleChange}
+                                            className="form-control bg-dark border-white shadow-none text-white py-2"
+                                            placeholder="Full Name"
+                                        />
                                     </div>
 
                                     {/* Email */}
                                     <div className="mb-3">
                                         <input
                                             type="email"
-                                            className="form-control bg-dark text-white border-white shadow-none py-2"
+                                            name="email"
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            className="form-control bg-dark border-white shadow-none text-white py-2"
                                             placeholder="Email Address"
                                         />
                                     </div>
 
-                                    {/* Mobile */}
-                                    <div className="mb-3">
-                                        <input
-                                            type="text"
-                                            className="form-control bg-dark text-white border-white shadow-none py-2"
-                                            placeholder="Mobile No."
-                                        />
-                                    </div>
+                                    {/* Phone */}
+                                    <input
+                                        type="text"
+                                        name="phone"
+                                        value={formData.phone}
+                                        onChange={handleChange}
+                                        className="form-control bg-dark border-white shadow-none text-white py-2 mb-3"
+                                        placeholder="Mobile No."
+                                    />
 
                                     {/* Password */}
                                     <div className="mb-3 position-relative">
                                         <input
                                             type="password"
+                                            name="password"
+                                            value={formData.password}
+                                            onChange={handleChange}
                                             className="form-control bg-dark text-white border-white shadow-none py-2"
                                             placeholder="Create Password"
                                         />
@@ -63,14 +183,14 @@ const HomePage = () => {
 
                                     {/* Checkbox */}
                                     <div className="form-check mb-3">
-                                        <input className="form-check-input" type="checkbox" id="agree" />
+                                        <input className="form-check-input" type="checkbox" name="agree" checked={formData.agree} onChange={handleChange} id="agree" />
                                         <label className="form-check-label text-white" htmlFor="agree">
                                             Agree terms and conditions
                                         </label>
                                     </div>
 
                                     {/* Button */}
-                                    <button className="btn btn-warning w-100 py-2 fw-semibold">
+                                    <button className="btn btn-warning w-100 py-2 fw-semibold" onClick={handleSubmit}>
                                         Registration
                                     </button>
 
@@ -304,19 +424,19 @@ const HomePage = () => {
 
                     </div>
 
-                     <div className="home-section-3">
+                    <div className="home-section-3">
                         <FeaturesProfile />
                     </div>
 
-                     <div className="home-section-3">
+                    <div className="home-section-3">
                         <MemberTestimonials />
                     </div>
 
-                     <div className="home-section-3">
+                    <div className="home-section-3">
                         <Readytomeet />
                     </div>
 
-                    <Footer/>
+                    <Footer />
                 </div>
             </div>
         </div>

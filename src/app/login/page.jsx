@@ -1,10 +1,74 @@
+"use client"
+
 import React from 'react'
 import Header from '../components/Header/Page'
 import Link from 'next/link'
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
+     const router = useRouter();
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+        // stayLoggedIn: false
+    });
+
+      const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData({
+            ...formData,
+            [name]: type === 'checkbox' ? checked : value,
+        });
+    };
+
+     const validateForm = () => {
+        if (!formData.email)
+            return "Email is required";
+
+        // Basic Email Validation
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+        if (!emailPattern.test(formData.email))
+            return "Invalid email address";
+        if (!formData.password)
+            return "Password is required";
+        if (formData.password.length < 6)
+            return "Password should be minimum 6 characters";
+    //     if (!formData.stayLoggedIn)
+    //         return "Please agree to the terms and conditions";
+    //     return null;
+    };
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        const errorMessage = validateForm();
+        if (errorMessage) {
+            toast.error(errorMessage);
+            return;
+        }
+        try {
+            const response = await axios.post('http://206.189.130.102:5000/api/auth/email-login', {             
+                email: formData.email,
+                password: formData.password
+            });
+            if (response?.data?.success) {
+                toast.success("Login Successful");
+                localStorage.setItem("token", response?.data?.token);
+                 router.push("/enterotp");
+            } else {
+                toast.error(response?.data?.message || "Login Failed");
+            }
+        } catch (error) {
+            toast.error(error?.response?.data?.message || "Login Failed!");
+        }
+    }
+
     return (
         <div className='login-page bg-FDFBF7'>
+              <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
             <div className="">
                 <Header />
             </div>
@@ -17,17 +81,17 @@ const Login = () => {
                                 <div className="card-body p-4">
                                     <div className="login-form">
                                         <div className="text-center">
-                                            <img src="/dhakadweb/assets/images/dhakad-logo.png" alt="" className="mb-4" />
+                                            {/* <img src="/dhakadweb/assets/images/dhakad-logo.png" alt="" className="mb-4" /> */}
                                             <h5 className='text-center mb-4 fw-medium'>Welcome back! Please Login</h5>
                                         </div>
-                                        <form>
+                                        <form onSubmit={handleSubmit}>
                                             <div className="mb-3">
-                                                <label htmlFor="exampleInputEmail1" className="form-label text-6B6B6B">Mobile No. / Email ID</label>
-                                                <input type="text" className="form-control" placeholder='Enter Mobile No. / Email ID' />
+                                                <label htmlFor="exampleInputEmail1" className="form-label text-6B6B6B"> Email ID</label>
+                                                <input type="text" name='email' value={formData.email} onChange={handleChange} className="form-control" placeholder='Email ID' />
                                             </div>
                                             <div className="mb-3">
                                                 <label htmlFor="exampleInputPassword1" className="form-label text-6B6B6B">Password</label>
-                                                <input type="password" className="form-control" id="exampleInputPassword1" placeholder='Enter Password' />
+                                                <input type="password" name='password' value={formData.password} onChange={handleChange} className="form-control" id="exampleInputPassword1" placeholder='Enter Password' />
                                             </div>
                                             <div className="d-flex justify-content-between">
                                                 <div className="mb-3 form-check">
