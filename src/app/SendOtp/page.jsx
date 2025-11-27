@@ -9,40 +9,29 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const Login = () => {
-     const router = useRouter();
+const sendotp = () => {
+    const router = useRouter();
     const [formData, setFormData] = useState({
-        email: "",
-        password: "",
-        // stayLoggedIn: false
+        phone: "",
     });
 
-      const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
+    const handleChange = (e) => {
+        const { name, value } = e.target;
         setFormData({
             ...formData,
-            [name]: type === 'checkbox' ? checked : value,
+            [name]: value,
         });
     };
 
-     const validateForm = () => {
-        if (!formData.email)
-            return "Email is required";
-
-        // Basic Email Validation
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-        if (!emailPattern.test(formData.email))
-            return "Invalid email address";
-        if (!formData.password)
-            return "Password is required";
-        if (formData.password.length < 6)
-            return "Password should be minimum 6 characters";
-    //     if (!formData.stayLoggedIn)
-    //         return "Please agree to the terms and conditions";
-    //     return null;
+    const validateForm = () => {
+        if (!formData.phone) return "Phone number is required";
+        const phonePattern = /^[0-9]{10}$/;
+        if (!phonePattern.test(formData.phone))
+            return "Phone number must be 10 digits";
+        return null;
     };
 
-      const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const errorMessage = validateForm();
         if (errorMessage) {
@@ -50,69 +39,50 @@ const Login = () => {
             return;
         }
         try {
-            const response = await axios.post('http://206.189.130.102:5000/api/auth/email-login', {             
-                email: formData.email,
-                password: formData.password
+            const response = await axios.post('http://206.189.130.102:5000/api/auth/send-otp', {
+                phone: formData.phone,
             });
             if (response?.data?.success) {
-                toast.success("Login Successful");
-                localStorage.setItem("token", response?.data?.token);
-                 router.push("/enterotp");
+                toast.success("OTP sent successfully!");
+                localStorage.setItem("phone", formData.phone);
+                router.push("/enterotp");
             } else {
-                toast.error(response?.data?.message || "Login Failed");
+                toast.error(response?.data?.message || "Failed to send OTP");
             }
         } catch (error) {
-            toast.error(error?.response?.data?.message || "Login Failed!");
+            toast.error(error?.response?.data?.message || "Server Error");
         }
     }
 
     return (
         <div className='login-page bg-FDFBF7'>
-              <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+            <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
             <div className="">
                 <Header />
             </div>
             <div className="login-content py-5">
                 <div className="container">
                     <div className="row">
-                        {/* Login-Form */}
+                        {/* sendotp-Form */}
                         <div className="col-12 col-md-7 col-lg-6 col-xl-5 col-xxl-4 mx-auto mb-4">
                             <div className="card shadow border-0 rounded-4">
                                 <div className="card-body p-4">
                                     <div className="login-form">
                                         <div className="text-center">
                                             {/* <img src="/dhakadweb/assets/images/dhakad-logo.png" alt="" className="mb-4" /> */}
-                                            <h5 className='text-center mb-4 fw-medium'>Welcome back! Please Login</h5>
+                                            <h5 className='text-center mb-4 fw-medium'> Please Login</h5>
                                         </div>
                                         <form onSubmit={handleSubmit}>
                                             <div className="mb-3">
-                                                <label htmlFor="exampleInputEmail1" className="form-label text-6B6B6B"> Email ID</label>
-                                                <input type="text" name='email' value={formData.email} onChange={handleChange} className="form-control" placeholder='Email ID' />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label htmlFor="exampleInputPassword1" className="form-label text-6B6B6B">Password</label>
-                                                <input type="password" name='password' value={formData.password} onChange={handleChange} className="form-control" id="exampleInputPassword1" placeholder='Enter Password' />
+                                                <label htmlFor="exampleInputEmail1" className="form-label text-6B6B6B">Phone Number</label>
+                                                <input type="text" name='phone' value={formData.phone} onChange={handleChange} className="form-control" placeholder='Enter your phone number' />
                                             </div>
                                             <div className="d-flex justify-content-between">
-                                                <div className="mb-3 form-check">
-                                                    <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                                    <label className="form-check-label" htmlFor="exampleCheck1">Stay Logged in</label>
-                                                </div>
-                                                <div className="mb-3">
-                                                    <a href="#" className='text-decoration-none text-D4AF37'>Forgot Password?</a>
-                                                </div>
                                             </div>
                                             <button
                                                 type="submit"
-                                                className="btn bg-D4AF37 w-100 text-white mb-2">Login</button>
-                                            <p className='text-center text-6B6B6B mb-2'>or</p>
-                                            <Link
-                                                href='/SendOtp'
-                                                className="btn btn-danger w-100 mb-3">Login with OTP</Link>
+                                                className="btn bg-D4AF37 w-100 text-white mb-2">Send OTP</button>
                                         </form>
-                                        <div className="text-center">
-                                            <p className='mb-0 text-6B6B6B'>New to Dhakad Matrimony? <a href="#" className='text-6B6B6B fw-semibold text-decoration-none'> Sign Up Free</a></p>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -169,4 +139,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default sendotp
