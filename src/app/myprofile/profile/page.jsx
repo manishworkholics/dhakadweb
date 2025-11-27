@@ -62,10 +62,10 @@ export default function ProfilePage() {
                             alt={profile.name} 
                             className="main-profile-photo"
                         />
-                        <button className="add-photo-btn">+ Add Photo/Video</button>
-                        <p className="doc-verification-text">
+                        <button className="add-photo-btn">Add/Edit Photo</button>
+                        {/* <p className="doc-verification-text">
                             <span role="img" aria-label="Doc Check">✅</span> Doc Verified
-                        </p>
+                        </p> */}
                     </div>
 
                     {/* Center Column: Basic Info & Contact */}
@@ -88,14 +88,14 @@ export default function ProfilePage() {
                     <div className="profile-paid-member-column">
                         <div className="paid-member-cta-box">
                              <h4 className="cta-title">BECOME A PAID MEMBER</h4>
-                             <p className="cta-discount">Get **UPTO 20% OFF** on all membership!</p>
+                             <p className="cta-discount text-start lh-1">Get **UPTO 20% OFF** on all membership!</p>
                              <ul>
                                 <li>✅ Edit WhatsApp matches</li>
                                 <li>✅ Unlimited messages</li>
                                 <li>✅ Show full photos</li>
                              </ul>
                              <button className="see-membership-btn">See membership plans</button>
-                             <button className="show-photos-btn">Show all photos</button>
+                             {/* <button className="show-photos-btn">Show all photos</button> */}
                         </div>
                     </div>
                 </div>

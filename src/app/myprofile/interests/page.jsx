@@ -31,14 +31,14 @@ const RequestListItem = ({ profile, type }) => (
                  Request On: **{profile.requestTime}**
             </p>
             
-            <button className="view-full-profile-btn">View full profile</button>
+            <button className="btn btn-sm btn-outline-secondary">View full profile</button>
         </div>
 
         <div className="action-buttons-col">
             {type === 'new' && (
                 <>
-                    <button className="request-action-btn accept-btn">Accept</button>
-                    <button className="request-action-btn deny-btn">Deny</button>
+                    <button className="btn btn-sm btn-outline-success rounded-pill px-3">Accept</button>
+                    <button className="btn btn-sm btn-outline-danger rounded-pill px-4">Deny</button>
                 </>
             )}
             {/* You would have different actions/styles for accepted/denied lists */}
@@ -64,7 +64,7 @@ export default function InterestsPage() {
     return (
         <DashboardLayout>
             <div className="interests-page-content-custom">
-                <h2 className="page-header-title">INTEREST REQUEST</h2>
+                <h5 className="page-header-title">INTEREST REQUEST</h5>
 
                 {/* Tab Navigation (Customized to Figma text) */}
                 <div className="interests-tabs-custom">

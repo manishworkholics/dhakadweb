@@ -16,7 +16,7 @@ export default function PaidMembershipCard() {
         <div className="paid-member-card">
             {/* Discount Header */}
             <div className="discount-header">
-                <p className="discount-text">
+                <p className="discount-text text-start">
                     Get up to <span className="discount-percentage">35% OFF</span> on paid membership!
                 </p>
             </div>

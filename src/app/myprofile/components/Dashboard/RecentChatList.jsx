@@ -38,10 +38,10 @@ export default function RecentChatList() {
                         </div>
                         
                         {/* Status/Arrow Placeholder */}
-                        <div className="chat-status-arrow">
-                            {/* You might use an icon here, e.g., > or an arrow icon */}
+                        {/* <div className="chat-status-arrow">
+                            You might use an icon here, e.g., > or an arrow icon
                             &gt;
-                        </div>
+                        </div> */}
                     </li>
                 ))}
             </ul>

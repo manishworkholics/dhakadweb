@@ -28,7 +28,7 @@ export default function ShortlistPage() {
     return (
         <DashboardLayout>
             <div className="shortlist-page-content">
-                <h2 className="page-header-title">My Shortlisted Profiles ({shortlist.length})</h2>
+                <h5 className="fw-semibold">Shortlist ({shortlist.length})</h5>
 
                 {shortlist.length > 0 ? (
                     <div className="shortlist-profile-grid">
@@ -37,15 +37,15 @@ export default function ShortlistPage() {
                                 <ProfileCard data={profile} />
                                 
                                 {/* Action Bar below the card */}
-                                <div className="shortlist-actions">
+                                <div className="shortlist-actions gap-3">
                                     <button 
-                                        className="action-btn message-btn"
+                                        className="btn btn-danger btn-sm rounded-pill w-50 mb-2"
                                         onClick={() => console.log(`Open chat with ${profile.name}`)}
                                     >
                                         Message
                                     </button>
                                     <button 
-                                        className="action-btn remove-btn"
+                                        className="btn btn-secondary btn-sm rounded-pill w-50 mb-2"
                                         onClick={() => handleRemove(profile.id)}
                                     >
                                         Remove
