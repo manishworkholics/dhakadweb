@@ -20,16 +20,16 @@ const Header = () => {
                                         <Link className="nav-link active" aria-current="page" href="/">Home</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" href="#">Find Partner</a>
+                                        <Link className="nav-link" href="/profile">Find Partner</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" href="#">About us</a>
+                                        <Link className="nav-link" href="#">About us</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" href="#">Gallery</a>
+                                        <Link className="nav-link" href="#">Gallery</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" href="#">Contact us</a>
+                                        <Link className="nav-link" href="#">Contact us</Link>
                                     </li>
                                       <li className="nav-item">
                                          <Link className="nav-link " aria-current="page" href="/myprofile">My profile</Link>
