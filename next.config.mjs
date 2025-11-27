@@ -1,9 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   /* config options here */
-  output: 'export',
+  
   basePath: '/dhakadweb',
   assetPrefix: '/dhakadweb',
+  reactStrictMode: true
 };
 
 export default nextConfig;
