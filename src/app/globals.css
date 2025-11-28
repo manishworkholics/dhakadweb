@@ -88,6 +88,7 @@ body {
 
 .form-control::placeholder {
   color: #fff !important;
+  font-weight: 400 !important;
 }
 
 
