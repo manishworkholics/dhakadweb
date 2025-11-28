@@ -12,7 +12,7 @@ export default function ProfileDetail() {
 
     const getProfile = async () => {
         try {
-            const res = await fetch(`http://localhost:5000/api/profile/${id}`);
+            const res = await fetch(`http://206.189.130.102:5000/api/profile/${id}`);
             const data = await res.json();
             setProfile(data.profile);
             setLoading(false);
