@@ -373,7 +373,7 @@ const HomePage = () => {
                     </div>
 
                     {/* Home-Section-3 */}
-                    <div className="home-section-3">
+                    <div className="home-section-4">
                         <div className="container">
                             <div className="row">
                                 <div className="col-12">
@@ -424,15 +424,15 @@ const HomePage = () => {
 
                     </div>
 
-                    <div className="home-section-3">
+                    <div className="home-section-5">
                         <FeaturesProfile />
                     </div>
 
-                    <div className="home-section-3">
+                    <div className="home-section-6">
                         <MemberTestimonials />
                     </div>
 
-                    <div className="home-section-3">
+                    <div className="home-section-7">
                         <Readytomeet />
                     </div>
 
