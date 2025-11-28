@@ -3,7 +3,6 @@
 import Header from "../components/Header/Page";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import Image from "next/image";
 import SuccessStories from "../components/SuccessStories/Page";
 import FeaturesProfile from "../components/FeaturesProfile/page";
 import Readytomeet from "../components/Readytomeet/page";
@@ -18,6 +17,7 @@ import { useRouter } from "next/navigation";
 
 const HomePage = () => {
     const router = useRouter();
+   
     const [formData, setFormData] = useState({
         createdfor: "",
         name: "",
@@ -26,6 +26,9 @@ const HomePage = () => {
         password: "",
         agree: false
     });
+
+
+   
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -99,9 +102,10 @@ const HomePage = () => {
                 phone: formData.phone
             });
             if (response?.data?.success) {
+                alert("Registration Successful")
                 toast.success("Registration Successful");
-                localStorage.setItem("token", response?.data?.token);
-                 router.push("/enterotp");
+                // localStorage.setItem("token", response?.data?.token);
+                router.push("/login");
             } else {
                 toast.error(response?.data?.message || "Registration Failed");
             }
@@ -139,7 +143,7 @@ const HomePage = () => {
                                     <div className="mb-3">
                                         <input
                                             type="text"
-                                            // name="name"
+                                            name="name"
                                             value={formData.name}
                                             onChange={handleChange}
                                             className="form-control bg-dark border-white shadow-none text-white py-2"
