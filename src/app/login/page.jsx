@@ -57,7 +57,7 @@ const Login = () => {
             if (response?.data?.success) {
                 toast.success("Login Successful");
                 localStorage.setItem("token", response?.data?.token);
-                 router.push("/enterotp");
+                router.push("/registrationform");
             } else {
                 toast.error(response?.data?.message || "Login Failed");
             }

@@ -87,11 +87,10 @@ export default function Sidebar() {
         return normalizedCurrentPath.startsWith(normalizedLinkPath);
     };
 
-    const handleLogout = (e) => {
-        e.preventDefault();
-        console.log("User logged out.");
-        // Use Next.js router or a standard redirect for hard navigation like logout
-        window.location.href = "/login";
+     const handleLogout = () => {
+        localStorage.removeItem("token");
+        setIsLoggedIn(false);
+        window.location.href = "/dhakadweb/login"; // redirect
     };
 
     return (
@@ -117,8 +116,8 @@ export default function Sidebar() {
                     ))}
 
                     <li className="nav-item logout-item">
-                        <a
-                            href="#"
+                        <Link
+                            href="/login"
                             onClick={handleLogout}
                             className="nav-link logout-link"
                         >
@@ -128,7 +127,7 @@ export default function Sidebar() {
                                 </svg>
                             </span>
                             Logout
-                        </a>
+                        </Link>
                     </li>
                 </ul>
             </nav>
