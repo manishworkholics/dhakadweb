@@ -139,7 +139,7 @@ const HomePage = () => {
                                     <div className="mb-3">
                                         <input
                                             type="text"
-                                            name="name"
+                                            // name="name"
                                             value={formData.name}
                                             onChange={handleChange}
                                             className="form-control bg-dark border-white shadow-none text-white py-2"
