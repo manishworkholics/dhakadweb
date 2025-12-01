@@ -3,6 +3,8 @@
 import Link from "next/link";
 import Header from "../components/Header/Page";
 import { useState, useEffect } from "react";
+import Readytomeet from "../components/Readytomeet/page";
+import Footer from "../components/Footer/page";
 
 export default function Profile() {
 
@@ -38,7 +40,7 @@ export default function Profile() {
         <main>
             <Header />
             <div className="sub-bg">
-                <h4 className="text-white p-4 text-center font-bold mb-0">
+                <h4 className="text-white p-4 text-center font-bold mb-0 pageheading-banner">
                     Lakhs of Happy Marriages
                 </h4>
             </div>
@@ -112,22 +114,28 @@ export default function Profile() {
 
                         {/* Right Profile List */}
                         <div className="col-md-9 col-lg-9 col-12">
-                            <div className="filter d-flex justify-content-between">
-                                <h6 className="mb-0">Showing {data?.length} profiles</h6>
+                            <div className="filter row d-flex justify-content-between">
+                                <h6 className="col-12 col-lg-3 mb-2 mb-lg-0 d-flex align-items-center ">
+                                    Showing
+                                    <span className="fw-semibold mx-2">{data?.length}</span>
+                                    profiles
+                                </h6>
 
                                 {/* Search */}
-                                <div className="search">
-                                    <form className="d-flex">
+                                <div className="col-12 col-lg-5 mb-2 mb-lg-0 mx-auto search">
+                                    <form className="d-flex position-relative">
                                         <input className="form-control" placeholder="Search" />
-                                        <button className="btn border" type="submit">
-                                            🔍
+                                        <button className="btn border-0 bg-transparent position-absolute top-0 end-0" type="submit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                                <path d="M10.0833 10.0833L12.75 12.75M0.75 6.08333C0.75 7.49782 1.3119 8.85438 2.3121 9.85457C3.31229 10.8548 4.66885 11.4167 6.08333 11.4167C7.49782 11.4167 8.85438 10.8548 9.85457 9.85457C10.8548 8.85438 11.4167 7.49782 11.4167 6.08333C11.4167 4.66885 10.8548 3.31229 9.85457 2.3121C8.85438 1.3119 7.49782 0.75 6.08333 0.75C4.66885 0.75 3.31229 1.3119 2.3121 2.3121C1.3119 3.31229 0.75 4.66885 0.75 6.08333Z" stroke="#686868" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
                                         </button>
                                     </form>
                                 </div>
 
                                 {/* Sort */}
-                                <div className="sort d-flex align-items-center">
-                                    <h6 style={{ width: "60px" }}>Sort By</h6>
+                                <div className="col-12 col-lg-3 sort d-flex align-items-center">
+                                    <h6 className="d-flex align-items-center mb-0" style={{ width: "80px" }}>Sort By</h6>
                                     <select
                                         className="form-select"
                                         onChange={(e) => setFilters({ ...filters, sortBy: e.target.value })}
@@ -152,33 +160,39 @@ export default function Profile() {
                                             <img
                                                 src={item.photos?.[0] || "/placeholder.png"}
                                                 className="card-img-top p-1"
+                                                style={{ height: "230px", objectFit: "cover" }}
                                             />
 
                                             <div className="card-body">
-                                                <h6 className="fw-semibold">{item.name || "Unknown"}</h6>
+                                                <h6 className="fw-semibold mb-0 text-capitalize">{item.name || "Unknown"}</h6>
 
                                                 <p className="d-flex align-items-center">
-                                                    📍 {item.location|| "Unknown"}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="13" viewBox="0 0 10 13" fill="none">
+                                                        <path d="M5.00005 0C2.24318 0 5.09029e-05 2.24312 5.09029e-05 4.99687C-0.0180741 9.025 4.81005 12.365 5.00005 12.5C5.00005 12.5 10.0182 9.025 10.0001 5C10.0001 2.24313 7.75693 0 5.00005 0ZM5.00005 7.5C3.6188 7.5 2.50005 6.38125 2.50005 5C2.50005 3.61875 3.6188 2.5 5.00005 2.5C6.3813 2.5 7.50005 3.61875 7.50005 5C7.50005 6.38125 6.3813 7.5 5.00005 7.5Z" fill="#4CAF50" />
+                                                    </svg>
+                                                    <span className="ms-2">
+                                                        {item.location || "Unknown"}
+                                                    </span>
                                                 </p>
 
-                                                <div className="d-flex justify-content-between text-small">
-                                                    <span>{item.employmentType || "N/A"}</span>
-                                                    <span>
+                                                <div className="d-flex gap-3 flex-wrap text-small">
+                                                    <span className="bg-FFECAE py-1 px-2 rounded-2 fs-13 text-capitalize">{item.employmentType || "N/A"}</span>
+                                                    <span className="bg-FFECAE py-1 px-2 rounded-2 fs-13 text-capitalize">
                                                         {item.dob ? `${new Date().getFullYear() - new Date(item.dob).getFullYear()} yrs` : "N/A"}
                                                     </span>
-                                                    <span>{item.occupation || "N/A"}</span>
+                                                    <span className="bg-FFECAE py-1 px-2 rounded-2 fs-13 text-capitalize">{item.occupation || "N/A"}</span>
                                                 </div>
 
                                                 <hr />
 
-                                                <div className="btn-bottom d-flex">
-                                                    <button className="btn bg-4CAF50 text-white px-2 rounded-5 me-2">
+                                                <div className="btn-bottom d-flex gap-2 flex-wrap">
+                                                    <button className="btn btn-sm bg-4CAF50 text-white rounded-5 fs-13">
                                                         Chat Now
                                                     </button>
-                                                    <button className="btn border px-2 rounded-5 me-2">
+                                                    <button className="btn btn-sm border rounded-5 fs-13">
                                                         Send Interest
                                                     </button>
-                                                    <Link href={`/profiledetail/${item._id}`} className="btn border px-2 rounded-5">
+                                                    <Link href={`/profiledetail/${item._id}`} className="btn btn-sm border fs-13 rounded-5">
                                                         More Detail
                                                     </Link>
                                                 </div>
@@ -190,9 +204,16 @@ export default function Profile() {
 
                         </div>
 
+                        {/* ReadyToMeet */}
+                        <div className="">
+                            <Readytomeet />
+                        </div>
+
                     </div>
                 </div>
             </div>
+            {/* Footer */}
+            <Footer />
         </main>
     );
 }
