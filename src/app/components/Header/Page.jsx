@@ -38,10 +38,10 @@ const Header = () => {
                                         <Link className="nav-link active" href="/">Home</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link className="nav-link" href="#">About us</Link>
+                                        <Link className="nav-link" href="/aboutus">About us</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link className="nav-link" href="#">Contact us</Link>
+                                        <Link className="nav-link" href="/contactus">Contact us</Link>
                                     </li>
 
                                     {/* Visible only after login */}
