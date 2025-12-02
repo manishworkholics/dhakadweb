@@ -10,11 +10,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 const Contactus = () => {
-    const router = useRouter();
-
-
-
-
+    const router = useRouter(); 
 
     return (
         <div className='login-page bg-FDFBF7'>

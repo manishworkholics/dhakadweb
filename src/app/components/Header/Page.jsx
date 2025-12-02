@@ -30,8 +30,8 @@ const Header = () => {
                                 <span className="navbar-toggler-icon"></span>
                             </button>
 
-                            <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                                <ul className="navbar-nav ms-auto mb-2 mb-lg-0 me-4 gap-4">
+                            <div className="collapse navbar-collapse " id="navbarSupportedContent">
+                                <ul className="navbar-nav ms-auto mb-2 mb-lg-0 me-4 gap-lg-4 gap-md-4 gap-0 text-center">
 
                                     {/* Always visible menu */}
                                     <li className="nav-item">
@@ -58,7 +58,7 @@ const Header = () => {
                                 </ul>
 
                                 {/* Buttons section */}
-                                <div className="d-flex mb-2 mb-lg-0 gap-4">
+                                <div className="d-flex mb-2 mb-lg-0 gap-lg-4 gap-md-4 gap-0 justify-content-center">
                                     {!isLoggedIn ? (
                                         <>
                                             {/* <Link href="/registrationform" className='btn btn-danger'>Registration</Link> */}

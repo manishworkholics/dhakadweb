@@ -23,7 +23,7 @@ export default function DashboardLayout({ children }) {
 
               {/* 2a. Left Column: Sidebar */}
               {/* This column holds the fixed navigation menu */}
-              <div className="col-md-3">
+              <div className="col-md-3 mb-0">
                 <Sidebar />
               </div>
 

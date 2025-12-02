@@ -87,50 +87,75 @@ export default function Sidebar() {
         return normalizedCurrentPath.startsWith(normalizedLinkPath);
     };
 
-     const handleLogout = () => {
+    const handleLogout = () => {
         localStorage.removeItem("token");
         setIsLoggedIn(false);
         window.location.href = "/dhakadweb/login"; // redirect
     };
 
     return (
-        <div className="sidebar-wrapper">
-
-            {/* ... Sidebar User Card content ... */}
-
-            <nav className="sidebar-nav">
-                <ul className="nav-menu">
-                    {navItems.map((item) => (
-                        <li key={item.name} className="nav-item">
-
-                            {/* 3. **CRITICAL CHANGE: Use <Link> instead of <a>** */}
-                            <Link
-                                href={item.path}
-                                className={`nav-link ${isActive(item.path) ? 'active' : ''}`}
-                            >
-                                <span className="nav-icon">{item.icon}</span>
-                                {item.name}
-                            </Link>
-
-                        </li>
-                    ))}
-
-                    <li className="nav-item logout-item">
+        <>
+            <ul className="nav nav-pills d-lg-none d-md-none d-flex justify-content-center">
+                {navItems?.map((item) => (
+                    <li className="nav-item m-1 custom-border rounded-1" key={item.name} style={{ fontSize: "13px" }}>
                         <Link
-                            href="/login"
-                            onClick={handleLogout}
-                            className="nav-link logout-link"
+                            href={item.path}
+                            className={`nav-link ${isActive(item.path) ? 'mobile-active' : ''}`}
+                            onClick={() => setIsOpen(false)}
                         >
-                            <span className="nav-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
-                                    <path d="M16.3333 8.66667H7.22917M14.4167 11.5417L17.2917 8.66667L14.4167 5.79167M9.625 3.875V2.91667C9.625 2.40834 9.42307 1.92082 9.06362 1.56138C8.70418 1.20193 8.21666 1 7.70833 1H2.91667C2.40834 1 1.92082 1.20193 1.56138 1.56138C1.20193 1.92082 1 2.40834 1 2.91667V14.4167C1 14.925 1.20193 15.4125 1.56138 15.772C1.92082 16.1314 2.40834 16.3333 2.91667 16.3333H7.70833C8.21666 16.3333 8.70418 16.1314 9.06362 15.772C9.42307 15.4125 9.625 14.925 9.625 14.4167V13.4583" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                            </span>
-                            Logout
+                            {item.name}
                         </Link>
                     </li>
-                </ul>
-            </nav>
-        </div>
+                ))}
+                <li className="nav-item m-1 custom-border rounded-1" style={{ fontSize: "13px" }}>
+                    <Link
+                        href="/login"
+                        onClick={handleLogout}
+                        className="nav-link text-dark"
+                    >
+                        Logout
+                    </Link>
+                </li>
+            </ul>
+
+            <div className="sidebar-wrapper d-none d-lg-block d-md-block">
+
+                {/* ... Sidebar User Card content ... */}
+
+                <nav className="sidebar-nav">
+                    <ul className="nav-menu">
+                        {navItems.map((item) => (
+                            <li key={item.name} className="nav-item">
+
+                                {/* 3. **CRITICAL CHANGE: Use <Link> instead of <a>** */}
+                                <Link
+                                    href={item.path}
+                                    className={`nav-link ${isActive(item.path) ? 'active' : ''}`}
+                                >
+                                    <span className="nav-icon">{item.icon}</span>
+                                    {item.name}
+                                </Link>
+
+                            </li>
+                        ))}
+
+                        <li className="nav-item logout-item">
+                            <Link
+                                href="/login"
+                                onClick={handleLogout}
+                                className="nav-link logout-link"
+                            >
+                                <span className="nav-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
+                                        <path d="M16.3333 8.66667H7.22917M14.4167 11.5417L17.2917 8.66667L14.4167 5.79167M9.625 3.875V2.91667C9.625 2.40834 9.42307 1.92082 9.06362 1.56138C8.70418 1.20193 8.21666 1 7.70833 1H2.91667C2.40834 1 1.92082 1.20193 1.56138 1.56138C1.20193 1.92082 1 2.40834 1 2.91667V14.4167C1 14.925 1.20193 15.4125 1.56138 15.772C1.92082 16.1314 2.40834 16.3333 2.91667 16.3333H7.70833C8.21666 16.3333 8.70418 16.1314 9.06362 15.772C9.42307 15.4125 9.625 14.925 9.625 14.4167V13.4583" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                </span>
+                                Logout
+                            </Link>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </>
     );
 }

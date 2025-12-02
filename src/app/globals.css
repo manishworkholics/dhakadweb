@@ -58,6 +58,7 @@ body {
     color: #5A5A5A !important;
 }
 
+.text-
 /* Text Colors End */
 
 .form-select,
@@ -168,6 +169,25 @@ body {
 /* Mayank */
 
 
+/* Default text color for all mobile nav links */
+.nav-pills .nav-link {
+    color: black !important;
+    background-color: transparent !important;
+}
+
+/* Active tab style */
+.nav-pills .nav-link.mobile-active {
+    color: black !important;
+    /* Text color when active */
+    background-color: #FFECAE !important;
+    /* Active background */
+    border-radius: 0.25rem;
+    /* Optional rounded corners */
+}
+
+.custom-border {
+    border: 1px solid #FFECAE !important;
+}
 
 /* manish */
 
@@ -365,12 +385,6 @@ body {
     }
 }
 
-
-
-
-
-
-
 /* --- Sidebar Styles --- */
 
 .sidebar-wrapper {
@@ -385,6 +399,39 @@ body {
     /* Matches the rounded corners in the design */
     overflow: hidden;
     /* Ensures contents stay within rounded corners */
+}
+
+@media only screen and (min-width:768px) and (max-width:1024px) {
+    .sidebar-wrapper {
+        width: 185px;
+        /* Fixed width for the sidebar area */
+        background-color: #ffffff;
+        /* White background for the entire sidebar */
+        padding: 0;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+        /* Subtle shadow on the right edge */
+        border-radius: 10px;
+        /* Matches the rounded corners in the design */
+        overflow: hidden;
+        /* Ensures contents stay within rounded corners */
+    }
+}
+
+@media only screen and (min-width:1025px) and (max-width:1280px) {
+    .sidebar-wrapper {
+        width: 250px;
+        /* Fixed width for the sidebar area */
+        background-color: #ffffff;
+        /* White background for the entire sidebar */
+        padding: 0;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+        /* Subtle shadow on the right edge */
+        border-radius: 10px;
+        /* Matches the rounded corners in the design */
+        overflow: hidden;
+        /* Ensures contents stay within rounded corners */
+    }
+
 }
 
 /* User Profile Section at the Top */
@@ -498,6 +545,7 @@ body {
     background-color: #e02d5e;
     color: #ffffff;
 }
+
 
 
 /* --- Dashboard Layout Styles --- */
@@ -921,9 +969,9 @@ body {
 
 /* Profile Avatar */
 .chat-avatar-wrapper {
-    width: 40px;
+    width: 60px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 10%;
     overflow: hidden;
     margin-right: 10px;
     flex-shrink: 0;
@@ -1035,6 +1083,10 @@ body {
     .status-row-grid {
         grid-template-columns: 1fr;
         /* Stack components on smaller screens */
+    }
+
+    .view-all-wrapper {
+        text-align: center;
     }
 }
 

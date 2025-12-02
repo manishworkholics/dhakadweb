@@ -1,39 +1,31 @@
 import React from 'react'
 import Header from '../Header/Page'
 import Footer from '../Footer/page'
-
-
 export default function RecentSuccessStorypage() {
   return (
     <div>
-      <Header />
-      <div className="container  my-4">
+      <div className="my-4">
+        <Header />
 
-        <div style={{ position: "relative", width: "fit-content" }}>
-          <img
-            src="/dhakadweb/assets/images/pageheading-banner.png"
-            className="img-fluid"
-            style={{ display: "block", }}
-            alt="Hero"
-          />
-
-          <p
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              color: "white",
-              fontSize: "28px",
-              fontWeight: "700",
-              textAlign: "center",
-              margin: 0,
-            }}
-          >
+        <div className="sub-bg">
+          <h4 className="text-white p-4 text-center font-bold mb-0 pageheading-banner fw-semibold">
             Lakhs of Happy Marriages
-          </p>
+          </h4>
         </div>
 
+        {/* Back Arrow */}
+        <div className="d-flex align-items-center mb-3 mt-3 container">
+          <span
+            style={{
+              fontSize: "22px",
+              cursor: "pointer",
+              marginRight: "10px",
+            }}
+          >
+            ←
+          </span>
+          <h5 className="m-0">Millions of Happy Marriages</h5>
+        </div>
         <div className="d-flex align-items-center mb-3">
 
 
@@ -51,6 +43,7 @@ export default function RecentSuccessStorypage() {
 
         <div
           className="row p-5 shadow-lg"
+
           style={{
             borderRadius: "15px",
             background: "rgba(255, 255, 255, 1)",
@@ -58,6 +51,9 @@ export default function RecentSuccessStorypage() {
         >
 
           <div className="col-lg-5 col-md-6 col-12 mb-3">
+          {/* LEFT IMAGE */}
+          <div className="col-lg-6 col-md-6 col-12 mb-3 mt-3">
+
             <div
               className="position-relative"
               style={{
@@ -78,7 +74,6 @@ export default function RecentSuccessStorypage() {
                 }}
               />
 
-
               <div
                 className="position-absolute bottom-0 start-0 w-100 p-3"
                 style={{
@@ -87,7 +82,7 @@ export default function RecentSuccessStorypage() {
                 }}>
                 <h6 className="m-0">Mohit & Sonam Bhardwaj</h6>
                 <hr />
-                <div className="d-flex justify-content-between mt-1">
+                <div className="d-flex justify-content-between mt-1 flex-wrap">
                   <small>Married on: 02 Nov 2025</small>
                   <small>Posted on: 27 Nov 2025</small>
                 </div>
@@ -95,9 +90,15 @@ export default function RecentSuccessStorypage() {
             </div>
           </div>
 
-
-          <div className="col-lg-7 col-md-6 col-12 d-flex align-items-center">
-            <p style={{ fontSize: "18px", lineHeight: "25px", marginTop: "-160px" }}>
+          {/* RIGHT TEXT */}
+          <div className="col-lg-6 col-md-6 col-12 d-flex align-items-start">
+            <p
+              style={{
+                fontSize: "16px",
+                lineHeight: "25px",
+                marginTop: "0px",
+              }}
+            >
               I met my perfect match through Bharat Matrimony. I was interested
               when I came across Mohit’s profile on Bharat Matrimony. When we
               started talking, I was able to connect with Mohit easily. Our
@@ -107,10 +108,10 @@ export default function RecentSuccessStorypage() {
           </div>
         </div>
       </div>
+      </div>
       <Footer />
     </div>
 
   )
+
 }
-
-
