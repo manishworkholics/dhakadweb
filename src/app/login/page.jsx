@@ -111,7 +111,7 @@ const Login = () => {
                                                 className="btn btn-danger w-100 mb-3">Login with OTP</Link>
                                         </form>
                                         <div className="text-center">
-                                            <p className='mb-0 text-6B6B6B'>New to Dhakad Matrimony? <a href="#" className='text-6B6B6B fw-semibold text-decoration-none'> Sign Up Free</a></p>
+                                            <p className='mb-0 text-6B6B6B'>New to Dhakad Matrimony? <Link href="/" className='text-6B6B6B fw-semibold text-decoration-none'> Sign Up Free</Link></p>
                                         </div>
                                     </div>
                                 </div>
