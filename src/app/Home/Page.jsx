@@ -3,16 +3,121 @@
 import Header from "../components/Header/Page";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import Image from "next/image";
 import SuccessStories from "../components/SuccessStories/Page";
 import FeaturesProfile from "../components/FeaturesProfile/page";
 import Readytomeet from "../components/Readytomeet/page";
 import MemberTestimonials from "../components/MemberTestimonials/page";
 import Footer from "../components/Footer/page";
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 
 const HomePage = () => {
+    const router = useRouter();
+   
+    const [formData, setFormData] = useState({
+        createdfor: "",
+        name: "",
+        email: "",
+        phone: "",
+        password: "",
+        agree: false
+    });
+
+
+   
+
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        if (name === "phone") {
+            const numericVal = value.replace(/\D/g, ""); // Remove non-numeric
+            if (numericVal.length <= 10) {
+                setFormData({ ...formData, phone: numericVal });
+            }
+            return;
+        }
+        if (name === "name") {
+            if (/^[A-Za-z ]*$/.test(value)) {
+                setFormData({ ...formData, name: value });
+            }
+            return;
+        }
+        setFormData({
+            ...formData,
+            [name]: type === 'checkbox' ? checked : value,
+        });
+    };
+
+    const validateForm = () => {
+        if (!formData.createdfor)
+            return "Please select profile type";
+
+        if (!formData.name.trim())
+            return "Name is required";
+
+        if (formData.name.trim().length < 3)
+            return "Name must be at least 3 characters";
+
+        if (!formData.email)
+            return "Email is required";
+
+        // Basic Email Validation
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+        if (!emailPattern.test(formData.email))
+            return "Invalid email address";
+
+        if (!formData.phone)
+            return "Mobile number is required";
+
+        if (formData.phone.length !== 10)
+            return "Mobile number must be exactly 10 digits";
+
+        if (!formData.password)
+            return "Password is required";
+
+        if (formData.password.length < 6)
+            return "Password should be minimum 6 characters";
+
+        if (!formData.agree)
+            return "Please agree to the terms and conditions";
+
+        return null;
+    };
+
+    const handleSubmit = async () => {
+        const errorMessage = validateForm();
+        if (errorMessage) {
+            toast.error(errorMessage);
+            return;
+        }
+        try {
+            const response = await axios.post('http://206.189.130.102:5000/api/auth/register', {
+                name: formData.name,
+                email: formData.email,
+                password: formData.password,
+                createdfor: formData.createdfor,
+                phone: formData.phone
+            });
+            if (response?.data?.success) {
+                alert("Registration Successful")
+                toast.success("Registration Successful");
+                // localStorage.setItem("token", response?.data?.token);
+                router.push("/login");
+            } else {
+                toast.error(response?.data?.message || "Registration Failed");
+            }
+        } catch (error) {
+            toast.error(error?.response?.data?.message || "Registration Failed!");
+        }
+    }
+
+
     return (
         <div>
+            <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
             <div className="main-container">
                 <div className="">
                     <Header />
@@ -26,36 +131,55 @@ const HomePage = () => {
                                     style={{ background: "rgba(0,0,0,0.55)" }}>
                                     {/* Profile Dropdown */}
                                     <div className="mb-3">
-                                        <select className="form-select bg-dark border-white shadow-none text-white py-2">
-                                            <option>Create Profile For</option>
-                                            <option>Self</option>
-                                            <option>Son</option>
-                                            <option>Daughter</option>
+                                        <select className="form-select bg-dark border-white shadow-none text-white py-2" name="createdfor" value={formData.createdfor} onChange={handleChange}>
+                                            <option value="">Create Profile For</option>
+                                            <option value="self">Self</option>
+                                            <option value="son">Son</option>
+                                            <option value="daughter">Daughter</option>
                                         </select>
+                                    </div>
+
+                                    {/* Name */}
+                                    <div className="mb-3">
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            value={formData.name}
+                                            onChange={handleChange}
+                                            className="form-control bg-dark border-white shadow-none text-white py-2"
+                                            placeholder="Full Name"
+                                        />
                                     </div>
 
                                     {/* Email */}
                                     <div className="mb-3">
                                         <input
                                             type="email"
-                                            className="form-control bg-dark text-white border-white shadow-none py-2"
+                                            name="email"
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            className="form-control bg-dark border-white shadow-none text-white py-2"
                                             placeholder="Email Address"
                                         />
                                     </div>
 
-                                    {/* Mobile */}
-                                    <div className="mb-3">
-                                        <input
-                                            type="text"
-                                            className="form-control bg-dark text-white border-white shadow-none py-2"
-                                            placeholder="Mobile No."
-                                        />
-                                    </div>
+                                    {/* Phone */}
+                                    <input
+                                        type="text"
+                                        name="phone"
+                                        value={formData.phone}
+                                        onChange={handleChange}
+                                        className="form-control bg-dark border-white shadow-none text-white py-2 mb-3"
+                                        placeholder="Mobile No."
+                                    />
 
                                     {/* Password */}
                                     <div className="mb-3 position-relative">
                                         <input
                                             type="password"
+                                            name="password"
+                                            value={formData.password}
+                                            onChange={handleChange}
                                             className="form-control bg-dark text-white border-white shadow-none py-2"
                                             placeholder="Create Password"
                                         />
@@ -63,14 +187,14 @@ const HomePage = () => {
 
                                     {/* Checkbox */}
                                     <div className="form-check mb-3">
-                                        <input className="form-check-input" type="checkbox" id="agree" />
+                                        <input className="form-check-input" type="checkbox" name="agree" checked={formData.agree} onChange={handleChange} id="agree" />
                                         <label className="form-check-label text-white" htmlFor="agree">
                                             Agree terms and conditions
                                         </label>
                                     </div>
 
                                     {/* Button */}
-                                    <button className="btn btn-warning w-100 py-2 fw-semibold">
+                                    <button className="btn btn-warning w-100 py-2 fw-semibold" onClick={handleSubmit}>
                                         Registration
                                     </button>
 
@@ -91,7 +215,7 @@ const HomePage = () => {
                             <SwiperSlide>
                                 <div className="banner-content position-relative" style={{ height: "85vh" }}>
                                     <img
-                                        src="/assets/images/home-banner.png"
+                                        src="/dhakadweb/assets/images/home-banner.png"
                                         alt="Home Banner"
                                         className="w-100 h-100 object-fit-cover"
                                     />
@@ -130,7 +254,7 @@ const HomePage = () => {
                             <SwiperSlide>
                                 <div className="banner-content position-relative" style={{ height: "85vh" }}>
                                     <img
-                                        src="/assets/images/home-banner.png"
+                                        src="/dhakadweb/assets/images/home-banner.png"
                                         alt="Home Banner"
                                         className="w-100 h-100 object-fit-cover"
                                     />
@@ -190,8 +314,8 @@ const HomePage = () => {
                                     <div className="col-12 col-md-6 col-lg-4">
                                         <div className="p-4 rounded-4 border h-100 shadow-sm" style={{ background: "#fdf7ee" }}>
                                             <div className="mb-3">
-                                                <Image
-                                                    src="/assets/images/user-icon.png"
+                                                <img
+                                                    src="/dhakadweb/assets/images/user-icon.png"
                                                     width={50}
                                                     height={50}
                                                     alt="Verified Profiles"
@@ -209,8 +333,8 @@ const HomePage = () => {
                                     <div className="col-12 col-md-6 col-lg-4">
                                         <div className="p-4 rounded-4 border h-100 shadow-sm" style={{ background: "#fdf7ee" }}>
                                             <div className="mb-3">
-                                                <Image
-                                                    src="/assets/images/magnifier-icon.png"
+                                                <img
+                                                    src="/dhakadweb/assets/images/magnifier-icon.png"
                                                     width={50}
                                                     height={50}
                                                     alt="Verification Visits"
@@ -228,8 +352,8 @@ const HomePage = () => {
                                     <div className="col-12 col-md-6 col-lg-4">
                                         <div className="p-4 rounded-4 border h-100 shadow-sm" style={{ background: "#fdf7ee" }}>
                                             <div className="mb-3">
-                                                <Image
-                                                    src="/assets/images/privacy-policy-icon.png"
+                                                <img
+                                                    src="/dhakadweb/assets/images/privacy-policy-icon.png"
                                                     width={50}
                                                     height={50}
                                                     alt="Your Privacy" />
@@ -253,7 +377,7 @@ const HomePage = () => {
                     </div>
 
                     {/* Home-Section-3 */}
-                    <div className="home-section-3">
+                    <div className="home-section-4">
                         <div className="container">
                             <div className="row">
                                 <div className="col-12">
@@ -273,12 +397,12 @@ const HomePage = () => {
                                                                     <p className="mb-4 text-6B6B6B text-center">Point your phone camera at the QR code or use one of the download links below</p>
                                                                     <div className="col-12 col-lg-6 mb-lg-0 mb-4">
                                                                         <div className="text-center">
-                                                                            <img src="/assets/images/download-barcode.png" alt="qr-code" className='w-75' />
+                                                                            <img src="/dhakadweb/assets/images/download-barcode.png" alt="qr-code" className='w-75' />
                                                                         </div>
                                                                     </div>
                                                                     <div className="col-12 col-lg-6 d-flex flex-column justify-content-center align-items-center">
-                                                                        <img src="/assets/images/appstore.png" alt="app-store" className='mb-2 w-75' />
-                                                                        <img src="/assets/images/playstore.png" alt="google-play" className='w-75' />
+                                                                        <img src="/dhakadweb/assets/images/appstore.png" alt="app-store" className='mb-2 w-75' />
+                                                                        <img src="/dhakadweb/assets/images/playstore.png" alt="google-play" className='w-75' />
                                                                     </div>
                                                                     <p className="mt-4 text-6B6B6B text-center">Or
                                                                         <span className="text-danger fw-medium"> Get Download </span>
@@ -292,7 +416,7 @@ const HomePage = () => {
                                                 </div>
                                                 <div className="col-12 col-lg-6">
                                                     <div className="">
-                                                        <img src="/assets/images/download-app-img.png" alt="" className="w-100" />
+                                                        <img src="/dhakadweb/assets/images/download-app-img.png" alt="" className="w-100" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -304,19 +428,19 @@ const HomePage = () => {
 
                     </div>
 
-                     <div className="home-section-3">
+                    <div className="home-section-5">
                         <FeaturesProfile />
                     </div>
 
-                     <div className="home-section-3">
+                    <div className="home-section-6">
                         <MemberTestimonials />
                     </div>
 
-                     <div className="home-section-3">
+                    <div className="home-section-7">
                         <Readytomeet />
                     </div>
 
-                    <Footer/>
+                    <Footer />
                 </div>
             </div>
         </div>

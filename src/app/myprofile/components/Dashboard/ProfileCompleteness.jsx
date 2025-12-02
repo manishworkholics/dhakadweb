@@ -15,6 +15,9 @@ export default function ProfileCompleteness({ percentage = 60 }) {
 
     return (
         <div className="profile-completeness-card">
+            <div className="d-flex">
+                <h6>Profile completeness score  </h6>
+            </div>
             <div className="completeness-gauge">
                 <svg
                     viewBox="0 0 120 120" // Define the area of the SVG
@@ -46,9 +49,9 @@ export default function ProfileCompleteness({ percentage = 60 }) {
             </div>
 
             {/* Action buttons and text below the gauge */}
-            <div className="completeness-actions">
-                <h6 className="action-title">Add Photo</h6>
-                <p className="action-detail">Family Details</p>
+            <div className="completeness-actions d-flex justify-content-around gap-2 mt-3">
+                <button className="btn btn-light border-secondary">Add Photo</button>
+                <button className="btn btn-light border-secondary">Family Details</button>
             </div>
         </div>
     );

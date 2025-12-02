@@ -16,7 +16,7 @@ export default function DashboardLayout({ children }) {
       <Header />
 
       {/* 2. Main Content Wrapper */}
-      <main className="dashboard-wrapper">
+      <main className="dashboard-wrapper bg-FDFBF7">
         <div className="container-fluid dashboard-inner-content">
           <div className="container">
             <div className="row">

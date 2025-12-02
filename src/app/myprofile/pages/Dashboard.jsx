@@ -37,9 +37,10 @@ export default function DashboardPage() {
                         ))}
                     </div>
                     {/* The View All Button is used here */}
-                    <div className="view-all-wrapper">
+                    <div className="view-all-wrapper border-bottom">
                         <ViewAllButton label="View All" href="/matches/new" />
                     </div>
+                    
                 </div>
 
                 {/* 2. PROFILES STATUS / PAID MEMBER / CHAT LIST (Three-Column Row) */}

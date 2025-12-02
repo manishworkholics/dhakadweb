@@ -10,7 +10,7 @@ export default function Footer() {
                     <div className="row pb-4">
                         <div className="col-12 col-md-6 col-lg-2 d-flex align-items-center">
                             <div className="">
-                                <img src="/assets/images/dhakad-logo.png" alt="" className="w-100" />
+                                <img src="/dhakadweb/assets/images/dhakadlogo.png" alt="" className="w-100" />
                             </div>
                         </div>
                         <div className="col-12 col-md-6 col-lg-3">
@@ -47,7 +47,7 @@ export default function Footer() {
                             </div>
                         </div>
                         <div className="col-12 col-md-6 col-lg-2 d-flex align-items-center">
-                            <img src="/assets/images/sure 1.png" alt="" className="w-100" />
+                            <img src="/dhakadweb/assets/images/sure 1.png" alt="" className="w-100" />
                         </div>
                         <div className="col-12 col-md-6 col-lg-2 d-flex align-items-center">
                             <div className="social d-flex justify-content-between w-100">
