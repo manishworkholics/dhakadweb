@@ -3,6 +3,8 @@
 import React, { useRef } from "react";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
+
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -12,7 +14,7 @@ import { Navigation } from "swiper/modules";
 
 export default function SuccessStories() {
 
-    const [successStories, setsuccessStories] = useState([])
+    const [successStories, setsuccessStories] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const getSuccess = async () => {
@@ -91,6 +93,8 @@ export default function SuccessStories() {
                                     className="rounded-4 overflow-hidden mb-3"
                                     style={{ height: "260px" }}
                                 >
+                                  <Link href="/components/dhakad_forever_matches">
+                                  
                                     <img
                                         src={item.image}
                                         alt="Success Story"
@@ -98,9 +102,10 @@ export default function SuccessStories() {
                                         height={260}
                                         className="w-100 h-100 object-fit-cover"
                                     />
+                                  </Link>
                                 </div>
 
-                                <p className="fw-semibold" style={{ cursor: "pointer" }}>
+                                <p className="fw-semibold" style={{ cursor: "pointer"}}>
                                     Read Full Story &gt;
                                 </p>
                             </div>
