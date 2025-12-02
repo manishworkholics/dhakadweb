@@ -1,10 +1,13 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import Header from "../Header/Page";
+import Footer from "../Footer/page";
 
 export default function ViewProfileAll() {
   return (
     <div>
+      <Header />
       <div className="container-fluid">
         <div style={{ position: "relative", width: "fit-content" }}>
           <img
@@ -33,7 +36,7 @@ export default function ViewProfileAll() {
       </div>
 
       <div className="container mt-4">
-        <h3 className="text-danger">Recent Success Stories</h3> 
+        <h3 className="text-danger">Recent Success Stories</h3>
         <div className="row">
           {/* CARD 1 */}
           <div className="col-sm-6 mb-3">
@@ -145,7 +148,7 @@ export default function ViewProfileAll() {
               <div className="card-body">
                 <div className="main d-flex gap-3">
                   <div className="image">
-                      <Link href="/components/details_success_stories">
+                    <Link href="/components/details_success_stories">
                       <img
                         src="/dhakadweb/assets/images/viewallprofile-img6.jpg"
                         style={{
@@ -180,7 +183,7 @@ export default function ViewProfileAll() {
               <div className="card-body">
                 <div className="main d-flex gap-3">
                   <div className="image">
-                     <Link href="/components/details_success_stories">
+                    <Link href="/components/details_success_stories">
                       <img
                         src="/dhakadweb/assets/images/viewallprofile-img8.avif"
                         style={{
@@ -215,7 +218,7 @@ export default function ViewProfileAll() {
               <div className="card-body">
                 <div className="main d-flex gap-3">
                   <div className="image">
-                     <Link href="/components/details_success_stories">
+                    <Link href="/components/details_success_stories">
                       <img
                         src="/dhakadweb/assets/images/viewallprofile-img7.avif"
                         style={{
@@ -250,7 +253,7 @@ export default function ViewProfileAll() {
               <div className="card-body">
                 <div className="main d-flex gap-3">
                   <div className="image">
-                     <Link href="/components/details_success_stories">
+                    <Link href="/components/details_success_stories">
                       <img
                         src="/dhakadweb/assets/images/viewallprofile-img2.jpeg"
                         style={{
@@ -285,7 +288,7 @@ export default function ViewProfileAll() {
               <div className="card-body">
                 <div className="main d-flex gap-3">
                   <div className="image">
-                      <Link href="/components/details_success_stories">
+                    <Link href="/components/details_success_stories">
                       <img
                         src="/dhakadweb/assets/images/viewallprofile-img6.jpg"
                         style={{
@@ -384,6 +387,7 @@ export default function ViewProfileAll() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
