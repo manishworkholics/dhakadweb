@@ -18,7 +18,7 @@ export default function ProfileCard({ data }) {
                 <img 
                     src={profileImage} 
                     alt={`Profile of ${name}`} 
-                    className="profile-photo"
+                    className="profile-photo rounded-3"
                 />
             </div>
 
@@ -27,7 +27,7 @@ export default function ProfileCard({ data }) {
                 <h5 className="profile-name">{name}</h5>
                 <p className="profile-location">
                     {/* Placeholder for a location icon (e.g., FontAwesome or similar) */}
-                    <span className="location-icon">📍</span> 
+                    <i class="fa-solid fa-location-dot"></i>
                     {location}
                 </p>
             </div>
