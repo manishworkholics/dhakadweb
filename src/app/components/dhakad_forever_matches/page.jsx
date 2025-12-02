@@ -1,39 +1,22 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import Header from "../Header/Page";
+import Footer from "../Footer/page";
 
-export default function ViewProfileAll() {
+export default function ViewProfileAll(){
   return (
     <div>
-      <div className="container-fluid">
-        <div style={{ position: "relative", width: "fit-content" }}>
-          <img
-            src="/dhakadweb/assets/images/pageheading-banner.png"
-            className="img-fluid"
-            style={{ display: "block" }}
-            alt="Hero"
-          />
-
-          <p
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              color: "white",
-              fontSize: "28px",
-              fontWeight: "700",
-              textAlign: "center",
-              margin: 0,
-            }}
-          >
-            Lakhs of Happy Marriages
-          </p>
-        </div>
-      </div>
+      <Header/>
+        <div className="sub-bg">
+                <h4 className="text-white p-4 text-center font-bold mb-0 pageheading-banner fw-semibold">
+                    Lakhs of Happy Marriages
+                </h4>
+            </div>
+  
 
       <div className="container mt-4">
-        <h3 className="text-danger">Recent Success Stories</h3> 
+        <h4 className="text-danger">Recent Success Stories</h4> 
         <div className="row">
           {/* CARD 1 */}
           <div className="col-sm-6 mb-3">
@@ -57,11 +40,11 @@ export default function ViewProfileAll() {
                   </div>
 
                   <div className="text">
-                    <h4>Mohit and Sonam Bhardwaj</h4>
-                    <b>Posted on 27 Nov 2025</b>
+                    <h4 style={{fontWeight:"bold"}}>Mohit and Sonam Bhardwaj</h4>
+                    <h6>Posted on 27 Nov 2025</h6>
                     <p>
-                      I met my perfect match through Bharata Matrimony. <br />I
-                      was interested when more...
+                      I met my perfect match through Bharata Matrimony.I
+                      was interested when <span style={{color:"red"}}>More...</span>
                     </p>
                   </div>
                 </div>
@@ -91,11 +74,11 @@ export default function ViewProfileAll() {
                   </div>
 
                   <div className="text">
-                    <h4>Rajat and Priyanka Bhardwaj</h4>
-                    <b>Posted on 30 Nov 2025</b>
+                    <h4 style={{fontWeight:"bold"}}>Rajat and Priyanka Bhardwaj</h4>
+                    <h6>Posted on 30 Nov 2025</h6>
                     <p>
-                      I met my perfect match through Bharata Matrimony. <br />I
-                      was interested when more...
+                      I met my perfect match through Bharata Matrimony.I
+                      was interested when <span style={{color:"red"}}>More...</span>
                     </p>
                   </div>
                 </div>
@@ -126,11 +109,11 @@ export default function ViewProfileAll() {
                   </div>
 
                   <div className="text">
-                    <h4>Anil and Naina Bhardwaj</h4>
-                    <b>Posted on 15 Nov 2025</b>
+                    <h4 style={{fontWeight:"bold"}}>Anil and Naina Bhardwaj</h4>
+                    <h6>Posted on 15 Nov 2025</h6>
                     <p>
-                      I met my perfect match through Bharata Matrimony. <br />I
-                      was interested when more...
+                      I met my perfect match through Bharata Matrimony.I
+                      was interested when <span style={{color:"red"}}>More...</span>
                     </p>
                   </div>
                 </div>
@@ -161,11 +144,11 @@ export default function ViewProfileAll() {
                   </div>
 
                   <div className="text">
-                    <h4>Raj and Sonal Dhakad</h4>
-                    <b>Posted on 15 Nov 2025</b>
+                    <h4 style={{fontWeight:"bold"}}>Raj and Sonal Dhakad</h4>
+                    <h6>Posted on 15 Nov 2025</h6>
                     <p>
-                      I met my perfect match through Bharata Matrimony. <br />I
-                      was interested when more...
+                      I met my perfect match through Bharata Matrimony.I
+                      was interested when <span style={{color:"red"}}>More...</span>
                     </p>
                   </div>
                 </div>
@@ -196,11 +179,11 @@ export default function ViewProfileAll() {
                   </div>
 
                   <div className="text">
-                    <h4>Rohit and Neha Bhardwaj</h4>
-                    <b>Posted on 20 Nov 2025</b>
+                    <h4 style={{fontWeight:"bold"}}>Rohit and Neha Bhardwaj</h4>
+                    <h6>Posted on 20 Nov 2025</h6>
                     <p>
-                      I met my perfect match through Bharata Matrimony. <br />I
-                      was interested when more...
+                      I met my perfect match through Bharata Matrimony.I
+                      was interested when <span style={{color:"red"}}>More...</span>
                     </p>
                   </div>
                 </div>
@@ -231,11 +214,11 @@ export default function ViewProfileAll() {
                   </div>
 
                   <div className="text">
-                    <h4>Rahul and Priya Dhakad</h4>
-                    <b>Posted on 25 Nov 2025</b>
+                    <h4 style={{fontWeight:"bold"}}>Rahul and Priya Dhakad</h4>
+                    <h6>Posted on 25 Nov 2025</h6>
                     <p>
-                      I met my perfect match through Bharata Matrimony. <br />I
-                      was interested when more...
+                      I met my perfect match through Bharata Matrimony.I
+                      was interested when <span style={{color:"red"}}>More...</span>
                     </p>
                   </div>
                 </div>
@@ -266,11 +249,11 @@ export default function ViewProfileAll() {
                   </div>
 
                   <div className="text">
-                    <h4>Rahul and Priya Dhakad</h4>
-                    <b>Posted on 25 Nov 2025</b>
+                    <h5>Rahul and Priya Dhakad</h5>
+                    <h6>Posted on 25 Nov 2025</h6>
                     <p>
-                      I met my perfect match through Bharata Matrimony. <br />I
-                      was interested when more...
+                      I met my perfect match through Bharata Matrimony.I
+                      was interested when <span style={{color:"red"}}>More...</span>
                     </p>
                   </div>
                 </div>
@@ -301,11 +284,11 @@ export default function ViewProfileAll() {
                   </div>
 
                   <div className="text">
-                    <h4>Rahul and Priya Dhakad</h4>
-                    <b>Posted on 25 Nov 2025</b>
+                    <h4 style={{fontWeight:"bold"}}>Rahul and Priya Dhakad</h4>
+                    <h6>Posted on 25 Nov 2025</h6>
                     <p>
-                      I met my perfect match through Bharata Matrimony. <br />I
-                      was interested when more...
+                      I met my perfect match through Bharata Matrimony.I
+                      was interested when <span style={{color:"red"}}>More...</span>
                     </p>
                   </div>
                 </div>
@@ -336,11 +319,11 @@ export default function ViewProfileAll() {
                   </div>
 
                   <div className="text">
-                    <h4>Rahul and Priya Dhakad</h4>
-                    <b>Posted on 25 Nov 2025</b>
+                    <h4 style={{fontWeight:"bold"}}>Rahul and Priya Dhakad</h4>
+                    <h6>Posted on 25 Nov 2025</h6>
                     <p>
-                      I met my perfect match through Bharata Matrimony. <br />I
-                      was interested when more...
+                      I met my perfect match through Bharata Matrimony.I
+                      was interested when <span style={{color:"red"}}>More...</span>
                     </p>
                   </div>
                 </div>
@@ -371,11 +354,11 @@ export default function ViewProfileAll() {
                   </div>
 
                   <div className="text">
-                    <h4>Rahul and Priya Dhakad</h4>
-                    <b>Posted on 25 Nov 2025</b>
+                    <h4 style={{fontWeight:"bold"}}>Rahul and Priya Dhakad</h4>
+                    <h6>Posted on 25 Nov 2025</h6>
                     <p>
                       I met my perfect match through Bharata Matrimony. <br />I
-                      was interested when more...
+                      was interested when <span style={{color:"red"}}>More...</span>
                     </p>
                   </div>
                 </div>
@@ -384,6 +367,7 @@ export default function ViewProfileAll() {
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }
