@@ -104,7 +104,7 @@ const HomePage = () => {
             if (response?.data?.success) {
                 alert("Registration Successful")
                 toast.success("Registration Successful");
-                // localStorage.setItem("token", response?.data?.token);
+                // sessionStorage.setItem("token", response?.data?.token);
                 router.push("/login");
             } else {
                 toast.error(response?.data?.message || "Registration Failed");

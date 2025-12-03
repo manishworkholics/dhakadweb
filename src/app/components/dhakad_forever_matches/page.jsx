@@ -7,12 +7,14 @@ import Footer from "../Footer/page";
 export default function ViewProfileAll(){
   return (
     <div>
-      <Header/>
-        <div className="sub-bg">
+      <Header />
+      <div className="sub-bg">
                 <h4 className="text-white p-4 text-center font-bold mb-0 pageheading-banner fw-semibold">
                     Lakhs of Happy Marriages
                 </h4>
             </div>
+      <Header/>
+        
   
 
       <div className="container mt-4">
@@ -128,7 +130,7 @@ export default function ViewProfileAll(){
               <div className="card-body">
                 <div className="main d-flex gap-3">
                   <div className="image">
-                      <Link href="/components/details_success_stories">
+                    <Link href="/components/details_success_stories">
                       <img
                         src="/dhakadweb/assets/images/viewallprofile-img6.jpg"
                         style={{
@@ -163,7 +165,7 @@ export default function ViewProfileAll(){
               <div className="card-body">
                 <div className="main d-flex gap-3">
                   <div className="image">
-                     <Link href="/components/details_success_stories">
+                    <Link href="/components/details_success_stories">
                       <img
                         src="/dhakadweb/assets/images/viewallprofile-img8.avif"
                         style={{
@@ -198,7 +200,7 @@ export default function ViewProfileAll(){
               <div className="card-body">
                 <div className="main d-flex gap-3">
                   <div className="image">
-                     <Link href="/components/details_success_stories">
+                    <Link href="/components/details_success_stories">
                       <img
                         src="/dhakadweb/assets/images/viewallprofile-img7.avif"
                         style={{
@@ -233,7 +235,7 @@ export default function ViewProfileAll(){
               <div className="card-body">
                 <div className="main d-flex gap-3">
                   <div className="image">
-                     <Link href="/components/details_success_stories">
+                    <Link href="/components/details_success_stories">
                       <img
                         src="/dhakadweb/assets/images/viewallprofile-img2.jpeg"
                         style={{
@@ -268,7 +270,7 @@ export default function ViewProfileAll(){
               <div className="card-body">
                 <div className="main d-flex gap-3">
                   <div className="image">
-                      <Link href="/components/details_success_stories">
+                    <Link href="/components/details_success_stories">
                       <img
                         src="/dhakadweb/assets/images/viewallprofile-img6.jpg"
                         style={{

@@ -88,7 +88,7 @@ export default function Sidebar() {
     };
 
     const handleLogout = () => {
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         setIsLoggedIn(false);
         window.location.href = "/dhakadweb/login"; // redirect
     };

@@ -9,25 +9,36 @@ import { useRouter } from "next/navigation";
 
 const RegistrationForm = () => {
     const router = useRouter();
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : "";
+    const [token, setToken] = useState("");
+    const [user, setUser] = useState(null);
 
+    // Load storage only in browser
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const savedToken = sessionStorage.getItem("token");
+            const savedUser = sessionStorage.getItem("user");
+
+            if (savedToken) setToken(savedToken);
+            if (savedUser) setUser(JSON.parse(savedUser));
+        }
+    }, []);
     const [step, setStep] = useState(1);
     const [submitted, setSubmitted] = useState(false);
     const [profileExists, setProfileExists] = useState(false);
 
     const [formData, setFormData] = useState({
         // Step 1
-        name: "",
+        name: user?.name,
         dob: "",
         motherTongue: "",
-        email: "",
+        email: user?.email,
         location: "",
         password: "",
 
         // Step 2
         height: "",
-        physicalStatus: "",
-        maritalStatus: "",
+        physicalStatus: "Normal",
+        maritalStatus: "Never married",
         religion: "",
         cast: "",
         subCast: "",
@@ -40,12 +51,23 @@ const RegistrationForm = () => {
         annualIncome: "",
 
         // Step 4
-        familyStatus: "",
-        diet: "",
+        familyStatus: "Middle class",
+        diet: "Veg",
         aboutYourself: "",
 
         // Step 5 handled by photo/introVideo states
     });
+
+    useEffect(() => {
+        if (user) {
+            setFormData(prev => ({
+                ...prev,
+                name: user.name || "",
+                email: user.email || "",
+            }));
+        }
+    }, [user]);
+
 
     // Only one photo allowed for now
     const [photo, setPhoto] = useState(null); // stores URL after upload
@@ -53,24 +75,22 @@ const RegistrationForm = () => {
     const [uploading, setUploading] = useState(false);
 
     useEffect(() => {
-        // check if profile exists for current user
+        if (!token) return;
+
         const checkProfile = async () => {
             try {
-                const res = await axios.get(
-                    "http://206.189.130.102:5000/api/profile/me",
-                    { headers: { Authorization: `Bearer ${token}` } }
-                );
-                if (res.data?.profile) {
-                    setProfileExists(true);
-                }
+                const res = await axios.get("http://206.189.130.102:5000/api/profile/me", {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                if (res.data?.profile) setProfileExists(true);
             } catch (err) {
-                // no profile yet — ignore
-                console.log("Profile check:", err?.response?.data || err.message);
+                console.log("No profile found:", err?.response?.data);
             }
         };
 
-        if (token) checkProfile();
+        checkProfile();
     }, [token]);
+
 
     const nextStep = () => setStep((s) => Math.min(4, s + 1));
     const prevStep = () => setStep((s) => Math.max(1, s - 1));
@@ -167,6 +187,13 @@ const RegistrationForm = () => {
         setPhoto(null);
     };
 
+
+    useEffect(() => {
+        if (token === "") return;
+        if (!token) router.replace("/login");
+    }, [token]);
+
+
     // UI: render step forms — using your original fields exactly
     return (
         <div className="otp-page bg-FDFBF7" style={{ minHeight: "100vh" }}>
@@ -228,10 +255,10 @@ const RegistrationForm = () => {
                                                             name="name"
                                                             type="text"
                                                             className="form-control"
-                                                            placeholder="Enter full name"
                                                             value={formData.name}
-                                                            onChange={handleChange}
+                                                            readOnly
                                                         />
+
                                                     </div>
 
                                                     <div className="mb-3">
@@ -253,10 +280,10 @@ const RegistrationForm = () => {
                                                             name="email"
                                                             type="email"
                                                             className="form-control"
-                                                            placeholder="Email"
                                                             value={formData.email}
-                                                            onChange={handleChange}
+                                                            readOnly
                                                         />
+
                                                     </div>
 
                                                     <div className="mb-3">

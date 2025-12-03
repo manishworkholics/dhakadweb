@@ -1,7 +1,6 @@
-import Header from "../Header/Page";
-import Footer from "../Footer/page";
-import React from "react";
-
+import React from 'react'
+import Header from '../Header/Page'
+import Footer from '../Footer/page'
 export default function RecentSuccessStorypage() {
   return (
     <div>
@@ -27,17 +26,34 @@ export default function RecentSuccessStorypage() {
           </span>
           <h5 className="m-0">Millions of Happy Marriages</h5>
         </div>
+        <div className="d-flex align-items-center mb-3">
 
-        {/* CARD SECTION */}
+
+          <span
+            style={{
+              fontSize: "22px",
+              cursor: "pointer",
+              marginRight: "10px",
+            }}
+          >
+            ←
+          </span>
+          <h4 className="m-0">Millions of Happy Marriages</h4>
+        </div>
+
         <div
-          className="row p-2 shadow-lg container mx-auto"
+          className="row p-5 shadow-lg"
+
           style={{
             borderRadius: "15px",
             background: "rgba(255, 255, 255, 1)",
           }}
         >
+
+          <div className="col-lg-5 col-md-6 col-12 mb-3">
           {/* LEFT IMAGE */}
           <div className="col-lg-6 col-md-6 col-12 mb-3 mt-3">
+
             <div
               className="position-relative"
               style={{
@@ -47,9 +63,15 @@ export default function RecentSuccessStorypage() {
             >
               <img
                 src="/dhakadweb/assets/images/viewallprofile-img2.jpeg"
+                width={500}
+                height={600}
                 alt="Couple"
-                className="img-fluid w-100"
-                style={{ height: "100%", objectFit: "cover" }}
+                className="img-fluid"
+                style={{
+                  objectFit: "cover",
+                  width: "100%",
+                  height: "100%",
+                }}
               />
 
               <div
@@ -57,8 +79,7 @@ export default function RecentSuccessStorypage() {
                 style={{
                   background: "rgba(0,0,0,0.6)",
                   color: "white",
-                }}
-              >
+                }}>
                 <h6 className="m-0">Mohit & Sonam Bhardwaj</h6>
                 <hr />
                 <div className="d-flex justify-content-between mt-1 flex-wrap">
@@ -87,8 +108,10 @@ export default function RecentSuccessStorypage() {
           </div>
         </div>
       </div>
-
+      </div>
       <Footer />
     </div>
-  );
+
+  )
+
 }

@@ -101,7 +101,7 @@ export default function ProfileDetail() {
                       </svg>
                     </div>
                     <p className="mb-0">CITY</p>
-                    <h6 className="mb-0 fw-bold">INDORE</h6>
+                    <h6 className="mb-0 fw-bold">{profile.location || "Not Provided"}</h6>
                   </div>
                 </div>
                 <div className="border text-center bg-white rounded-3 p-2 d-flex justify-content-center align-items-center"
@@ -113,7 +113,7 @@ export default function ProfileDetail() {
                       </svg>
                     </div>
                     <p className="mb-0">AGE</p>
-                    <h6 className="mb-0 fw-bold">21</h6>
+                    <h6 className="mb-0 fw-bold">{age || "N/A"}</h6>
                   </div>
                 </div>
                 <div className="border text-center bg-white rounded-3 p-2 d-flex justify-content-center align-items-center"
@@ -125,7 +125,7 @@ export default function ProfileDetail() {
                       </svg>
                     </div>
                     <p className="mb-0">HEIGHT</p>
-                    <h6 className="mb-0 fw-bold">5.7</h6>
+                    <h6 className="mb-0 fw-bold">{profile.height || "N/A"}</h6>
                   </div>
                 </div>
                 <div className="border text-center bg-white rounded-3 p-2 d-flex justify-content-center align-items-center"
@@ -137,7 +137,7 @@ export default function ProfileDetail() {
                       </svg>
                     </div>
                     <p className="mb-0">JOB</p>
-                    <h6 className="mb-0 fw-bold">WORKING</h6>
+                    <h6 className="mb-0 fw-bold">{profile.employmentType || "N/A"}</h6>
                   </div>
                 </div>
               </div>
