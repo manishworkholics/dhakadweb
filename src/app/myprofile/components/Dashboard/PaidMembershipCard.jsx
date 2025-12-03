@@ -17,7 +17,7 @@ export default function PaidMembershipCard() {
             {/* Discount Header */}
             <div className="discount-header">
                 <p className="discount-text text-start">
-                    Get up to <span className="discount-percentage">35% OFF</span> on paid membership!
+                    Get up to <span className="discount-percentage">63% OFF</span> on paid membership!
                 </p>
             </div>
             
@@ -26,7 +26,7 @@ export default function PaidMembershipCard() {
                 {benefits.map((benefit, index) => (
                     <li key={index} className="benefit-item">
                         {/* Using a simple checkmark emoji/icon placeholder */}
-                        <span className="check-icon">✓</span> {benefit}
+                        <span className="check-icon"><i className="fa-solid fa-phone text-black"></i></span> {benefit}
                     </li>
                 ))}
             </ul>

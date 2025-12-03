@@ -13,10 +13,6 @@ export default function ViewProfileAll(){
                     Lakhs of Happy Marriages
                 </h4>
             </div>
-      <Header/>
-        
-  
-
       <div className="container mt-4">
         <h4 className="text-danger">Recent Success Stories</h4> 
         <div className="row">

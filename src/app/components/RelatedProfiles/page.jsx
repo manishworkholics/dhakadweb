@@ -42,7 +42,7 @@ export default function RelatedProfiles() {
   }, []);
 
   const getItemsPerSlide = () => {
-    if (windowWidth <= 575) return 1; // mobile
+    if (windowWidth <= 575) return 2; // mobile
     if (windowWidth <= 991) return 2; // tablet
     return 3; // desktop
   };
@@ -151,7 +151,7 @@ export default function RelatedProfiles() {
                       </div>
 
                       <div
-                        className="bg-white p-2 text-center mx-4 rounded-3"
+                        className="bg-white p-lg-2 p-md-2 p-1 text-center mx-lg-4 mx-md-4 mx-2 rounded-3"
                         style={{
                           bottom: "30px",
                           position: "relative",
@@ -159,10 +159,10 @@ export default function RelatedProfiles() {
                             "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
                         }}
                       >
-                        <h5 className="fw-bold mb-1 text-danger">
+                        <h5 className="fw-bold mb-1 text-danger" style={{fontSize:"15px"}}>
                           {item.name || `User ${index + 1}`}
                         </h5>
-                        <p className="text-muted small m-0">
+                        <p className="text-muted small m-0" style={{fontSize:"12px"}}>
                           CITY: {item.city || "NEW YORK CITY"}
                         </p>
                       </div>

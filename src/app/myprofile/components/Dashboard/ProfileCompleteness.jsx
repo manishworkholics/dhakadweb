@@ -49,9 +49,9 @@ export default function ProfileCompleteness({ percentage = 60 }) {
             </div>
 
             {/* Action buttons and text below the gauge */}
-            <div className="completeness-actions d-flex justify-content-around gap-2 mt-3">
-                <button className="btn btn-light border-secondary">Add Photo</button>
-                <button className="btn btn-light border-secondary">Family Details</button>
+            <div className="completeness-actions d-flex justify-content-around gap-1 mt-3">
+                <button className="btn border-secondary"><i class="fa-solid fa-user me-1 text-D4AF37 "></i>Add Photo</button>
+                <button className="btn border-secondary"> <i class="fa-solid fa-house me-1 text-D4AF37 "></i>Family Details</button>
             </div>
         </div>
     );
