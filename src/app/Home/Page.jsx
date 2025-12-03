@@ -315,7 +315,7 @@ const HomePage = () => {
                                         <div className="p-4 rounded-4 border h-100 shadow-sm" style={{ background: "#fdf7ee" }}>
                                             <div className="mb-3">
                                                 <img
-                                                    src="/dhakadweb/assets/images/user-icon.png"
+                                                    src="/dhakadweb/assets/images/user-icon.gif"
                                                     width={50}
                                                     height={50}
                                                     alt="Verified Profiles"
@@ -334,7 +334,7 @@ const HomePage = () => {
                                         <div className="p-4 rounded-4 border h-100 shadow-sm" style={{ background: "#fdf7ee" }}>
                                             <div className="mb-3">
                                                 <img
-                                                    src="/dhakadweb/assets/images/magnifier-icon.png"
+                                                    src="/dhakadweb/assets/images/magnifier-icon.gif"
                                                     width={50}
                                                     height={50}
                                                     alt="Verification Visits"
@@ -353,7 +353,7 @@ const HomePage = () => {
                                         <div className="p-4 rounded-4 border h-100 shadow-sm" style={{ background: "#fdf7ee" }}>
                                             <div className="mb-3">
                                                 <img
-                                                    src="/dhakadweb/assets/images/privacy-policy-icon.png"
+                                                    src="/dhakadweb/assets/images/privacy-policy-icon.gif"
                                                     width={50}
                                                     height={50}
                                                     alt="Your Privacy" />

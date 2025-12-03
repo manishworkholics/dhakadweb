@@ -1,15 +1,8 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
-
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
-
-import { Navigation } from "swiper/modules";
 
 export default function SuccessStories() {
 
@@ -20,10 +13,11 @@ export default function SuccessStories() {
         try {
             const res = await fetch("http://206.189.130.102:5000/api/success")
             const data = await res.json();
-            setsuccessStories(data?.stories)
+            setsuccessStories(data?.stories || []) 
             setLoading(false);
         } catch (error) {
-            console.log(error);
+            console.error("Error fetching success stories:", error);
+            setLoading(false);
         }
     }
 
@@ -31,86 +25,97 @@ export default function SuccessStories() {
         getSuccess();
     }, []);
 
-    const prevRef = useRef(null);
-    const nextRef = useRef(null);
+    // Logic to select only the first 4 stories for display
+    const displayedStories = successStories.slice(0, 4);
+    const hasMoreStories = successStories.length > 4;
 
-    console.log(successStories)
+    // Display a loading message
+    if (loading) {
+        return (
+            <section className="py-5 text-center" style={{ background: "#fff" }}>
+                <div className="container">
+                    <p>Loading success stories...</p>
+                </div>
+            </section>
+        );
+    }
+    
+    // Check if there are no stories to display
+    if (displayedStories.length === 0) {
+        return (
+            <section className="py-5 text-center" style={{ background: "#fff" }}>
+                <div className="container">
+                    <h2 className="fw-bold m-0">
+                        <span style={{ color: "#ff4b4b" }}>Success</span> Story
+                    </h2>
+                    <p className="mt-3">No success stories found at this time.</p>
+                </div>
+            </section>
+        );
+    }
 
     return (
         <section className="py-5" style={{ background: "#fff" }}>
             <div className="container">
 
-                {/* ---------- Title + Navigation Buttons Row ---------- */}
+                {/* ---------- Title on Left and View All Button on Right ---------- 
+                    d-flex and justify-content-between ensure the two children (title and button) 
+                    are on opposite sides of the row.
+                */}
                 <div className="d-flex justify-content-between align-items-center mb-4">
+                    
+                    {/* Title on the Left */}
                     <h2 className="fw-bold m-0">
                         <span style={{ color: "#ff4b4b" }}>Success</span> Story
                     </h2>
 
-                    {/* Navigation Buttons */}
-                    <div className="d-flex gap-2">
-                        <button
-                            ref={prevRef}
-                            className="btn btn-light shadow-sm rounded-circle"
-                            style={{ width: 38, height: 38 }}
-                        >
-                            ←
-                        </button>
-                        <button
-                            ref={nextRef}
-                            className="btn btn-danger shadow-sm rounded-circle"
-                            style={{ width: 38, height: 38 }}
-                        >
-                            →
-                        </button>
-                    </div>
+                    {/* View All Button on the Right, only if there are more than 4 stories */}
+                    {hasMoreStories && (
+                            <Link href="/components/dhakad_forever_matches" 
+                                className="btn btn-outline-danger px-4 py-2"
+                                style={{ 
+                                    backgroundColor:"#ff4b4b",
+                                    color: "#ffff", 
+                                    borderColor: "#ff4b4b",
+                                }}
+                            >
+                                View All Profile
+                        </Link>
+                    )}
                 </div>
 
-                {/* ---------- Swiper Slider ---------- */}
-                <Swiper
-                    slidesPerView={1}
-                    spaceBetween={20}
-                    navigation={{
-                        prevEl: prevRef.current,
-                        nextEl: nextRef.current,
-                    }}
-                    onBeforeInit={(swiper) => {
-                        swiper.params.navigation.prevEl = prevRef.current;
-                        swiper.params.navigation.nextEl = nextRef.current;
-                    }}
-                    modules={[Navigation]}
-                    breakpoints={{
-                        576: { slidesPerView: 2 },
-                        768: { slidesPerView: 3 },
-                        992: { slidesPerView: 4 },
-                    }}
-                >
-                    {successStories.map((item, index) => (
-                        <SwiperSlide key={index}>
+                {/* ---------- Stories Grid Layout (Limited to 4) ---------- */}
+                <div className="row g-4 justify-content-center">
+                    {displayedStories.map((item, index) => (
+                        <div key={index} className="col-lg-3 col-md-4 col-6">
                             <div className="text-center">
                                 {/* IMAGE CARD */}
                                 <div
                                     className="rounded-4 overflow-hidden mb-3"
                                     style={{ height: "260px" }}
                                 >
-                                  <Link href="/components/dhakad_forever_matches">
-                                  
-                                    <img
-                                        src={item.image}
-                                        alt="Success Story"
-                                        width={400}
-                                        height={260}
-                                        className="w-100 h-100 object-fit-cover"
-                                    />
-                                  </Link>
+                                    
+                                        <img
+                                            src={item.image}
+                                            alt="Success Story"
+                                            className="w-100 h-100 object-fit-cover rounded-4"
+                                        />
                                 </div>
 
-                                <p className="fw-semibold" style={{ cursor: "pointer"}}>
-                                    Read Full Story &gt;
+                                <p className="fw-semibold" style={{ cursor: "pointer" }}>
+                                    <Link 
+                                        href="/components/details_success_stories" 
+                                        className="text-decoration-none"
+                                        style={{ color: 'inherit' }}
+                                    >
+                                        Read Full Story &gt;
+                                    </Link>
                                 </p>
                             </div>
-                        </SwiperSlide>
+                        </div>
                     ))}
-                </Swiper>
+                </div>
+
             </div>
         </section>
     );

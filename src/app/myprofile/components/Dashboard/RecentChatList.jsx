@@ -32,7 +32,7 @@ export default function RecentChatList() {
                             <h6 className="chat-name">{chat.name}</h6>
                             <p className="chat-location">
                                 {/* Using a simple dot/circle placeholder for location */}
-                                <span className="location-dot">•</span>
+                               <i className="fa-solid fa-location-dot text-4CAF50 me-1"></i>
                                 {chat.location}
                             </p>
                         </div>

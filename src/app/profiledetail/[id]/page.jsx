@@ -6,6 +6,7 @@ import Link from "next/link";
 import Header from "../../components/Header/Page";
 import Readytomeet from "@/app/components/Readytomeet/page";
 import Footer from "@/app/components/Footer/page";
+import RelatedProfiles from "@/app/components/RelatedProfiles/page";
 
 export default function ProfileDetail() {
   const { id } = useParams();
@@ -297,7 +298,7 @@ export default function ProfileDetail() {
                   <span className="px-3 py-1 bg-E9E9E9 rounded-4">No hobbies added</span>
                 )}
               </div>
-
+<RelatedProfiles />
             </div>
             {/* ReadyToMeet */}
             <div className="">

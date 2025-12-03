@@ -389,47 +389,33 @@ body {
 
 .sidebar-wrapper {
     width: 280px;
-    /* Fixed width for the sidebar area */
     background-color: #ffffff;
-    /* White background for the entire sidebar */
     padding: 0;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
-    /* Subtle shadow on the right edge */
     border-radius: 10px;
-    /* Matches the rounded corners in the design */
     overflow: hidden;
-    /* Ensures contents stay within rounded corners */
+    height: 770px !important;
 }
 
 @media only screen and (min-width:768px) and (max-width:1024px) {
     .sidebar-wrapper {
         width: 185px;
-        /* Fixed width for the sidebar area */
         background-color: #ffffff;
-        /* White background for the entire sidebar */
         padding: 0;
         box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
-        /* Subtle shadow on the right edge */
         border-radius: 10px;
-        /* Matches the rounded corners in the design */
         overflow: hidden;
-        /* Ensures contents stay within rounded corners */
     }
 }
 
 @media only screen and (min-width:1025px) and (max-width:1280px) {
     .sidebar-wrapper {
         width: 250px;
-        /* Fixed width for the sidebar area */
         background-color: #ffffff;
-        /* White background for the entire sidebar */
         padding: 0;
         box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
-        /* Subtle shadow on the right edge */
         border-radius: 10px;
-        /* Matches the rounded corners in the design */
         overflow: hidden;
-        /* Ensures contents stay within rounded corners */
     }
 
 }
@@ -437,7 +423,6 @@ body {
 /* User Profile Section at the Top */
 .sidebar-profile {
     background-color: #e6f7ff;
-    /* Light blue background color */
     padding: 25px 20px;
     display: flex;
     flex-direction: column;
@@ -568,23 +553,11 @@ body {
     padding-bottom: 20px;
 }
 
-/* Inner Container for Sidebar and Content */
-/* Using 'container-fluid' will make it edge-to-edge but with internal padding */
-.dashboard-inner-content {
-    /* Max-width to control the overall design width, adjust as needed */
-    max-width: 1300px;
-    margin: 0 auto;
-}
 
 /* Styling for the content area *next* to the sidebar */
 .page-content-container {
-    /* background-color: #ffffff; */
-    /* White background for the main content block */
-    padding: 20px;
     border-radius: 10px;
-    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); */
     min-height: calc(100vh - 180px);
-    /* Adjust based on header/footer height */
 }
 
 /* Make sure the sidebar fills the height of its column */
@@ -1035,7 +1008,7 @@ body {
     border: none;
     border-radius: 10px;
     margin: 10px auto 0;
-    padding: 8px 80px;
+    padding: 8px 65px;
     font-weight: 500;
     text-decoration: none;
     transition: background-color .3s, transform .1s;

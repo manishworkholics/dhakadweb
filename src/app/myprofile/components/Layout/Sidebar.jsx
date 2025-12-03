@@ -120,6 +120,7 @@ export default function Sidebar() {
 
             <div className="sidebar-wrapper d-none d-lg-block d-md-block">
 
+                <img src="/dhakadweb/assets/images/sidebar.png" alt="" className='w-100 p-2'/>
                 {/* ... Sidebar User Card content ... */}
 
                 <nav className="sidebar-nav">

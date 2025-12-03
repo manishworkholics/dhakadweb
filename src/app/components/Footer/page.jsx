@@ -47,7 +47,7 @@ export default function Footer() {
                             </div>
                         </div>
                         <div className="col-12 col-md-6 col-lg-2 d-flex align-items-center justify-content-lg-start justify-content-md-start justify-content-center mb-lg-0 mb-md-0 mb-4">
-                            <img src="/dhakadweb/assets/images/sure 1.png" alt="" className="w-lg-100 w-md-100 w-50" />
+                            <img src="/dhakadweb/assets/images/sure 1.png" alt="" className="img-fluid w-sm-50 w-md-100 w-lg-100" />
                         </div>
                         <div className="col-12 col-md-6 col-lg-2 d-flex align-items-center">
                             <div className="social d-flex justify-content-lg-between justify-content-md-between justify-content-center w-100">

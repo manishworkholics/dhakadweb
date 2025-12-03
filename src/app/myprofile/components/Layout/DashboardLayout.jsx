@@ -23,13 +23,13 @@ export default function DashboardLayout({ children }) {
 
               {/* 2a. Left Column: Sidebar */}
               {/* This column holds the fixed navigation menu */}
-              <div className="col-md-3 mb-0">
+              <div className="col-md-3 mb-0 py-3">
                 <Sidebar />
               </div>
 
               {/* 2b. Right Column: Page Content */}
               {/* This column renders the specific page content (Dashboard, Profile, Interests, etc.) */}
-              <div className="col-md-9 py-3 px-4">
+              <div className="col-md-9 py-3">
                 <div className="page-content-container">
                   {children} {/* Renders the content of the current route/page */}
                 </div>

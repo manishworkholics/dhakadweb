@@ -39,12 +39,12 @@ export default function ViewProfileAll(){
                     </Link>
                   </div>
 
-                  <div className="text">
+                  <div className="text fw-bold">
                     <h4 style={{fontWeight:"bold"}}>Mohit and Sonam Bhardwaj</h4>
                     <h6>Posted on 27 Nov 2025</h6>
                     <p>
                       I met my perfect match through Bharata Matrimony.I
-                      was interested when <span style={{color:"red"}}>More...</span>
+                      was interested when <Link href="/components/details_success_stories" style={{color:"red"}} className="text-decoration-none">More...</Link>
                     </p>
                   </div>
                 </div>
