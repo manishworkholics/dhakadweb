@@ -6,12 +6,12 @@ const Header = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         if (token) setIsLoggedIn(true);
     }, []);
 
     const handleLogout = () => {
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         setIsLoggedIn(false);
         window.location.href = "/dhakadweb/login"; // redirect
     };

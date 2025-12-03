@@ -44,7 +44,7 @@ const sendotp = () => {
             });
             if (response?.data?.success) {
                 toast.success("OTP sent successfully!");
-                localStorage.setItem("phone", formData.phone);
+                sessionStorage.setItem("phone", formData.phone);
                 router.push("/enterotp");
             } else {
                 toast.error(response?.data?.message || "Failed to send OTP");

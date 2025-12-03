@@ -7,6 +7,52 @@ import Readytomeet from "../components/Readytomeet/page";
 import Footer from "../components/Footer/page";
 
 export default function Profile() {
+    const [token, setToken] = useState("");
+    const [user, setUser] = useState(null);
+
+    // Load storage only in browser
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const savedToken = sessionStorage.getItem("token");
+            const savedUser = sessionStorage.getItem("user");
+
+            if (savedToken) setToken(savedToken);
+            if (savedUser) setUser(JSON.parse(savedUser));
+        }
+    }, []);
+
+    const [filterOptions, setFilterOptions] = useState({
+        religions: [],
+        locations: [],
+        education: [],
+        occupations: []
+    });
+
+    const [page, setPage] = useState(1);
+    const limit = 10; // how many profiles per page
+
+    const [totalPages, setTotalPages] = useState(1);
+
+    const getFilterOptions = async () => {
+        try {
+            const res = await fetch("http://206.189.130.102:5000/api/profile/filters");
+            const result = await res.json();
+            if (result.success) setFilterOptions(result.filters);
+        } catch (err) {
+            console.log("Filter fetch error", err);
+        }
+    };
+
+    const [search, setSearch] = useState("");
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setFilters(prev => ({ ...prev, search }));
+        }, 400);
+
+        return () => clearTimeout(timeout);
+    }, [search]);
+
 
     const [filters, setFilters] = useState({
         gender: "",
@@ -22,18 +68,64 @@ export default function Profile() {
     const [data, setData] = useState([]);
 
     const getAllProfile = () => {
-        const query = new URLSearchParams(filters).toString();
+        const { age } = filters;
+        const ageObj = ageRangeToQuery(age);
+        const params = new URLSearchParams();
 
-        fetch(`http://206.189.130.102:5000/api/profile/profiles?${query}`)
+        Object.keys(filters).forEach((key) => {
+            if (!filters[key] || key === "age") return;
+            params.append(key, filters[key]);
+        });
+
+        if (ageObj.ageMin) params.append("ageMin", ageObj.ageMin);
+        if (ageObj.ageMax) params.append("ageMax", ageObj.ageMax);
+
+        // add pagination
+        params.append("userId", user?._id);
+
+        params.append("page", page);
+        params.append("limit", limit);
+
+        fetch(`http://206.189.130.102:5000/api/profile/profiles?${params.toString()}`)
             .then((res) => res.json())
-            .then((result) => setData(result.profiles))
+            .then((result) => {
+                setData(result?.profiles || []);
+                setTotalPages(Math.ceil((result?.total || 0) / limit));
+            })
             .catch((err) => console.log(err));
     };
 
 
+
+
+    useEffect(() => {
+        getFilterOptions();
+        getAllProfile();
+    }, []);
+
+    useEffect(() => {
+        setPage(1);
+    }, [filters]);
+
+
     useEffect(() => {
         getAllProfile();
-    }, [filters]);
+    }, [filters, page]);
+
+
+    const ageRangeToQuery = (ageRange) => {
+        // returns object { ageMin, ageMax } or null
+        if (!ageRange) return {};
+        const map = {
+            "18-25": { ageMin: 18, ageMax: 25 },
+            "26-30": { ageMin: 26, ageMax: 30 },
+            "31-35": { ageMin: 31, ageMax: 35 },
+            "36-40": { ageMin: 36, ageMax: 40 },
+            "41-50": { ageMin: 41, ageMax: 50 },
+            "50+": { ageMin: 51, ageMax: 100 }
+        };
+        return map[ageRange] || {};
+    };
 
 
     return (
@@ -56,38 +148,71 @@ export default function Profile() {
                                     <h6 className="mb-2 fw-normal">I am looking for</h6>
                                     <select
                                         className="form-select mb-3"
+                                        value={filters.gender}
                                         onChange={(e) => setFilters({ ...filters, gender: e.target.value })}
                                     >
                                         <option value="">Any</option>
-                                        <option value="Male">Men</option>
-                                        <option value="Female">Women</option>
+                                        <option value="male">Men</option>
+                                        <option value="female">Women</option>
                                     </select>
 
+
                                     <h6 className="mb-2 fw-normal">Age</h6>
-                                    <select className="form-select mb-3">
-                                        <option>18-30</option>
-                                        <option>31-45</option>
+                                    <select
+                                        className="form-select mb-3"
+                                        value={filters.age}
+                                        onChange={(e) => setFilters({ ...filters, age: e.target.value })}
+                                    >
+                                        <option value="">Any</option>
+                                        <option value="18-25">18 - 25</option>
+                                        <option value="26-30">26 - 30</option>
+                                        <option value="31-35">31 - 35</option>
+                                        <option value="36-40">36 - 40</option>
+                                        <option value="41-50">41 - 50</option>
+                                        <option value="50+">50+</option>
                                     </select>
+
+
                                     <h6 className="mb-2 fw-normal">Select Religion</h6>
-                                    <select className="form-select mb-3">
-                                        <option>Hindu</option>
-                                        <option>Sikh</option>
+                                    <select className="form-select mb-3"
+                                        onChange={(e) => setFilters({ ...filters, religion: e.target.value })}
+                                    >
+                                        <option value="">Any</option>
+                                        {filterOptions.religions.map((item, i) => (
+                                            <option key={i}>{item}</option>
+                                        ))}
                                     </select>
+
                                     <h6 className="mb-2 fw-normal">Location</h6>
-                                    <select className="form-select mb-3">
-                                        <option>Indore</option>
-                                        <option>Pune</option>
+                                    <select className="form-select mb-3"
+                                        onChange={(e) => setFilters({ ...filters, location: e.target.value })}
+                                    >
+                                        <option value="">Any</option>
+                                        {filterOptions.locations.map((item, i) => (
+                                            <option key={i}>{item}</option>
+                                        ))}
                                     </select>
+
                                     <h6 className="mb-2 fw-normal">Education</h6>
-                                    <select className="form-select mb-3">
-                                        <option>B.sc</option>
-                                        <option>MBA</option>
+                                    <select className="form-select mb-3"
+                                        onChange={(e) => setFilters({ ...filters, education: e.target.value })}
+                                    >
+                                        <option value="">Any</option>
+                                        {filterOptions.education.map((item, i) => (
+                                            <option key={i}>{item}</option>
+                                        ))}
                                     </select>
+
                                     <h6 className="mb-2 fw-normal">Profession</h6>
-                                    <select className="form-select mb-3">
-                                        <option>IT Profession</option>
-                                        <option>Businessman</option>
+                                    <select className="form-select mb-3"
+                                        onChange={(e) => setFilters({ ...filters, profession: e.target.value })}
+                                    >
+                                        <option value="">Any</option>
+                                        {filterOptions.occupations.map((item, i) => (
+                                            <option key={i}>{item}</option>
+                                        ))}
                                     </select>
+
                                     <div className="filter-btn">
                                         <button className="btn bg-D4AF37 text-white px-4 me-3 rounded-3">
                                             Apply
@@ -124,7 +249,13 @@ export default function Profile() {
                                 {/* Search */}
                                 <div className="col-12 col-lg-5 mb-2 mb-lg-0 mx-auto search">
                                     <form className="d-flex position-relative">
-                                        <input className="form-control" placeholder="Search" />
+                                        <input
+                                            className="form-control"
+                                            placeholder="Search"
+                                            value={search}
+                                            onChange={(e) => setSearch(e.target.value)}
+                                        />
+
                                         <button className="btn border-0 bg-transparent position-absolute top-0 end-0" type="submit">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
                                                 <path d="M10.0833 10.0833L12.75 12.75M0.75 6.08333C0.75 7.49782 1.3119 8.85438 2.3121 9.85457C3.31229 10.8548 4.66885 11.4167 6.08333 11.4167C7.49782 11.4167 8.85438 10.8548 9.85457 9.85457C10.8548 8.85438 11.4167 7.49782 11.4167 6.08333C11.4167 4.66885 10.8548 3.31229 9.85457 2.3121C8.85438 1.3119 7.49782 0.75 6.08333 0.75C4.66885 0.75 3.31229 1.3119 2.3121 2.3121C1.3119 3.31229 0.75 4.66885 0.75 6.08333Z" stroke="#686868" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -203,6 +334,30 @@ export default function Profile() {
                             </div>
 
                         </div>
+
+                        {/* Pagination */}
+                        <div className="d-flex justify-content-center my-4">
+                            <button
+                                className="btn btn-outline-dark mx-2"
+                                disabled={page === 1}
+                                onClick={() => setPage(prev => prev - 1)}
+                            >
+                                Previous
+                            </button>
+
+                            <span className="fw-bold mt-2">
+                                Page {page} of {totalPages}
+                            </span>
+
+                            <button
+                                className="btn btn-outline-dark mx-2"
+                                disabled={page === totalPages}
+                                onClick={() => setPage(prev => prev + 1)}
+                            >
+                                Next
+                            </button>
+                        </div>
+
 
                         {/* ReadyToMeet */}
                         <div className="">

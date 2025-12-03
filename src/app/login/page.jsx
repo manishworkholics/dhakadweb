@@ -10,14 +10,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 const Login = () => {
-     const router = useRouter();
+    const router = useRouter();
     const [formData, setFormData] = useState({
         email: "",
         password: "",
         // stayLoggedIn: false
     });
 
-      const handleChange = (e) => {
+    const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData({
             ...formData,
@@ -25,7 +25,7 @@ const Login = () => {
         });
     };
 
-     const validateForm = () => {
+    const validateForm = () => {
         if (!formData.email)
             return "Email is required";
 
@@ -35,40 +35,50 @@ const Login = () => {
             return "Invalid email address";
         if (!formData.password)
             return "Password is required";
-        if (formData.password.length < 6)
-            return "Password should be minimum 6 characters";
-    //     if (!formData.stayLoggedIn)
-    //         return "Please agree to the terms and conditions";
-    //     return null;
+        // if (formData.password.length < 6)
+        //     return "Password should be minimum 6 characters";
+        //     if (!formData.stayLoggedIn)
+        //         return "Please agree to the terms and conditions";
+        //     return null;
     };
 
-      const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
         const errorMessage = validateForm();
-        if (errorMessage) {
-            toast.error(errorMessage);
-            return;
-        }
+        if (errorMessage) return toast.error(errorMessage);
+
         try {
-            const response = await axios.post('http://206.189.130.102:5000/api/auth/email-login', {             
-                email: formData.email,
-                password: formData.password
-            });
+            const response = await axios.post(
+                "http://206.189.130.102:5000/api/auth/email-login",
+                {
+                    email: formData.email,
+                    password: formData.password,
+                }
+            );
+
             if (response?.data?.success) {
-                toast.success("Login Successful");
-                localStorage.setItem("token", response?.data?.token);
-                router.push("/registrationform");
+                toast.success("OTP sent to your email");
+
+                // TEMP token until email verified
+                sessionStorage.setItem("tempToken", response?.data?.token);
+                sessionStorage.setItem("email", formData.email);
+
+                setTimeout(() => {
+                    router.push("/enterotpmail");
+                }, 1000);
+
             } else {
                 toast.error(response?.data?.message || "Login Failed");
             }
         } catch (error) {
             toast.error(error?.response?.data?.message || "Login Failed!");
         }
-    }
+    };
 
     return (
         <div className='login-page bg-FDFBF7'>
-              <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+            <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
             <div className="">
                 <Header />
             </div>
