@@ -11,13 +11,28 @@ import Footer from "../components/Footer/page";
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 
 const HomePage = () => {
+    const [token, setToken] = useState("");
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const savedToken = sessionStorage.getItem("token");
+            const savedUser = sessionStorage.getItem("user");
+
+            if (savedToken) setToken(savedToken);
+            if (savedUser) setUser(JSON.parse(savedUser));
+            setLoading(false);
+        }
+    }, []);
+
     const router = useRouter();
-   
+
     const [formData, setFormData] = useState({
         createdfor: "",
         name: "",
@@ -28,7 +43,7 @@ const HomePage = () => {
     });
 
 
-   
+
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -114,7 +129,8 @@ const HomePage = () => {
         }
     }
 
-
+    if (loading) return null;
+    
     return (
         <div>
             <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
@@ -126,82 +142,87 @@ const HomePage = () => {
                     {/* Home-Banner-Section */}
                     <div className="home-banner position-relative">
                         <div className="container position-relative">
-                            <div className="position-absolute top-0 end-0 m-4 m-md-4 m-xl-5" style={{ zIndex: 11, width: "330px" }}>
-                                <div className="p-4 rounded-4 shadow-lg"
-                                    style={{ background: "rgba(0,0,0,0.55)" }}>
-                                    {/* Profile Dropdown */}
-                                    <div className="mb-lg-3 mb-md-3 mb-2">
-                                        <select className="form-select bg-dark border-white shadow-none text-white py-2" name="createdfor" value={formData.createdfor} onChange={handleChange}>
-                                            <option value="">Create Profile For</option>
-                                            <option value="self">Self</option>
-                                            <option value="son">Son</option>
-                                            <option value="daughter">Daughter</option>
-                                        </select>
-                                    </div>
 
-                                    {/* Name */}
-                                    <div className="mb-lg-3 mb-md-3 mb-2">
+                            <div className="position-absolute top-0 end-0 m-4 m-md-4 m-xl-5" style={{ zIndex: 11, width: "330px" }}>
+
+                                {!token ? (<>
+                                    <div className="p-4 rounded-4 shadow-lg"
+                                        style={{ background: "rgba(0,0,0,0.55)" }}>
+                                        {/* Profile Dropdown */}
+                                        <div className="mb-lg-3 mb-md-3 mb-2">
+                                            <select className="form-select bg-dark border-white shadow-none text-white py-2" name="createdfor" value={formData.createdfor} onChange={handleChange}>
+                                                <option value="">Create Profile For</option>
+                                                <option value="self">Self</option>
+                                                <option value="son">Son</option>
+                                                <option value="daughter">Daughter</option>
+                                            </select>
+                                        </div>
+
+                                        {/* Name */}
+                                        <div className="mb-lg-3 mb-md-3 mb-2">
+                                            <input
+                                                type="text"
+                                                name="name"
+                                                value={formData.name}
+                                                onChange={handleChange}
+                                                className="form-control bg-dark border-white shadow-none text-white py-2"
+                                                placeholder="Full Name"
+                                            />
+                                        </div>
+
+                                        {/* Email */}
+                                        <div className="mb-lg-3 mb-md-3 mb-2">
+                                            <input
+                                                type="email"
+                                                name="email"
+                                                value={formData.email}
+                                                onChange={handleChange}
+                                                className="form-control bg-dark border-white shadow-none text-white py-2"
+                                                placeholder="Email Address"
+                                            />
+                                        </div>
+
+                                        {/* Phone */}
                                         <input
                                             type="text"
-                                            name="name"
-                                            value={formData.name}
+                                            name="phone"
+                                            value={formData.phone}
                                             onChange={handleChange}
-                                            className="form-control bg-dark border-white shadow-none text-white py-2"
-                                            placeholder="Full Name"
+                                            className="form-control bg-dark border-white shadow-none text-white py-2 mb-lg-3 mb-md-3 mb-2"
+                                            placeholder="Mobile No."
                                         />
+
+                                        {/* Password */}
+                                        <div className="mb-lg-3 mb-md-3 mb-2 position-relative">
+                                            <input
+                                                type="password"
+                                                name="password"
+                                                value={formData.password}
+                                                onChange={handleChange}
+                                                className="form-control bg-dark text-white border-white shadow-none py-2"
+                                                placeholder="Create Password"
+                                            />
+                                        </div>
+
+                                        {/* Checkbox */}
+                                        <div className="form-check mb-lg-3 mb-md-3 mb-2">
+                                            <input className="form-check-input" type="checkbox" name="agree" checked={formData.agree} onChange={handleChange} id="agree" />
+                                            <label className="form-check-label text-white" htmlFor="agree">
+                                                Agree terms and conditions
+                                            </label>
+                                        </div>
+
+                                        {/* Button */}
+                                        <button className="btn btn-warning w-100 py-2 fw-semibold" onClick={handleSubmit}>
+                                            Registration
+                                        </button>
+
+                                        <p className="small text-white mt-lg-3 mt-md-3 mt-2 mb-0">
+                                            By clicking register free, you confirm that you accept the terms use and Privacy Policy
+                                        </p>
                                     </div>
+                                </>) : ('')}
 
-                                    {/* Email */}
-                                    <div className="mb-lg-3 mb-md-3 mb-2">
-                                        <input
-                                            type="email"
-                                            name="email"
-                                            value={formData.email}
-                                            onChange={handleChange}
-                                            className="form-control bg-dark border-white shadow-none text-white py-2"
-                                            placeholder="Email Address"
-                                        />
-                                    </div>
-
-                                    {/* Phone */}
-                                    <input
-                                        type="text"
-                                        name="phone"
-                                        value={formData.phone}
-                                        onChange={handleChange}
-                                        className="form-control bg-dark border-white shadow-none text-white py-2 mb-lg-3 mb-md-3 mb-2"
-                                        placeholder="Mobile No."
-                                    />
-
-                                    {/* Password */}
-                                    <div className="mb-lg-3 mb-md-3 mb-2 position-relative">
-                                        <input
-                                            type="password"
-                                            name="password"
-                                            value={formData.password}
-                                            onChange={handleChange}
-                                            className="form-control bg-dark text-white border-white shadow-none py-2"
-                                            placeholder="Create Password"
-                                        />
-                                    </div>
-
-                                    {/* Checkbox */}
-                                    <div className="form-check mb-lg-3 mb-md-3 mb-2">
-                                        <input className="form-check-input" type="checkbox" name="agree" checked={formData.agree} onChange={handleChange} id="agree" />
-                                        <label className="form-check-label text-white" htmlFor="agree">
-                                            Agree terms and conditions
-                                        </label>
-                                    </div>
-
-                                    {/* Button */}
-                                    <button className="btn btn-warning w-100 py-2 fw-semibold" onClick={handleSubmit}>
-                                        Registration
-                                    </button>
-
-                                    <p className="small text-white mt-lg-3 mt-md-3 mt-2 mb-0">
-                                        By clicking register free, you confirm that you accept the terms use and Privacy Policy
-                                    </p>
-                                </div>
 
                             </div>
                         </div>

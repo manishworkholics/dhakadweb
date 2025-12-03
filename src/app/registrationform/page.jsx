@@ -34,7 +34,7 @@ const RegistrationForm = () => {
         email: user?.email,
         location: "",
         password: "",
-
+        gender: "",
         // Step 2
         height: "",
         physicalStatus: "Normal",
@@ -259,6 +259,21 @@ const RegistrationForm = () => {
                                                             readOnly
                                                         />
 
+                                                    </div>
+
+                                                    <div className="mb-3">
+                                                        <label className="form-label">Gender</label>
+                                                        <select
+                                                            name="gender"
+                                                            className="form-select"
+                                                            value={formData.gender}
+                                                            onChange={handleChange}
+                                                        >
+                                                            <option value="">Select</option>
+                                                            <option value="male">Male</option>
+                                                            <option value="female">Female</option>
+
+                                                        </select>
                                                     </div>
 
                                                     <div className="mb-3">

@@ -195,7 +195,7 @@ export default function ProfilePage() {
     const fetchProfile = async () => {
         try {
             const res = await fetch(
-                `http://206.189.130.102:5000/api/profile/${userId}`
+                `http://206.189.130.102:5000/api/profile/own-profile/${userId}`
             );
             const data = await res.json();
             setProfile(data.profile);
@@ -236,7 +236,7 @@ export default function ProfilePage() {
             if (data?.url) {
                 const updatedPhotos = [...profile.photos, data.url];
 
-                await fetch(`http://206.189.130.102:5000/api/profile/${userId}`, {
+                await fetch(`http://206.189.130.102:5000/api/profile/own-profile/${userId}`, {
                     // method: "PUT",
                     // headers: {
                     //     "Content-Type": "application/json",
