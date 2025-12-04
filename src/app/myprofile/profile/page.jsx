@@ -261,7 +261,7 @@ export default function ProfilePage() {
         return Math.abs(new Date(diff).getUTCFullYear() - 1970);
     };
 
-    if (!profile) return <p className="text-center mt-5">Loading profile...</p>;
+    // if (!profile) return <p className="text-center mt-5">Loading profile...</p>;
 
     return (
         <DashboardLayout>
@@ -270,11 +270,11 @@ export default function ProfilePage() {
                 {/* HEADER */}
                 <div className="profile-header-status-grid">
                     <div className="profile-photo-column">
-                        <img
+                        {/* <img
                             src={profile.photos?.[0] || "/no-image.png"}
                             alt={profile?.name}
                             className="main-profile-photo"
-                        />
+                        /> */}
                         <label className="add-photo-btn" style={{ cursor: "pointer" }}>
                             Add/Edit Photo
                             <input type="file" hidden accept="image/*" onChange={handlePhotoUpload} />
@@ -330,7 +330,7 @@ export default function ProfilePage() {
                             gap: "10px",
                             marginTop: "12px",
                         }}>
-                        {profile.photos?.map((img, i) => (
+                        {profile?.photos?.map((img, i) => (
                             <img
                                 key={i}
                                 src={img}
