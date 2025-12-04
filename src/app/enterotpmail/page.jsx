@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import Header from '../components/Header/Page'
 import Link from 'next/link'
 import axios from "axios";
@@ -12,6 +12,23 @@ import { useRouter } from 'next/navigation';
 const enterotpmail = () => {
     const router = useRouter();
     const [otp, setOtp] = useState(["", "", "", ""]);
+
+    const [token, setToken] = useState("");
+    const [user, setUser] = useState(null);
+    const [saveotp, setSaveotp] = useState(null);
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const savedToken = sessionStorage.getItem("token");
+            const savedUser = sessionStorage.getItem("user");
+            const savedOtp = sessionStorage.getItem("otp");
+
+            if (savedToken) setToken(savedToken);
+            if (savedUser) setUser(JSON.parse(savedUser));
+            if (savedOtp) setSaveotp(JSON.parse(savedOtp));
+        }
+    }, []);
+
 
     const inputRefs = Array(4)
         .fill(0)
@@ -97,7 +114,7 @@ const enterotpmail = () => {
                                     <div className="login-form">
                                         <div className="text-center">
                                             <img src="/dhakadweb/assets/images/otp-icon.png" alt="" className="mb-4" />
-                                            <h6 className='text-center mb-4 fw-medium'> Please enter 4-digit OTP   </h6>
+                                            <h6 className='text-center mb-4 fw-medium'> Please enter 4-digit OTP <span className='text-danger'>{saveotp}</span>   </h6>
                                         </div>
                                         <form onSubmit={handleVerify}>
                                             <div className="mb-3">
@@ -119,6 +136,7 @@ const enterotpmail = () => {
                                                         onClick={async () => {
                                                             try {
                                                                 const res = await axios.post("http://206.189.130.102:5000/api/auth/resend-email-otp", { email: sessionStorage.getItem("email") });
+                                                                setSaveotp(res?.data?.debugOtp)
                                                                 toast.success("OTP resent to your email");
                                                             } catch (err) {
                                                                 toast.error("Failed to resend OTP");

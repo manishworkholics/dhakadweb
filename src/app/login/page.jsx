@@ -63,6 +63,7 @@ const Login = () => {
                 // TEMP token until email verified
                 sessionStorage.setItem("tempToken", response?.data?.token);
                 sessionStorage.setItem("email", formData.email);
+                sessionStorage.setItem("otp", response?.data?.debugOtp);
 
                 setTimeout(() => {
                     router.push("/enterotpmail");

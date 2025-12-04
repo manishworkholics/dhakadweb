@@ -22,9 +22,34 @@ const RegistrationForm = () => {
             if (savedUser) setUser(JSON.parse(savedUser));
         }
     }, []);
+
     const [step, setStep] = useState(1);
     const [submitted, setSubmitted] = useState(false);
     const [profileExists, setProfileExists] = useState(false);
+
+
+
+    const requiredFields = [
+        "name",
+        "gender",
+        "dob",
+        "motherTongue",
+        "location",
+        "height",
+        "physicalStatus",
+        "maritalStatus",
+        "religion",
+        "cast",
+        "subCast",
+        "gotra",
+        "education",
+        "employmentType",
+        "occupation",
+        "annualIncome",
+        "familyStatus",
+        "diet",
+        "aboutYourself",
+    ];
 
     const [formData, setFormData] = useState({
         // Step 1
@@ -34,7 +59,7 @@ const RegistrationForm = () => {
         email: user?.email,
         location: "",
         password: "",
-
+        gender: "",
         // Step 2
         height: "",
         physicalStatus: "Normal",
@@ -74,6 +99,11 @@ const RegistrationForm = () => {
     const [introVideo, setIntroVideo] = useState(null); // file object
     const [uploading, setUploading] = useState(false);
 
+    const [profileComplete, setProfileComplete] = useState(false);
+
+
+
+
     useEffect(() => {
         if (!token) return;
 
@@ -82,7 +112,47 @@ const RegistrationForm = () => {
                 const res = await axios.get("http://206.189.130.102:5000/api/profile/me", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-                if (res.data?.profile) setProfileExists(true);
+
+                if (res.data?.profile) {
+                    setProfileExists(true);
+
+                    // Map backend fields to frontend fields
+                    const profile = res.data.profile;
+
+                    setFormData(prev => ({
+                        ...prev,
+                        name: profile.name || "",
+                        dob: profile.dob || "",
+                        motherTongue: profile.motherTongue || "",
+                        location: profile.location || "",
+                        gender: profile.gender || "",
+                        height: profile.height || "",
+                        physicalStatus: profile.physicalStatus || "Normal",
+                        maritalStatus: profile.maritalStatus || "Never married",
+                        religion: profile.religion || "",
+                        cast: profile.caste || "",         // map
+                        subCast: profile.subCaste || "",   // map
+                        gotra: profile.gotra || "",
+                        education: profile.educationDetails || "", // map
+                        employmentType: profile.employmentType || "",
+                        occupation: profile.occupation || "",
+                        annualIncome: profile.annualIncome || "",
+                        familyStatus: profile.familyStatus || "Middle class",
+                        diet: profile.diet || "Veg",
+                        aboutYourself: profile.aboutYourself || "",
+                        photos: profile.photos || [],
+                        introVideo: profile.introVideo || ""
+                    }));
+
+                    const missing = requiredFields.filter(field => {
+                        const value = formData[field]; // <-- formData ke against check karo
+                        return value === undefined || value === null || value === "" || (Array.isArray(value) && value.length === 0);
+                    });
+
+
+                    setProfileComplete(missing.length === 0);
+
+                }
             } catch (err) {
                 console.log("No profile found:", err?.response?.data);
             }
@@ -161,9 +231,13 @@ const RegistrationForm = () => {
 
             const payload = {
                 ...formData,
+                caste: formData.cast,
+                subCaste: formData.subCast,
+                educationDetails: formData.education,
                 photos: photo ? [photo] : [],
                 introVideo: finalVideoLink || "",
             };
+
 
             const res = await axios.post(
                 "http://206.189.130.102:5000/api/profile/create",
@@ -173,7 +247,7 @@ const RegistrationForm = () => {
                 }
             );
 
-            toast.success("Profile created successfully");
+            toast.success("Profile updated successfully");
             setSubmitted(true);
             // optional redirect after slight delay
             setTimeout(() => router.push("/"), 1200);
@@ -192,6 +266,35 @@ const RegistrationForm = () => {
         if (token === "") return;
         if (!token) router.replace("/login");
     }, [token]);
+
+    const goToIncompleteStep = () => {
+        if (!formData) return;
+
+        // Show the form
+        setProfileExists(false);
+
+        if (!formData.name || !formData.gender || !formData.location || !formData.dob) {
+            return setStep(1);
+        }
+
+        if (!formData.height || !formData.religion || !formData.cast || !formData.gotra) {
+            return setStep(2);
+        }
+
+        if (!formData.education || !formData.occupation || !formData.annualIncome) {
+            return setStep(3);
+        }
+
+        if (!formData.familyStatus || !formData.diet || !formData.aboutYourself) {
+            return setStep(4);
+        }
+
+        // Default to step 1
+        setStep(1);
+    };
+
+
+
 
 
     // UI: render step forms — using your original fields exactly
@@ -232,16 +335,30 @@ const RegistrationForm = () => {
 
                                     {/* Skip notice when profile exists */}
                                     {profileExists && (
-                                        <div className="alert alert-info text-center">
-                                            🎉 Your profile is already completed.
-                                            <button
-                                                className="btn btn-success ms-3"
-                                                onClick={() => router.push("/")}
-                                            >
-                                                Skip & Go to Dashboard
-                                            </button>
+                                        <div className={`alert ${profileComplete ? "alert-success" : "alert-warning"} text-center`}>
+                                            {profileComplete ? (
+                                                <>
+                                                    🎉 Your profile is complete!
+                                                    <button className="btn btn-success ms-3" onClick={() => router.push("/")}>
+                                                        Go to Dashboard
+                                                    </button>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    ⚠️ Your profile is incomplete. Please complete remaining fields.
+                                                    <button className="btn btn-secondary ms-3" onClick={goToIncompleteStep}>
+                                                        Continue Editing
+                                                    </button>
+
+                                                    <button className="btn btn-outline-primary ms-2" onClick={() => router.push("/")}>
+                                                        Skip for Now
+                                                    </button>
+                                                </>
+                                            )}
                                         </div>
                                     )}
+
+
 
                                     {/* SHOW FORM only when profile does NOT exist */}
                                     {!profileExists && (
@@ -259,6 +376,21 @@ const RegistrationForm = () => {
                                                             readOnly
                                                         />
 
+                                                    </div>
+
+                                                    <div className="mb-3">
+                                                        <label className="form-label">Gender</label>
+                                                        <select
+                                                            name="gender"
+                                                            className="form-select"
+                                                            value={formData.gender}
+                                                            onChange={handleChange}
+                                                        >
+                                                            <option value="">Select</option>
+                                                            <option value="male">Male</option>
+                                                            <option value="female">Female</option>
+
+                                                        </select>
                                                     </div>
 
                                                     <div className="mb-3">

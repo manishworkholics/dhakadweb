@@ -18,19 +18,19 @@ const RequestListItem = ({ profile, type }) => (
         <div className="profile-image-col">
             <img src={profile.image} alt={profile.name} className="request-profile-image" />
         </div>
-        
+
         <div className="profile-details-col">
             <h5 className="request-profile-name">{profile.name}</h5>
-            
+
             <p className="request-meta-info">
-                <span className="meta-item">City: **{profile.city}**</span> | 
-                <span className="meta-item">Age: **{profile.age} Yrs**</span> | 
+                <span className="meta-item">City: **{profile.city}**</span> |
+                <span className="meta-item">Age: **{profile.age} Yrs**</span> |
                 <span className="meta-item">Job: **{profile.job}**</span>
             </p>
             <p className="request-meta-info request-time">
-                 Request On: **{profile.requestTime}**
+                Request On: **{profile.requestTime}**
             </p>
-            
+
             <button className="btn btn-sm btn-outline-secondary">View full profile</button>
         </div>
 
@@ -49,12 +49,12 @@ const RequestListItem = ({ profile, type }) => (
 
 export default function InterestsPage() {
     // Note: Tabs updated to match the Figma image: New requests, Accept request, Deny request
-    const [activeTab, setActiveTab] = useState('new'); 
+    const [activeTab, setActiveTab] = useState('new');
 
     // Mock data for accepted/denied lists (using subsets of mockRequests for demonstration)
     const acceptedRequests = mockRequests.slice(0, 2);
     const deniedRequests = mockRequests.slice(2);
-    
+
     let currentProfiles = [];
     if (activeTab === 'new') currentProfiles = mockRequests;
     if (activeTab === 'accepted') currentProfiles = acceptedRequests;
@@ -68,23 +68,23 @@ export default function InterestsPage() {
 
                 {/* Tab Navigation (Customized to Figma text) */}
                 <div className="interests-tabs-custom">
-                    <button 
+                    <button
                         className={`tab-button ${activeTab === 'new' ? 'active' : ''}`}
                         onClick={() => setActiveTab('new')}
                     >
                         New requests
                     </button>
-                    <button 
+                    <button
                         className={`tab-button ${activeTab === 'accepted' ? 'active' : ''}`}
                         onClick={() => setActiveTab('accepted')}
                     >
                         Accept request
                     </button>
-                    <button 
+                    <button
                         className={`tab-button ${activeTab === 'denied' ? 'active' : ''}`}
                         onClick={() => setActiveTab('denied')}
                     >
-                        Denay request
+                        Deny request
                     </button>
                 </div>
 
