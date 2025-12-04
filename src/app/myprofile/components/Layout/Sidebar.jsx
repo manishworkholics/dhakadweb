@@ -69,7 +69,7 @@ const navItems = [
     },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ data }) {
 
     // 2. Use the Next.js usePathname hook to get the current route
     const currentPath = usePathname();
@@ -92,6 +92,8 @@ export default function Sidebar() {
         setIsLoggedIn(false);
         window.location.href = "/dhakadweb/login"; // redirect
     };
+
+
 
     return (
         <>
@@ -120,7 +122,10 @@ export default function Sidebar() {
 
             <div className="sidebar-wrapper d-none d-lg-block d-md-block">
 
-                <img src="/dhakadweb/assets/images/sidebar.png" alt="" className='w-100 p-2'/>
+                {/* <img src="/dhakadweb/assets/images/no-img.jpg" alt="" className='w-100 p-2' /> */}
+
+                <img src={data?.photos?.[0]} alt="" className='w-100 p-2' />
+
                 {/* ... Sidebar User Card content ... */}
 
                 <nav className="sidebar-nav">

@@ -14,6 +14,20 @@ export default function FeaturesProfile() {
 
     const [profiles, setProfiles] = useState([]);
 
+    const [token, setToken] = useState("");
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const savedToken = sessionStorage.getItem("token");
+            const savedUser = sessionStorage.getItem("user");
+
+            if (savedToken) setToken(savedToken);
+            if (savedUser) setUser(JSON.parse(savedUser));
+
+        }
+    }, []);
+
     // ---- FETCH FEATURED PROFILES ----
     useEffect(() => {
         const fetchProfiles = async () => {
@@ -111,9 +125,29 @@ export default function FeaturesProfile() {
                                 <p className="text-muted">{item.location}</p>
 
                                 {/* VIEW PROFILE BUTTON */}
-                                <Link href={`/profiledetail/${item._id}`} className="btn btn-outline-danger btn-sm">
-                                    View Profile
-                                </Link>
+
+                                {!token ? (
+                                    <Link
+                                        href="#"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            alert("⚠️ Please login first!");
+                                        }}
+                                        className="btn btn-outline-danger btn-sm"
+                                    >
+                                        View Profile
+                                    </Link>
+                                ) : (
+                                    <Link
+                                        href={`/profiledetail/${item._id}`}
+                                        className="btn btn-outline-danger btn-sm"
+                                    >
+                                        View Profile
+                                    </Link>
+                                )}
+
+
+
                             </div>
                         </SwiperSlide>
                     ))}

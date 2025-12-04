@@ -6,10 +6,10 @@ import React from 'react';
 
 export default function ProfileCard({ data }) {
     // Destructure properties from the data prop
-    const { name, location, image } = data;
+    const { name, location, photos } = data;
 
     // Fallback image if data is missing
-    const profileImage = image || '/path/to/default-profile.jpg';
+    const profileImage = photos?.[0] || '/dhakadweb/assets/images/no-img.jpg';
 
     return (
         <div className="profile-card">

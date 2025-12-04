@@ -270,11 +270,11 @@ export default function ProfilePage() {
                 {/* HEADER */}
                 <div className="profile-header-status-grid">
                     <div className="profile-photo-column">
-                        {/* <img
-                            src={profile.photos?.[0] || "/no-image.png"}
+                        <img
+                            src={profile?.photos?.[0] }
                             alt={profile?.name}
                             className="main-profile-photo"
-                        /> */}
+                        />
                         <label className="add-photo-btn" style={{ cursor: "pointer" }}>
                             Add/Edit Photo
                             <input type="file" hidden accept="image/*" onChange={handlePhotoUpload} />
