@@ -4,86 +4,40 @@
 import React from 'react';
 import DashboardLayout from "../components/Layout/DashboardLayout";
 
-// --- Mock Data ---
-const mockNotifications = [
-    { 
-        id: 1, 
-        type: "interest", 
-        message: "Neha Dhakad has expressed interest in your profile.", 
-        time: "1 hour ago", 
-        link: "/myprofile/interests" 
-    },
-    { 
-        id: 2, 
-        type: "message", 
-        message: "You received a new message from Muskan Dhakad.", 
-        time: "3 hours ago", 
-        link: "/myprofile/chatlist" 
-    },
-    { 
-        id: 3, 
-        type: "view", 
-        message: "Your profile was viewed by a Gold Member today.", 
-        time: "Yesterday", 
-        link: "/myprofile/profile-views" 
-    },
-    { 
-        id: 4, 
-        type: "plan", 
-        message: "Your premium subscription has been successfully renewed.", 
-        time: "2 days ago", 
-        link: "/myprofile/plan" 
-    },
-    { 
-        id: 5, 
-        type: "interest", 
-        message: "Priya Dhakad sent you a connection request.", 
-        time: "1 week ago", 
-        link: "/myprofile/interests" 
-    },
-];
 
-// Helper function to get an icon based on notification type
-const getIcon = (type) => {
-    switch (type) {
-        case 'interest': return '❤️';
-        case 'message': return '✉️';
-        case 'view': return '👁️';
-        case 'plan': return '✨';
-        default: return 'ℹ️';
-    }
-};
+
+
 
 export default function NotificationPage() {
     return (
         <DashboardLayout>
             <div className="notification-page-content">
-                <h2 className="page-header-title">Notifications</h2>
-
-                <div className="notification-list">
-                    {mockNotifications.map(notification => (
-                        <a 
-                            key={notification.id} 
-                            href={notification.link} 
-                            className={`notification-item ${notification.type}`}
-                        >
-                            <div className="notification-icon-wrapper">
-                                <span className="notification-icon">{getIcon(notification.type)}</span>
+                <h3 className="page-header-title">Today</h3>
+                <div className="row">
+                    <div className="col-lg-6 col-md-6 col-12">
+                        <div className="card p-2">
+                            <div className="row">
+                                <div className="col-8">
+                                    <div className="image-text d-flex align-items-center">
+                                        <div className="image" >
+                                            <img src="/dhakadweb/assets/images/muskan.png" alt=""  style={{height:"70px", width:"70px", objectFit:"cover"}} className='rounded-circle'/>
+                                        </div>
+                                        <div className="text">
+                                            <h6 className='fw-semibold mb-0'>Muskan Dhakad</h6>
+                                            <p className='mb-0'>Viewed your profile</p>
+                                            <p className='mb-0'>42 min</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-4"></div>
                             </div>
-                            <div className="notification-details">
-                                <p className="notification-message">{notification.message}</p>
-                                <span className="notification-time">{notification.time}</span>
-                            </div>
-                            <span className="go-to-arrow">&gt;</span>
-                        </a>
-                    ))}
-                </div>
-                
-                {mockNotifications.length === 0 && (
-                    <div className="no-notifications-message">
-                        <p>You currently have no new notifications.</p>
+                        </div>
                     </div>
-                )}
+                    <div className="col-lg-6 col-md-6 col-12"></div>
+
+                </div>
+
+
             </div>
         </DashboardLayout>
     );

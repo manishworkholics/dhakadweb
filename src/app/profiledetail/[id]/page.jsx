@@ -13,56 +13,42 @@ export default function ProfileDetail() {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // const getProfile = async () => {
-  //   try {
-  //     const res = await fetch(`http://206.189.130.102:5000/api/profile/${id}`);
-  //     const data = await res.json();
-  //     setProfile(data.profile);
-  //     setLoading(false);
-  //   } catch (error) {
-  //     console.log(error);
-  //     setLoading(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getProfile();
-  // }, [id]);
-
+  const [isShortlisted, setIsShortlisted] = useState(false);
+  const [interestSent, setInterestSent] = useState(false);
 
   useEffect(() => {
-  const getProfile = async () => {
-    try {
-      const res = await fetch(`http://206.189.130.102:5000/api/profile/${id}`, {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("token")}` // or your auth token
-        }
-      });
-      const data = await res.json();
-      setProfile(data.profile);
-      setLoading(false);
-
-      // ✅ Mark profile as viewed (only if not own profile)
-      const userId = sessionStorage.getItem("userId"); // or from context
-      if (data.profile._id !== userId) {
-        await fetch(`http://206.189.130.102:5000/api/viewed/view/${data.profile._id}`, {
-          method: "POST",
+    const getProfile = async () => {
+      try {
+        const res = await fetch(`http://206.189.130.102:5000/api/profile/${id}`, {
           headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            Authorization: `Bearer ${sessionStorage.getItem("token")}` // or your auth token
           }
         });
-        console.log("Profile marked as viewed");
+        const data = await res.json();
+        setProfile(data.profile);
+        setLoading(false);
+
+        // ✅ Mark profile as viewed (only if not own profile)
+        const userId = sessionStorage.getItem("userId"); // or from context
+        if (data.profile._id !== userId) {
+          await fetch(`http://206.189.130.102:5000/api/viewed/view/${data.profile._id}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            }
+          });
+          console.log("Profile marked as viewed");
+        }
+
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
       }
+    };
 
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
-  };
-
-  getProfile();
-}, [id]);
+    getProfile();
+  }, [id]);
 
 
   if (loading) {
@@ -86,6 +72,88 @@ export default function ProfileDetail() {
   const gallery = profile.photos?.length ? profile.photos : [];
   const age = profile.dob ? new Date().getFullYear() - new Date(profile.dob).getFullYear() : "N/A";
 
+
+  // 🚀 SEND INTEREST
+  const sendInterestRequest = async () => {
+    try {
+      const token = sessionStorage.getItem("token");
+
+      const res = await fetch(`http://206.189.130.102:5000/api/interest/request/send`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ receiverId: profile._id }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setInterestSent(true);
+        alert("Interest sent successfully!");
+      } else {
+        alert(data.message);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to send interest");
+    }
+  };
+
+
+  // ⭐ CHECK SHORTLIST STATE WHEN OPENING PROFILE
+  const checkShortlistStatus = async () => {
+    try {
+      const token = sessionStorage.getItem("token");
+
+      const res = await fetch(`http://206.189.130.102:5000/api/shortlist/`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        const exists = result.shortlist.some(item => item.profile._id === profile._id);
+        setIsShortlisted(exists);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  // ⭐ TOGGLE SHORTLIST
+  const toggleShortlist = async () => {
+    try {
+      const token = sessionStorage.getItem("token");
+
+      if (isShortlisted) {
+        await fetch(`http://206.189.130.102:5000/api/shortlist/${profile._id}`, {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        setIsShortlisted(false);
+        alert("Removed from shortlist");
+      } else {
+        await fetch(`http://206.189.130.102:5000/api/shortlist/${profile._id}`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        setIsShortlisted(true);
+        alert("Added to shortlist");
+      }
+
+    } catch (error) {
+      console.log(error);
+      alert("Something went wrong");
+    }
+  };
+
+
+
+
   return (
     <main>
       <Header />
@@ -103,20 +171,49 @@ export default function ProfileDetail() {
             {/* LEFT SIDE — IMAGE */}
             <div className="col-md-4 px-3">
               <div className="row card rounded-3">
-                <div className="p-0" style={{height:"550px"}}>
+                <div className="p-0" style={{ height: "550px" }}>
                   <img src={image || "/dhakadweb/assets/images/priya.png"} className="card-img-top h-100 w-100" alt={profile.name} />
                 </div>
                 <div className="col-12">
                   <div className="row btn-bottom">
-                    <Link href="/" className="col-4 btn bg-danger text-white fw-medium rounded-top-0 rounded-end-0 py-3" style={{ fontSize: "15px" }}>
+                    {/* <Link href="/" className="col-4 btn bg-danger text-white fw-medium rounded-top-0 rounded-end-0 py-3" style={{ fontSize: "15px" }}>
                       Chat Now
-                    </Link>
-                    <Link href="/" className="col-4 btn text-white fw-medium rounded-0 bg-D4AF37 py-3" style={{ fontSize: "15px" }}>
-                      Send Interest
-                    </Link>
-                    <button className="col-4 btn text-black fw-medium rounded-top-0 rounded-start-0 bg-E3E3E3 py-3" style={{ fontSize: "15px" }}>
-                      Add Shortlist
-                    </button>
+                    </Link> */}
+                    {/* ACTION BUTTONS */}
+                    <div className="col-12">
+                      <div className="row btn-bottom">
+
+                        {/* Chat Now */}
+                        <button
+                          className="col-4 btn bg-danger text-white fw-medium rounded-top-0 rounded-end-0 py-3"
+                          style={{ fontSize: "15px" }}
+                        >
+                          Chat Now
+                        </button>
+
+                        {/* Send Interest */}
+                        <button
+                          onClick={sendInterestRequest}
+                          className="col-4 btn text-white fw-medium rounded-0 bg-D4AF37 py-3"
+                          style={{ fontSize: "15px" }}
+                          disabled={interestSent}
+                        >
+                          {interestSent ? "Interest Sent ✓" : "Send Interest"}
+                        </button>
+
+                        {/* Shortlist Toggle */}
+                        <button
+                          onClick={toggleShortlist}
+                          className={`col-4 btn fw-medium rounded-top-0 rounded-start-0 py-3 
+                          ${isShortlisted ? "bg-danger text-white" : "bg-E3E3E3 text-black"}`}
+                          style={{ fontSize: "15px" }}
+                        >
+                          {isShortlisted ? "Remove Shortlist" : "Add Shortlist"}
+                        </button>
+
+                      </div>
+                    </div>
+
                   </div>
                 </div>
               </div>

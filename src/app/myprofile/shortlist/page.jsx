@@ -1,119 +1,138 @@
-// myprofile/interests/page.jsx
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import DashboardLayout from "../components/Layout/DashboardLayout";
-import Link from 'next/link';
+import Link from "next/link";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-// --- Mock Data ---
-const mockRequests = [
-    { id: 101, name: "Muskan Dhakad", city: "Indore, MP", age: 21, job: "Working", requestTime: "10:30AM, 18 May 2025", image: "https://images.pexels.com/photos/1580271/pexels-photo-1580271.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" },
-    { id: 102, name: "Muskan Dhakad", city: "Indore, MP", age: 21, job: "Working", requestTime: "10:30AM, 18 May 2025", image: "https://images.pexels.com/photos/1580271/pexels-photo-1580271.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" },
-    { id: 103, name: "Muskan Dhakad", city: "Indore, MP", age: 21, job: "Working", requestTime: "10:30AM, 18 May 2025", image: "https://images.pexels.com/photos/1580271/pexels-photo-1580271.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" },
-    { id: 104, name: "Muskan Dhakad", city: "Indore, MP", age: 21, job: "Working", requestTime: "10:30AM, 18 May 2025", image: "https://images.pexels.com/photos/1580271/pexels-photo-1580271.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" },
-];
+// --- API Base URL ---
+const API_URL = "http://206.189.130.102:5000/api";
 
-// --- Custom Styles (Pink accent color) ---
-const PINK_COLOR = '#e91e63';
-
-// --- Sub-Component: Request List Item (Unchanged from previous step) ---
-const RequestListItem = ({ profile, type }) => {
-    const showActions = type === 'new';
+// --- Sub-Component: Shortlisted User Card ---
+const ShortListItem = ({ profile, onRemove }) => {
     return (
-        <div key={profile.id} className="align-items-start py-3 border-bottom row">
+        <div className="align-items-start py-3 border-bottom row">
             <div className="col-lg-3 col-md-3 col-6">
                 <div className="interest-image w-100 d-flex align-items-center justify-content-center" style={{ height: "200px", overflow:'hidden' }}>
                     <img
-                        src={profile.image}
-                        alt={profile.name}
+                        src={profile?.profile?.photos?.[0] || "/dhakadweb/assets/images/default-profile.png"}
+                        alt={profile?.profile?.name}
                         className="rounded w-100 h-100"
-                        style={{ objectFit: 'cover' }}
+                        style={{ objectFit: "cover" }}
                     />
                 </div>
             </div>
 
             <div className="col-lg-6 col-md-6 col-6">
-                <h5 className="mb-1 fw-semibold text-dark">{profile.name}</h5>
-                <p className="text-muted small mb-1">
-                    City: <strong className="text-dark me-3">{profile.city}</strong> &bull;
-                    Age: <strong className="text-dark me-3">{profile.age} Yrs</strong> &bull;
-                    Job: <strong className="text-dark">{profile.job}</strong>
-                </p>
-                <p className="text-muted small mb-2">
-                    Request On: <strong className="text-dark">{profile.requestTime}</strong>
+                <h4 className="mb-2 fw-semibold text-dark">{profile?.profile?.name}</h4>
+                <p className="text-muted small mb-4">
+                    City: <strong className="text-dark me-3">{profile?.profile?.location || "N/A"}</strong> &bull;
+                    Age:{" "}
+                    <strong className="text-dark me-3">
+                        {profile?.profile?.dob
+                            ? new Date().getFullYear() -
+                            new Date(profile?.profile?.dob).getFullYear()
+                            : "N/A"}{" "}
+                        Yrs
+                    </strong>{" "}
+                    &bull;
+                    Job: <strong className="text-dark">{profile?.profile?.occupation || "N/A"}</strong>
                 </p>
 
-                <button
-                    className="btn btn-sm btn-outline-secondary rounded-3 fw-medium py-1 px-2"
-                    style={{ borderColor: '#cfcfcf', color: '#000000' }}
-                >
-                    View full profile
+                <button className="btn btn-sm rounded-3 fw-medium py-1 px-2" style={{ border: "1px solid #BABABA" }}>
+                    <Link href={`/profiledetail/${profile?.profile?._id}`} className="text-decoration-none text-black fs-6"> View full profile </Link>
                 </button>
             </div>
 
-            {showActions && (
-                <div className="col-lg-3 col-md-3 col-12">
-                    <div className="d-flex align-items-end justify-content-end w-100">
-                        <button
-                            className="btn btn-sm btn-danger rounded-pill px-3 py-1 fw-medium"
-                            style={{ backgroundColor: '#ffff', borderColor: '#6c6c6c', color: '#6c6c6c' }}
-                        >
-                            Remove Shortlist
-                        </button>
-                    </div>
+            <div className="col-lg-3 col-md-3 col-12">
+                <div className="d-flex align-items-end justify-content-end w-100">
+                    <button
+                        onClick={() => onRemove(profile?.profile?._id)}
+                        className="btn btn-sm rounded-pill px-3 py-1 fw-medium"
+                        style={{
+                            backgroundColor: "#ffff",
+                            borderColor: "#6c6c6c",
+                            color: "#6c6c6c",
+                        }}
+                    >
+                        Remove Shortlist
+                    </button>
                 </div>
-            )}
+            </div>
         </div>
     );
 };
 
+export default function Shortlist() {
+    const [shortlistedProfiles, setShortlistedProfiles] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-export default function shortlist() {
-    const [mainTab, setMainTab] = useState('received');
-    const [activeSubTab, setActiveSubTab] = useState('new');
+    // Fetch shortlisted profiles
+    const fetchShortlistedProfiles = async () => {
+        try {
+            const token = sessionStorage.getItem("token");
 
-    const acceptedRequests = mockRequests.slice(0, 0);
-    const deniedRequests = mockRequests.slice(0, 0);
+            const res = await axios.get(`${API_URL}/shortlist`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
 
-    let currentProfiles = [];
-    if (activeSubTab === 'new') currentProfiles = mockRequests;
-    if (activeSubTab === 'accepted') currentProfiles = acceptedRequests;
-    if (activeSubTab === 'denied') currentProfiles = deniedRequests;
-
-    // Custom class for nav-link styling when active, forcing the pink border
-    const activeNavLinkStyle = {
-        color: '#d4ac4a',
-        borderColor: `${'#CFCFCF'} ${'#CFCFCF'} white ${'#CFCFCF'}`,
-        borderBottomColor: 'white', // Ensure the bottom is hidden by the content border-top
+            if (res.data.success) {
+                setShortlistedProfiles(res.data.shortlist);
+            }
+        } catch (err) {
+            toast.error("Failed to fetch shortlisted profiles");
+        } finally {
+            setLoading(false);
+        }
     };
+
+    // Remove from shortlist handler
+    const handleRemoveShortlist = async (profileId) => {
+        try {
+            const token = sessionStorage.getItem("token");
+
+            const res = await axios.delete(
+                `${API_URL}/shortlist/${profileId}`,
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            );
+
+            if (res.data.success) {
+                toast.success("Removed from shortlist");
+                fetchShortlistedProfiles(); // refresh UI
+            }
+        } catch (err) {
+            toast.error("Failed to remove");
+        }
+    };
+
+    useEffect(() => {
+        fetchShortlistedProfiles();
+    }, []);
 
     return (
         <DashboardLayout>
             <div className="p-4">
+                <h4 className="fw-semibold">Shortlist</h4>
 
-                {/* 1. Main Tab Navigation (Interests Received / Interests Sent) */}
-                <div className="mb-2">
-                    <h4 className='fw-semibold'>Shortlist</h4>
-                </div>
-
-                {/* 2. Content Card (White box containing sub-tabs and list) */}
                 <div className="card shadow-sm p-4">
-
-                    {/* Tab Content: List of Requests */}
-                    <div className="request-list-container">
-                        {mainTab === 'received' && currentProfiles.length > 0 ? (
-                            currentProfiles.map(profile => (
-                                <RequestListItem key={profile.id} profile={profile} type={activeSubTab} />
-                            ))
-                        ) : (
-                            <p className="text-center py-5 text-muted">
-                                {mainTab === 'received'
-                                    ? `No ${activeSubTab} interests received to display.`
-                                    : "No interests sent to display."
-                                }
-                            </p>
-                        )}
-                    </div>
+                    {loading ? (
+                        <p className="text-center py-5 text-muted">Loading...</p>
+                    ) : shortlistedProfiles.length > 0 ? (
+                        shortlistedProfiles.map((profile) => (
+                            <ShortListItem
+                                key={profile._id}
+                                profile={profile}
+                                onRemove={handleRemoveShortlist}
+                            />
+                        ))
+                    ) : (
+                        <p className="text-center py-5 text-muted">
+                            No shortlisted profiles yet.
+                        </p>
+                    )}
                 </div>
             </div>
         </DashboardLayout>
