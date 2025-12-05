@@ -19,8 +19,8 @@ const ProfileSection = ({ title, children }) => (
 const FormInput = ({ label, type = "text", value, onChange, name }) => (
     <div className="form-group">
         <label className="form-label">{label}</label>
-        <input 
-            type={type} 
+        <input
+            type={type}
             name={name}
             value={value}
             onChange={onChange}
@@ -57,101 +57,66 @@ export default function Plan() {
 
     return (
         <DashboardLayout>
-            <div className="profile-page-content">
-                <h2 className="page-header-title">My Profile Details</h2>
-
-                <form onSubmit={handleSubmit}>
-
-                    {/* Basic Details Section */}
-                    <ProfileSection title="Basic & Contact Details">
-                        <FormInput 
-                            label="Full Name" 
-                            name="fullName"
-                            value={profileData.fullName} 
-                            onChange={handleChange} 
-                        />
-                        <FormInput 
-                            label="Age" 
-                            type="number" 
-                            name="age"
-                            value={profileData.age} 
-                            onChange={handleChange} 
-                        />
-                         <FormInput 
-                            label="Height" 
-                            name="height"
-                            value={profileData.height} 
-                            onChange={handleChange} 
-                        />
-                        <FormInput 
-                            label="Religion" 
-                            name="religion"
-                            value={profileData.religion} 
-                            onChange={handleChange} 
-                        />
-                        <FormInput 
-                            label="Caste/Sub-Caste" 
-                            name="caste"
-                            value={profileData.caste} 
-                            onChange={handleChange} 
-                        />
-                        {/* More fields like Phone, Email, Location... */}
-                    </ProfileSection>
-                    
-                    {/* Education & Career Section */}
-                    <ProfileSection title="Education & Career">
-                        <FormInput 
-                            label="Highest Education" 
-                            name="education"
-                            value={profileData.education} 
-                            onChange={handleChange} 
-                        />
-                        <FormInput 
-                            label="Occupation" 
-                            name="occupation"
-                            value={profileData.occupation} 
-                            onChange={handleChange} 
-                        />
-                        <FormInput 
-                            label="Annual Income" 
-                            name="income"
-                            value={profileData.income} 
-                            onChange={handleChange} 
-                        />
-                        {/* More fields like workplace details... */}
-                    </ProfileSection>
-
-                    {/* Family Details Section */}
-                    <ProfileSection title="Family Background">
-                        <FormInput 
-                            label="Father's Name" 
-                            name="fatherName"
-                            value={profileData.fatherName} 
-                            onChange={handleChange} 
-                        />
-                        <FormInput 
-                            label="Mother's Name" 
-                            name="motherName"
-                            value={profileData.motherName} 
-                            onChange={handleChange} 
-                        />
-                        <FormInput 
-                            label="Family Type (Nuclear/Joint)" 
-                            name="familyType"
-                            value={profileData.familyType} 
-                            onChange={handleChange} 
-                        />
-                        {/* More fields like siblings, family values... */}
-                    </ProfileSection>
-
-
-                    {/* Submit Button */}
-                    <div className="save-button-container">
-                        <button type="submit" className="save-profile-btn">
-                            Save Profile Changes
-                        </button>
+            <div className="row">
+                <div className="col-lg-4 col-md-4 col-12">
+                    <div className="head-text">
+                        <h5 className='fw-semibold'>YOUR PLAN DETAILS</h5>
                     </div>
-                </form>
+                    <div className="card ">
+                        <div className="card-header">
+                            <h6 className='mb-0 fw-semibold'> Current Plan</h6>
+                        </div>
+                        <div className="card-body text-center">
+                            <img src="/dhakadweb/assets/images/plan.png" alt="" className='my-4' />
+                            <h5 className="card-title">Special title treatment</h5>
+                            <p className="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        </div>
+                        <div className="card-footer text-body-secondary">
+                            <h6>Rs. 848 + 18% GST = Rs. 1000.64 Rs. 1000</h6>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-lg-8">
+                    <div className="head-text">
+                        <h5 className='fw-semibold'>ALL PLAN</h5>
+                    </div>
+                    <div className="content-table rounded-3">
+                        <table className="table table-bordered rounded-3">
+                            <tbody className='rounded-3'>
+                                <tr>
+                                    <td className="fw-semibold">Event</td>
+                                    <td className="">Rs. 848 + 18% GST = Rs. 1000.64 Rs. 1000</td>
+                                    <td>3 Month <button type="button" className="btn btn-light bg-F4F4F4 ms-2">Buy Now</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className="fw-semibold">Silver Plan</td>
+                                    <td className="">Rs. 848 + 18% GST = Rs. 1000.64 Rs. 1000</td>
+                                    <td>6 Month <button type="button" className="btn bg-F4F4F4 ms-2">Buy Now</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className="fw-semibold">Gold Plan</td>
+                                    <td className="">Rs. 848 + 18% GST = Rs. 1000.64 Rs. 1000</td>
+                                    <td>9 Month <button type="button" className="btn bg-F4F4F4 ms-2">Buy Now</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className="fw-semibold">Platinum Plan</td>
+                                    <td className="">Rs. 848 + 18% GST = Rs. 1000.64 Rs. 1000</td>
+                                    <td>12 Month <button type="button" className="btn bg-F4F4F4 ms-2">Buy Now</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className="fw-semibold">Life Time Plan</td>
+                                    <td className="">Rs. 848 + 18% GST = Rs. 1000.64 Rs. 1000</td>
+                                    <td>36 Month <button type="button" className="btn bg-F4F4F4 ms-2">Buy Now</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </DashboardLayout>
     );

@@ -105,7 +105,7 @@ export default function InterestsPage() {
                         style={{
                             backgroundColor: mainTab === 'received' ? '#fff' : 'transparent',
                             borderColor: '#cfcfcf',
-                            color: mainTab === 'received' ? 'black' : black
+                            color: mainTab === 'received' ? '#000000' : '#000000'
                         }}
                     >
                         Interests Received
@@ -130,7 +130,7 @@ export default function InterestsPage() {
                     <ul className="nav nav-tabs">
                         <li className="nav-item">
                             <Link
-                                className={`nav-link text-decoration-none ${activeSubTab === 'new' ? 'active' : ''}`}
+                                className={`nav-link text-decoration-none ${activeSubTab === 'new' ? 'active' : '#d4ac4a'}`}
                                 style={activeSubTab === 'new' ? activeNavLinkStyle : {}}
                                 href="#"
                                 onClick={(e) => { e.preventDefault(); setActiveSubTab('new'); }}
@@ -140,7 +140,7 @@ export default function InterestsPage() {
                         </li>
                         <li className="nav-item">
                             <Link
-                                className={`nav-link text-decoration-none text-767676 ${activeSubTab === 'accepted' ? 'active' : ''}`}
+                                className={`nav-link text-decoration-none text-767676 ${activeSubTab === 'accepted' ? 'active' : '#d4ac4a'}`}
                                 style={activeSubTab === 'accepted' ? activeNavLinkStyle : {}}
                                 href="#"
                                 onClick={(e) => { e.preventDefault(); setActiveSubTab('accepted'); }}
@@ -150,7 +150,7 @@ export default function InterestsPage() {
                         </li>
                         <li className="nav-item">
                             <Link
-                                className={`nav-link text-decoration-none text-767676 ${activeSubTab === 'denied' ? 'active' : ''}`}
+                                className={`nav-link text-decoration-none text-767676 ${activeSubTab === 'denied' ? 'active' : '#d4ac4a'}`}
                                 style={activeSubTab === 'denied' ? activeNavLinkStyle : {}}
                                 href="#"
                                 onClick={(e) => { e.preventDefault(); setActiveSubTab('denied'); }}

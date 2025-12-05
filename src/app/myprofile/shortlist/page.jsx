@@ -22,7 +22,7 @@ const RequestListItem = ({ profile, type }) => {
     return (
         <div key={profile.id} className="align-items-start py-3 border-bottom row">
             <div className="col-lg-3 col-md-3 col-6">
-                <div className="interest-image w-100 d-flex align-items-center justify-content-center" style={{ height: "125px", overflow:'hidden' }}>
+                <div className="interest-image w-100 d-flex align-items-center justify-content-center" style={{ height: "200px", overflow:'hidden' }}>
                     <img
                         src={profile.image}
                         alt={profile.name}
