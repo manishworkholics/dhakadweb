@@ -130,10 +130,10 @@ const RegistrationForm = () => {
                         physicalStatus: profile.physicalStatus || "Normal",
                         maritalStatus: profile.maritalStatus || "Never married",
                         religion: profile.religion || "",
-                        cast: profile.caste || "",         // map
-                        subCast: profile.subCaste || "",   // map
+                        cast: profile.caste || "",
+                        subCast: profile.subCaste || "",
                         gotra: profile.gotra || "",
-                        education: profile.educationDetails || "", // map
+                        education: profile.educationDetails || "",
                         employmentType: profile.employmentType || "",
                         occupation: profile.occupation || "",
                         annualIncome: profile.annualIncome || "",
@@ -145,7 +145,7 @@ const RegistrationForm = () => {
                     }));
 
                     const missing = requiredFields.filter(field => {
-                        const value = formData[field]; // <-- formData ke against check karo
+                        const value = formData[field];
                         return value === undefined || value === null || value === "" || (Array.isArray(value) && value.length === 0);
                     });
 

@@ -13,21 +13,57 @@ export default function ProfileDetail() {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // const getProfile = async () => {
+  //   try {
+  //     const res = await fetch(`http://206.189.130.102:5000/api/profile/${id}`);
+  //     const data = await res.json();
+  //     setProfile(data.profile);
+  //     setLoading(false);
+  //   } catch (error) {
+  //     console.log(error);
+  //     setLoading(false);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getProfile();
+  // }, [id]);
+
+
+  useEffect(() => {
   const getProfile = async () => {
     try {
-      const res = await fetch(`http://206.189.130.102:5000/api/profile/${id}`);
+      const res = await fetch(`http://206.189.130.102:5000/api/profile/${id}`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}` // or your auth token
+        }
+      });
       const data = await res.json();
       setProfile(data.profile);
       setLoading(false);
+
+      // ✅ Mark profile as viewed (only if not own profile)
+      const userId = sessionStorage.getItem("userId"); // or from context
+      if (data.profile._id !== userId) {
+        await fetch(`http://206.189.130.102:5000/api/viewed/view/${data.profile._id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`
+          }
+        });
+        console.log("Profile marked as viewed");
+      }
+
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    getProfile();
-  }, [id]);
+  getProfile();
+}, [id]);
+
 
   if (loading) {
     return (
@@ -298,7 +334,7 @@ export default function ProfileDetail() {
                   <span className="px-3 py-1 bg-E9E9E9 rounded-4">No hobbies added</span>
                 )}
               </div>
-<RelatedProfiles />
+              <RelatedProfiles />
             </div>
             {/* ReadyToMeet */}
             <div className="">

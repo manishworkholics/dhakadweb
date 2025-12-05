@@ -104,7 +104,7 @@ export default function SuccessStories() {
 
                                 <p className="fw-semibold" style={{ cursor: "pointer" }}>
                                     <Link 
-                                        href="/components/details_success_stories" 
+                                        href={`/components/details_success_stories/${item._id}`} 
                                         className="text-decoration-none"
                                         style={{ color: 'inherit' }}
                                     >
