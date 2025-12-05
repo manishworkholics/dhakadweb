@@ -108,7 +108,7 @@ export default function MemberTestimonials() {
                 >
                     {testimonialsData.map((item, index) => (
                         <SwiperSlide key={index}>
-                            <div className="testimonial-card p-4 rounded-3 shadow-sm bg-white" style={{ minHeight: '220px' }}>
+                            <div className="testimonial-card p-4 rounded-3 shadow-sm bg-white" style={{ maxHeight: '220px' }}>
                                 <p className="testimonial-quote mb-4" style={{ fontStyle: 'italic' }}>
                                     "{item.quote}"
                                 </p>

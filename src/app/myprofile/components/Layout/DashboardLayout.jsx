@@ -11,8 +11,6 @@ export default function DashboardLayout({ children }) {
   return (
     <div className="app-container">
 
-      {/* 1. Global Header */}
-      {/* This holds the logo and main navigation (Home, Find Partner, About Us, etc.) */}
       <Header />
 
       {/* 2. Main Content Wrapper */}

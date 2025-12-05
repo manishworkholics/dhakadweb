@@ -67,8 +67,8 @@ export default function ProfileDetail() {
             {/* LEFT SIDE — IMAGE */}
             <div className="col-md-4 px-3">
               <div className="row card rounded-3">
-                <div className="col-12 p-0">
-                  <img src={image || "/dhakadweb/assets/images/priya.png"} className="card-img-top" alt={profile.name} />
+                <div className="p-0" style={{height:"550px"}}>
+                  <img src={image || "/dhakadweb/assets/images/priya.png"} className="card-img-top h-100 w-100" alt={profile.name} />
                 </div>
                 <div className="col-12">
                   <div className="row btn-bottom">

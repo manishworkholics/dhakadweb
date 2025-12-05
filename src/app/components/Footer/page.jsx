@@ -5,7 +5,8 @@ import Link from "next/link";
 export default function Footer() {
     return (
         <>
-            <footer className="bg-white text-dark pt-5 pb-1">
+        <hr  className="my-0 py-0"/>
+            <footer className="bg-FDFBF7 text-dark pt-5 pb-1 ">
                 <div className="container">
                     <div className="row pb-4">
                         <div className="col-12 col-md-6 col-lg-2 d-flex align-items-center justify-content-center">
