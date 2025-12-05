@@ -5,6 +5,8 @@ import Header from "../components/Header/Page";
 import { useState, useEffect } from "react";
 import Readytomeet from "../components/Readytomeet/page";
 import Footer from "../components/Footer/page";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function Profile() {
     const [token, setToken] = useState("");
@@ -127,6 +129,38 @@ export default function Profile() {
         return map[ageRange] || {};
     };
 
+    const [sentRequests, setSentRequests] = useState([]);
+
+    const handleSendInterest = async (receiverId) => {
+        try {
+            const token = sessionStorage.getItem("token");
+
+            if (!token) {
+                toast.error("Please login first");
+                return;
+            }
+
+            const res = await axios.post(
+                "http://206.189.130.102:5000/api/interest/request/send",
+                { receiverId },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            if (res.data.success) {
+                toast.success("Interest request sent successfully!");
+                setSentRequests(prev => [...prev, receiverId]);
+            } else {
+                toast.error(res.data.message);
+            }
+
+        } catch (err) {
+            toast.error(err?.response?.data?.message || "Something went wrong");
+        }
+    };
 
     return (
         <main>
@@ -320,9 +354,15 @@ export default function Profile() {
                                                     <button className="btn btn-sm bg-4CAF50 text-white rounded-5 fs-13">
                                                         Chat Now
                                                     </button>
-                                                    <button className="btn btn-sm border rounded-5 fs-13">
-                                                        Send Interest
+                                                    <button
+                                                        disabled={sentRequests.includes(item.userId)}
+                                                        onClick={() => handleSendInterest(item.userId)}
+                                                        className={`btn btn-sm border rounded-5 fs-13 ${sentRequests.includes(item.userId) ? "disabled bg-light" : ""}`}
+                                                    >
+                                                        {sentRequests.includes(item.userId) ? "Interest Sent" : "Send Interest"}
                                                     </button>
+
+
                                                     <Link href={`/profiledetail/${item._id}`} className="btn btn-sm border fs-13 rounded-5">
                                                         More Detail
                                                     </Link>
