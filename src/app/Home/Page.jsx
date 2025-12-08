@@ -19,6 +19,9 @@ const HomePage = () => {
     const [token, setToken] = useState("");
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [passwordError, setPasswordError] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+
 
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -42,6 +45,11 @@ const HomePage = () => {
         agree: false
     });
 
+
+    const validatePassword = (password) => {
+        const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+        return regex.test(password);
+    };
 
 
 
@@ -104,6 +112,10 @@ const HomePage = () => {
 
     const handleSubmit = async () => {
         const errorMessage = validateForm();
+        if (!validatePassword(formData.password)) {
+            alert("Password must be strong and include at least one alphabet, one digit, and one special character.");
+            return;
+        }
         if (errorMessage) {
             toast.error(errorMessage);
             return;
@@ -130,7 +142,7 @@ const HomePage = () => {
     }
 
     if (loading) return null;
-    
+
     return (
         <div>
             <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
@@ -195,14 +207,35 @@ const HomePage = () => {
                                         {/* Password */}
                                         <div className="mb-lg-3 mb-md-3 mb-2 position-relative">
                                             <input
-                                                type="password"
+                                                type={showPassword ? "text" : "password"}
                                                 name="password"
                                                 value={formData.password}
-                                                onChange={handleChange}
+                                                onChange={(e) => {
+                                                    handleChange(e);
+                                                    setPasswordError(!validatePassword(e.target.value));
+                                                }}
                                                 className="form-control bg-dark text-white border-white shadow-none py-2"
                                                 placeholder="Create Password"
                                             />
+                                            <span
+                                                onClick={() => setShowPassword(!showPassword)}
+                                                className="position-absolute end-2 top-50 translate-middle-y text-white"
+                                                style={{ cursor: "pointer", right: "15px" }}
+                                            >
+                                                {showPassword ? (
+                                                    <i className="bi bi-eye-slash"></i>
+                                                ) : (
+                                                    <i className="bi bi-eye"></i>
+                                                )}
+                                            </span>
+
                                         </div>
+
+                                        {passwordError && (
+                                            <p className="text-danger small mt-1">
+                                                Password must contain letters, numbers & a special character.
+                                            </p>
+                                        )}
 
                                         {/* Checkbox */}
                                         <div className="form-check mb-lg-3 mb-md-3 mb-2">
@@ -322,7 +355,7 @@ const HomePage = () => {
 
                                 {/* Section Heading */}
                                 <div className="text-left mb-5">
-                                    <p className="mb-1 text-muted fw-semibold">Celebrating Over 10 Years Of</p>
+                                    <p className="mb-1 text-muted fw-semibold">Celebrating Over 10 Years of</p>
                                     <h2 className="fw-semibold">
                                         Bringing <span style={{ color: "#ff4b4b" }}>Hearts Together</span>
                                     </h2>

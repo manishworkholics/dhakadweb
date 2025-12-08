@@ -177,7 +177,7 @@ export default function InterestsPage() {
                         className={`btn btn-sm rounded-3 me-3 fw-medium py-1 px-2 ${mainTab === "received" ? "btn-dark" : "btn-outline-dark"}`}
                         onClick={() => setMainTab("received")}
                     >
-                        Interests Received
+                        Interest Received
                     </button>
  
                     <button
