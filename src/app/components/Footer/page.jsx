@@ -74,7 +74,7 @@ export default function Footer() {
                 <div className="container">
                     <div className="row justify-content-between">
                         <div className="col-lg-6 col-md-6 col-12">
-                            <p className="mb-0 fw-normal text-787878 text-center text-lg-start text-md-start" style={{ fontSize: "14px" }}>Copyright 2020. All Rights Reserved</p>
+                            <p className="mb-0 fw-normal text-787878 text-center text-lg-start text-md-start" style={{ fontSize: "14px" }}>Copyright 2025. All Rights Reserved</p>
                         </div>
                         <div className="col-lg-6 col-md-6 col-12">
                             <p className="mb-0 fw-normal text-787878 text-center text-lg-end text-md-end" style={{ fontSize: "14px" }}>Term & conditions     |    Privacy Policy</p>

@@ -294,7 +294,11 @@ const RegistrationForm = () => {
     };
 
 
-
+    useEffect(() => {
+        if (profileExists && profileComplete) {
+            router.push("/"); // Route to dashboard
+        }
+    }, [profileExists, profileComplete, router]);
 
 
     // UI: render step forms — using your original fields exactly
@@ -419,15 +423,17 @@ const RegistrationForm = () => {
                                                     </div>
 
                                                     <div className="mb-3">
-                                                        <label className="form-label">Date of birth</label>
+                                                        <label className="form-label">Date of Birth</label>
                                                         <input
                                                             type="date"
                                                             name="dob"
                                                             value={formData.dob}
                                                             onChange={handleChange}
                                                             className="form-control"
+                                                            max={new Date().toISOString().split("T")[0]} // ⛔ Prevent future date
                                                         />
                                                     </div>
+
 
                                                     <div className="mb-3">
                                                         <label className="form-label">Mother tongue</label>
