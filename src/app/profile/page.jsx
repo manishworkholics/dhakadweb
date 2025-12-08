@@ -397,13 +397,6 @@ export default function Profile() {
                                 Next
                             </button>
                         </div>
-
-
-                        {/* ReadyToMeet */}
-                        <div className="">
-                            <Readytomeet />
-                        </div>
-
                     </div>
                 </div>
             </div>

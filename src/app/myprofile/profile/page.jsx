@@ -256,9 +256,9 @@ const DetailItem = ({ label, value }) => (
 
 // ------------------ Profile Section ------------------
 const ProfileSection = ({ title, children, onEdit }) => (
-    <div className="profile-edit-section">
-        <div className="section-header-row">
-            <h4 className="section-title-profile">{title}</h4>
+    <div className="profile-edit-section position-relative">
+        <div className="section-header-row ">
+            <h4 className="section-title-profile ">{title}</h4>
             {onEdit && (
                 <button onClick={onEdit} className="edit-btn">
                     <span role="img" aria-label="Edit">✏️</span> Edit
@@ -300,9 +300,9 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
     };
 
     return (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-3">
-            <div className="bg-white p-5 rounded-lg w-full max-w-md shadow-lg overflow-auto max-h-[90vh]">
-                <h3 className="text-lg font-semibold mb-3">Edit Details</h3>
+        <div className="position-absolute top-0 left-0 right-0 d-flex align-items-center justify-content-center z-50 p-3 w-100 h-100">
+            <div className="bg-white p-5 rounded-lg w-50 max-w-md shadow-lg overflow-auto max-h-[90vh] ">
+                <h3 className="text-lg fw-bold mb-3">Edit Details</h3>
 
                 {fields.map((field) => {
                     let inputType = "text";
@@ -310,14 +310,14 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                     if (field === "dob") inputType = "date";
 
                     return (
-                        <div key={field} className="mb-3">
-                            <label className="block text-sm font-medium mb-1">{field}</label>
+                        <div key={field} className="mb-3 d-flex">
+                            <label className="d-block text-sm font-medium mb-1 me-1" style={{width:"105px"}}>{field}</label>
                             {inputType === "select" ? (
                                 <select
                                     name={field}
                                     value={form[field] || ""}
                                     onChange={handleChange}
-                                    className="border p-2 rounded w-full"
+                                    className="border p-1 rounded w-full"
                                 >
                                     <option value="">Select {field}</option>
                                     {field === "gender" && (
@@ -354,8 +354,7 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                         </div>
                     );
                 })}
-
-                <div className="flex justify-end gap-2 mt-3">
+                <div className="d-flex justify-content-end gap-2 mt-3">
                     <button onClick={onClose} className="px-3 py-2 bg-gray-300 rounded">Cancel</button>
                     <button onClick={handleSave} className="px-3 py-2 bg-[#D4AF37] text-white rounded">Save</button>
                 </div>
@@ -476,7 +475,7 @@ export default function ProfilePage() {
 
     return (
         <DashboardLayout>
-            <div className="profile-page-content-custom">
+            <div className="profile-page-content-custom position-relative">
 
                 <div className="profile-header-status-grid">
                     <PhotoUploader photos={profile.photos} onUpload={handlePhotoUpload} uploading={uploading} />

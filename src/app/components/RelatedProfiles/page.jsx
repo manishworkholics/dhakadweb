@@ -44,7 +44,7 @@ export default function RelatedProfiles() {
   const getItemsPerSlide = () => {
     if (windowWidth <= 575) return 2; // mobile
     if (windowWidth <= 991) return 2; // tablet
-    return 3; // desktop
+    return 4; // desktop
   };
 
   const itemsPerSlide = getItemsPerSlide();
