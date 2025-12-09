@@ -431,13 +431,10 @@ export default function ProfileDetail() {
                   <span className="px-3 py-1 bg-E9E9E9 rounded-4">No hobbies added</span>
                 )}
               </div>
-              <RelatedProfiles />
-            </div>
-            {/* ReadyToMeet */}
-            <div className="">
-              <Readytomeet />
+              
             </div>
           </div>
+          <RelatedProfiles />
         </div>
       </div >
 
