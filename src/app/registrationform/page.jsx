@@ -79,7 +79,7 @@ const RegistrationForm = () => {
         familyStatus: "Middle class",
         diet: "Veg",
         aboutYourself: "",
-
+        hobbies: ""
         // Step 5 handled by photo/introVideo states
     });
 
@@ -165,10 +165,52 @@ const RegistrationForm = () => {
     const nextStep = () => setStep((s) => Math.min(4, s + 1));
     const prevStep = () => setStep((s) => Math.max(1, s - 1));
 
-    const handleChange = (e) => {
+
+    const [states, setStates] = useState([]);
+    const [cities, setCities] = useState([]);
+    const [customCity, setCustomCity] = useState(false);
+
+    // Fetch states on component mount
+    useEffect(() => {
+        fetch("http://206.189.130.102:5000/api/location/states")
+            .then((res) => res.json())
+            .then((data) => setStates(data))
+            .catch((err) => console.error(err));
+    }, []);
+
+    const handleChange = async (e) => {
+
         const { name, value } = e.target;
         setFormData((p) => ({ ...p, [name]: value }));
+
+        if (name === "state") {
+            if (!value) {
+                setCities([]);
+                setCustomCity(false);
+                setFormData((prev) => ({ ...prev, city: "" }));
+                return;
+            }
+
+            try {
+                const res = await fetch(`http://206.189.130.102:5000/api/location/cities/${value}`);
+                const data = await res.json();
+                setCities(data.cities);
+                setCustomCity(false);
+                setFormData((prev) => ({ ...prev, city: "" }));
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        if (name === "city" && value === "__custom") {
+            setCustomCity(true);
+            setFormData((prev) => ({ ...prev, city: "" }));
+        }
     };
+
+
+
+
 
     // single image upload (returns url)
     const handlePhotoUpload = async (file) => {
@@ -302,6 +344,10 @@ const RegistrationForm = () => {
 
 
     // UI: render step forms — using your original fields exactly
+
+
+
+
     return (
         <div className="otp-page bg-FDFBF7" style={{ minHeight: "100vh" }}>
             <ToastContainer position="top-right" autoClose={4000} />
@@ -397,7 +443,7 @@ const RegistrationForm = () => {
                                                         </select>
                                                     </div>
 
-                                                    <div className="mb-3">
+                                                    {/* <div className="mb-3">
                                                         <label className="form-label">Location/City</label>
                                                         <input
                                                             name="location"
@@ -407,8 +453,58 @@ const RegistrationForm = () => {
                                                             value={formData.location}
                                                             onChange={handleChange}
                                                         />
-                                                    </div>
+                                                    </div> */}
 
+
+                                                    <div>
+                                                        {/* State Dropdown */}
+                                                        <div className="mb-3">
+                                                            <label className="form-label">State</label>
+                                                            <select
+                                                                name="state"
+                                                                className="form-control"
+                                                                value={formData.state}
+                                                                onChange={handleChange}
+                                                            >
+                                                                <option value="">Select state</option>
+                                                                {states.map((s) => (
+                                                                    <option key={s._id} value={s.state}>
+                                                                        {s.state}
+                                                                    </option>
+                                                                ))}
+                                                            </select>
+                                                        </div>
+
+                                                        {/* City Dropdown / Input */}
+                                                        <div className="mb-3">
+                                                            <label className="form-label">City</label>
+                                                            {!customCity ? (
+                                                                <select
+                                                                    name="city"
+                                                                    className="form-control"
+                                                                    value={formData.city}
+                                                                    onChange={handleChange}
+                                                                >
+                                                                    <option value="">Select city</option>
+                                                                    {cities.map((city, idx) => (
+                                                                        <option key={idx} value={city}>{city}</option>
+                                                                    ))}
+                                                                    {cities.length > 0 && <option value="__custom">Other (Type manually)</option>}
+                                                                </select>
+                                                            ) : (
+                                                                <input
+                                                                    type="text"
+                                                                    name="city"
+                                                                    className="form-control"
+                                                                    placeholder="Enter city manually"
+                                                                    value={formData.city}
+                                                                    onChange={handleChange}
+                                                                    autoFocus // this helps the input focus automatically
+                                                                />
+                                                            )}
+                                                        </div>
+
+                                                    </div>
 
                                                     <div className="mb-3">
                                                         <label className="form-label">Email</label>
@@ -652,6 +748,18 @@ const RegistrationForm = () => {
                                                             value={formData.aboutYourself}
                                                             onChange={handleChange}
                                                             placeholder="Write a short intro..."
+                                                        />
+                                                    </div>
+
+                                                    <div className="mb-3">
+                                                        <label className="form-label">Hobbies</label>
+                                                        <textarea
+                                                            name="hobbies"
+                                                            className="form-control mb-3"
+                                                            rows="2"
+                                                            value={formData.hobbies}
+                                                            onChange={handleChange}
+                                                            placeholder="Write your hobbies"
                                                         />
                                                     </div>
 

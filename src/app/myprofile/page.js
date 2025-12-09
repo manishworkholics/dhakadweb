@@ -76,7 +76,7 @@ export default function MyProfileDashboard() {
 
                 {/* 1. NEW PROFILES MATCHES Section */}
                 <div className="section dashboard-section new-matches">
-                    <h3 className="section-title">NEW PROFILES MATCHES ({viewedprofile?.results})</h3>
+                    <h3 className="section-title">New Profile Matches  ({viewedprofile?.results})</h3>
                     <div className="card-grid-4">
                        {viewedprofile?.profiles?.slice(0, 4).map(profile => (
                             // Reusing the ProfileCard component
@@ -114,7 +114,7 @@ export default function MyProfileDashboard() {
 
                 {/* 3. PROFILES YOU VIEWED Section */}
                 <div className="section dashboard-section viewed-profiles">
-                    <h3 className="section-title">PROFILES YOU VIEWED ({viewedprofile?.results})</h3>
+                    <h3 className="section-title">Recently Viewed Profiles ({viewedprofile?.results})</h3>
                     <div className="card-grid-4">
                         {viewedprofile?.profiles?.slice(0, 4).map(profile => (
                             // Reusing the ProfileCard component

@@ -105,7 +105,7 @@ export default function DashboardPage() {
 
                 {/* 3. PROFILES YOU VIEWED Section */}
                 <div className="section dashboard-section viewed-profiles">
-                    <h3 className="section-title">PROFILES YOU VIEWED (22)</h3>
+                    <h3 className="section-title">Recently Viewed Profiles (22)</h3>
                     <div className="card-grid-4">
                         {mockMatches.slice(0, 4).map(profile => (
                             <ProfileCard key={`viewed-${profile.id}`} data={profile} />

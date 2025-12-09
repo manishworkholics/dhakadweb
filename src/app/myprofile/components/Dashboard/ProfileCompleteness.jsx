@@ -16,7 +16,7 @@ export default function ProfileCompleteness({ percentage }) {
     return (
         <div className="profile-completeness-card">
             <div className="d-flex">
-                <h6>Profile completeness score</h6>
+                <h6>Profile Completion Score</h6>
             </div>
 
             <div className="completeness-gauge">
