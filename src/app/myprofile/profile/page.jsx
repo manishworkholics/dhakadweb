@@ -311,7 +311,7 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
 
                     return (
                         <div key={field} className="mb-3 d-flex">
-                            <label className="d-block text-sm font-medium mb-1 me-1" style={{width:"105px"}}>{field}</label>
+                            <label className="d-block text-sm font-medium mb-1 me-1" style={{ width: "105px" }}>{field}</label>
                             {inputType === "select" ? (
                                 <select
                                     name={field}
@@ -485,6 +485,42 @@ export default function ProfilePage() {
                         <p>Profile ID: {profile._id}</p>
                         <p>{calculateAge(profile.dob)} yrs | {profile.religion} | {profile.occupation}</p>
                         <p>📞 {profile.phone || "Not Available"} | ✉️ {profile.email}</p>
+                    </div>
+                </div>
+
+
+                {/* GALLERY */}
+                <div className="gallery-section mt-4">
+                    <div className="section-header-row">
+                        <h4 className="section-title-profile">Image Gallery</h4>
+
+                        <label className="edit-btn" style={{ cursor: "pointer" }}>
+                            {uploading ? "Uploading..." : "➕ Add More Photo"}
+                            <input type="file" hidden accept="image/*" onChange={handlePhotoUpload} />
+                        </label>
+                    </div>
+
+                    <div className="gallery-grid"
+                        style={{
+                            display: "grid",
+                            gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
+                            gap: "10px",
+                            marginTop: "12px",
+                        }}>
+                        {profile?.photos?.map((img, i) => (
+                            <img
+                                key={i}
+                                src={img}
+                                alt="gallery"
+                                style={{
+                                    width: "100%",
+                                    height: "120px",
+                                    objectFit: "cover",
+                                    borderRadius: "10px",
+                                    border: "1px solid #ddd",
+                                }}
+                            />
+                        ))}
                     </div>
                 </div>
 
