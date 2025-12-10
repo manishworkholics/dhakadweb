@@ -184,7 +184,7 @@ export default function InterestsPage() {
                         className={`btn btn-sm rounded-3 fw-medium py-1 px-2 ${mainTab === "sent" ? "btn-warning" : "btn-outline-warning"}`}
                         onClick={() => setMainTab("sent")}
                     >
-                        Interests Sent
+                        Interest Sent
                     </button>
                 </div>
  
