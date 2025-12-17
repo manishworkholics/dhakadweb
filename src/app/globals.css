@@ -38,12 +38,15 @@ body {
 .bg-EBEBEB {
     background-color: #EBEBEB !important;
 }
-.bg-F4F4F4{
+
+.bg-F4F4F4 {
     background: #F4F4F4 !important;
 }
-.bg-F6FBFF{
+
+.bg-F6FBFF {
     background-color: #F6FBFF !important;
 }
+
 /* Background Colors End */
 
 /* Text Colors Start */
@@ -62,9 +65,11 @@ body {
 .text-5A5A5A {
     color: #5A5A5A !important;
 }
-.text-767676{
+
+.text-767676 {
     color: #767676 !important;
 }
+
 .text-
 /* Text Colors End */
 
@@ -286,6 +291,57 @@ body {
     font-weight: 600;
 }
 
+.header-nav.nav-link.active {
+    font-weight: 600;
+    border-bottom: 2px solid #dc3545;
+}
+
+/* ===== SIDEBAR BASE ===== */
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: #000;
+    text-decoration: none;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* ===== ACTIVE STATE (IMAGE STYLE) ===== */
+.sidebar-link.active {
+    background-color: #fff7e6;
+    color: #d4af37;
+}
+
+/* LEFT YELLOW BAR */
+.sidebar-link.active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    height: calc(100% - 16px);
+    width: 4px;
+    background-color: #d4af37;
+}
+
+/* ICON COLOR ACTIVE */
+.sidebar-link.active .nav-icon svg path,
+.sidebar-link.active .nav-icon svg {
+    stroke: #d4af37 !important;
+    fill: #d4af37;
+}
+
+/* HOVER EFFECT */
+.sidebar-link:hover {
+    color: #d4af37;
+}
+.sidebar-link:hover .nav-icon svg path,
+.sidebar-link:hover .nav-icon svg {
+    stroke: #d4af37 !important;
+    fill: #d4af37;
+}
+
 /* Grid Layout (Assuming Bootstrap or similar grid system, this handles spacing) */
 .testimonials-grid {
     display: flex;
@@ -380,7 +436,7 @@ body {
 
 @media only screen and (min-width:1025px) and (max-width:1280px) {
     .sidebar-wrapper {
-        width: 250px;
+        width: 225px;
         background-color: #ffffff;
         padding: 0;
         box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
@@ -561,7 +617,6 @@ body {
 
 /* Hover effect for the entire card */
 .profile-card:hover {
-    transform: translateY(-3px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
@@ -615,34 +670,6 @@ body {
 }
 
 /* Optional Overlay for interaction/hover (if desired) */
-.profile-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    border-radius: 8px;
-}
-
-.profile-card:hover .profile-overlay {
-    opacity: 1;
-}
-
-.view-profile-btn {
-    color: #ffffff;
-    cursor: pointer;
-    background-color: #FF4B4B;
-    border: none;
-    border-radius: 5px;
-    padding: 6px 12px;
-    font-weight: 500;
-}
 
 
 .card-grid-4 {
@@ -757,6 +784,11 @@ body {
 }
 
 
+@media only screen and (min-width:1024px) and (max-width:1440px){
+    .completeness-actions .btn{
+       font-size: 10px;
+    }
+}
 /* --- Paid Membership Card Styles --- */
 
 .paid-member-card {
@@ -834,6 +866,14 @@ body {
     background-color: #dd3333;
 }
 
+@media only screen and (min-width:1024px) and (max-width:1440px){
+    .membership-cta-btn {
+    padding: 0px;
+}
+.benefits-list{
+    margin-bottom: 0px;
+}
+}
 
 /* --- Recent Chat List Styles --- */
 
@@ -1152,6 +1192,7 @@ body {
 .avatar-status.online::after {
     background-color: #4CAF50;
 }
+
 .avatar-status.offline::after {
     background-color: #999999;
 }

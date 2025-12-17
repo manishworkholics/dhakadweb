@@ -31,15 +31,11 @@ export default function ProfileCard({ data }) {
             <div className="profile-details">
                 <h5 className="profile-name">{name}</h5>
                 <p className="profile-location">
-                    {/* Placeholder for a location icon (e.g., FontAwesome or similar) */}
                     <i className="fa-solid fa-location-dot text-4CAF50 me-1"></i>
                     {location}
                 </p>
             </div>
-            {/* Optional: Add a subtle overlay/button for quick action like "Connect" or "View" */}
-            <div className="profile-overlay">
-                <button className="view-profile-btn">View Profile</button>
-            </div>
+        
         </div>
     );
 }
