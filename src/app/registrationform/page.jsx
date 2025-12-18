@@ -609,8 +609,11 @@ const RegistrationForm = () => {
                                                         >
                                                             <option value="">Select</option>
                                                             <option value="Never married"> Never Married </option>
-                                                            <option value="Widowed"> Widowed </option>
-                                                            <option value="Divorced"> Divorced </option>
+                                                            <option value="Previously Married (Divorced)"> Previously Married (Divorced) </option>
+                                                            <option value="Previously Married (Widowed)"> Previously Married (Widowed) </option>
+                                                            <option value="Currently Separated"> Currently Separated </option>
+                                                            <option value="Legally Separated / Awaiting Divorce"> Legally Separated / Awaiting Divorce</option>
+                                                            <option value="Single Parent (Divorced/Widowed)">Single Parent (Divorced/Widowed)</option>
                                                         </select>
                                                     </div>
 

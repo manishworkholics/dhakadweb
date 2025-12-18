@@ -68,7 +68,7 @@ export default function ProfileDetail() {
   }
 
   // Helper fallback values
-  const image = profile.photos?.length ? profile.photos[0] : "/dhakadweb/assets/images/default-profile.png";
+  const image = profile.photos?.length ? profile.photos[0] : "/dhakadweb/assets/images/dummy.png";
   const gallery = profile.photos?.length ? profile.photos : [];
   const age = profile.dob ? new Date().getFullYear() - new Date(profile.dob).getFullYear() : "N/A";
 

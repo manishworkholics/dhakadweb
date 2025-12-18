@@ -67,7 +67,7 @@ export default function Plan() {
                             <h6 className='mb-0 fw-semibold'> Current Plan</h6>
                         </div>
                         <div className="card-body text-center">
-                            <img src="/dhakadweb/assets/images/plan.png" alt="" className='my-4' />
+                            <img src="/dhakadweb/assets/images/plan.png" alt="" className='my-4 gift' />
                             <h6>Plan Name:<span className='fw-semibold ms-2'>Event</span></h6>
                             <h6>Vailidity:<span className='fw-semibold ms-2'>3 Months</span></h6>
                         </div>
@@ -76,7 +76,7 @@ export default function Plan() {
                         </div>
                     </div>
                 </div>
-                <div className="col-lg-8">
+                <div className="col-lg-8 col-md-8 col-12">
                     <div className="head-text mb-3">
                         <h5 className='fw-semibold'>ALL PLAN</h5>
                     </div>

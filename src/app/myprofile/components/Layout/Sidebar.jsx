@@ -46,30 +46,36 @@ export default function Sidebar({ data }) {
     return (
         <>
             {/* ================= MOBILE MENU ================= */}
-            <ul className="nav nav-pills d-lg-none d-md-none d-flex justify-content-center">
-                {navItems.map((item) => (
-                    <li key={item.name} className="nav-item m-1 custom-border rounded-1">
-                        <Link
-                            href={item.path}
-                            className={`nav-link ${isActive(item.path) ? "mobile-active" : ""}`}
-                        >
-                            {item.name}
-                        </Link>
-                    </li>
-                ))}
+            <ul className="nav nav-pills d-lg-none d-md-none d-flex justify-content-center sidebar-nav-mobile">
+    {navItems.map((item) => (
+        <li key={item.name} className="nav-item m-1 custom-border rounded-1">
+            <Link
+                href={item.path}
+                className={`nav-link text-decoration-none ${
+                    isActive(item.path) ? "mobile-active" : "text-dark"
+                }`}
+            >
+                {item.name}
+            </Link>
+        </li>
+    ))}
 
-                <li className="nav-item m-1 custom-border rounded-1">
-                    <button onClick={handleLogout} className="nav-link text-dark">
-                        Logout
-                    </button>
-                </li>
-            </ul>
+    <li className="nav-item m-1 custom-border rounded-1">
+        <button
+            onClick={handleLogout}
+            className="nav-link text-dark bg-transparent border-0"
+        >
+            Logout
+        </button>
+    </li>
+</ul>
+
 
             {/* ================= DESKTOP SIDEBAR ================= */}
             <div className="sidebar-wrapper d-none d-lg-block d-md-block">
 
                 <img
-                    src={data?.photos?.[0] || "/dhakadweb/assets/images/no-img.jpg"}
+                    src={data?.photos?.[0] || "/dhakadweb/assets/images/dummy.png"}
                     className="w-100 p-2"
                     alt="profile"
                 />

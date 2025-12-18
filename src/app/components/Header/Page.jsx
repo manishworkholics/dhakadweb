@@ -33,7 +33,7 @@ const Header = () => {
                     </button>
 
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav ms-auto me-4 text-center gap-lg-4 header-nav">
+                        <ul className="navbar-nav ms-auto me-4 text-center gap-lg-4">
 
                             <li className="nav-item">
                                 <Link className={isActive("/")} href="/">Home</Link>

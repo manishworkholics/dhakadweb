@@ -31,7 +31,7 @@ export default function Profile() {
     });
 
     const [page, setPage] = useState(1);
-    const limit = 10; // how many profiles per page
+    const limit = 9; // how many profiles per page
 
     const [totalPages, setTotalPages] = useState(1);
 
@@ -248,9 +248,6 @@ export default function Profile() {
                                     </select>
 
                                     <div className="filter-btn">
-                                        <button className="btn bg-D4AF37 text-white px-4 me-3 rounded-3">
-                                            Apply
-                                        </button>
                                         <button
                                             className="btn bg-C8C8C8 text-white px-4 rounded-3"
                                             onClick={() => setFilters({
@@ -323,7 +320,7 @@ export default function Profile() {
                                     <div key={item._id} className="col-lg-4 col-md-4 col-12 mb-3">
                                         <div className="card">
                                             <img
-                                                src={item.photos?.[0] || "/placeholder.png"}
+                                                src={item.photos?.[0] || "assets/images/dummy.png"}
                                                 className="card-img-top p-1"
                                                 style={{ height: "230px", objectFit: "cover" }}
                                             />
@@ -341,29 +338,29 @@ export default function Profile() {
                                                 </p>
 
                                                 <div className="d-flex gap-3 flex-wrap text-small">
-                                                    <span className="bg-FFECAE py-1 px-2 rounded-2 fs-13 text-capitalize">{item.employmentType || "N/A"}</span>
-                                                    <span className="bg-FFECAE py-1 px-2 rounded-2 fs-13 text-capitalize">
+                                                    <span className="bg-FFECAE py-1 px-2 rounded-2 fs-12 text-capitalize">{item.employmentType || "N/A"}</span>
+                                                    <span className="bg-FFECAE py-1 px-2 rounded-2 fs-12 text-capitalize">
                                                         {item.dob ? `${new Date().getFullYear() - new Date(item.dob).getFullYear()} yrs` : "N/A"}
                                                     </span>
-                                                    <span className="bg-FFECAE py-1 px-2 rounded-2 fs-13 text-capitalize">{item.occupation || "N/A"}</span>
+                                                    <span className="bg-FFECAE py-1 px-2 rounded-2 fs-12 text-capitalize">{item.occupation || "N/A"}</span>
                                                 </div>
 
                                                 <hr />
 
                                                 <div className="btn-bottom d-flex gap-2 flex-wrap">
-                                                    <button className="btn btn-sm bg-4CAF50 text-white rounded-5 fs-13">
+                                                    <button className="btn btn-sm bg-4CAF50 text-white rounded-5 fs-12">
                                                         Chat Now
                                                     </button>
                                                     <button
                                                         disabled={sentRequests.includes(item.userId)}
                                                         onClick={() => handleSendInterest(item.userId)}
-                                                        className={`btn btn-sm border rounded-5 fs-13 ${sentRequests.includes(item.userId) ? "disabled bg-light" : ""}`}
+                                                        className={`btn btn-sm border rounded-5 fs-12 ${sentRequests.includes(item.userId) ? "disabled bg-light" : ""}`}
                                                     >
                                                         {sentRequests.includes(item.userId) ? "Interest Sent" : "Send Interest"}
                                                     </button>
 
 
-                                                    <Link href={`/profiledetail/${item._id}`} className="btn btn-sm border fs-13 rounded-5">
+                                                    <Link href={`/profiledetail/${item._id}`} className="btn btn-sm border fs-12 rounded-5">
                                                         More Detail
                                                     </Link>
                                                 </div>

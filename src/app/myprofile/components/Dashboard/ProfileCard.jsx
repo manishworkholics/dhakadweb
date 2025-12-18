@@ -9,7 +9,7 @@ export default function ProfileCard({ data }) {
     const { name, location, photos } = data;
 
     // Fallback image if data is missing
-    const profileImage = photos?.[0] || '/dhakadweb/assets/images/no-img.jpg';
+    const profileImage = photos?.[0] || '/dhakadweb/assets/images/dummy.png';
 
     return (
         <div className="profile-card">
