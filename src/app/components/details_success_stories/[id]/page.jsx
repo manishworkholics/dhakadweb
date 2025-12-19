@@ -13,7 +13,7 @@ export default function DetailsSuccessStories({ params }) {
   useEffect(() => {
     const fetchStory = async () => {
       try {
-        const res = await fetch(`http://206.189.130.102:5000/api/success/${id}`);
+        const res = await fetch(`http://143.110.244.163:5000/api/success/${id}`);
         const data = await res.json();
         setStory(data?.story);
       } catch (error) {

@@ -43,7 +43,7 @@ export default function DashboardPage() {
     const fetchProfile = async () => {
         try {
             const res = await fetch(
-                `http://206.189.130.102:5000/api/profile/own-profile/${userId}`
+                `http://143.110.244.163:5000/api/profile/own-profile/${userId}`
             );
             const data = await res.json();
            

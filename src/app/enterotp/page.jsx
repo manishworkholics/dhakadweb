@@ -79,7 +79,7 @@ const EnterOtp = () => {
       setLoading(true);
 
       const response = await axios.post(
-        "http://206.189.130.102:5000/api/auth/verify-otp",
+        "http://143.110.244.163:5000/api/auth/verify-otp",
         { phone, otp: finalOtp }
       );
 
@@ -139,7 +139,7 @@ const handleVerifyClick = (e) => {
 
     try {
       toast.info("Sending new OTP...");
-      await axios.post("http://206.189.130.102:5000/api/auth/send-otp", { phone });
+      await axios.post("http://143.110.244.163:5000/api/auth/send-otp", { phone });
 
       setTimer(30);
       setOtp(["", "", "", ""]);

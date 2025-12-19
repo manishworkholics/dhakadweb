@@ -48,7 +48,7 @@
 //     const fetchProfile = async () => {
 //         try {
 //             const res = await fetch(
-//                 `http://206.189.130.102:5000/api/profile/own-profile/${userId}`
+//                 `http://143.110.244.163:5000/api/profile/own-profile/${userId}`
 //             );
 //             const data = await res.json();
 //             setProfile(data.profile);
@@ -74,7 +74,7 @@
 
 //         try {
 //             const res = await fetch(
-//                 `http://206.189.130.102:5000/api/upload/photo`,
+//                 `http://143.110.244.163:5000/api/upload/photo`,
 //                 {
 //                     method: "POST",
 //                     headers: {
@@ -89,7 +89,7 @@
 //             if (data?.url) {
 //                 const updatedPhotos = [...profile.photos, data.url];
 
-//                 await fetch(`http://206.189.130.102:5000/api/profile/own-profile/${userId}`, {
+//                 await fetch(`http://143.110.244.163:5000/api/profile/own-profile/${userId}`, {
 //                     // method: "PUT",
 //                     // headers: {
 //                     //     "Content-Type": "application/json",
@@ -400,7 +400,7 @@ export default function ProfilePage() {
     const fetchProfile = async () => {
         if (!userId) return;
         try {
-            const res = await fetch(`http://206.189.130.102:5000/api/profile/own-profile/${userId}`);
+            const res = await fetch(`http://143.110.244.163:5000/api/profile/own-profile/${userId}`);
             const data = await res.json();
             setProfile(data.profile);
         } catch (err) { console.log(err); }
@@ -417,7 +417,7 @@ export default function ProfilePage() {
         formData.append("photo", file);
 
         try {
-            const res = await fetch(`http://206.189.130.102:5000/api/upload/photo`, {
+            const res = await fetch(`http://143.110.244.163:5000/api/upload/photo`, {
                 method: "POST",
                 headers: { Authorization: `Bearer ${token}` },
                 body: formData
@@ -426,7 +426,7 @@ export default function ProfilePage() {
 
             if (data?.url) {
                 const updatedPhotos = [...(profile.photos || []), data.url];
-                await fetch(`http://206.189.130.102:5000/api/profile/update`, {
+                await fetch(`http://143.110.244.163:5000/api/profile/update`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
@@ -448,7 +448,7 @@ export default function ProfilePage() {
 
     const saveProfileUpdate = async (updatedData) => {
         try {
-            const res = await fetch(`http://206.189.130.102:5000/api/profile/update`, {
+            const res = await fetch(`http://143.110.244.163:5000/api/profile/update`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

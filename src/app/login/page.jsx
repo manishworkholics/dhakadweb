@@ -45,7 +45,7 @@ const Login = () => {
 
         try {
             const response = await axios.post(
-                "http://206.189.130.102:5000/api/auth/email-login",
+                "http://143.110.244.163:5000/api/auth/email-login",
                 {
                     email: formData.email,
                     password: formData.password,
