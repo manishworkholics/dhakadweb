@@ -35,11 +35,6 @@ const Login = () => {
             return "Invalid email address";
         if (!formData.password)
             return "Password is required";
-        // if (formData.password.length < 6)
-        //     return "Password should be minimum 6 characters";
-        //     if (!formData.stayLoggedIn)
-        //         return "Please agree to the terms and conditions";
-        //     return null;
     };
 
     const handleSubmit = async (e) => {
@@ -76,7 +71,7 @@ const Login = () => {
             toast.error(error?.response?.data?.message || "Login Failed!");
         }
     };
-
+    const [showPassword, setShowPassword] = useState(false);
     return (
         <div className='login-page bg-FDFBF7'>
             <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
@@ -100,10 +95,32 @@ const Login = () => {
                                                 <label htmlFor="exampleInputEmail1" className="form-label text-6B6B6B"> Email ID</label>
                                                 <input type="text" name='email' value={formData.email} onChange={handleChange} className="form-control" placeholder='Email ID' />
                                             </div>
-                                            <div className="mb-3">
-                                                <label htmlFor="exampleInputPassword1" className="form-label text-6B6B6B">Password</label>
-                                                <input type="password" name='password' value={formData.password} onChange={handleChange} className="form-control" id="exampleInputPassword1" placeholder='Enter Password' />
+                                            <div className="mb-3 position-relative">
+                                                <label className="form-label text-6B6B6B">Password</label>
+
+                                                <input
+                                                    type={showPassword ? "text" : "password"}
+                                                    name="password"
+                                                    value={formData.password}
+                                                    onChange={handleChange}
+                                                    className="form-control pe-5"
+                                                    placeholder="Enter Password"
+                                                />
+
+                                                <span
+                                                onClick={() => setShowPassword(!showPassword)}
+                                                className="position-absolute end-2 top-50 translate-middle-y text-dark"
+                                                style={{ cursor: "pointer", right: "15px" }}
+                                            >
+                                                {showPassword ? (
+                                                    <i className="bi bi-eye-slash"></i>
+                                                ) : (
+                                                    <i className="bi bi-eye"></i>
+                                                )}
+                                            </span>
                                             </div>
+
+
                                             <div className="d-flex justify-content-between">
                                                 <div className="mb-3 form-check">
                                                     <input type="checkbox" className="form-check-input" id="exampleCheck1" />

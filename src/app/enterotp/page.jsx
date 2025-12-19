@@ -101,19 +101,32 @@ const EnterOtp = () => {
   };
 
   const handleInvalidOtp = () => {
-    toast.error("Invalid OTP. Please try again.");
+  toast.error("Invalid OTP. Please try again.");
 
-    setOtp(["", "", "", ""]); // Clear input
-    setTimeout(() => {
-      inputRefs[0].current.focus(); // Cursor moves to first input
-    }, 200);
-  };
+  // Clear all OTP boxes
+  setOtp(["", "", "", ""]);
 
+  // Safely focus first input
+  setTimeout(() => {
+    if (inputRefs[0]?.current) {
+      inputRefs[0].current.focus();
+    }
+  }, 200);
+};
 
-  const handleVerifyClick = (e) => {
-    e.preventDefault();
-    verifyOtp(otp.join(""));
-  };
+const handleVerifyClick = (e) => {
+  e.preventDefault();
+
+  const otpValue = otp.join("");
+
+  if (otpValue.length < 4) {
+    toast.error("Please enter a valid 4-digit OTP.");
+    return;
+  }
+
+  verifyOtp(otpValue);
+};
+
 
   // 🔁 Resend OTP function
   const handleResend = async () => {

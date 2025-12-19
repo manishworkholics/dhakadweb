@@ -201,7 +201,7 @@ const HomePage = () => {
                                             value={formData.phone}
                                             onChange={handleChange}
                                             className="form-control bg-dark border-white shadow-none text-white py-2 mb-lg-3 mb-md-3 mb-2"
-                                            placeholder="Mobile No."
+                                            placeholder="Mobile Number"
                                         />
 
                                         {/* Password */}
@@ -241,7 +241,7 @@ const HomePage = () => {
                                         <div className="form-check mb-lg-3 mb-md-3 mb-2">
                                             <input className="form-check-input" type="checkbox" name="agree" checked={formData.agree} onChange={handleChange} id="agree" />
                                             <label className="form-check-label text-white" htmlFor="agree">
-                                                Agree terms and conditions
+                                                I agree to the Terms and Conditions.
                                             </label>
                                         </div>
 
@@ -251,11 +251,10 @@ const HomePage = () => {
                                         </button>
 
                                         <p className="small text-white mt-lg-3 mt-md-3 mt-2 mb-0">
-                                            By clicking register free, you confirm that you accept the terms use and Privacy Policy
+                                            By clicking Register Free, you agree to our Terms of Use and Privacy Policy.
                                         </p>
                                     </div>
                                 </>) : ('')}
-
 
                             </div>
                         </div>
@@ -377,8 +376,10 @@ const HomePage = () => {
                                             </div>
                                             <h5 className="fw-bold mb-2">Verified & Genuine Profiles</h5>
                                             <p className="text-dark mb-0">
-                                                Find Your Perfect Match With Profiles Screened By Location,
-                                                Community, Profession & More — From Lakhs Of Trusted Members.
+                                                {/* Find Your Perfect Match With Profiles Screened By Location,
+                                                Community, Profession & More — From Lakhs Of Trusted Members. */}
+                                                Find Your Perfect Match With Profiles Screened By Location, Community, Profession & More — From Lakhs Of Trusted Members.
+                                                Update to : Find your perfect match with profiles screened by location, community, profession, and more — from lakhs of trusted members.
                                             </p>
                                         </div>
                                     </div>
@@ -396,9 +397,10 @@ const HomePage = () => {
                                             </div>
                                             <h5 className="fw-bold mb-2">Personal Verification Visits</h5>
                                             <p className="text-dark mb-0">
-                                                Enjoy Extra Assurance With Profiles Personally Verified By
-                                                Our On-Ground Agents.
-                                            </p>
+                                                {/* Enjoy Extra Assurance With Profiles Personally Verified By
+                                                Our On-Ground Agents. */}
+                                                Enjoy Extra Assurance With Profiles Personally Verified By Our On-Ground Agents.
+                                                Update to : Enjoy extra assurance with profiles personally verified by our on-ground agents.                                            </p>
                                         </div>
                                     </div>
 
@@ -414,9 +416,10 @@ const HomePage = () => {
                                             </div>
                                             <h5 className="fw-bold mb-2">Your Privacy, Your Control</h5>
                                             <p className="text-dark mb-0">
-                                                Decide Who Can Access Your Contact Details, Photos & Videos —
-                                                Complete Privacy At Your Fingertips.
-                                            </p>
+                                                {/* Decide Who Can Access Your Contact Details, Photos & Videos —
+                                                Complete Privacy At Your Fingertips. */}
+                                                Decide Who Can Access Your Contact Details, Photos & Videos — Complete Privacy At Your Fingertips.
+                                                Update to : Decide who can access your contact details, photos, and videos — complete privacy at your fingertips.                                            </p>
                                         </div>
                                     </div>
 
@@ -430,7 +433,7 @@ const HomePage = () => {
                         <SuccessStories />
                     </div>
 
-                    {/* Home-Section-3 */}
+                    {/* Home-Section-4 */}
                     <div className="home-section-4">
                         <div className="container">
                             <div className="row">

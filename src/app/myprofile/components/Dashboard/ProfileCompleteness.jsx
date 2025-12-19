@@ -43,11 +43,11 @@ export default function ProfileCompleteness({ percentage }) {
                 </div>
             </div>
 
-            <div className="completeness-actions d-flex justify-content-around gap-1 mt-3">
-                <button className="btn border-secondary">
+            <div className="completeness-actions d-flex justify-content-around gap-1">
+                <button className="btn border-secondary py-1 px-1 ">
                     <i className="fa-solid fa-user me-1 text-D4AF37"></i> Add Photo
                 </button>
-                <button className="btn border-secondary">
+                <button className="btn border-secondary px-1  py-1">
                     <i className="fa-solid fa-house me-1 text-D4AF37"></i> Family Details
                 </button>
             </div>

@@ -22,31 +22,54 @@ export default function NotificationPage() {
                                         <div className="image" >
                                             <img src="/dhakadweb/assets/images/muskan.png" alt="" style={{ height: "70px", width: "70px", objectFit: "cover" }} className='rounded-circle' />
                                         </div>
-                                        <div className="text">
+                                        <div className="ms-3 text">
                                             <h6 className='fw-semibold mb-0'>Muskan Dhakad</h6>
                                             <p className='mb-0'>Viewed your profile</p>
                                             <p className='mb-0'>42 min</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-4"></div>
+                                <div className="col-4 d-flex align-items-start justify-content-end">
+                                    <button className='rounded-3 px-2 py-1 btn btn-outline-danger'>View Profile</button>
+                                </div>
                             </div>
                         </div>
-                        <div className="card p-2 mt-2">
+                        <div className="card p-2 mt-3">
                             <div className="row">
                                 <div className="col-8">
                                     <div className="image-text d-flex align-items-center">
                                         <div className="image" >
-                                            <img src="/dhakadweb/assets/images/muskan.png" alt=""  style={{height:"70px", width:"70px", objectFit:"cover"}} className='rounded-circle'/>
+                                            <img src="/dhakadweb/assets/images/muskan.png" alt="" style={{ height: "70px", width: "70px", objectFit: "cover" }} className='rounded-circle' />
                                         </div>
-                                        <div className="text">
+                                        <div className="ms-3 text">
                                             <h6 className='fw-semibold mb-0'>Muskan Dhakad</h6>
                                             <p className='mb-0'>Viewed your profile</p>
                                             <p className='mb-0'>42 min</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-4"></div>
+                                <div className="col-4 d-flex align-items-start justify-content-end">
+                                    <button className='rounded-3 px-2 py-1 btn btn-outline-danger'>View Profile</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="card p-2 mt-3">
+                            <div className="row">
+                                <div className="col-8">
+                                    <div className="image-text d-flex align-items-center">
+                                        <div className="image" >
+                                            <img src="/dhakadweb/assets/images/muskan.png" alt="" style={{ height: "70px", width: "70px", objectFit: "cover" }} className='rounded-circle' />
+                                        </div>
+                                        <div className="ms-3 text">
+                                            <h6 className='fw-semibold mb-0'>Muskan Dhakad</h6>
+                                            <p className='mb-0'>Viewed your profile</p>
+                                            <p className='mb-0'>42 min</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-4 d-flex align-items-start justify-content-end">
+                                    <button className='rounded-3 px-2 py-1 btn btn-outline-danger'>View Profile</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -58,31 +81,54 @@ export default function NotificationPage() {
                                         <div className="image" >
                                             <img src="/dhakadweb/assets/images/muskan.png" alt="" style={{ height: "70px", width: "70px", objectFit: "cover" }} className='rounded-circle' />
                                         </div>
-                                        <div className="text">
+                                        <div className="ms-3 text">
                                             <h6 className='fw-semibold mb-0'>Muskan Dhakad</h6>
                                             <p className='mb-0'>Viewed your profile</p>
                                             <p className='mb-0'>42 min</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-4"></div>
+                                <div className="col-4 d-flex align-items-start justify-content-end">
+                                    <button className='rounded-3 px-2 py-1 btn btn-outline-danger'>View Profile</button>
+                                </div>
                             </div>
                         </div>
-                        <div className="card p-2 mt-2">
+                        <div className="card p-2 mt-3">
                             <div className="row">
                                 <div className="col-8">
                                     <div className="image-text d-flex align-items-center">
                                         <div className="image" >
-                                            <img src="/dhakadweb/assets/images/muskan.png" alt=""  style={{height:"70px", width:"70px", objectFit:"cover"}} className='rounded-circle'/>
+                                            <img src="/dhakadweb/assets/images/muskan.png" alt="" style={{ height: "70px", width: "70px", objectFit: "cover" }} className='rounded-circle' />
                                         </div>
-                                        <div className="text">
+                                        <div className="ms-3 text">
                                             <h6 className='fw-semibold mb-0'>Muskan Dhakad</h6>
                                             <p className='mb-0'>Viewed your profile</p>
                                             <p className='mb-0'>42 min</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-4"></div>
+                                <div className="col-4 d-flex align-items-start justify-content-end">
+                                    <button className='rounded-3 px-2 py-1 btn btn-outline-danger'>View Profile</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="card p-2 mt-3">
+                            <div className="row">
+                                <div className="col-8">
+                                    <div className="image-text d-flex align-items-center">
+                                        <div className="image" >
+                                            <img src="/dhakadweb/assets/images/muskan.png" alt="" style={{ height: "70px", width: "70px", objectFit: "cover" }} className='rounded-circle' />
+                                        </div>
+                                        <div className="ms-3 text">
+                                            <h6 className='fw-semibold mb-0'>Muskan Dhakad</h6>
+                                            <p className='mb-0'>Viewed your profile</p>
+                                            <p className='mb-0'>42 min</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-4 d-flex align-items-start justify-content-end">
+                                    <button className='rounded-3 px-2 py-1 btn btn-outline-danger'>View Profile</button>
+                                </div>
                             </div>
                         </div>
                     </div>

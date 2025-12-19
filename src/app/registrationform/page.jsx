@@ -519,17 +519,33 @@ const RegistrationForm = () => {
                                                     </div>
 
                                                     <div className="mb-3">
-                                                        <label className="form-label">Date of Birth</label>
+                                                      
+                                                         <label className="form-label">Date of Birth</label>
+                                                          {/* <input
+                                                            type="date"
+                                                            name="dob"
+                                                            value={formData.dob}
+                                                            onChange={handleChange}
+                                                            className="form-control"
+                                                            max={new Date().toISOString().split("T")[0]}  
+                                                        /> */}  
+                                                        
                                                         <input
                                                             type="date"
                                                             name="dob"
                                                             value={formData.dob}
                                                             onChange={handleChange}
                                                             className="form-control"
-                                                            max={new Date().toISOString().split("T")[0]} // ⛔ Prevent future date
+                                                            min="1942-01-01"
+                                                            max={
+                                                                new Date(
+                                                                    new Date().setFullYear(new Date().getFullYear() - 18)
+                                                                )
+                                                                    .toISOString()
+                                                                    .split("T")[0]
+                                                            }
                                                         />
                                                     </div>
-
 
                                                     <div className="mb-3">
                                                         <label className="form-label">Mother tongue</label>
@@ -592,9 +608,12 @@ const RegistrationForm = () => {
                                                             onChange={handleChange}
                                                         >
                                                             <option value="">Select</option>
-                                                            <option value="Never married">Never Married</option>
-                                                            <option value="Widower">Widower</option>
-                                                            <option value="Divorced">Divorced</option>
+                                                            <option value="Never married"> Never Married </option>
+                                                            <option value="Previously Married (Divorced)"> Previously Married (Divorced) </option>
+                                                            <option value="Previously Married (Widowed)"> Previously Married (Widowed) </option>
+                                                            <option value="Currently Separated"> Currently Separated </option>
+                                                            <option value="Legally Separated / Awaiting Divorce"> Legally Separated / Awaiting Divorce</option>
+                                                            <option value="Single Parent (Divorced/Widowed)">Single Parent (Divorced/Widowed)</option>
                                                         </select>
                                                     </div>
 
@@ -607,9 +626,10 @@ const RegistrationForm = () => {
                                                             onChange={handleChange}
                                                         >
                                                             <option value="">Select religion</option>
-                                                            <option value="Hindu">Hindu</option>
-                                                            <option value="Muslim">Muslim</option>
+                                                            <option value="Hinduism">Hinduism</option>
+                                                            <option value="Islam">Islam</option>
                                                             <option value="Sikh">Sikh</option>
+                                                            <option value="Christianity">Christianity</option>
                                                         </select>
                                                     </div>
 

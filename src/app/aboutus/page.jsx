@@ -36,7 +36,7 @@ const Aboutus = () => {
                             Porro eligendi perferendis eum nesciunt amet ea, tempora voluptas deserunt. Repellat facere eum est eius, architecto officia repudiandae quam sit illum sapiente hic, iste id accusantium temporibus, ab consequatur enim.</p>
                     </div>
                 </div>
-                <div className="vision row bg-EBEBEB mb-4 py-5 px-2">
+                <div className="vision row mb-4 py-5 px-2">
                     <div className="col-lg-8 col-md-8 col-12">
                         <h2 className='fw-bold mb-2'>Our Vision </h2>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste officia vel error ut est quas mollitia explicabo? Quisquam asperiores nisi perspiciatis! Ex odio consectetur earum debitis consequatur unde velit error!

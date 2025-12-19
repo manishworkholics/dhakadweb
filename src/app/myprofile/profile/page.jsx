@@ -261,7 +261,7 @@ const ProfileSection = ({ title, children, onEdit }) => (
             <h4 className="section-title-profile ">{title}</h4>
             {onEdit && (
                 <button onClick={onEdit} className="edit-btn">
-                    <span role="img" aria-label="Edit">✏️</span> Edit
+                    <span role="img" aria-label="Edit"><i className="fa-solid fa-pen me-2"></i></span> Edit
                 </button>
             )}
         </div>
@@ -367,11 +367,11 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
 const PhotoUploader = ({ photos, onUpload, uploading }) => (
     <div className="profile-photo-column">
         <img
-            src={photos?.[0] || "/no-image.png"}
+            src={photos?.[0] || "/dhakadweb/assets/images/dummy.png"}
             alt="profile"
             className="main-profile-photo"
         />
-        <label className="add-photo-btn cursor-pointer mt-2 inline-block">
+        <label className="add-photo-btn cursor-pointer inline-block">
             {photos?.length > 0 ? "Edit Photo" : "Add Photo"}
             <input type="file" hidden accept="image/*" onChange={onUpload} />
         </label>
@@ -494,8 +494,15 @@ export default function ProfilePage() {
                     <div className="section-header-row">
                         <h4 className="section-title-profile">Image Gallery</h4>
 
-                        <label className="edit-btn" style={{ cursor: "pointer" }}>
-                            {uploading ? "Uploading..." : "➕ Add More Photo"}
+                        <label className="edit-btn d-inline-flex align-items-center gap-2" style={{ cursor: "pointer" }}>
+                            {uploading ? (
+                                "Uploading..."
+                            ) : (
+                                <>
+                                    <i className="fa-solid fa-plus"></i>
+                                    Add More Photo
+                                </>
+                            )}
                             <input type="file" hidden accept="image/*" onChange={handlePhotoUpload} />
                         </label>
                     </div>

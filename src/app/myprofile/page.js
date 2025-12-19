@@ -76,7 +76,7 @@ export default function MyProfileDashboard() {
 
                 {/* 1. NEW PROFILES MATCHES Section */}
                 <div className="section dashboard-section new-matches">
-                    <h3 className="section-title">New Profile Matches  ({viewedprofile?.results})</h3>
+                    <h3 className="section-title">New Matches  ({viewedprofile?.results})</h3>
                     <div className="card-grid-4">
                        {viewedprofile?.profiles?.slice(0, 4).map(profile => (
                             // Reusing the ProfileCard component
@@ -94,7 +94,7 @@ export default function MyProfileDashboard() {
 
                     {/* 2a. Profiles Status */}
                     <div className="status-item profile-status-wrap">
-                        <h3 className="section-title">PROFILES STATUS</h3>
+                        <h3 className="section-title">PROFILE STATUS</h3>
                         <ProfileCompleteness percentage={profile?.profileScore ?? 0} />
                     </div>
 
