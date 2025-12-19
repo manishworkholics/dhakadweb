@@ -89,7 +89,7 @@ const Contactus = () => {
                                         </div>
                                     </div>
                                     <div className="col-12">
-                                        <button className="btn w-100 py-3 bg-D4AF37 contact-btn text-white" type="submit">Send
+                                        <button className="btn w-100 py-3 bg-D4AF37 contact-btn text-white fw-semibold" type="submit">Send
                                             Message</button>
                                     </div>
                                 </div>

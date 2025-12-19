@@ -19,6 +19,10 @@ body {
 }
 
 /* Background Colors Start */
+.bg-fdf7ee {
+    background-color: #fdf7ee !important;
+}
+
 .bg-FDFBF7 {
     background-color: #FDFBF7;
 }
@@ -297,6 +301,52 @@ body {
     text-decoration: none;
     position: relative;
     transition: all 0.3s ease;
+}
+
+.about-right img {
+    border: 7px solid #D4AF37;
+    height: 340px;
+    width: 360px;
+}
+
+@media only screen and (max-width:767px) {
+    .about-right{
+        margin-bottom: 50px;
+    }
+    .about-right img {
+        border: 7px solid #D4AF37;
+        height: 300px;
+        width: 300px;
+    }
+
+    .about-right .img2 {
+        bottom: -30px !important;
+    }
+}
+
+@media only screen and (min-width:768px) and (max-width:1023px) {
+    .about-right{
+        margin-bottom: 50px;
+    }
+    .about-right img {
+        border: 7px solid #D4AF37;
+        height: 300px;
+        width: 300px;
+    }
+
+    .about-right .img2 {
+        bottom: -30px !important;
+    }
+}
+
+.team {
+    border-bottom: 3px solid #d4ac4a !important;
+}
+
+.accordion-button:not(.collapsed) {
+    color: black !important;
+    background-color: white !important;
+    box-shadow: none !important;
 }
 
 /* ===== ACTIVE STATE (IMAGE STYLE) ===== */

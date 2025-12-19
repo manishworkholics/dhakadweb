@@ -2,9 +2,7 @@
 
 import React from "react";
 import { useState, useEffect } from "react";
-import Link from "next/link";
-
-export default function SuccessStories() {
+export default function OurTeam() {
 
     const [successStories, setsuccessStories] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -13,7 +11,7 @@ export default function SuccessStories() {
         try {
             const res = await fetch("http://206.189.130.102:5000/api/success")
             const data = await res.json();
-            setsuccessStories(data?.stories || []) 
+            setsuccessStories(data?.stories || [])
             setLoading(false);
         } catch (error) {
             console.error("Error fetching success stories:", error);
@@ -27,7 +25,6 @@ export default function SuccessStories() {
 
     // Logic to select only the first 4 stories for display
     const displayedStories = successStories.slice(0, 4);
-    const hasMoreStories = successStories.length > 4;
 
     // Display a loading message
     if (loading) {
@@ -39,14 +36,14 @@ export default function SuccessStories() {
             </section>
         );
     }
-    
+
     // Check if there are no stories to display
     if (displayedStories.length === 0) {
         return (
-            <section className="py-5 text-center" style={{ background: "#fff" }}>
+            <section className="py-5 text-center">
                 <div className="container">
                     <h2 className="fw-bold m-0">
-                        <span style={{ color: "#ff4b4b" }}>Success</span> Story
+                        <span className="text-D4AF37 text-center"> Meet </span> Our Team
                     </h2>
                     <p className="mt-3">No success stories found at this time.</p>
                 </div>
@@ -55,28 +52,13 @@ export default function SuccessStories() {
     }
 
     return (
-        <section className="py-5" style={{ background: "#fff" }}>
+        <section className="py-5">
             <div className="container">
-                <div className="d-flex justify-content-between align-items-center mb-4">
-                    
+                <div className="d-flex justify-content-center align-items-center mb-4 w-100">
                     {/* Title on the Left */}
-                    <h2 className="fw-bold m-0">
-                        <span className="text-D4AF37">Success</span> Stories
+                    <h2 className="fw-bold m-0 team">
+                        <span className="text-D4AF37 "> Meet </span> Our Team
                     </h2>
-
-                    {/* View All Button on the Right, only if there are more than 4 stories */}
-                    {hasMoreStories && (
-                            <Link href="/components/dhakad_forever_matches" 
-                                className="btn px-4 py-2 fw-medium"
-                                style={{ 
-                                    backgroundColor:"#D4AF37",
-                                    color: "#ffff", 
-                                    borderColor: "#D4AF37",
-                                }}
-                            >
-                                View All Profile
-                        </Link>
-                    )}
                 </div>
 
                 {/* ---------- Stories Grid Layout (Limited to 4) ---------- */}
@@ -89,23 +71,30 @@ export default function SuccessStories() {
                                     className="rounded-4 overflow-hidden mb-3"
                                     style={{ height: "260px" }}
                                 >
-                                    
-                                        <img
-                                            src={item.image}
-                                            alt="Success Story"
-                                            className="w-100 h-100 object-fit-cover rounded-4"
-                                        />
+
+                                    <img
+                                        src={item.image}
+                                        alt="Success Story"
+                                        className="w-100 h-100 object-fit-cover rounded-4"
+                                    />
                                 </div>
 
-                                <p className="fw-semibold" style={{ cursor: "pointer" }}>
-                                    <Link 
-                                        href={`/components/details_success_stories/${item._id}`} 
-                                        className="text-decoration-none"
-                                        style={{ color: 'inherit' }}
-                                    >
-                                        Read Full Story &gt;
-                                    </Link>
-                                </p>
+                                <div
+                                    className="bg-white p-lg-2 p-md-2 p-1 text-center mx-lg-4 mx-md-4 mx-2 rounded-3"
+                                    style={{
+                                        bottom: "30px",
+                                        position: "relative",
+                                        boxShadow:
+                                            "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+                                    }}
+                                >
+                                    <h5 className="fw-bold mb-1 text-danger" style={{ fontSize: "15px" }}>
+                                        {item.name || `User ${index + 1}`}
+                                    </h5>
+                                    <p className="text-muted small m-0" style={{ fontSize: "12px" }}>
+                                        Marketing Manager
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     ))}
