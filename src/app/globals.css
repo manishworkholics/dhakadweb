@@ -46,7 +46,8 @@ body {
 .bg-F6FBFF {
     background-color: #F6FBFF !important;
 }
-.bg-DFDFDF{
+
+.bg-DFDFDF {
     background-color: #DFDFDF !important;
 }
 
@@ -121,6 +122,15 @@ body {
 }
 
 /* OTP Page End */
+.contact-btn {
+    border: 1px solid #D4AF37 !important;
+}
+
+.contact-btn:hover {
+    border: 1px solid #D4AF37 !important;
+    color: #D4AF37 !important;
+    background-color: #ffff !important;
+}
 
 /* PROFILE DETAIL Page Start */
 .pageheading-banner {
@@ -134,7 +144,7 @@ body {
 
 
 @media only screen and (min-width:768px) and (max-width:1023px) {
-    .gift{
+    .gift {
         width: 100% !important;
     }
 }

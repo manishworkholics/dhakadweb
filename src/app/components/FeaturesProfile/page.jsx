@@ -111,7 +111,7 @@ export default function FeaturesProfile() {
                                     style={{ height: "260px" }}
                                 >
                                     <img
-                                        src={item.photos?.[0] || "/default.png"}
+                                        src={item.photos?.[0] || "/dhakadweb/assets/images/dummy.png"}
                                         alt={item.name}
                                         width={300}
                                         height={260}
