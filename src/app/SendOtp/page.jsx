@@ -39,7 +39,7 @@ const sendotp = () => {
             return;
         }
         try {
-            const response = await axios.post('http://206.189.130.102:5000/api/auth/send-otp', {
+            const response = await axios.post('http://143.110.244.163:5000/api/auth/send-otp', {
                 phone: formData.phone,
             });
             if (response?.data?.success) {

@@ -6,7 +6,7 @@ import Link from "next/link";
 import axios from "axios";
 import { toast } from "react-toastify";
  
-const API_URL = "http://206.189.130.102:5000/api/interest/request";
+const API_URL = "http://143.110.244.163:5000/api/interest/request";
  
 const RequestListItem = ({ profile, type, onAction }) => {
     const showActions = type === "new";

@@ -38,7 +38,7 @@ export default function MyProfileDashboard() {
     const fetchProfile = async () => {
         try {
             const res = await fetch(
-                `http://206.189.130.102:5000/api/profile/own-profile/${userId}`
+                `http://143.110.244.163:5000/api/profile/own-profile/${userId}`
             );
             const data = await res.json();
 
@@ -51,7 +51,7 @@ export default function MyProfileDashboard() {
     const fetchViewedProfile = async () => {
         try {
 
-            const res = await fetch(`http://206.189.130.102:5000/api/viewed/viewed`, {
+            const res = await fetch(`http://143.110.244.163:5000/api/viewed/viewed`, {
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem("token")}` // or your auth token
                 }

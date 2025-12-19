@@ -121,7 +121,7 @@ const HomePage = () => {
             return;
         }
         try {
-            const response = await axios.post('http://206.189.130.102:5000/api/auth/register', {
+            const response = await axios.post('http://143.110.244.163:5000/api/auth/register', {
                 name: formData.name,
                 email: formData.email,
                 password: formData.password,

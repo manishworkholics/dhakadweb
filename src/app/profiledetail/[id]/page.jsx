@@ -19,7 +19,7 @@ export default function ProfileDetail() {
   useEffect(() => {
     const getProfile = async () => {
       try {
-        const res = await fetch(`http://206.189.130.102:5000/api/profile/${id}`, {
+        const res = await fetch(`http://143.110.244.163:5000/api/profile/${id}`, {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem("token")}` // or your auth token
           }
@@ -31,7 +31,7 @@ export default function ProfileDetail() {
         // ✅ Mark profile as viewed (only if not own profile)
         const userId = sessionStorage.getItem("userId"); // or from context
         if (data.profile._id !== userId) {
-          await fetch(`http://206.189.130.102:5000/api/viewed/view/${data.profile._id}`, {
+          await fetch(`http://143.110.244.163:5000/api/viewed/view/${data.profile._id}`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -78,7 +78,7 @@ export default function ProfileDetail() {
     try {
       const token = sessionStorage.getItem("token");
 
-      const res = await fetch(`http://206.189.130.102:5000/api/interest/request/send`, {
+      const res = await fetch(`http://143.110.244.163:5000/api/interest/request/send`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -106,7 +106,7 @@ export default function ProfileDetail() {
     try {
       const token = sessionStorage.getItem("token");
 
-      const res = await fetch(`http://206.189.130.102:5000/api/shortlist/`, {
+      const res = await fetch(`http://143.110.244.163:5000/api/shortlist/`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -128,7 +128,7 @@ export default function ProfileDetail() {
       const token = sessionStorage.getItem("token");
 
       if (isShortlisted) {
-        await fetch(`http://206.189.130.102:5000/api/shortlist/${profile._id}`, {
+        await fetch(`http://143.110.244.163:5000/api/shortlist/${profile._id}`, {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` }
         });
@@ -136,7 +136,7 @@ export default function ProfileDetail() {
         setIsShortlisted(false);
         alert("Removed from shortlist");
       } else {
-        await fetch(`http://206.189.130.102:5000/api/shortlist/${profile._id}`, {
+        await fetch(`http://143.110.244.163:5000/api/shortlist/${profile._id}`, {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` }
         });

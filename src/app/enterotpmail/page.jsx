@@ -76,7 +76,7 @@ const EnterOtpMail = () => {
 
         try {
             const response = await axios.post(
-                "http://206.189.130.102:5000/api/auth/verify-email-otp",
+                "http://143.110.244.163:5000/api/auth/verify-email-otp",
                 {
                     email: sessionStorage.getItem("email"),
                     otp: finalOtp,
@@ -119,7 +119,7 @@ const EnterOtpMail = () => {
 
     const resendOtp = async () => {
         try {
-            const res = await axios.post("http://206.189.130.102:5000/api/auth/resend-email-otp", {
+            const res = await axios.post("http://143.110.244.163:5000/api/auth/resend-email-otp", {
                 email: sessionStorage.getItem("email"),
             });
 

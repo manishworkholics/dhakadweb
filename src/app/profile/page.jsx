@@ -37,7 +37,7 @@ export default function Profile() {
 
     const getFilterOptions = async () => {
         try {
-            const res = await fetch("http://206.189.130.102:5000/api/profile/filters");
+            const res = await fetch("http://143.110.244.163:5000/api/profile/filters");
             const result = await res.json();
             if (result.success) setFilterOptions(result.filters);
         } catch (err) {
@@ -88,7 +88,7 @@ export default function Profile() {
         params.append("page", page);
         params.append("limit", limit);
 
-        fetch(`http://206.189.130.102:5000/api/profile/profiles?${params.toString()}`)
+        fetch(`http://143.110.244.163:5000/api/profile/profiles?${params.toString()}`)
             .then((res) => res.json())
             .then((result) => {
                 setData(result?.profiles || []);
@@ -141,7 +141,7 @@ export default function Profile() {
             }
 
             const res = await axios.post(
-                "http://206.189.130.102:5000/api/interest/request/send",
+                "http://143.110.244.163:5000/api/interest/request/send",
                 { receiverId },
                 {
                     headers: {

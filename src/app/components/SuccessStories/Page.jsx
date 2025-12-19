@@ -11,7 +11,7 @@ export default function SuccessStories() {
 
     const getSuccess = async () => {
         try {
-            const res = await fetch("http://206.189.130.102:5000/api/success")
+            const res = await fetch("http://143.110.244.163:5000/api/success")
             const data = await res.json();
             setsuccessStories(data?.stories || []) 
             setLoading(false);

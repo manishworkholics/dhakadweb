@@ -109,7 +109,7 @@ const RegistrationForm = () => {
 
         const checkProfile = async () => {
             try {
-                const res = await axios.get("http://206.189.130.102:5000/api/profile/me", {
+                const res = await axios.get("http://143.110.244.163:5000/api/profile/me", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -172,7 +172,7 @@ const RegistrationForm = () => {
 
     // Fetch states on component mount
     useEffect(() => {
-        fetch("http://206.189.130.102:5000/api/location/states")
+        fetch("http://143.110.244.163:5000/api/location/states")
             .then((res) => res.json())
             .then((data) => setStates(data))
             .catch((err) => console.error(err));
@@ -192,7 +192,7 @@ const RegistrationForm = () => {
             }
 
             try {
-                const res = await fetch(`http://206.189.130.102:5000/api/location/cities/${value}`);
+                const res = await fetch(`http://143.110.244.163:5000/api/location/cities/${value}`);
                 const data = await res.json();
                 setCities(data.cities);
                 setCustomCity(false);
@@ -221,7 +221,7 @@ const RegistrationForm = () => {
             fd.append("image", file);
 
             const upload = await axios.post(
-                "http://206.189.130.102:5000/api/upload-image",
+                "http://143.110.244.163:5000/api/upload-image",
                 fd,
                 {
                     headers: {
@@ -249,7 +249,7 @@ const RegistrationForm = () => {
             fd.append("video", introVideo);
 
             const upload = await axios.post(
-                "http://206.189.130.102:5000/api/upload/video",
+                "http://143.110.244.163:5000/api/upload/video",
                 fd,
                 {
                     headers: {
@@ -282,7 +282,7 @@ const RegistrationForm = () => {
 
 
             const res = await axios.post(
-                "http://206.189.130.102:5000/api/profile/create",
+                "http://143.110.244.163:5000/api/profile/create",
                 payload,
                 {
                     headers: { Authorization: `Bearer ${token}` },

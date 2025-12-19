@@ -32,7 +32,7 @@ export default function FeaturesProfile() {
     useEffect(() => {
         const fetchProfiles = async () => {
             try {
-                const res = await fetch("http://206.189.130.102:5000/api/featured?limit=10");
+                const res = await fetch("http://143.110.244.163:5000/api/featured?limit=10");
                 const data = await res.json();
                 if (data.success) {
                     setProfiles(data.profiles);

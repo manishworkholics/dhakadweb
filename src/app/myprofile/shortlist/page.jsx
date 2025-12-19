@@ -7,7 +7,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 // --- API Base URL ---
-const API_URL = "http://206.189.130.102:5000/api";
+const API_URL = "http://143.110.244.163:5000/api";
 
 // --- Sub-Component: Shortlisted User Card ---
 const ShortListItem = ({ profile, onRemove }) => {
