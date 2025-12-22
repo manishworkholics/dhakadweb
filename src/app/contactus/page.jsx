@@ -26,7 +26,7 @@ const Contactus = () => {
             </div>
             <div className=" py-5">
                 <div className="container py-5">
-                    <div className="mx-auto text-center mb-5" style={{ maxWidth: "900px;" }}>
+                    <div className="mx-auto text-center mb-5" style={{ maxWidth: "900px" }}>
                         <h1 className="mb-0">Contact For Any Query</h1>
                     </div>
                     <div className="row g-5 align-items-center">
@@ -34,7 +34,7 @@ const Contactus = () => {
                             <div className="bg-white rounded p-4">
                                 <div className="text-center mb-4">
                                     <i className="fa fa-map-marker-alt fa-3x mb-2 text-D4AF37"></i>
-                                    <p className="mb-">315, Princes Business Skypark, <br/>AB Road, Vijay Nagar Indore, M.P. 452010</p>
+                                    <p className="mb-">315, Princes Business Skypark, <br />AB Road, Vijay Nagar Indore, M.P. 452010</p>
                                 </div>
                                 <div className="text-center mb-4">
                                     <i className="fa fa-phone-alt fa-3x mb-3 text-D4AF37"></i>
@@ -57,14 +57,14 @@ const Contactus = () => {
                                         <div className="form-floating">
                                             <input type="text" className="form-control" id="name"
                                                 placeholder="Your Name" />
-                                            <label for="name">Your Name</label>
+                                            <label htmlFor="name">Your Name</label>
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="form-floating">
                                             <input type="email" className="form-control" id="email"
                                                 placeholder="Your Email" />
-                                            <label for="email">Your Email</label>
+                                            <label htmlFor="email">Your Email</label>
                                         </div>
                                     </div>
                                     <div className="col-md-6">

@@ -50,6 +50,12 @@ export default function ProfileDetail() {
     getProfile();
   }, [id]);
 
+  useEffect(() => {
+    if (profile?._id) {
+      checkShortlistStatus();
+    }
+  }, [profile]);
+
 
   if (loading) {
     return (
@@ -120,6 +126,8 @@ export default function ProfileDetail() {
       console.log(error);
     }
   };
+
+
 
 
   // ⭐ TOGGLE SHORTLIST
@@ -421,17 +429,17 @@ export default function ProfileDetail() {
                 <h5 className="fw-semibold mb-3">HOBBIES</h5>
                 {profile.hobbies && profile.hobbies.length > 0 ? (
                   <div className="d-flex flex-wrap">
-                    {profile.hobbies.map((hobby, i) => (
-                      <span key={i} className="px-3 py-1 bg-E9E9E9 text-dark fw-medium rounded-4 me-2 mb-2" style={{ fontSize: "15px" }}>
-                        {hobby}
-                      </span>
-                    ))}
+
+                    <span className="px-3 py-1 bg-E9E9E9 text-dark fw-medium rounded-4 me-2 mb-2" style={{ fontSize: "15px" }}>
+                      {profile?.hobbies}
+                    </span>
+
                   </div>
                 ) : (
                   <span className="px-3 py-1 bg-E9E9E9 rounded-4">No hobbies added</span>
                 )}
               </div>
-              
+
             </div>
           </div>
           <RelatedProfiles />
