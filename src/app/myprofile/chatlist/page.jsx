@@ -1,110 +1,183 @@
-// myprofile/pages/ChatList.jsx
+
+
+
+
+
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from "react";
 import DashboardLayout from "../components/Layout/DashboardLayout";
+import io from "socket.io-client";
+import axios from "axios";
 
-// --- Mock Data ---
-const mockConversations = [
-    { id: 1, name: "Muskan Dhakad", status: "online", image: "https://i.pinimg.com/videos/thumbnails/originals/45/09/cc/4509cc574f238e5dd9bf42ce4c8d1749.0000000.jpg", lastMessage: "Hello, I saw your profile!", time: "10:30 AM" },
-    { id: 2, name: "Neha Sharma", status: "offline", image: "https://i.pinimg.com/videos/thumbnails/originals/45/09/cc/4509cc574f238e5dd9bf42ce4c8d1749.0000000.jpg", lastMessage: "Let's talk soon.", time: "Yesterday" },
-    { id: 3, name: "Priya Patel", status: "online", image: "https://i.pinimg.com/videos/thumbnails/originals/45/09/cc/4509cc574f238e5dd9bf42ce4c8d1749.0000000.jpg", lastMessage: "Sent you my portfolio.", time: "11:00 AM" },
-];
+const API_URL = "http://143.110.244.163:5000/api";
+const SOCKET_URL = "http://143.110.244.163:5000";
 
-const mockMessages = [
-    { id: 1, text: "Hi! Your profile is very impressive.", sender: "other", time: "10:30 AM" },
-    { id: 2, text: "Thank you! I appreciate that. I enjoyed yours too.", sender: "self", time: "10:35 AM" },
-    { id: 3, text: "Great! What do you do for work?", sender: "other", time: "10:40 AM" },
-    { id: 4, text: "I'm a software engineer at Google. You?", sender: "self", time: "10:45 AM" },
-];
-
-// --- Sub-Components ---
-
-// Component for the left panel: List of all chats
-const ConversationList = ({ conversations, activeChatId, onSelectChat }) => (
-    <div className="conversation-list-panel">
-        <div className="chat-search">
-            <input type="text" placeholder="Search chats..." className="search-input" />
-        </div>
-        {conversations.map(conv => (
-            <div 
-                key={conv.id}
-                className={`conversation-item ${conv.id === activeChatId ? 'active' : ''}`}
-                onClick={() => onSelectChat(conv.id)}
-            >
-                <div className={`avatar-status ${conv.status}`}>
-                    <img src={conv.image} alt={conv.name} className="conv-avatar" />
-                </div>
-                <div className="conv-details">
-                    <h5 className="conv-name">{conv.name}</h5>
-                    <p className="conv-message">{conv.lastMessage}</p>
-                </div>
-                <span className="conv-time">{conv.time}</span>
-            </div>
-        ))}
-    </div>
-);
-
-// Component for the right panel: Active chat window
-const ChatWindow = ({ activeConversation, messages }) => {
-    if (!activeConversation) {
-        return (
-            <div className="chat-window-panel chat-empty">
-                <p>Select a match to start chatting.</p>
-            </div>
-        );
-    }
-    
-    return (
-        <div className="chat-window-panel">
-            {/* Chat Header */}
-            <div className="chat-header">
-                <h4 className="chat-partner-name">{activeConversation.name}</h4>
-                <span className={`chat-partner-status ${activeConversation.status}`}>{activeConversation.status}</span>
-            </div>
-            
-            {/* Messages Area */}
-            <div className="messages-container">
-                {messages.map(msg => (
-                    <div key={msg.id} className={`message-bubble ${msg.sender}`}>
-                        <p className="message-text">{msg.text}</p>
-                        <span className="message-time">{msg.time}</span>
-                    </div>
-                ))}
-            </div>
-            
-            {/* Input Footer */}
-            <div className="chat-input-footer">
-                <input type="text" placeholder="Type a message..." className="message-input" />
-                <button className="send-btn">Send</button>
-            </div>
-        </div>
-    );
-};
-
-// --- Main ChatList Component ---
+let socket;
 
 export default function ChatListPage() {
-    const [activeChatId, setActiveChatId] = useState(mockConversations[0]?.id);
-    const activeConversation = mockConversations.find(conv => conv.id === activeChatId);
+  const [chatList, setChatList] = useState([]);
+  const [activeChat, setActiveChat] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [text, setText] = useState("");
+  const messagesEndRef = useRef(null);
 
-    return (
-        <DashboardLayout>
-            <div className="chat-list-page-container">
-                
-                {/* 1. Conversation List (Left Panel) */}
-                <ConversationList 
-                    conversations={mockConversations} 
-                    activeChatId={activeChatId} 
-                    onSelectChat={setActiveChatId}
-                />
+  const token = typeof window !== "undefined" ? sessionStorage.getItem("token") : null;
+  const userId = typeof window !== "undefined" ? sessionStorage.getItem("userId") : null;
 
-                {/* 2. Active Chat Window (Right Panel) */}
-                <ChatWindow 
-                    activeConversation={activeConversation} 
-                    messages={mockMessages} 
-                />
+  /* ---------------- CHAT LIST ---------------- */
+  const fetchChatList = async () => {
+    const res = await axios.get(`${API_URL}/chat/list`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    setChatList(res.data.chats);
+  };
+
+  /* ---------------- MESSAGES ---------------- */
+  const fetchMessages = async (chatRoomId) => {
+    const res = await axios.get(`${API_URL}/chat/messages/${chatRoomId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    setMessages(res.data.messages);
+
+    socket.emit("markSeen", { chatRoomId, userId });
+  };
+
+  /* ---------------- SOCKET INIT ---------------- */
+  useEffect(() => {
+    socket = io(SOCKET_URL, {
+      auth: { token },
+    });
+
+    socket.on("receiveMessage", (msg) => {
+      if (msg.chatRoom === activeChat?.chatRoomId) {
+        setMessages((prev) => [...prev, msg]);
+        socket.emit("markSeen", { chatRoomId: activeChat.chatRoomId, userId });
+      }
+      fetchChatList();
+    });
+
+    socket.on("updateChatList", fetchChatList);
+
+    return () => socket.disconnect();
+  }, [activeChat]);
+
+  /* ---------------- FIRST LOAD ---------------- */
+  useEffect(() => {
+    fetchChatList();
+  }, []);
+
+  /* ---------------- AUTO SCROLL ---------------- */
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  /* ---------------- SEND MESSAGE ---------------- */
+  const sendMessage = () => {
+    if (!text.trim()) return;
+
+    socket.emit("sendMessage", {
+      chatRoomId: activeChat.chatRoomId,
+      senderId: userId,
+      message: text,
+    });
+
+    setText("");
+  };
+
+  return (
+    <DashboardLayout>
+      <div className="d-flex border rounded overflow-hidden" style={{ height: "80vh" }}>
+        
+        {/* -------- LEFT: CHAT LIST -------- */}
+        <div className="col-4 border-end overflow-auto">
+          {chatList.map((chat) => (
+            <div
+              key={chat.chatRoomId}
+              className={`d-flex align-items-center p-3 cursor-pointer ${
+                activeChat?.chatRoomId === chat.chatRoomId ? "bg-light" : ""
+              }`}
+              onClick={() => {
+                setActiveChat(chat);
+                fetchMessages(chat.chatRoomId);
+                socket.emit("joinRoom", { chatRoomId: chat.chatRoomId });
+              }}
+            >
+              <img
+                src={chat.user?.photos?.[0] || "/default-profile.png"}
+                className="rounded-circle me-3"
+                width="45"
+                height="45"
+              />
+              <div className="flex-grow-1">
+                <h6 className="mb-0">{chat.user?.name}</h6>
+                <small className="text-muted">
+                  {chat.lastMessage?.message || "No messages yet"}
+                </small>
+              </div>
+
+              {chat.unreadCount > 0 && (
+                <span className="badge bg-danger rounded-pill">
+                  {chat.unreadCount}
+                </span>
+              )}
             </div>
-        </DashboardLayout>
-    );
+          ))}
+        </div>
+
+        {/* -------- RIGHT: CHAT WINDOW -------- */}
+        <div className="col-8 d-flex flex-column">
+          {!activeChat ? (
+            <div className="d-flex align-items-center justify-content-center h-100 text-muted">
+              Select a chat to start messaging
+            </div>
+          ) : (
+            <>
+              {/* Header */}
+              <div className="border-bottom p-3 fw-semibold">
+                {activeChat.user?.name}
+              </div>
+
+              {/* Messages */}
+              <div className="flex-grow-1 overflow-auto p-3">
+                {messages.map((msg) => (
+                  <div
+                    key={msg._id}
+                    className={`mb-2 d-flex ${
+                      msg.sender._id === userId ? "justify-content-end" : "justify-content-start"
+                    }`}
+                  >
+                    <div
+                      className={`px-3 py-2 rounded ${
+                        msg.sender._id === userId ? "bg-primary text-white" : "bg-light"
+                      }`}
+                      style={{ maxWidth: "70%" }}
+                    >
+                      {msg.message}
+                    </div>
+                  </div>
+                ))}
+                <div ref={messagesEndRef} />
+              </div>
+
+              {/* Input */}
+              <div className="border-top p-3 d-flex gap-2">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Type a message..."
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+                />
+                <button className="btn btn-primary" onClick={sendMessage}>
+                  Send
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </DashboardLayout>
+  );
 }

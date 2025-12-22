@@ -480,7 +480,7 @@ const RegistrationForm = () => {
                                                             <label className="form-label">City</label>
                                                             {!customCity ? (
                                                                 <select
-                                                                    name="city"
+                                                                    name="location"
                                                                     className="form-control"
                                                                     value={formData.city}
                                                                     onChange={handleChange}

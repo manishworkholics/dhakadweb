@@ -484,7 +484,7 @@ export default function ProfilePage() {
                         <h2>{profile.name}</h2>
                         <p>Profile ID: {profile._id}</p>
                         <p>{calculateAge(profile.dob)} yrs | {profile.religion} | {profile.occupation}</p>
-                        <p>📞 {profile.phone || "Not Available"} | ✉️ {profile.email}</p>
+                        {/* <p>📞 {profile.phone || "Not Available"} | ✉️ {profile.email}</p> */}
                     </div>
                 </div>
 
