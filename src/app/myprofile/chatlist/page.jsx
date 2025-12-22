@@ -1,19 +1,10 @@
-
-
-
-
-
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
 import DashboardLayout from "../components/Layout/DashboardLayout";
-import io from "socket.io-client";
 import axios from "axios";
 
 const API_URL = "http://143.110.244.163:5000/api";
-const SOCKET_URL = "http://143.110.244.163:5000";
-
-let socket;
 
 export default function ChatListPage() {
   const [chatList, setChatList] = useState([]);
@@ -22,85 +13,102 @@ export default function ChatListPage() {
   const [text, setText] = useState("");
   const messagesEndRef = useRef(null);
 
-  const token = typeof window !== "undefined" ? sessionStorage.getItem("token") : null;
-  const userId = typeof window !== "undefined" ? sessionStorage.getItem("userId") : null;
+  const token =
+    typeof window !== "undefined" ? sessionStorage.getItem("token") : null;
+  const userId =
+    typeof window !== "undefined" ? sessionStorage.getItem("userId") : null;
 
   /* ---------------- CHAT LIST ---------------- */
   const fetchChatList = async () => {
-    const res = await axios.get(`${API_URL}/chat/list`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    setChatList(res.data.chats);
+    try {
+      const res = await axios.get(`${API_URL}/chat/list`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setChatList(res.data.chats || []);
+    } catch (err) {
+      console.error("Chat list error", err);
+    }
   };
 
   /* ---------------- MESSAGES ---------------- */
-  const fetchMessages = async (chatRoomId) => {
-    const res = await axios.get(`${API_URL}/chat/messages/${chatRoomId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    setMessages(res.data.messages);
+  const fetchMessages = async (_id) => {
+    try {
+      const res = await axios.get(
+        `${API_URL}/chat/messages/${_id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
-    socket.emit("markSeen", { chatRoomId, userId });
+      setMessages(res.data.messages || []);
+
+      // mark seen
+    //   await axios.put(
+    //     `${API_URL}/chat/seen/${_id}`,
+    //     {},
+    //     { headers: { Authorization: `Bearer ${token}` } }
+    //   );
+
+      fetchChatList();
+    } catch (err) {
+      console.error("Fetch messages error", err);
+    }
   };
 
-  /* ---------------- SOCKET INIT ---------------- */
-  useEffect(() => {
-    socket = io(SOCKET_URL, {
-      auth: { token },
-    });
+  /* ---------------- SEND MESSAGE ---------------- */
+  const sendMessage = async () => {
+    if (!text.trim() || !activeChat) return;
 
-    socket.on("receiveMessage", (msg) => {
-      if (msg.chatRoom === activeChat?.chatRoomId) {
-        setMessages((prev) => [...prev, msg]);
-        socket.emit("markSeen", { chatRoomId: activeChat.chatRoomId, userId });
-      }
-      fetchChatList();
-    });
+    try {
+      await axios.post(
+        `${API_URL}/chat/send`,
+        {
+          _id: activeChat._id,
+          message: text,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
-    socket.on("updateChatList", fetchChatList);
-
-    return () => socket.disconnect();
-  }, [activeChat]);
-
-  /* ---------------- FIRST LOAD ---------------- */
-  useEffect(() => {
-    fetchChatList();
-  }, []);
+      setText("");
+      fetchMessages(activeChat._id);
+    } catch (err) {
+      console.error("Send message error", err);
+    }
+  };
 
   /* ---------------- AUTO SCROLL ---------------- */
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  /* ---------------- SEND MESSAGE ---------------- */
-  const sendMessage = () => {
-    if (!text.trim()) return;
-
-    socket.emit("sendMessage", {
-      chatRoomId: activeChat.chatRoomId,
-      senderId: userId,
-      message: text,
-    });
-
-    setText("");
-  };
+  /* ---------------- FIRST LOAD ---------------- */
+  useEffect(() => {
+    fetchChatList();
+  }, []);
 
   return (
     <DashboardLayout>
-      <div className="d-flex border rounded overflow-hidden" style={{ height: "80vh" }}>
-        
+      <div
+        className="d-flex border rounded overflow-hidden"
+        style={{ height: "80vh" }}
+      >
         {/* -------- LEFT: CHAT LIST -------- */}
         <div className="col-4 border-end overflow-auto">
+          {chatList.length === 0 && (
+            <p className="text-center mt-5 text-muted">No chats found</p>
+          )}
+
           {chatList.map((chat) => (
             <div
-              key={chat.chatRoomId}
+              key={chat._id}
               className={`d-flex align-items-center p-3 cursor-pointer ${
-                activeChat?.chatRoomId === chat.chatRoomId ? "bg-light" : ""
+                activeChat?._id === chat._id ? "bg-light" : ""
               }`}
               onClick={() => {
                 setActiveChat(chat);
-                fetchMessages(chat.chatRoomId);
-                socket.emit("joinRoom", { chatRoomId: chat.chatRoomId });
+                fetchMessages(chat._id);
               }}
             >
               <img
@@ -108,7 +116,9 @@ export default function ChatListPage() {
                 className="rounded-circle me-3"
                 width="45"
                 height="45"
+                alt="profile"
               />
+
               <div className="flex-grow-1">
                 <h6 className="mb-0">{chat.user?.name}</h6>
                 <small className="text-muted">
@@ -144,12 +154,16 @@ export default function ChatListPage() {
                   <div
                     key={msg._id}
                     className={`mb-2 d-flex ${
-                      msg.sender._id === userId ? "justify-content-end" : "justify-content-start"
+                      msg.sender._id === userId
+                        ? "justify-content-end"
+                        : "justify-content-start"
                     }`}
                   >
                     <div
                       className={`px-3 py-2 rounded ${
-                        msg.sender._id === userId ? "bg-primary text-white" : "bg-light"
+                        msg.sender._id === userId
+                          ? "bg-primary text-white"
+                          : "bg-light"
                       }`}
                       style={{ maxWidth: "70%" }}
                     >
