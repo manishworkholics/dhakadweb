@@ -15,6 +15,7 @@ export default function ProfileDetail() {
 
   const [isShortlisted, setIsShortlisted] = useState(false);
   const [interestSent, setInterestSent] = useState(false);
+  const [chatinterestSent, setChatInterestSent] = useState(false);
 
   useEffect(() => {
     const getProfile = async () => {
@@ -90,7 +91,7 @@ export default function ProfileDetail() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ receiverId: profile._id }),
+        body: JSON.stringify({ receiverId: profile?.userId }),
       });
 
       const data = await res.json();
@@ -105,6 +106,35 @@ export default function ProfileDetail() {
       alert("Failed to send interest");
     }
   };
+
+
+  // 🚀 SEND INTEREST
+  const sendChatInterestRequest = async () => {
+    try {
+      const token = sessionStorage.getItem("token");
+
+      const res = await fetch(`http://143.110.244.163:5000/api/chat/now`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ receiverId: profile._id }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setChatInterestSent(true);
+        alert(data.message);
+      } else {
+        alert(data.message);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to send interest");
+    }
+  };
+
 
 
   // ⭐ CHECK SHORTLIST STATE WHEN OPENING PROFILE
@@ -193,10 +223,13 @@ export default function ProfileDetail() {
 
                         {/* Chat Now */}
                         <button
+                          onClick={sendChatInterestRequest}
                           className="col-4 btn bg-danger text-white fw-medium rounded-top-0 rounded-end-0 py-3"
                           style={{ fontSize: "15px" }}
+                          disabled={chatinterestSent}
                         >
-                          Chat Now
+                          
+                          {chatinterestSent ? "Interest Sent ✓" : "Chat Now"}
                         </button>
 
                         {/* Send Interest */}

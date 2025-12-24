@@ -422,7 +422,7 @@ const RegistrationForm = () => {
                                                             name="name"
                                                             type="text"
                                                             className="form-control"
-                                                            value={formData.name}
+                                                            value={formData.name || ""}
                                                             readOnly
                                                         />
 
@@ -519,17 +519,17 @@ const RegistrationForm = () => {
                                                     </div>
 
                                                     <div className="mb-3">
-                                                      
-                                                         <label className="form-label">Date of Birth</label>
-                                                          {/* <input
+
+                                                        <label className="form-label">Date of Birth</label>
+                                                        {/* <input
                                                             type="date"
                                                             name="dob"
                                                             value={formData.dob}
                                                             onChange={handleChange}
                                                             className="form-control"
                                                             max={new Date().toISOString().split("T")[0]}  
-                                                        /> */}  
-                                                        
+                                                        /> */}
+
                                                         <input
                                                             type="date"
                                                             name="dob"

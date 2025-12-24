@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 const EnterOtpMail = () => {
     const router = useRouter();
     const [otp, setOtp] = useState(["", "", "", ""]);
+    const [Loading, setLoading] = useState(false)
     const inputRefs = Array(4)
         .fill(0)
         .map(() => useRef(null));
