@@ -1,5 +1,6 @@
 "use client";
 
+import Link from 'next/link';
 import React from 'react';
 
 const radius = 50;
@@ -44,12 +45,12 @@ export default function ProfileCompleteness({ percentage }) {
             </div>
 
             <div className="completeness-actions d-flex justify-content-around gap-1">
-                <button className="btn border-secondary py-1 px-1 ">
+                <Link href={'/myprofile/profile'} className="btn border-secondary py-1 px-1 ">
                     <i className="fa-solid fa-user me-1 text-D4AF37"></i> Add Photo
-                </button>
-                <button className="btn border-secondary px-1  py-1">
+                </Link>
+                <Link href={'/myprofile/profile'} className="btn border-secondary px-1  py-1">
                     <i className="fa-solid fa-house me-1 text-D4AF37"></i> Family Details
-                </button>
+                </Link>
             </div>
         </div>
     );

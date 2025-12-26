@@ -46,7 +46,7 @@ export default function ChatListPage() {
     });
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    // messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   /* ---------------- CHAT LIST ---------------- */
@@ -227,9 +227,8 @@ export default function ChatListPage() {
             return (
               <div
                 key={chat._id}
-                className={`d-flex align-items-center p-3 cursor-pointer border-bottom ${
-                  activeChat?._id === chat._id ? "bg-light" : ""
-                }`}
+                className={`d-flex align-items-center p-3 cursor-pointer border-bottom ${activeChat?._id === chat._id ? "bg-light" : ""
+                  }`}
                 onClick={() => {
                   setActiveChat(chat);
                   fetchMessages(chat._id);
@@ -293,14 +292,12 @@ export default function ChatListPage() {
                   return (
                     <div
                       key={msg._id}
-                      className={`mb-2 d-flex ${
-                        isMe ? "justify-content-end" : "justify-content-start"
-                      }`}
+                      className={`mb-2 d-flex ${isMe ? "justify-content-end" : "justify-content-start"
+                        }`}
                     >
                       <div
-                        className={`px-3 py-2 rounded ${
-                          isMe ? "bg-primary text-white" : "bg-white"
-                        }`}
+                        className={`px-3 py-2 rounded ${isMe ? "bg-primary text-white" : "bg-white"
+                          }`}
                       >
                         {msg.message}
                         <div className="text-end small opacity-75">

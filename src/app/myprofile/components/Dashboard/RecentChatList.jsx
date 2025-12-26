@@ -1,52 +1,87 @@
 // myprofile/components/Dashboard/RecentChatList.jsx
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-// Mock data to simulate the chat list entries
-const mockChats = [
-    { id: 1, name: "Muskan Dhakad 1", location: "Indore, MP", image: "https://images.pexels.com/photos/1580271/pexels-photo-1580271.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" },
-    { id: 2, name: "Muskan Dhakad 2", location: "Indore, MP", image: "https://images.pexels.com/photos/1580271/pexels-photo-1580271.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" },
-    { id: 3, name: "Muskan Dhakad 3", location: "Indore, MP", image: "https://images.pexels.com/photos/1580271/pexels-photo-1580271.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" },
-    { id: 4, name: "Muskan Dhakad 4", location: "Indore, MP", image: "https://images.pexels.com/photos/1580271/pexels-photo-1580271.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" },
-    { id: 5, name: "Muskan Dhakad 5", location: "Indore, MP", image: "https://images.pexels.com/photos/1580271/pexels-photo-1580271.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" },
-];
-
-// Define the maximum number of chats to display
-const MAX_CHATS_DISPLAY = 4;
+const API_URL = "http://143.110.244.163:5000/api";
 
 export default function RecentChatList() {
-    // Use .slice(0, MAX_CHATS_DISPLAY) to get only the first 4 elements
-    const chatsToDisplay = mockChats.slice(0, MAX_CHATS_DISPLAY);
+    const [chats, setChats] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    // get token from localStorage
+    const token =
+        typeof window !== "undefined" ? sessionStorage.getItem("token") : null;
+    const loggedInUser =
+        typeof window !== "undefined"
+            ? sessionStorage.getItem("userId")
+            : null; // ensure you set userId in login
+
+    const fetchChatList = async () => {
+        try {
+            setLoading(true);
+            const res = await axios.get(`${API_URL}/chat/list`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            setChats(res.data.chats || []);
+        } catch (err) {
+            console.error("Chat fetch error:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchChatList();
+    }, []);
+
+    // show max 4 chats only
+    const chatsToDisplay = chats.slice(0, 4);
 
     return (
         <div className="recent-chat-list-card">
-            <ul className="chat-list py-1">
-                {chatsToDisplay.map((chat) => (
-                    <li key={chat.id} className="chat-item">
-                        {/* Profile Image */}
-                        <div className="chat-avatar-wrapper">
-                            <img 
-                                src={chat.image} 
-                                alt={chat.name} 
-                                className="chat-avatar"
-                            />
-                        </div>
+            {loading ? (
+                <p className="text-center py-2 text-gray-500 text-sm">Loading chats...</p>
+            ) : chatsToDisplay.length === 0 ? (
+                <p className="text-center py-2 text-gray-500 text-sm">
+                    No recent chats
+                </p>
+            ) : (
+                <ul className="chat-list py-1">
+                    {chatsToDisplay.map((chat) => {
+                        // find opponent (not me)
+                        const otherUser =
+                            chat.participants &&
+                            chat.participants.find((p) => p._id !== loggedInUser);
 
-                        {/* Name and Location */}
-                        <div className="chat-info">
-                            <h6 className="chat-name">{chat.name}</h6>
-                            <p className="chat-location">
-                                {/* Using a simple dot/circle placeholder for location */}
-                               <i className="fa-solid fa-location-dot text-4CAF50 me-1"></i>
-                                {chat.location}
-                            </p>
-                        </div>
-                        
-                        {/* Status/Arrow Placeholder - Removed for brevity, use as needed */}
-                    </li>
-                ))}
-            </ul>
+                        return (
+                            <li key={chat._id} className="chat-item flex items-center gap-3 py-2">
+                                {/* Image */}
+                                <div className="chat-avatar-wrapper w-12 h-12 rounded-full overflow-hidden">
+                                    <img
+                                        src={otherUser?.photo || "/default.jpg"}
+                                        alt={otherUser?.name}
+                                        className="chat-avatar w-full h-full object-cover"
+                                    />
+                                </div>
+
+                                {/* Name + Last Message */}
+                                <div className="chat-info flex-1">
+                                    <h6 className="chat-name text-sm font-semibold">
+                                        {otherUser?.name || "Unknown User"}
+                                    </h6>
+                                    <p className="chat-location text-xs text-gray-500">
+                                        {chat.lastMessage?.message
+                                            ? chat.lastMessage.message
+                                            : "No messages yet"}
+                                    </p>
+                                </div>
+                            </li>
+                        );
+                    })}
+                </ul>
+            )}
         </div>
     );
 }

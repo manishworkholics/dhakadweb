@@ -1,6 +1,7 @@
 // myprofile/components/Dashboard/PaidMembershipCard.jsx
 "use client";
 
+import Link from 'next/link';
 import React from 'react';
 
 export default function PaidMembershipCard() {
@@ -33,9 +34,9 @@ export default function PaidMembershipCard() {
 
             {/* Call to Action Button */}
             <div className="cta-container">
-                <button className="membership-cta-btn">
+                <Link href={"/myprofile/plan"}  className="membership-cta-btn">
                     See membership plans
-                </button>
+                </Link>
             </div>
         </div>
     );

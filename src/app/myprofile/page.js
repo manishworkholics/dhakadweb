@@ -1,10 +1,10 @@
-// myprofile/page.js (This serves as the main Dashboard page for the /myprofile route)
+
 "use client";
 
 import React, { useEffect, useState } from 'react';
-// 1. Import Layout
+
 import DashboardLayout from "./components/Layout/DashboardLayout";
-// NOTE: We don't import Sidebar here, as it's included inside DashboardLayout.
+
 
 // 2. Import Dashboard Widgets & Shared Components
 import ProfileCompleteness from "./components/Dashboard/ProfileCompleteness";
@@ -14,12 +14,6 @@ import ProfileCard from "./components/Dashboard/ProfileCard";
 import ViewAllButton from "./components/Shared/ViewAllButton";
 
 // --- Mock Data for Demonstration ---
-const mockMatches = [
-    { id: 1, name: "Muskan Dhakad", location: "Indore, MP", image: "https://images.pexels.com/photos/1580271/pexels-photo-1580271.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" },
-    { id: 2, name: "Neha Dhakad", location: "Indore, MP", image: "https://images.pexels.com/photos/1580271/pexels-photo-1580271.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" },
-    { id: 3, name: "Priya Dhakad", location: "Indore, MP", image: "https://images.pexels.com/photos/1580271/pexels-photo-1580271.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" },
-    { id: 4, name: "Muskan Dhakad", location: "Indore, MP", image: "https://images.pexels.com/photos/1580271/pexels-photo-1580271.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" },
-];
 
 export default function MyProfileDashboard() {
 
@@ -69,6 +63,11 @@ export default function MyProfileDashboard() {
         fetchViewedProfile();
     }, [userId]);
 
+    useEffect(() => {
+        fetchProfile();
+
+    }, []);
+
     return (
         <DashboardLayout>
             {/* The content below renders inside the main column (col-md-9) of the DashboardLayout */}
@@ -78,14 +77,14 @@ export default function MyProfileDashboard() {
                 <div className="section dashboard-section new-matches">
                     <h3 className="section-title">New Matches  ({viewedprofile?.results})</h3>
                     <div className="card-grid-4">
-                       {viewedprofile?.profiles?.slice(0, 4).map(profile => (
+                        {viewedprofile?.profiles?.slice(0, 4).map(profile => (
                             // Reusing the ProfileCard component
                             <ProfileCard key={`viewed-${profile._id}`} data={profile} />
                         ))}
                     </div>
                     {/* The View All Button is used here */}
                     <div className="view-all-wrapper">
-                        <ViewAllButton label="View All" href="/matches/new" />
+                        <ViewAllButton label="View All" href="/myprofile/recentlyviewed" />
                     </div>
                 </div>
 
@@ -123,7 +122,7 @@ export default function MyProfileDashboard() {
                     </div>
                     {/* The View All Button is used here */}
                     <div className="view-all-wrapper">
-                        <ViewAllButton label="View All" href="/profiles/viewed" />
+                        <ViewAllButton label="View All" href="/myprofile/newmatches" />
                     </div>
                 </div>
             </div>
@@ -131,5 +130,3 @@ export default function MyProfileDashboard() {
     );
 }
 
-// NOTE: Ensure the CSS classes used here (e.g., .card-grid-4, .status-row-grid)
-// are defined in your global or dashboard-specific stylesheet.
