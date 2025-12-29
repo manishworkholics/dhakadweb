@@ -72,7 +72,7 @@ const Login = () => {
                 sessionStorage.setItem("user", JSON.stringify(data?.user));
                 sessionStorage.removeItem("tempToken");
 
-                setTimeout(() => router.push("/"), 1000);
+                setTimeout(() => router.push("/registrationform"), 1000);
             } else {
                 toast.error(data?.message || "Login Failed");
             }
