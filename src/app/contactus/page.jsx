@@ -34,7 +34,7 @@ const Contactus = () => {
                             <div className="bg-white rounded p-4">
                                 <div className="text-center mb-4">
                                     <i className="fa fa-map-marker-alt fa-3x mb-2 text-D4AF37"></i>
-                                    <p className="mb-">315, Princes Business Skypark, <br/>AB Road, Vijay Nagar Indore, M.P. 452010</p>
+                                    <p className="mb-">315, Princes Business Skypark, <br />AB Road, Vijay Nagar Indore, M.P. 452010</p>
                                 </div>
                                 <div className="text-center mb-4">
                                     <i className="fa fa-phone-alt fa-3x mb-3 text-D4AF37"></i>

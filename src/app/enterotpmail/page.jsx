@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 const EnterOtpMail = () => {
     const router = useRouter();
     const [otp, setOtp] = useState(["", "", "", ""]);
+    const [Loading, setLoading] = useState(false)
     const inputRefs = Array(4)
         .fill(0)
         .map(() => useRef(null));
@@ -147,7 +148,8 @@ const EnterOtpMail = () => {
                     <div className="text-center">
                         <img src="/dhakadweb/assets/images/otp-icon.png" className="mb-3" />
                         <h6>
-                            Enter the 4-digit OTP <span className="text-danger">{saveotp}</span>
+                            Enter the 4-digit OTP
+                            {/* <span className="text-danger">{saveotp}</span> */}
                         </h6>
                         <p className="fw-bold text-primary">⏳ {formatTime()}</p>
                     </div>

@@ -1,110 +1,338 @@
-// myprofile/pages/ChatList.jsx
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import DashboardLayout from "../components/Layout/DashboardLayout";
+import axios from "axios";
 
-// --- Mock Data ---
-const mockConversations = [
-    { id: 1, name: "Muskan Dhakad", status: "online", image: "https://i.pinimg.com/videos/thumbnails/originals/45/09/cc/4509cc574f238e5dd9bf42ce4c8d1749.0000000.jpg", lastMessage: "Hello, I saw your profile!", time: "10:30 AM" },
-    { id: 2, name: "Neha Sharma", status: "offline", image: "https://i.pinimg.com/videos/thumbnails/originals/45/09/cc/4509cc574f238e5dd9bf42ce4c8d1749.0000000.jpg", lastMessage: "Let's talk soon.", time: "Yesterday" },
-    { id: 3, name: "Priya Patel", status: "online", image: "https://i.pinimg.com/videos/thumbnails/originals/45/09/cc/4509cc574f238e5dd9bf42ce4c8d1749.0000000.jpg", lastMessage: "Sent you my portfolio.", time: "11:00 AM" },
-];
-
-const mockMessages = [
-    { id: 1, text: "Hi! Your profile is very impressive.", sender: "other", time: "10:30 AM" },
-    { id: 2, text: "Thank you! I appreciate that. I enjoyed yours too.", sender: "self", time: "10:35 AM" },
-    { id: 3, text: "Great! What do you do for work?", sender: "other", time: "10:40 AM" },
-    { id: 4, text: "I'm a software engineer at Google. You?", sender: "self", time: "10:45 AM" },
-];
-
-// --- Sub-Components ---
-
-// Component for the left panel: List of all chats
-const ConversationList = ({ conversations, activeChatId, onSelectChat }) => (
-    <div className="conversation-list-panel">
-        <div className="chat-search">
-            <input type="text" placeholder="Search chats..." className="search-input" />
-        </div>
-        {conversations.map(conv => (
-            <div 
-                key={conv.id}
-                className={`conversation-item ${conv.id === activeChatId ? 'active' : ''}`}
-                onClick={() => onSelectChat(conv.id)}
-            >
-                <div className={`avatar-status ${conv.status}`}>
-                    <img src={conv.image} alt={conv.name} className="conv-avatar" />
-                </div>
-                <div className="conv-details">
-                    <h5 className="conv-name">{conv.name}</h5>
-                    <p className="conv-message">{conv.lastMessage}</p>
-                </div>
-                <span className="conv-time">{conv.time}</span>
-            </div>
-        ))}
-    </div>
-);
-
-// Component for the right panel: Active chat window
-const ChatWindow = ({ activeConversation, messages }) => {
-    if (!activeConversation) {
-        return (
-            <div className="chat-window-panel chat-empty">
-                <p>Select a match to start chatting.</p>
-            </div>
-        );
-    }
-    
-    return (
-        <div className="chat-window-panel">
-            {/* Chat Header */}
-            <div className="chat-header">
-                <h4 className="chat-partner-name">{activeConversation.name}</h4>
-                <span className={`chat-partner-status ${activeConversation.status}`}>{activeConversation.status}</span>
-            </div>
-            
-            {/* Messages Area */}
-            <div className="messages-container">
-                {messages.map(msg => (
-                    <div key={msg.id} className={`message-bubble ${msg.sender}`}>
-                        <p className="message-text">{msg.text}</p>
-                        <span className="message-time">{msg.time}</span>
-                    </div>
-                ))}
-            </div>
-            
-            {/* Input Footer */}
-            <div className="chat-input-footer">
-                <input type="text" placeholder="Type a message..." className="message-input" />
-                <button className="send-btn">Send</button>
-            </div>
-        </div>
-    );
-};
-
-// --- Main ChatList Component ---
+const API_URL = "http://143.110.244.163:5000/api";
 
 export default function ChatListPage() {
-    const [activeChatId, setActiveChatId] = useState(mockConversations[0]?.id);
-    const activeConversation = mockConversations.find(conv => conv.id === activeChatId);
+  const [chatList, setChatList] = useState([]);
+  const [chatRequests, setChatRequests] = useState([]);
+  const [activeChat, setActiveChat] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [text, setText] = useState("");
+  const [loadingChats, setLoadingChats] = useState(false);
+  const [loadingMessages, setLoadingMessages] = useState(false);
+  const [loadingRequests, setLoadingRequests] = useState(false);
 
-    return (
-        <DashboardLayout>
-            <div className="chat-list-page-container">
-                
-                {/* 1. Conversation List (Left Panel) */}
-                <ConversationList 
-                    conversations={mockConversations} 
-                    activeChatId={activeChatId} 
-                    onSelectChat={setActiveChatId}
-                />
+  const messagesEndRef = useRef(null);
 
-                {/* 2. Active Chat Window (Right Panel) */}
-                <ChatWindow 
-                    activeConversation={activeConversation} 
-                    messages={mockMessages} 
-                />
-            </div>
-        </DashboardLayout>
+  /* ---------------- AUTH ---------------- */
+  const token =
+    typeof window !== "undefined"
+      ? sessionStorage.getItem("token")
+      : null;
+
+  const user =
+    typeof window !== "undefined"
+      ? JSON.parse(sessionStorage.getItem("user"))
+      : null;
+
+  const userId = user?._id;
+
+  /* ---------------- HELPERS ---------------- */
+  const formatTime = (date) =>
+    new Date(date).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+  const formatDateLabel = (date) =>
+    new Date(date).toLocaleDateString([], {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+
+  const scrollToBottom = () => {
+    // messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  /* ---------------- CHAT LIST ---------------- */
+  const fetchChatList = async () => {
+    try {
+      setLoadingChats(true);
+      const res = await axios.get(`${API_URL}/chat/list`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setChatList(res.data.chats || []);
+    } catch (err) {
+      console.error("Chat list error", err);
+    } finally {
+      setLoadingChats(false);
+    }
+  };
+
+  /* ---------------- CHAT REQUESTS ---------------- */
+  const fetchChatRequests = async () => {
+    try {
+      setLoadingRequests(true);
+      const res = await axios.get(`${API_URL}/chat/request`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setChatRequests(res.data.requests || []);
+    } catch (err) {
+      console.error("Chat request error", err);
+    } finally {
+      setLoadingRequests(false);
+    }
+  };
+
+  const respondToRequest = async (chatRoomId, action) => {
+    try {
+      await axios.put(
+        `${API_URL}/chat/respond`,
+        { chatRoomId, action }, // accept | reject
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      fetchChatRequests();
+      fetchChatList();
+    } catch (err) {
+      console.error("Respond error", err);
+    }
+  };
+
+  /* ---------------- MESSAGES ---------------- */
+  const fetchMessages = async (chatId) => {
+    try {
+      setLoadingMessages(true);
+      const res = await axios.get(`${API_URL}/chat/messages/${chatId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setMessages(res.data.messages || []);
+
+      await axios.put(
+        `${API_URL}/chat/seen/${chatId}`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      fetchChatList();
+    } catch (err) {
+      console.error("Fetch messages error", err);
+    } finally {
+      setLoadingMessages(false);
+    }
+  };
+
+  /* ---------------- SEND MESSAGE ---------------- */
+  const sendMessage = async () => {
+    if (!text.trim() || !activeChat || activeChat.status !== "active") return;
+
+    const tempMessage = {
+      _id: `temp-${Date.now()}`,
+      sender: { _id: userId },
+      message: text,
+      createdAt: new Date(),
+    };
+
+    setMessages((prev) => [...prev, tempMessage]);
+    setText("");
+    scrollToBottom();
+
+    try {
+      await axios.post(
+        `${API_URL}/chat/messages/send`,
+        { chatRoomId: activeChat._id, message: tempMessage.message },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      fetchMessages(activeChat._id);
+    } catch (err) {
+      console.error("Send message error", err);
+    }
+  };
+
+  /* ---------------- EFFECTS ---------------- */
+  useEffect(() => {
+    fetchChatList();
+    fetchChatRequests();
+  }, []);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  /* ---------------- ACTIVE USER ---------------- */
+  const activeUser = useMemo(() => {
+    if (!activeChat) return null;
+    return activeChat.participants.find(
+      (p) => p._id.toString() !== userId
     );
+  }, [activeChat, userId]);
+
+  return (
+    <DashboardLayout>
+      <div className="d-flex border rounded overflow-hidden bg-white" style={{ height: "80vh" }}>
+        {/* -------- LEFT PANEL -------- */}
+        <div className="col-4 border-end overflow-auto">
+          <div className="p-3 fw-bold border-bottom">Messages</div>
+
+          {/* CHAT REQUESTS */}
+          {chatRequests.length > 0 && (
+            <>
+              <div className="p-3 fw-bold border-bottom bg-light">
+                Chat Requests
+              </div>
+
+              {chatRequests.map((req) => {
+                const sender = req.participants.find(
+                  (p) => p._id.toString() !== userId
+                );
+
+                return (
+                  <div key={req._id} className="p-3 border-bottom">
+                    <div className="d-flex align-items-center gap-3">
+                      <img
+                        src={sender?.photo || "/dhakadweb/assets/images/dummy.png"}
+                        className="rounded-circle"
+                        width="40"
+                        height="40"
+                      />
+                      <div className="flex-grow-1">
+                        <div className="fw-semibold">{sender?.name}</div>
+                        <small className="text-muted">wants to chat</small>
+                      </div>
+                    </div>
+
+                    <div className="d-flex gap-2 mt-2">
+                      <button
+                        className="btn btn-sm btn-success w-100"
+                        onClick={() => respondToRequest(req._id, "accept")}
+                      >
+                        Accept
+                      </button>
+                      <button
+                        className="btn btn-sm btn-outline-danger w-100"
+                        onClick={() => respondToRequest(req._id, "reject")}
+                      >
+                        Reject
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </>
+          )}
+
+          {/* CHAT LIST */}
+          {chatList.map((chat) => {
+            const otherUser = chat.participants.find(
+              (p) => p._id.toString() !== userId
+            );
+
+            return (
+              <div
+                key={chat._id}
+                className={`d-flex align-items-center p-3 cursor-pointer border-bottom ${activeChat?._id === chat._id ? "bg-light" : ""
+                  }`}
+                onClick={() => {
+                  setActiveChat(chat);
+                  fetchMessages(chat._id);
+                }}
+              >
+                <img
+                  src={otherUser?.photo || "/dhakadweb/assets/images/dummy.png"}
+                  className="rounded-circle me-3"
+                  width="45"
+                  height="45"
+                />
+                <div className="flex-grow-1 overflow-hidden">
+                  <h6 className="mb-0 text-truncate">{otherUser?.name}</h6>
+                  <small className="text-muted text-truncate d-block">
+                    {chat.lastMessage?.message || "No messages yet"}
+                  </small>
+                </div>
+              </div>
+            );
+          })}
+
+          {!loadingChats &&
+            chatList.length === 0 &&
+            chatRequests.length === 0 && (
+              <p className="text-center mt-5 text-muted">
+                No conversations yet
+              </p>
+            )}
+        </div>
+
+        {/* -------- RIGHT PANEL -------- */}
+        <div className="col-8 d-flex flex-column">
+          {!activeChat ? (
+            <div className="d-flex align-items-center justify-content-center h-100 text-muted">
+              Select a chat to start messaging
+            </div>
+          ) : (
+            <>
+              <div className="border-bottom p-3 d-flex align-items-center gap-3">
+                <img
+                  src={activeUser?.photo || "/dhakadweb/assets/images/dummy.png"}
+                  className="rounded-circle"
+                  width="40"
+                  height="40"
+                />
+                <div>
+                  <div className="fw-semibold">{activeUser?.name}</div>
+                  <small className="text-muted">
+                    {activeChat.status === "active"
+                      ? "Online"
+                      : "Chat request pending"}
+                  </small>
+                </div>
+              </div>
+
+              <div className="flex-grow-1 overflow-auto p-3 bg-light">
+                {messages.map((msg, index) => {
+                  const isMe =
+                    msg.sender?._id.toString() === userId.toString();
+
+                  return (
+                    <div
+                      key={msg._id}
+                      className={`mb-2 d-flex ${isMe ? "justify-content-end" : "justify-content-start"
+                        }`}
+                    >
+                      <div
+                        className={`px-3 py-2 rounded ${isMe ? "bg-primary text-white" : "bg-white"
+                          }`}
+                      >
+                        {msg.message}
+                        <div className="text-end small opacity-75">
+                          {formatTime(msg.createdAt)}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+                <div ref={messagesEndRef} />
+              </div>
+
+              {activeChat.status !== "active" ? (
+                <div className="p-3 text-center text-muted border-top">
+                  Chat will start after request is accepted
+                </div>
+              ) : (
+                <div className="border-top p-3 d-flex gap-2">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Type a message..."
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+                  />
+                  <button className="btn btn-primary px-4" onClick={sendMessage}>
+                    Send
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </DashboardLayout>
+  );
 }

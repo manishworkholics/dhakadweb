@@ -39,7 +39,6 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const errorMessage = validateForm();
         if (errorMessage) return toast.error(errorMessage);
 
@@ -52,25 +51,38 @@ const Login = () => {
                 }
             );
 
-            if (response?.data?.success) {
-                toast.success("OTP sent to your email");
+            const data = response?.data;
 
-                // TEMP token until email verified
-                sessionStorage.setItem("tempToken", response?.data?.token);
-                sessionStorage.setItem("email", formData.email);
-                sessionStorage.setItem("otp", response?.data?.debugOtp);
+            if (data?.success) {
+                // 🟡 if OTP verification needed
+                if (data?.requiresVerification) {
+                    toast.success("OTP sent to your email");
 
-                setTimeout(() => {
-                    router.push("/enterotpmail");
-                }, 1000);
+                    sessionStorage.setItem("tempEmail", formData.email);
+                    sessionStorage.setItem("debugOtp", data?.debugOtp);
 
+                    setTimeout(() => router.push("/enterotpmail"), 1000);
+                    return;
+                }
+
+                // 🟢 Email already verified → direct login
+                toast.success("Login Successful");
+
+                sessionStorage.setItem("token", data?.token);
+                sessionStorage.setItem("user", JSON.stringify(data?.user));
+                sessionStorage.removeItem("tempToken");
+
+                setTimeout(() => router.push("/registrationform"), 1000);
             } else {
-                toast.error(response?.data?.message || "Login Failed");
+                toast.error(data?.message || "Login Failed");
             }
         } catch (error) {
             toast.error(error?.response?.data?.message || "Login Failed!");
         }
     };
+
+
+
     const [showPassword, setShowPassword] = useState(false);
     return (
         <div className='login-page bg-FDFBF7'>
@@ -108,16 +120,16 @@ const Login = () => {
                                                 />
 
                                                 <span
-                                                onClick={() => setShowPassword(!showPassword)}
-                                                className="position-absolute end-2 top-50 translate-middle-y text-dark"
-                                                style={{ cursor: "pointer", right: "15px" }}
-                                            >
-                                                {showPassword ? (
-                                                    <i className="bi bi-eye-slash"></i>
-                                                ) : (
-                                                    <i className="bi bi-eye"></i>
-                                                )}
-                                            </span>
+                                                    onClick={() => setShowPassword(!showPassword)}
+                                                    className="position-absolute end-2 top-50 translate-middle-y text-dark"
+                                                    style={{ cursor: "pointer", right: "15px" }}
+                                                >
+                                                    {showPassword ? (
+                                                        <i className="bi bi-eye-slash"></i>
+                                                    ) : (
+                                                        <i className="bi bi-eye"></i>
+                                                    )}
+                                                </span>
                                             </div>
 
 
@@ -127,7 +139,10 @@ const Login = () => {
                                                     <label className="form-check-label" htmlFor="exampleCheck1">Stay Logged in</label>
                                                 </div>
                                                 <div className="mb-3">
-                                                    <a href="#" className='text-decoration-none text-D4AF37'>Forgot Password?</a>
+                                                    <Link href="/ForgetPassword" className='text-decoration-none text-D4AF37'>
+                                                        Forgot Password?
+                                                    </Link>
+
                                                 </div>
                                             </div>
                                             <button

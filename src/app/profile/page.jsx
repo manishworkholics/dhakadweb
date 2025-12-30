@@ -12,6 +12,7 @@ export default function Profile() {
     const [token, setToken] = useState("");
     const [user, setUser] = useState(null);
 
+
     // Load storage only in browser
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -55,6 +56,14 @@ export default function Profile() {
         return () => clearTimeout(timeout);
     }, [search]);
 
+    useEffect(() => {
+        const params = new URLSearchParams();
+        if (user?._id) {
+            params.append("userId", user._id);
+        }
+    }, [user]);
+
+
 
     const [filters, setFilters] = useState({
         gender: "",
@@ -96,6 +105,7 @@ export default function Profile() {
             })
             .catch((err) => console.log(err));
     };
+
 
 
 
@@ -316,58 +326,62 @@ export default function Profile() {
                                     <p className="text-center">No profiles found...</p>
                                 )}
 
-                                {data.map((item) => (
-                                    <div key={item._id} className="col-lg-4 col-md-4 col-12 mb-3">
-                                        <div className="card">
-                                            <img
-                                                src={item.photos?.[0] || "assets/images/dummy.png"}
-                                                className="card-img-top p-1"
-                                                style={{ height: "230px", objectFit: "cover" }}
-                                            />
+                                {data
+                                    .filter(item => item.userId !== user?._id)
+                                    .map((item) => (
+                                        <div key={item._id} className="col-lg-4 col-md-4 col-12 mb-3">
+                                            <div className="card">
+                                                <img
+                                                    src={item.photos?.[0] || "assets/images/dummy.png"}
+                                                    className="card-img-top p-1"
+                                                    style={{ height: "230px", objectFit: "cover" }}
+                                                />
 
-                                            <div className="card-body">
-                                                <h6 className="fw-semibold mb-0 text-capitalize">{item.name || "Unknown"}</h6>
+                                                <div className="card-body">
+                                                    <h6 className="fw-semibold mb-0 text-capitalize">{item.name || "Unknown"}</h6>
 
-                                                <p className="d-flex align-items-center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="13" viewBox="0 0 10 13" fill="none">
-                                                        <path d="M5.00005 0C2.24318 0 5.09029e-05 2.24312 5.09029e-05 4.99687C-0.0180741 9.025 4.81005 12.365 5.00005 12.5C5.00005 12.5 10.0182 9.025 10.0001 5C10.0001 2.24313 7.75693 0 5.00005 0ZM5.00005 7.5C3.6188 7.5 2.50005 6.38125 2.50005 5C2.50005 3.61875 3.6188 2.5 5.00005 2.5C6.3813 2.5 7.50005 3.61875 7.50005 5C7.50005 6.38125 6.3813 7.5 5.00005 7.5Z" fill="#4CAF50" />
-                                                    </svg>
-                                                    <span className="ms-2">
-                                                        {item.location || "Unknown"}
-                                                    </span>
-                                                </p>
+                                                    <p className="d-flex align-items-center">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="13" viewBox="0 0 10 13" fill="none">
+                                                            <path d="M5.00005 0C2.24318 0 5.09029e-05 2.24312 5.09029e-05 4.99687C-0.0180741 9.025 4.81005 12.365 5.00005 12.5C5.00005 12.5 10.0182 9.025 10.0001 5C10.0001 2.24313 7.75693 0 5.00005 0ZM5.00005 7.5C3.6188 7.5 2.50005 6.38125 2.50005 5C2.50005 3.61875 3.6188 2.5 5.00005 2.5C6.3813 2.5 7.50005 3.61875 7.50005 5C7.50005 6.38125 6.3813 7.5 5.00005 7.5Z" fill="#4CAF50" />
+                                                        </svg>
+                                                        <span className="ms-2">
+                                                            {item.location || "Unknown"}
+                                                        </span>
+                                                    </p>
 
-                                                <div className="d-flex gap-3 flex-wrap text-small">
-                                                    <span className="bg-FFECAE py-1 px-2 rounded-2 fs-12 text-capitalize">{item.employmentType || "N/A"}</span>
-                                                    <span className="bg-FFECAE py-1 px-2 rounded-2 fs-12 text-capitalize">
-                                                        {item.dob ? `${new Date().getFullYear() - new Date(item.dob).getFullYear()} yrs` : "N/A"}
-                                                    </span>
-                                                    <span className="bg-FFECAE py-1 px-2 rounded-2 fs-12 text-capitalize">{item.occupation || "N/A"}</span>
-                                                </div>
+                                                    <div className="d-flex gap-3 flex-wrap text-small">
+                                                        <span className="bg-FFECAE py-1 px-2 rounded-2 fs-12 text-capitalize">{item.employmentType || "N/A"}</span>
+                                                        <span className="bg-FFECAE py-1 px-2 rounded-2 fs-12 text-capitalize">
+                                                            {item.dob ? `${new Date().getFullYear() - new Date(item.dob).getFullYear()} yrs` : "N/A"}
+                                                        </span>
+                                                        <span className="bg-FFECAE py-1 px-2 rounded-2 fs-12 text-capitalize">{item.occupation || "N/A"}</span>
+                                                    </div>
 
-                                                <hr />
+                                                    <hr />
 
-                                                <div className="btn-bottom d-flex gap-2 flex-wrap">
-                                                    <button className="btn btn-sm bg-4CAF50 text-white rounded-5 fs-12">
-                                                        Chat Now
-                                                    </button>
-                                                    <button
-                                                        disabled={sentRequests.includes(item.userId)}
-                                                        onClick={() => handleSendInterest(item.userId)}
-                                                        className={`btn btn-sm border rounded-5 fs-12 ${sentRequests.includes(item.userId) ? "disabled bg-light" : ""}`}
-                                                    >
-                                                        {sentRequests.includes(item.userId) ? "Interest Sent" : "Send Interest"}
-                                                    </button>
+                                                    <div className="btn-bottom d-flex gap-2 flex-wrap">
+                                                        <button className="btn btn-sm bg-4CAF50 text-white rounded-5 fs-12">
+                                                            Chat Now
+                                                        </button>
+                                                        <button
+                                                            disabled={sentRequests.includes(item.userId)}
+                                                            onClick={() => handleSendInterest(item.userId)}
+                                                            className={`btn btn-sm border rounded-5 fs-12 ${sentRequests.includes(item.userId) ? "disabled bg-light" : ""}`}
+                                                        >
+                                                            {sentRequests.includes(item.userId) ? "Interest Sent" : "Send Interest"}
+                                                        </button>
 
 
-                                                    <Link href={`/profiledetail/${item._id}`} className="btn btn-sm border fs-12 rounded-5">
-                                                        More Detail
-                                                    </Link>
+                                                        <Link href={`/profiledetail/${item._id}`} className="btn btn-sm border fs-12 rounded-5">
+                                                            More Detail
+                                                        </Link>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))}
+
+
                             </div>
 
                         </div>
