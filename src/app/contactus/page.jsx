@@ -26,7 +26,7 @@ const Contactus = () => {
             </div>
             <div className=" py-5">
                 <div className="container py-5">
-                    <div className="mx-auto text-center mb-5" style={{ maxWidth: "900px;" }}>
+                    <div className="mx-auto text-center mb-5" style={{ maxWidth: "900px" }}>
                         <h1 className="mb-0">Contact For Any Query</h1>
                     </div>
                     <div className="row g-5 align-items-center">
