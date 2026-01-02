@@ -69,7 +69,7 @@ export default function Plan() {
 
             // 3️⃣ Razorpay Options
             const options = {
-                key: "rzp_test_XXXXXX", // 🔴 replace with LIVE KEY later
+                key: "rzp_live_RyxgRHl1EcCorc", // 🔴 replace with LIVE KEY later
                 amount,
                 currency,
                 name: "Dhakad Matrimony",
