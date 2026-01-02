@@ -6,7 +6,7 @@ import Link from 'next/link'
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 const Login = () => {
@@ -16,6 +16,15 @@ const Login = () => {
         password: "",
         // stayLoggedIn: false
     });
+
+
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            router.replace("/");
+        }
+    }, []);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -58,8 +67,8 @@ const Login = () => {
                 if (data?.requiresVerification) {
                     toast.success("OTP sent to your email");
 
-                    sessionStorage.setItem("tempEmail", formData.email);
-                    sessionStorage.setItem("debugOtp", data?.debugOtp);
+                    localStorage.setItem("tempEmail", formData.email);
+                    localStorage.setItem("debugOtp", data?.debugOtp);
 
                     setTimeout(() => router.push("/enterotpmail"), 1000);
                     return;
@@ -68,9 +77,9 @@ const Login = () => {
                 // 🟢 Email already verified → direct login
                 toast.success("Login Successful");
 
-                sessionStorage.setItem("token", data?.token);
-                sessionStorage.setItem("user", JSON.stringify(data?.user));
-                sessionStorage.removeItem("tempToken");
+                localStorage.setItem("token", data?.token);
+                localStorage.setItem("user", JSON.stringify(data?.user));
+                localStorage.removeItem("tempToken");
 
                 setTimeout(() => router.push("/registrationform"), 1000);
             } else {
@@ -122,7 +131,7 @@ const Login = () => {
                                                 <span
                                                     onClick={() => setShowPassword(!showPassword)}
                                                     className="position-absolute translate-middle-y text-dark"
-                                                    style={{ cursor: "pointer", right: "15px", top:"52px" }}
+                                                    style={{ cursor: "pointer", right: "15px", top: "52px" }}
                                                 >
                                                     {showPassword ? (
                                                         <i className="bi bi-eye-slash"></i>
@@ -151,7 +160,7 @@ const Login = () => {
                                             <p className='text-center text-6B6B6B mb-2'>or</p>
                                             <Link
                                                 href='/SendOtp'
-                                                className="btn btn-danger w-100 mb-3">Login with OTP</Link>
+                                                className="btn btn-danger w-100 mb-3">Login with Mobile No</Link>
                                         </form>
                                         <div className="text-center">
                                             <p className='mb-0 text-6B6B6B'>New to Dhakad Matrimony? <Link href="/" className='text-6B6B6B fw-semibold text-decoration-none'> Sign Up Free</Link></p>

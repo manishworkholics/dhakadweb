@@ -12,17 +12,19 @@ import PaidMembershipCard from "./components/Dashboard/PaidMembershipCard";
 import RecentChatList from "./components/Dashboard/RecentChatList";
 import ProfileCard from "./components/Dashboard/ProfileCard";
 import ViewAllButton from "./components/Shared/ViewAllButton";
-
+import { useRouter } from "next/navigation";
 // --- Mock Data for Demonstration ---
 
-export default function MyProfileDashboard() {
 
+
+export default function MyProfileDashboard() {
+    const router = useRouter();
     const [profile, setProfile] = useState(null);
     const [viewedprofile, setViewedProfile] = useState(null);
     const [userId, setUserId] = useState(null);
 
     useEffect(() => {
-        const userData = sessionStorage.getItem("user");
+        const userData = localStorage.getItem("user");
         if (userData) {
             setUserId(JSON.parse(userData)._id);
         }
@@ -32,7 +34,11 @@ export default function MyProfileDashboard() {
     const fetchProfile = async () => {
         try {
             const res = await fetch(
-                `http://143.110.244.163:5000/api/profile/own-profile/${userId}`
+                `http://143.110.244.163:5000/api/profile/own-profile/${userId}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}` // or your auth token
+                }
+            }
             );
             const data = await res.json();
 
@@ -47,7 +53,7 @@ export default function MyProfileDashboard() {
 
             const res = await fetch(`http://143.110.244.163:5000/api/viewed/viewed`, {
                 headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem("token")}` // or your auth token
+                    Authorization: `Bearer ${localStorage.getItem("token")}` // or your auth token
                 }
             });
             const data = await res.json();
@@ -66,6 +72,13 @@ export default function MyProfileDashboard() {
     useEffect(() => {
         fetchProfile();
 
+    }, []);
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            router.replace("/login");
+        }
     }, []);
 
     return (

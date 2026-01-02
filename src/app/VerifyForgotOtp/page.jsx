@@ -13,7 +13,7 @@ export default function VerifyForgotOtp() {
   const [otp, setOtp] = useState("");
 
   useEffect(() => {
-    const storedEmail = sessionStorage.getItem("resetEmail");
+    const storedEmail = localStorage.getItem("resetEmail");
     if (!storedEmail) {
       toast.error("Email missing");
       return router.push("/ForgotPassword");

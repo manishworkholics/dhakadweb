@@ -8,12 +8,12 @@ const Header = () => {
     const pathname = usePathname(); // 👈 current route
 
     useEffect(() => {
-        const token = sessionStorage.getItem("token");
+        const token = localStorage.getItem("token");
         if (token) setIsLoggedIn(true);
     }, []);
 
     const handleLogout = () => {
-        sessionStorage.removeItem("token");
+        localStorage.removeItem("token");
         setIsLoggedIn(false);
         window.location.href = "/dhakadweb/login";
     };

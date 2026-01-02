@@ -22,8 +22,8 @@ export default function ForgetPassword() {
       );
 
       toast.success("OTP Sent to Email");
-      sessionStorage.setItem("resetEmail", email);
-      sessionStorage.setItem("debugOtp", res?.data?.debugOtp);
+      localStorage.setItem("resetEmail", email);
+      localStorage.setItem("debugOtp", res?.data?.debugOtp);
 
       setTimeout(() => router.push("/VerifyForgotOtp"), 1000);
     } catch (err) {

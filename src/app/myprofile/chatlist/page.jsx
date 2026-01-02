@@ -21,12 +21,12 @@ export default function ChatListPage() {
   /* ---------------- AUTH ---------------- */
   const token =
     typeof window !== "undefined"
-      ? sessionStorage.getItem("token")
+      ? localStorage.getItem("token")
       : null;
 
   const user =
     typeof window !== "undefined"
-      ? JSON.parse(sessionStorage.getItem("user"))
+      ? JSON.parse(localStorage.getItem("user"))
       : null;
 
   const userId = user?._id;

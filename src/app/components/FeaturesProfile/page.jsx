@@ -21,8 +21,8 @@ export default function FeaturesProfile() {
 
     useEffect(() => {
         if (typeof window !== "undefined") {
-            const savedToken = sessionStorage.getItem("token");
-            const savedUser = sessionStorage.getItem("user");
+            const savedToken = localStorage.getItem("token");
+            const savedUser = localStorage.getItem("user");
 
             if (savedToken) setToken(savedToken);
             if (savedUser) setUser(JSON.parse(savedUser));

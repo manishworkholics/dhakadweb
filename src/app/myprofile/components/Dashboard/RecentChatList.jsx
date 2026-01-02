@@ -12,10 +12,10 @@ export default function RecentChatList() {
 
     // get token from localStorage
     const token =
-        typeof window !== "undefined" ? sessionStorage.getItem("token") : null;
+        typeof window !== "undefined" ? localStorage.getItem("token") : null;
     const loggedInUser =
         typeof window !== "undefined"
-            ? sessionStorage.getItem("userId")
+            ? localStorage.getItem("userId")
             : null; // ensure you set userId in login
 
     const fetchChatList = async () => {

@@ -15,7 +15,7 @@ export default function ResetPassword() {
 
   // Load email ONLY inside browser
   useEffect(() => {
-    const storedEmail = sessionStorage.getItem("resetEmail");
+    const storedEmail = localStorage.getItem("resetEmail");
     if (!storedEmail) {
       toast.error("Email missing");
       return router.push("/ForgotPassword");
@@ -39,8 +39,8 @@ export default function ResetPassword() {
 
       toast.success("Password Updated!");
 
-      sessionStorage.removeItem("resetEmail");
-      sessionStorage.removeItem("debugOtp");
+      localStorage.removeItem("resetEmail");
+      localStorage.removeItem("debugOtp");
 
       setTimeout(() => router.push("/login"), 1200);
     } catch (err) {

@@ -25,8 +25,8 @@ const HomePage = () => {
 
     useEffect(() => {
         if (typeof window !== "undefined") {
-            const savedToken = sessionStorage.getItem("token");
-            const savedUser = sessionStorage.getItem("user");
+            const savedToken = localStorage.getItem("token");
+            const savedUser = localStorage.getItem("user");
 
             if (savedToken) setToken(savedToken);
             if (savedUser) setUser(JSON.parse(savedUser));
@@ -75,6 +75,8 @@ const HomePage = () => {
     };
 
     const validateForm = () => {
+        if(!formData.createdfor||!formData.name.trim()||!formData.email||!formData.phone||!formData.password)
+            return "Please fill all field properly";
         if (!formData.createdfor)
             return "Please select profile type";
 
@@ -112,10 +114,7 @@ const HomePage = () => {
 
     const handleSubmit = async () => {
         const errorMessage = validateForm();
-        if (!validatePassword(formData.password)) {
-            alert("Password must be strong and include at least one alphabet, one digit, and one special character.");
-            return;
-        }
+       
         if (errorMessage) {
             toast.error(errorMessage);
             return;
@@ -131,7 +130,7 @@ const HomePage = () => {
             if (response?.data?.success) {
                 alert("Registration Successful")
                 toast.success("Registration Successful");
-                // sessionStorage.setItem("token", response?.data?.token);
+                // localStorage.setItem("token", response?.data?.token);
                 router.push("/login");
             } else {
                 toast.error(response?.data?.message || "Registration Failed");
@@ -493,9 +492,10 @@ const HomePage = () => {
                         <MemberTestimonials />
                     </div>
 
-                    <div className="home-section-7">
+{!token? <div className="home-section-7">
                         <Readytomeet />
-                    </div>
+                    </div>:''}
+                   
 
                     <Footer />
                 </div>

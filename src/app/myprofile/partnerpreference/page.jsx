@@ -57,7 +57,7 @@ const CheckboxGroup = ({ label, name, options, value, onChange }) => (
 
 export default function PartnerPreferencePage() {
     const token =
-        typeof window !== "undefined" ? sessionStorage.getItem("token") : null;
+        typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
     const [loading, setLoading] = useState(false);
     const [states, setStates] = useState([]);

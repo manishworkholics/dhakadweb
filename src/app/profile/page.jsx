@@ -7,8 +7,18 @@ import Readytomeet from "../components/Readytomeet/page";
 import Footer from "../components/Footer/page";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+
 
 export default function Profile() {
+    const router = useRouter();
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            router.replace("/login");
+        }
+    }, []);
+
     const [token, setToken] = useState("");
     const [user, setUser] = useState(null);
 
@@ -18,8 +28,8 @@ export default function Profile() {
 
     useEffect(() => {
         if (typeof window !== "undefined") {
-            const savedToken = sessionStorage.getItem("token");
-            const savedUser = sessionStorage.getItem("user");
+            const savedToken = localStorage.getItem("token");
+            const savedUser = localStorage.getItem("user");
 
             if (savedToken) setToken(savedToken);
             if (savedUser) setUser(JSON.parse(savedUser));
@@ -129,7 +139,7 @@ export default function Profile() {
 
     const handleSendInterest = async (receiverId) => {
         try {
-            const token = sessionStorage.getItem("token");
+            const token = localStorage.getItem("token");
             if (!token) {
                 toast.error("Please login first");
                 return;

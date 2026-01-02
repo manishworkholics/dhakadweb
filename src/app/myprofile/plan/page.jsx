@@ -12,12 +12,12 @@ export default function Plan() {
     const [allPlans, setAllPlans] = useState([]);
 
     const token =
-        typeof window !== "undefined" ? sessionStorage.getItem("token") : null;
+        typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
 
     const user =
         typeof window !== "undefined"
-            ? JSON.parse(sessionStorage.getItem("user"))
+            ? JSON.parse(localStorage.getItem("user"))
             : null;
 
     const userName = user?.name;
@@ -47,7 +47,7 @@ export default function Plan() {
 
     const handleBuy = async (planId) => {
         try {
-            const token = sessionStorage.getItem("token");
+            const token = localStorage.getItem("token");
 
             // 1️⃣ Load Razorpay Script
             const isLoaded = await loadRazorpayScript();

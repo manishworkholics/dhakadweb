@@ -24,9 +24,9 @@ export default function RelatedProfiles() {
   useEffect(() => {
     const getProfiles = async () => {
       try {
-        const res = await fetch("http://143.110.244.163:5000/api/success");
+        const res = await fetch("http://143.110.244.163:5000/api/featured?limit=10");
         const data = await res.json();
-        setFeaturedProfiles(data?.stories || []);
+        setFeaturedProfiles(data?.profiles || []);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching featured profiles:", error);
@@ -127,7 +127,7 @@ export default function RelatedProfiles() {
                         className="position-absolute start-0 top-0 m-3 text-white p-2 rounded-2 fw-bold small"
                         style={{ zIndex: 10 }}
                       >
-                        {item.age || "21"} Years old
+
                       </div>
 
                       <div
@@ -138,7 +138,7 @@ export default function RelatedProfiles() {
                       >
                         <img
                           src={
-                            item.image ||
+                            item?.photos[0] ||
                             `https://placehold.co/400x260/${bgColorClass.replace(
                               "bg-",
                               ""
@@ -159,11 +159,11 @@ export default function RelatedProfiles() {
                             "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
                         }}
                       >
-                        <h5 className="fw-bold mb-1 text-danger" style={{fontSize:"15px"}}>
+                        <h5 className="fw-bold mb-1 text-danger" style={{ fontSize: "15px" }}>
                           {item.name || `User ${index + 1}`}
                         </h5>
-                        <p className="text-muted small m-0" style={{fontSize:"12px"}}>
-                          CITY: {item.city || "NEW YORK CITY"}
+                        <p className="text-muted small m-0" style={{ fontSize: "12px" }}>
+                          CITY: {item.location || ""}
                         </p>
                       </div>
                     </div>

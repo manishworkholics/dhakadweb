@@ -21,7 +21,7 @@ const EnterOtpMail = () => {
 
     // Restore saved OTP
     useEffect(() => {
-        const savedOtp = sessionStorage.getItem("otp");
+        const savedOtp = localStorage.getItem("otp");
         if (savedOtp) setSaveotp(JSON.parse(savedOtp));
     }, []);
 
@@ -79,12 +79,12 @@ const EnterOtpMail = () => {
             const response = await axios.post(
                 "http://143.110.244.163:5000/api/auth/verify-email-otp",
                 {
-                    email: sessionStorage.getItem("email"),
+                    email: localStorage.getItem("email"),
                     otp: finalOtp,
                 },
                 {
                     headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem("tempToken")}`,
+                        Authorization: `Bearer ${localStorage.getItem("tempToken")}`,
                     },
                 }
             );
@@ -92,9 +92,9 @@ const EnterOtpMail = () => {
             if (response?.data?.success) {
                 toast.success("Email Verified Successfully");
 
-                sessionStorage.setItem("token", response?.data?.token);
-                sessionStorage.setItem("user", JSON.stringify(response?.data?.user));
-                sessionStorage.removeItem("tempToken");
+                localStorage.setItem("token", response?.data?.token);
+                localStorage.setItem("user", JSON.stringify(response?.data?.user));
+                localStorage.removeItem("tempToken");
 
                 setTimeout(() => router.push("/registrationform"), 700);
             }
@@ -121,7 +121,7 @@ const EnterOtpMail = () => {
     const resendOtp = async () => {
         try {
             const res = await axios.post("http://143.110.244.163:5000/api/auth/resend-email-otp", {
-                email: sessionStorage.getItem("email"),
+                email: localStorage.getItem("email"),
             });
 
             setSaveotp(res?.data?.debugOtp);

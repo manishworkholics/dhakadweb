@@ -68,7 +68,7 @@ const EnterOtp = () => {
       return;
     }
 
-    const phone = sessionStorage.getItem("phone");
+    const phone = localStorage.getItem("phone");
     if (!phone) {
       toast.error("Phone number missing!");
       router.push("/login");
@@ -85,8 +85,8 @@ const EnterOtp = () => {
 
       if (response?.data?.success) {
         toast.success("OTP Verified Successfully");
-        sessionStorage.setItem("token", response?.data?.token);
-        sessionStorage.setItem("user", JSON.stringify(response?.data?.user));
+        localStorage.setItem("token", response?.data?.token);
+        localStorage.setItem("user", JSON.stringify(response?.data?.user));
 
         setTimeout(() => router.push("/registrationform"), 700);
       } else {
@@ -130,7 +130,7 @@ const handleVerifyClick = (e) => {
 
   // 🔁 Resend OTP function
   const handleResend = async () => {
-    const phone = sessionStorage.getItem("phone");
+    const phone = localStorage.getItem("phone");
 
     if (!phone) {
       toast.error("No phone number found!");
@@ -152,7 +152,7 @@ const handleVerifyClick = (e) => {
 
   // ⬅ Back to edit mobile number
   const handleBack = () => {
-    sessionStorage.removeItem("phone");
+    localStorage.removeItem("phone");
     router.push("/login");
   };
 

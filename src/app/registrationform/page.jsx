@@ -8,15 +8,24 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 
 const RegistrationForm = () => {
+
+
     const router = useRouter();
     const [token, setToken] = useState("");
     const [user, setUser] = useState(null);
 
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            router.replace("/login");
+        }
+    }, []);
     // Load storage only in browser
     useEffect(() => {
         if (typeof window !== "undefined") {
-            const savedToken = sessionStorage.getItem("token");
-            const savedUser = sessionStorage.getItem("user");
+            const savedToken = localStorage.getItem("token");
+            const savedUser = localStorage.getItem("user");
 
             if (savedToken) setToken(savedToken);
             if (savedUser) setUser(JSON.parse(savedUser));
@@ -60,6 +69,8 @@ const RegistrationForm = () => {
         location: "",
         password: "",
         gender: "",
+
+        city: "",
         // Step 2
         height: "",
         physicalStatus: "Normal",
@@ -122,10 +133,15 @@ const RegistrationForm = () => {
                     setFormData(prev => ({
                         ...prev,
                         name: profile.name || "",
-                        dob: profile.dob || "",
+                        dob: profile.dob ? profile.dob.split("T")[0] : "",
                         motherTongue: profile.motherTongue || "",
-                        location: profile.location || "",
                         gender: profile.gender || "",
+
+                        // 🔥 MAIN FIX
+
+                        city: profile.city || profile.location || "",
+                        location: profile.location || "",
+
                         height: profile.height || "",
                         physicalStatus: profile.physicalStatus || "Normal",
                         maritalStatus: profile.maritalStatus || "Never married",
@@ -140,14 +156,49 @@ const RegistrationForm = () => {
                         familyStatus: profile.familyStatus || "Middle class",
                         diet: profile.diet || "Veg",
                         aboutYourself: profile.aboutYourself || "",
-                        photos: profile.photos || [],
-                        introVideo: profile.introVideo || ""
+                        hobbies: profile.hobbies || "",
                     }));
 
-                    const missing = requiredFields.filter(field => {
-                        const value = formData[field];
-                        return value === undefined || value === null || value === "" || (Array.isArray(value) && value.length === 0);
-                    });
+
+                    if (profile.photos?.length > 0) {
+                        setPhoto(profile.photos[0]);
+                    }
+
+                    // if (profile.introVideo) {
+                    //     setIntroVideo(profile.introVideo);
+                    // }
+
+
+                    const profileFieldMap = {
+                        name: profile.name,
+                        gender: profile.gender,
+                        dob: profile.dob,
+                        motherTongue: profile.motherTongue,
+                        location: profile.location,
+                        height: profile.height,
+                        physicalStatus: profile.physicalStatus,
+                        maritalStatus: profile.maritalStatus,
+                        religion: profile.religion,
+                        cast: profile.caste,
+                        subCast: profile.subCaste,
+                        gotra: profile.gotra,
+                        education: profile.educationDetails,
+                        employmentType: profile.employmentType,
+                        occupation: profile.occupation,
+                        annualIncome: profile.annualIncome,
+                        familyStatus: profile.familyStatus,
+                        diet: profile.diet,
+                        aboutYourself: profile.aboutYourself,
+                    };
+
+                    const missing = Object.entries(profileFieldMap)
+                        .filter(([_, value]) => !value || value === "")
+                        .map(([key]) => key);
+
+                    console.log("Missing fields:", missing);
+
+                    setProfileComplete(missing.length === 0);
+
 
 
                     setProfileComplete(missing.length === 0);
@@ -336,15 +387,25 @@ const RegistrationForm = () => {
     };
 
 
-    useEffect(() => {
-        if (profileExists && profileComplete) {
-            router.push("/"); // Route to dashboard
-        }
-    }, [profileExists, profileComplete, router]);
+    // useEffect(() => {
+    //     if (profileExists && profileComplete) {
+    //         router.push("/"); // Route to dashboard
+    //     }
+    // }, [profileExists, profileComplete, router]);
 
 
     // UI: render step forms — using your original fields exactly
 
+    useEffect(() => {
+        if (!formData.state) return;
+
+        fetch(`http://143.110.244.163:5000/api/location/cities/${formData.state}`)
+            .then(res => res.json())
+            .then(data => {
+                setCities(data.cities || []);
+            })
+            .catch(err => console.error(err));
+    }, [formData.state]);
 
 
 
@@ -391,6 +452,11 @@ const RegistrationForm = () => {
                                                     🎉 Your profile is complete!
                                                     <button className="btn btn-success ms-3" onClick={() => router.push("/")}>
                                                         Go to Dashboard
+                                                    </button>
+
+
+                                                    <button className="btn btn-outline-primary ms-2" onClick={goToIncompleteStep}>
+                                                        want to edit
                                                     </button>
                                                 </>
                                             ) : (
@@ -443,21 +509,16 @@ const RegistrationForm = () => {
                                                         </select>
                                                     </div>
 
-                                                    {/* <div className="mb-3">
-                                                        <label className="form-label">Location/City</label>
-                                                        <input
-                                                            name="location"
-                                                            type="text"
-                                                            className="form-control"
-                                                            placeholder="Enter city or village name"
-                                                            value={formData.location}
-                                                            onChange={handleChange}
-                                                        />
-                                                    </div> */}
+
 
 
                                                     <div>
                                                         {/* State Dropdown */}
+
+                                                        {/* DEBUG: Selected State & City */}
+
+
+
                                                         <div className="mb-3">
                                                             <label className="form-label">State</label>
                                                             <select
@@ -474,17 +535,27 @@ const RegistrationForm = () => {
                                                                 ))}
                                                             </select>
                                                         </div>
+                                                        <div className="mb-3 p-2 rounded bg-light border">
 
+                                                            <p className="mb-0">
+                                                                <strong>Selected City:</strong>{" "}
+                                                                {formData.city || formData.location
+                                                                    ? formData.city || formData.location
+                                                                    : "Not selected"}
+                                                            </p>
+                                                        </div>
                                                         {/* City Dropdown / Input */}
                                                         <div className="mb-3">
                                                             <label className="form-label">City</label>
                                                             {!customCity ? (
                                                                 <select
-                                                                    name="location"
+                                                                    name="city"
                                                                     className="form-control"
                                                                     value={formData.city}
                                                                     onChange={handleChange}
                                                                 >
+
+
                                                                     <option value="">Select city</option>
                                                                     {cities.map((city, idx) => (
                                                                         <option key={idx} value={city}>{city}</option>
@@ -512,23 +583,17 @@ const RegistrationForm = () => {
                                                             name="email"
                                                             type="email"
                                                             className="form-control"
-                                                            value={formData.email}
+                                                            value={formData.email || ""}
                                                             readOnly
                                                         />
+
 
                                                     </div>
 
                                                     <div className="mb-3">
 
                                                         <label className="form-label">Date of Birth</label>
-                                                        {/* <input
-                                                            type="date"
-                                                            name="dob"
-                                                            value={formData.dob}
-                                                            onChange={handleChange}
-                                                            className="form-control"
-                                                            max={new Date().toISOString().split("T")[0]}  
-                                                        /> */}
+
 
                                                         <input
                                                             type="date"
@@ -812,6 +877,12 @@ const RegistrationForm = () => {
                                                     {/* Video upload (optional) */}
                                                     <div className="mb-3">
                                                         <label className="form-label">Upload Intro Video (optional)</label>
+                                                        {introVideo && typeof introVideo === "string" && (
+                                                            <video width="200" controls className="mt-2">
+                                                                <source src={introVideo} />
+                                                            </video>
+                                                        )}
+
                                                         <input
                                                             className="form-control"
                                                             type="file"

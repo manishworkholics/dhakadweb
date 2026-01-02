@@ -7,34 +7,38 @@ import Sidebar from './Sidebar'; // Import the Sidebar we already created
 import Header from '../../../components/Header/Page';
 import Footer from '../../../components/Footer/page';
 
-export default function DashboardLayout({ children}) {
+export default function DashboardLayout({ children }) {
 
   const [profile, setProfile] = useState(null);
-  
-      const userId =
-          typeof window !== "undefined"
-              ? JSON.parse(sessionStorage.getItem("user"))?._id
-              : null;
-  
-      // Load profile
-      const fetchProfile = async () => {
-          try {
-              const res = await fetch(
-                  `http://143.110.244.163:5000/api/profile/own-profile/${userId}`
-              );
-              const data = await res.json();
-              setProfile(data.profile);
-          } catch (error) {
-              console.log("Profile fetch error:", error);
-          }
-      };
-  
-      useEffect(() => {
-          if (userId) fetchProfile();
-      }, [userId]);
-  
-     
-   
+
+  const userId =
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("user"))?._id
+      : null;
+
+  // Load profile
+  const fetchProfile = async () => {
+    try {
+      const res = await fetch(
+        `http://143.110.244.163:5000/api/profile/own-profile/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}` // or your auth token
+        }
+      }
+      );
+      const data = await res.json();
+      setProfile(data.profile);
+    } catch (error) {
+      console.log("Profile fetch error:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (userId) fetchProfile();
+  }, [userId]);
+
+
+
   return (
     <div className="app-container">
 

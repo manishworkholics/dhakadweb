@@ -7,8 +7,19 @@ import Header from "../../components/Header/Page";
 import Readytomeet from "@/app/components/Readytomeet/page";
 import Footer from "@/app/components/Footer/page";
 import RelatedProfiles from "@/app/components/RelatedProfiles/page";
+import { useRouter } from "next/navigation";
+
 
 export default function ProfileDetail() {
+
+  const router = useRouter();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.replace("/login");
+    }
+  }, []);
+
   const { id } = useParams();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -22,7 +33,7 @@ export default function ProfileDetail() {
       try {
         const res = await fetch(`http://143.110.244.163:5000/api/profile/${id}`, {
           headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("token")}` // or your auth token
+            Authorization: `Bearer ${localStorage.getItem("token")}` // or your auth token
           }
         });
         const data = await res.json();
@@ -30,13 +41,13 @@ export default function ProfileDetail() {
         setLoading(false);
 
         // ✅ Mark profile as viewed (only if not own profile)
-        const userId = sessionStorage.getItem("userId"); // or from context
+        const userId = localStorage.getItem("userId"); // or from context
         if (data.profile._id !== userId) {
           await fetch(`http://143.110.244.163:5000/api/viewed/view/${data.profile._id}`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${sessionStorage.getItem("token")}`
+              Authorization: `Bearer ${localStorage.getItem("token")}`
             }
           });
           console.log("Profile marked as viewed");
@@ -83,7 +94,7 @@ export default function ProfileDetail() {
   // 🚀 SEND INTEREST
   const sendInterestRequest = async () => {
     try {
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
 
       const res = await fetch(`http://143.110.244.163:5000/api/interest/request/send`, {
         method: "POST",
@@ -111,7 +122,7 @@ export default function ProfileDetail() {
   // 🚀 SEND INTEREST
   const sendChatInterestRequest = async () => {
     try {
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
 
       const res = await fetch(`http://143.110.244.163:5000/api/chat/now`, {
         method: "POST",
@@ -140,7 +151,7 @@ export default function ProfileDetail() {
   // ⭐ CHECK SHORTLIST STATE WHEN OPENING PROFILE
   const checkShortlistStatus = async () => {
     try {
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
 
       const res = await fetch(`http://143.110.244.163:5000/api/shortlist/`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -163,7 +174,7 @@ export default function ProfileDetail() {
   // ⭐ TOGGLE SHORTLIST
   const toggleShortlist = async () => {
     try {
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
 
       if (isShortlisted) {
         await fetch(`http://143.110.244.163:5000/api/shortlist/${profile._id}`, {
@@ -228,7 +239,7 @@ export default function ProfileDetail() {
                           style={{ fontSize: "15px" }}
                           disabled={chatinterestSent}
                         >
-                          
+
                           {chatinterestSent ? "Interest Sent ✓" : "Chat Now"}
                         </button>
 
@@ -475,7 +486,7 @@ export default function ProfileDetail() {
 
             </div>
           </div>
-          <RelatedProfiles />
+          {/* <RelatedProfiles /> */}
         </div>
       </div >
 

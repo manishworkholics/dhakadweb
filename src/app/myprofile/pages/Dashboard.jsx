@@ -31,9 +31,9 @@ export default function DashboardPage() {
     const [profile, setProfile] = useState(null);
 
     const [userId, setUserId] = useState(null);
-
+    const token = localStorage.getItem("token");
     useEffect(() => {
-        const userData = sessionStorage.getItem("user");
+        const userData = localStorage.getItem("user");
         if (userData) {
             setUserId(JSON.parse(userData)._id);
         }
@@ -43,10 +43,10 @@ export default function DashboardPage() {
     const fetchProfile = async () => {
         try {
             const res = await fetch(
-                `http://143.110.244.163:5000/api/profile/own-profile/${userId}`
+                `http://143.110.244.163:5000/api/profile/own-profile/${userId}`, { headers: { Authorization: `Bearer ${token}` }, }
             );
             const data = await res.json();
-           
+
             setProfile(data.profile);
         } catch (error) {
             console.log("Profile fetch error:", error);
@@ -57,7 +57,7 @@ export default function DashboardPage() {
         if (userId) fetchProfile();
     }, [userId]);
 
-    
+
 
     return (
         <DashboardLayout data={profile}>

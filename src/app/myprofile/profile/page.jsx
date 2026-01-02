@@ -31,8 +31,8 @@
 
 //     useEffect(() => {
 //         if (typeof window !== "undefined") {
-//             const savedToken = sessionStorage.getItem("token");
-//             const savedUser = sessionStorage.getItem("user");
+//             const savedToken = localStorage.getItem("token");
+//             const savedUser = localStorage.getItem("user");
 
 //             if (savedToken) setToken(savedToken);
 //             if (savedUser) setUser(JSON.parse(savedUser));
@@ -41,7 +41,7 @@
 
 //     const userId =
 //         typeof window !== "undefined"
-//             ? JSON.parse(sessionStorage.getItem("user"))?._id
+//             ? JSON.parse(localStorage.getItem("user"))?._id
 //             : null;
 
 //     // Load profile
@@ -322,22 +322,26 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                                     <option value="">Select {field}</option>
                                     {field === "gender" && (
                                         <>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                            <option value="Other">Other</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="other">Other</option>
+
                                         </>
                                     )}
                                     {field === "maritalStatus" && (
                                         <>
-                                            <option value="Single">Single</option>
-                                            <option value="Married">Married</option>
-                                            <option value="Divorced">Divorced</option>
+                                            <option value="Never married">Never Married</option>
+                                            <option value="Previously Married (Divorced)">Divorced</option>
+                                            <option value="Previously Married (Widowed)">Widowed</option>
+                                            <option value="Currently Separated">Separated</option>
+
                                         </>
                                     )}
                                     {field === "physicalStatus" && (
                                         <>
                                             <option value="Normal">Normal</option>
                                             <option value="Physically Challenged">Physically Challenged</option>
+
                                         </>
                                     )}
                                 </select>
@@ -390,8 +394,8 @@ export default function ProfilePage() {
 
     useEffect(() => {
         if (typeof window !== "undefined") {
-            setToken(sessionStorage.getItem("token") || "");
-            setUser(JSON.parse(sessionStorage.getItem("user") || null));
+            setToken(localStorage.getItem("token") || "");
+            setUser(JSON.parse(localStorage.getItem("user") || null));
         }
     }, []);
 
@@ -400,7 +404,7 @@ export default function ProfilePage() {
     const fetchProfile = async () => {
         if (!userId) return;
         try {
-            const res = await fetch(`http://143.110.244.163:5000/api/profile/own-profile/${userId}`);
+            const res = await fetch(`http://143.110.244.163:5000/api/profile/own-profile/${userId}`, { headers: { Authorization: `Bearer ${token}` }, });
             const data = await res.json();
             setProfile(data.profile);
         } catch (err) { console.log(err); }
@@ -441,10 +445,13 @@ export default function ProfilePage() {
     };
 
     const handleEdit = (fields) => {
-        setEditFields(fields);
-        setEditSectionData(profile);
-        setEditModalOpen(true);
-    };
+    const sectionData = {};
+    fields.forEach(f => sectionData[f] = profile[f] || "");
+    setEditFields(fields);
+    setEditSectionData(sectionData);
+    setEditModalOpen(true);
+};
+
 
     const saveProfileUpdate = async (updatedData) => {
         try {

@@ -66,7 +66,7 @@ export default function RecentlyViewed() {
 
   const fetchViewedProfiles = async () => {
     try {
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
       if (!token) return;
 
       const res = await axios.get(`${API_URL}/viewed/viewed`, {
