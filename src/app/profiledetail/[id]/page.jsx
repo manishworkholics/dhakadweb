@@ -41,7 +41,8 @@ export default function ProfileDetail() {
         setLoading(false);
 
         // ✅ Mark profile as viewed (only if not own profile)
-        const userId = localStorage.getItem("userId"); // or from context
+        const userId = JSON.parse(localStorage.getItem("user"))?._id;
+        // or from context
         if (data.profile._id !== userId) {
           await fetch(`http://143.110.244.163:5000/api/viewed/view/${data.profile._id}`, {
             method: "POST",
