@@ -177,7 +177,7 @@ const HomePage = () => {
                                                 name="name"
                                                 value={formData.name}
                                                 onChange={handleChange}
-                                                className="form-control bg-dark border-white shadow-none py-2 custom-input"
+                                                className="form-control bg-dark border-white shadow-none py-2 custom-input text-white"
                                                 placeholder="Full Name"
                                             />
                                         </div>
@@ -189,7 +189,7 @@ const HomePage = () => {
                                                 name="email"
                                                 value={formData.email}
                                                 onChange={handleChange}
-                                                className="form-control bg-dark border-white shadow-none py-2 custom-input"
+                                                className="form-control bg-dark border-white shadow-none py-2 custom-input text-white"
                                                 placeholder="Email Address"
                                             />
                                         </div>
@@ -200,7 +200,7 @@ const HomePage = () => {
                                             name="phone"
                                             value={formData.phone}
                                             onChange={handleChange}
-                                            className="form-control bg-dark border-white shadow-none py-2 mb-lg-3 mb-md-3 mb-2 custom-input"
+                                            className="form-control bg-dark border-white shadow-none py-2 mb-lg-3 mb-md-3 mb-2 custom-input text-white"
                                             placeholder="Mobile Number"
                                         />
 
@@ -214,7 +214,7 @@ const HomePage = () => {
                                                     handleChange(e);
                                                     setPasswordError(!validatePassword(e.target.value));
                                                 }}
-                                                className="form-control bg-dark border-white shadow-none py-2 custom-input"
+                                                className="form-control bg-dark border-white shadow-none py-2 custom-input text-white"
                                                 placeholder="Create Password"
                                             />
                                             <span
