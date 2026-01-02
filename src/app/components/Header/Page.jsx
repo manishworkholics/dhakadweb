@@ -33,7 +33,7 @@ const Header = () => {
                     </button>
 
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav ms-auto me-4 text-center gap-lg-4">
+                        <ul className="navbar-nav ms-auto me-lg-4 me-md-4 me-0 mb-lg-0 mb-md-0 mb-2 text-center gap-lg-4">
 
                             <li className="nav-item">
                                 <Link className={isActive("/")} href="/">Home</Link>
@@ -60,7 +60,7 @@ const Header = () => {
                             )}
                         </ul>
 
-                        <div className="d-flex gap-3">
+                        <div className="d-flex gap-3 justify-content-center">
                             {!isLoggedIn ? (
                                 <Link href="/login" className="btn btn-outline-secondary">Login</Link>
                             ) : (

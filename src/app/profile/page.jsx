@@ -12,8 +12,10 @@ export default function Profile() {
     const [token, setToken] = useState("");
     const [user, setUser] = useState(null);
 
+    // Detect if screen is mobile
+    const [isMobile, setIsMobile] = useState(false);
+    const [showFilters, setShowFilters] = useState(false);
 
-    // Load storage only in browser
     useEffect(() => {
         if (typeof window !== "undefined") {
             const savedToken = sessionStorage.getItem("token");
@@ -21,6 +23,11 @@ export default function Profile() {
 
             if (savedToken) setToken(savedToken);
             if (savedUser) setUser(JSON.parse(savedUser));
+
+            const handleResize = () => setIsMobile(window.innerWidth < 768);
+            handleResize(); // initial check
+            window.addEventListener("resize", handleResize);
+            return () => window.removeEventListener("resize", handleResize);
         }
     }, []);
 
@@ -32,8 +39,7 @@ export default function Profile() {
     });
 
     const [page, setPage] = useState(1);
-    const limit = 9; // how many profiles per page
-
+    const limit = 9;
     const [totalPages, setTotalPages] = useState(1);
 
     const getFilterOptions = async () => {
@@ -52,18 +58,8 @@ export default function Profile() {
         const timeout = setTimeout(() => {
             setFilters(prev => ({ ...prev, search }));
         }, 400);
-
         return () => clearTimeout(timeout);
     }, [search]);
-
-    useEffect(() => {
-        const params = new URLSearchParams();
-        if (user?._id) {
-            params.append("userId", user._id);
-        }
-    }, [user]);
-
-
 
     const [filters, setFilters] = useState({
         gender: "",
@@ -74,7 +70,6 @@ export default function Profile() {
         profession: "",
         sortBy: ""
     });
-
 
     const [data, setData] = useState([]);
 
@@ -91,9 +86,7 @@ export default function Profile() {
         if (ageObj.ageMin) params.append("ageMin", ageObj.ageMin);
         if (ageObj.ageMax) params.append("ageMax", ageObj.ageMax);
 
-        // add pagination
         params.append("userId", user?._id);
-
         params.append("page", page);
         params.append("limit", limit);
 
@@ -106,10 +99,6 @@ export default function Profile() {
             .catch((err) => console.log(err));
     };
 
-
-
-
-
     useEffect(() => {
         getFilterOptions();
         getAllProfile();
@@ -119,14 +108,11 @@ export default function Profile() {
         setPage(1);
     }, [filters]);
 
-
     useEffect(() => {
         getAllProfile();
     }, [filters, page]);
 
-
     const ageRangeToQuery = (ageRange) => {
-        // returns object { ageMin, ageMax } or null
         if (!ageRange) return {};
         const map = {
             "18-25": { ageMin: 18, ageMax: 25 },
@@ -144,7 +130,6 @@ export default function Profile() {
     const handleSendInterest = async (receiverId) => {
         try {
             const token = sessionStorage.getItem("token");
-
             if (!token) {
                 toast.error("Please login first");
                 return;
@@ -153,11 +138,7 @@ export default function Profile() {
             const res = await axios.post(
                 "http://143.110.244.163:5000/api/interest/request/send",
                 { receiverId },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
+                { headers: { Authorization: `Bearer ${token}` } }
             );
 
             if (res.data.success) {
@@ -166,7 +147,6 @@ export default function Profile() {
             } else {
                 toast.error(res.data.message);
             }
-
         } catch (err) {
             toast.error(err?.response?.data?.message || "Something went wrong");
         }
@@ -185,9 +165,47 @@ export default function Profile() {
                 <div className="container">
                     <div className="row py-4">
 
-                        {/* Left Filter */}
-                        <div className="col-md-3 col-lg-3 col-12 mt-5">
-                            <div className="card w-100">
+                        {/* ===== MOBILE FILTER BUTTON ===== */}
+                        {isMobile && (
+                            <div className="d-md-none d-lg-none d-block text-end mb-2">
+                                <button
+                                    className="btn btn-outline-danger rounded-circle"
+                                    onClick={() => setShowFilters(true)}
+                                >
+                                    <i className="fa-solid fa-filter"></i>
+                                </button>
+                            </div>
+                        )}
+
+                        {/* ===== LEFT FILTER ===== */}
+                        <div className="col-md-3 col-lg-3 col-12 mt-lg-5 mt-md-0 mt-0">
+                            <div
+                                className="card w-100"
+                                style={isMobile ? {
+                                    position: "absolute",
+                                    left: showFilters ? 0 : "100%", // slide from right
+                                    width: "calc(100% - 15px)", // roughly main content width
+                                    height: "100%", // full height of content container
+                                    zIndex: 1050,
+                                    padding: "20px",
+                                    overflowY: "auto",
+                                    transition: "left 0.3s ease",
+                                    background: "white",
+                                    boxShadow: "0 0 10px rgba(0,0,0,0.3)"
+                                } : {}}
+                            >
+                                {/* Close button only on mobile */}
+                                {isMobile && (
+                                    <div className="text-end mb-3">
+                                        <button
+                                            className="btn btn-sm btn-danger"
+                                            onClick={() => setShowFilters(false)}
+                                        >
+                                            <i className="fa-solid fa-xmark"></i>
+                                        </button>
+                                    </div>
+                                )}
+                                {/* Filter options */}
                                 <div className="card-body">
                                     <h6 className="mb-2 fw-normal">I am looking for</h6>
                                     <select
@@ -199,7 +217,6 @@ export default function Profile() {
                                         <option value="male">Men</option>
                                         <option value="female">Women</option>
                                     </select>
-
 
                                     <h6 className="mb-2 fw-normal">Age</h6>
                                     <select
@@ -215,7 +232,6 @@ export default function Profile() {
                                         <option value="41-50">41 - 50</option>
                                         <option value="50+">50+</option>
                                     </select>
-
 
                                     <h6 className="mb-2 fw-normal">Select Religion</h6>
                                     <select className="form-select mb-3"
@@ -272,7 +288,6 @@ export default function Profile() {
                                         >
                                             Clear
                                         </button>
-
                                     </div>
                                 </div>
                             </div>

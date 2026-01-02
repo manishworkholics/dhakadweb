@@ -125,6 +125,10 @@ body {
     }
 }
 
+.custom-input::placeholder {
+    color: #ffffff !important;
+}
+
 /* OTP Page End */
 .contact-btn {
     border: 1px solid #D4AF37 !important;
@@ -142,6 +146,12 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+}
+
+@media only screen and (max-width:767px) {
+    .details {
+        width: 185px !important;
+    }
 }
 
 /* PROFILE DETAIL Page End */
@@ -291,6 +301,18 @@ body {
     border-bottom: 2px solid #dc3545 !important;
 }
 
+@media (max-width: 768px) {
+    .navbar-nav .nav-link {
+        display: inline-block;
+        padding-bottom: 4px;
+    }
+
+    .navbar-nav .nav-link.active {
+        border-bottom: 2px solid #dc3545 !important;
+        width: fit-content;
+    }
+}
+
 /* ===== SIDEBAR BASE ===== */
 .sidebar-link {
     display: flex;
@@ -310,9 +332,10 @@ body {
 }
 
 @media only screen and (max-width:767px) {
-    .about-right{
+    .about-right {
         margin-bottom: 50px;
     }
+
     .about-right img {
         border: 7px solid #D4AF37;
         height: 300px;
@@ -325,9 +348,10 @@ body {
 }
 
 @media only screen and (min-width:768px) and (max-width:1023px) {
-    .about-right{
+    .about-right {
         margin-bottom: 50px;
     }
+
     .about-right img {
         border: 7px solid #D4AF37;
         height: 300px;
