@@ -121,8 +121,8 @@ const Login = () => {
 
                                                 <span
                                                     onClick={() => setShowPassword(!showPassword)}
-                                                    className="position-absolute end-2 top-50 translate-middle-y text-dark"
-                                                    style={{ cursor: "pointer", right: "15px" }}
+                                                    className="position-absolute translate-middle-y text-dark"
+                                                    style={{ cursor: "pointer", right: "15px", top:"52px" }}
                                                 >
                                                     {showPassword ? (
                                                         <i className="bi bi-eye-slash"></i>

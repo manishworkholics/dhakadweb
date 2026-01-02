@@ -13,9 +13,11 @@ export default function FeaturesProfile() {
     const nextRef = useRef(null);
 
     const [profiles, setProfiles] = useState([]);
-
     const [token, setToken] = useState("");
     const [user, setUser] = useState(null);
+
+    // 🔴 NEW STATE (ONLY ADDITION)
+    const [hasMoved, setHasMoved] = useState(false);
 
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -24,7 +26,6 @@ export default function FeaturesProfile() {
 
             if (savedToken) setToken(savedToken);
             if (savedUser) setUser(JSON.parse(savedUser));
-
         }
     }, []);
 
@@ -65,13 +66,17 @@ export default function FeaturesProfile() {
 
                     {/* Swiper Navigation */}
                     <div className="d-flex gap-2">
+                        {/* LEFT BUTTON (DYNAMIC COLOR) */}
                         <button
                             ref={prevRef}
-                            className="btn btn-light shadow-sm rounded-circle"
+                            className={`btn shadow-sm rounded-circle ${hasMoved ? "btn-danger" : "btn-light"
+                                }`}
                             style={{ width: 38, height: 38 }}
                         >
                             ←
                         </button>
+
+                        {/* RIGHT BUTTON (ALWAYS RED) */}
                         <button
                             ref={nextRef}
                             className="btn btn-danger shadow-sm rounded-circle"
@@ -93,6 +98,10 @@ export default function FeaturesProfile() {
                     onBeforeInit={(swiper) => {
                         swiper.params.navigation.prevEl = prevRef.current;
                         swiper.params.navigation.nextEl = nextRef.current;
+                    }}
+                    // 🔴 NEW EVENT (ONLY ADDITION)
+                    onSlideChange={(swiper) => {
+                        setHasMoved(swiper.activeIndex > 0);
                     }}
                     modules={[Navigation]}
                     breakpoints={{
@@ -121,11 +130,12 @@ export default function FeaturesProfile() {
 
                                 {/* USER DETAILS */}
                                 <h6 className="fw-bold">{item.name}</h6>
-                                <p className="mb-0 text-muted">Age: {calculateAge(item.dob)}</p>
+                                <p className="mb-0 text-muted">
+                                    Age: {calculateAge(item.dob)}
+                                </p>
                                 <p className="text-muted">{item.location}</p>
 
                                 {/* VIEW PROFILE BUTTON */}
-
                                 {!token ? (
                                     <Link
                                         href="#"
@@ -145,9 +155,6 @@ export default function FeaturesProfile() {
                                         View Profile
                                     </Link>
                                 )}
-
-
-
                             </div>
                         </SwiperSlide>
                     ))}

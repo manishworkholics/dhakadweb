@@ -393,31 +393,31 @@ export default function ProfileDetail() {
                 <div className="row">
                   <div className="col-md-6 col-12">
                     <div className="table-responsive">
-                      <table className="table bg-transparent">
+                      <table className="table bg-transparent mb-0">
                         <tbody>
                           <tr>
-                            <td className="bg-transparent border-0">Name:</td>
-                            <td className="bg-transparent border-0">{profile.name || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">Name:</td>
+                            <td className="bg-transparent border-0 details">{profile.name || "N/A"}</td>
                           </tr>
                           <tr>
-                            <td className="bg-transparent border-0">Age:</td>
-                            <td className="bg-transparent border-0">{age || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">Age:</td>
+                            <td className="bg-transparent border-0 details">{age || "N/A"}</td>
                           </tr>
                           <tr>
-                            <td className="bg-transparent border-0">DOB:</td>
-                            <td className="bg-transparent border-0">{profile.dob?.slice(0, 10) || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">DOB:</td>
+                            <td className="bg-transparent border-0 details">{profile.dob?.slice(0, 10) || "N/A"}</td>
                           </tr>
                           <tr>
-                            <td className="bg-transparent border-0">Height:</td>
-                            <td className="bg-transparent border-0">{profile.height || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">Height:</td>
+                            <td className="bg-transparent border-0 details">{profile.height || "N/A"}</td>
                           </tr>
                           <tr>
-                            <td className="bg-transparent border-0">Religion:</td>
-                            <td className="bg-transparent border-0">{profile.religion || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">Religion:</td>
+                            <td className="bg-transparent border-0 details">{profile.religion || "N/A"}</td>
                           </tr>
                           <tr>
-                            <td className="bg-transparent border-0">Gotra:</td>
-                            <td className="bg-transparent border-0">{profile.gotra || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">Gotra:</td>
+                            <td className="bg-transparent border-0 details">{profile.gotra || "N/A"}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -429,24 +429,24 @@ export default function ProfileDetail() {
                       <table className="table bg-transparent">
                         <tbody>
                           <tr>
-                            <td className="bg-transparent border-0">Education:</td>
-                            <td className="bg-transparent border-0">{profile.education || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">Education:</td>
+                            <td className="bg-transparent border-0 details">{profile.education || "N/A"}</td>
                           </tr>
                           <tr>
-                            <td className="bg-transparent border-0">Occupation:</td>
-                            <td className="bg-transparent border-0">{profile.occupation || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">Occupation:</td>
+                            <td className="bg-transparent border-0 details">{profile.occupation || "N/A"}</td>
                           </tr>
                           <tr>
-                            <td className="bg-transparent border-0">Income:</td>
-                            <td className="bg-transparent border-0">{profile.annualIncome || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">Income:</td>
+                            <td className="bg-transparent border-0 details">{profile.annualIncome || "N/A"}</td>
                           </tr>
                           <tr>
-                            <td className="bg-transparent border-0">Family Status:</td>
-                            <td className="bg-transparent border-0">{profile.familyStatus || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">Family Status:</td>
+                            <td className="bg-transparent border-0 details">{profile.familyStatus || "N/A"}</td>
                           </tr>
                           <tr>
-                            <td className="bg-transparent border-0">Employment Type:</td>
-                            <td className="bg-transparent border-0">{profile.employmentType || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">Employment Type:</td>
+                            <td className="bg-transparent border-0 details">{profile.employmentType || "N/A"}</td>
                           </tr>
                         </tbody>
                       </table>

@@ -13,7 +13,7 @@ const API_URL = "http://143.110.244.163:5000/api";
 const ShortListItem = ({ profile, onRemove }) => {
     return (
         <div className="align-items-start py-3 border-bottom row">
-            <div className="col-lg-3 col-md-3 col-6">
+            <div className="col-lg-3 col-md-3 col-4">
                 <div className="interest-image w-100 d-flex align-items-center justify-content-center" style={{ height: "200px", overflow:'hidden' }}>
                     <img
                         src={profile?.profile?.photos?.[0] || "/dhakadweb/assets/images/default-profile.png"}
@@ -24,7 +24,7 @@ const ShortListItem = ({ profile, onRemove }) => {
                 </div>
             </div>
 
-            <div className="col-lg-6 col-md-6 col-6">
+            <div className="col-lg-6 col-md-6 col-5">
                 <h4 className="mb-2 fw-semibold text-dark">{profile?.profile?.name}</h4>
                 <p className="text-muted small mb-4">
                     City: <strong className="text-dark me-3">{profile?.profile?.location || "N/A"}</strong> &bull;
@@ -45,7 +45,7 @@ const ShortListItem = ({ profile, onRemove }) => {
                 </button>
             </div>
 
-            <div className="col-lg-3 col-md-3 col-12">
+            <div className="col-lg-3 col-md-3 col-3">
                 <div className="d-flex align-items-end justify-content-end w-100">
                     <button
                         onClick={() => onRemove(profile?.profile?._id)}
