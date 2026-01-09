@@ -112,49 +112,55 @@ export default function FeaturesProfile() {
                 >
                     {profiles.map((item, index) => (
                         <SwiperSlide key={index}>
-                            <div className="text-center">
+                            <div className="card rounded-5 p-2 featured-card">
 
                                 {/* PROFILE IMAGE */}
                                 <div
-                                    className="rounded-4 overflow-hidden mb-3"
-                                    style={{ height: "260px" }}
+                                    className="rounded-4 overflow-hidden position-relative featured-card"
+                                    style={{ height: "100%" }}
                                 >
                                     <img
                                         src={item.photos?.[0] || "/dhakadweb/assets/images/dummy.png"}
                                         alt={item.name}
                                         width={300}
                                         height={260}
-                                        className="w-100 h-100 object-fit-cover"
+                                        className="w-100 h-100 object-fit-cover position-relative rounded-4"
                                     />
                                 </div>
-
                                 {/* USER DETAILS */}
-                                <h6 className="fw-bold">{item.name}</h6>
-                                <p className="mb-0 text-muted">
-                                    Age: {calculateAge(item.dob)}
-                                </p>
-                                <p className="text-muted">{item.location}</p>
-
-                                {/* VIEW PROFILE BUTTON */}
-                                {!token ? (
-                                    <Link
-                                        href="#"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            alert("⚠️ Please login first!");
-                                        }}
-                                        className="btn btn-outline-danger btn-sm"
-                                    >
-                                        View Profile
-                                    </Link>
-                                ) : (
-                                    <Link
-                                        href={`/profiledetail/${item._id}`}
-                                        className="btn btn-outline-danger btn-sm"
-                                    >
-                                        View Profile
-                                    </Link>
-                                )}
+                                <div className="feature-details position-absolute w-100 py-2 pe-4 ps-3">
+                                    <h5 className="fw-bold text-dark mb-0">{item.name}</h5>
+                                    <div className="text-btn d-flex justify-content-between align-items-center">
+                                        <div className="text-fea">
+                                            <p className="mb-0 text-dark">
+                                                Age: {calculateAge(item.dob)}
+                                            </p>
+                                            <p className="text-dark mb-1">City: {item.location}</p>
+                                        </div>
+                                        <div className="fea-btn">
+                                            {/* VIEW PROFILE BUTTON */}
+                                            {!token ? (
+                                                <Link
+                                                    href="#"
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        alert("⚠️ Please login first!");
+                                                    }}
+                                                    className="btn btn-outline-danger btn-sm rounded-4"
+                                                >
+                                                    View Profile
+                                                </Link>
+                                            ) : (
+                                                <Link
+                                                    href={`/profiledetail/${item._id}`}
+                                                    className="btn btn-outline-danger btn-sm rounded-4"
+                                                >
+                                                    View Profile
+                                                </Link>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </SwiperSlide>
                     ))}

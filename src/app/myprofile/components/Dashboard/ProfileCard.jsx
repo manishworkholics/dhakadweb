@@ -17,21 +17,19 @@ export default function ProfileCard({ data }) {
             href={`/profiledetail/${_id}`}
             style={{ textDecoration: "none" }}
         >
-            <div className="profile-card">
+            <div className="profile-card ">
                 {/* The main profile image */}
                 <div className="profile-image-wrapper">
-                    <img
-                        src={profileImage}
-                        alt={`Profile of ${name}`}
-                        className="profile-photo rounded-3" />
+                    {/* Blurred background */}
+                    <img src={profileImage} alt="" className="bg-blur" />
 
+                    {/* Main image */}
                     <img
                         src={profileImage}
                         alt={`Profile of ${name}`}
-                        className="profile-photo"
+                        className="main-img"
                     />
                 </div>
-
                 {/* Profile details at the bottom */}
                 <div className="profile-details">
                     <h5 className="profile-name">{name}</h5>

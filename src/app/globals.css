@@ -18,9 +18,264 @@ body {
     font-family: Serotiva, sans-serif !important;
 }
 
+/*Features-card*/
+.feature-details {
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.50);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+.featured-card:hover{
+    box-shadow: 0 4px 10px #00000026 !important;
+}
+/*Plan*/
+.gold-card {
+    background:
+        linear-gradient(135deg,
+            #f9e7a9 0%,
+            #e7c35a 45%,
+            #c99b2e 100%);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, .2);
+    border: 1px solid #c99b2e;
+}
+
+.crown {
+    font-size: 32px;
+}
+
+/* PLAN CARDS */
+.silver-card {
+    background: linear-gradient(120deg,
+            #ededed 0%,
+            #d6d6d6 40%,
+            #e3e3e3 100%);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .08);
+    position: relative;
+    height: 100%;
+    border: 1px solid #D9D9D9;
+}
+
+.platinum-card {
+    background: linear-gradient(135deg,
+            #f5e9ff 0%,
+            #e6d4ff 35%,
+            #eee5ff 100%);
+    border: 1px solid #E6D9FF;
+}
+
+.lifetime-card {
+    background: linear-gradient(135deg,
+            #eef7ff 0%,
+            #d9ecff 35%,
+            #c3e0ff 60%,
+            #f2f9ff 100%);
+    border: 1px solid #A7D8FF;
+}
+
+.gold-plan-card {
+    background: linear-gradient(135deg,
+            #f9e7a9 0%,
+            #e7c35a 45%,
+            #c99b2e 100%);
+    border: 1px solid #c99b2e;
+}
+
+.badge-popular {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.gold-btn {
+    background: #fff !important;
+    color: #c99b2e !important;
+    border: 1px solid #c99b2e !important;
+}
+
+.plan-box ul {
+    list-style: none;
+    padding: 0;
+    font-size: 14px;
+}
+
+/* WHY UPGRADE */
+.why-upgrade {
+    background: #fff;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .08);
+    border: 1px solid #dee2e6;
+}
+
+.why-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* PAYMENT */
+.payment-history {
+    background: #fff;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .08);
+    border: 1px solid #dee2e6;
+}
+
+/* Paid Membership */
+.premium-box {
+    background: linear-gradient(135deg,
+            #f9e7a9 0%,
+            #e7c35a 45%,
+            #c99b2e 100%);
+}
+
+.premium-box:hover {
+    box-shadow: 0 4px 10px #00000026;
+}
+
+.premium-header {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.premium-list li {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #374151;
+    margin-bottom: 12px;
+}
+
+.premium-list li::before {
+    content: "✔";
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 22px;
+    height: 22px;
+    margin-right: 10px;
+    background: #f4e1a1;
+    color: #9c7b1e;
+    font-size: 12px;
+}
+
+.premium-btn {
+    background: linear-gradient(180deg, #f9e7a7, #e1b953) !important;
+    color: #fff !important;
+    font-size: 14px;
+    border: 1px solid #e1b953 !important;
+    width: 25% !important;
+}
+
+.premium-btn:hover {
+    background: #ffff !important;
+    color: #e1b953 !important;
+    border: 1px solid #e1b953 !important;
+}
+@media only screen and (max-width:767px) {
+    .premium-btn{
+        width: 50% !important;
+    }
+}
+/* Success-Story*/
+/* WRAPPER */
+.story-grid-wrapper {
+    width: 100%;
+    padding: 10px 0;
+}
+
+/* GRID */
+.story-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    /* 🔥 5 cards */
+    gap: 18px;
+}
+
+/* CARD */
+.story-card {
+    border-radius: 18px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.story-card:hover {
+    transform: translateY(-6px);
+}
+
+/* IMAGE */
+.story-img-wrapper {
+    position: relative;
+    display: block;
+    height: 300px;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.story-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* OVERLAY */
+.story-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.75),
+            rgba(0, 0, 0, 0.35),
+            transparent);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 14px;
+    align-items: center !important;
+}
+
+/* CTA */
+.story-cta {
+    color: #000 !important;
+    font-size: 15px;
+    font-weight: 600;
+    background-color: #fff !important;
+}
+
+@media (max-width: 1200px) {
+    .story-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .story-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .story-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .story-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 /* Background Colors Start */
 .bg-fdf7ee {
     background-color: #fdf7ee !important;
+}
+
+.bg-fffaf2 {
+    background-color: #fffaf2 !important;
 }
 
 .bg-FDFBF7 {
@@ -78,7 +333,6 @@ body {
     color: #767676 !important;
 }
 
-.text-
 /* Text Colors End */
 
 .form-select,
@@ -271,10 +525,6 @@ body {
     }
 }
 
-
-
-
-
 /* --- Testimonials Section Styling --- */
 
 .testimonials-section {
@@ -373,6 +623,12 @@ body {
     box-shadow: none !important;
 }
 
+.accordion-button:not(.collapsed) {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+
 /* ===== ACTIVE STATE (IMAGE STYLE) ===== */
 .sidebar-link.active {
     background-color: #fff7e6;
@@ -470,10 +726,6 @@ body {
     .testimonials-grid {
         flex-direction: column;
         align-items: center;
-    }
-
-    .col-md-4 {
-        margin-bottom: 20px;
     }
 }
 
@@ -660,6 +912,7 @@ body {
     position: relative;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
+    height: 220px;
 }
 
 /* Hover effect for the entire card */
@@ -667,23 +920,38 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-/* Image Container */
 .profile-image-wrapper {
-    width: 100%;
-    padding-top: 75%;
     position: relative;
+    width: 100%;
+    height: 150px;
+    /* adjust as needed */
+    overflow: hidden;
+    background: #000;
 }
 
-.profile-photo {
+/* Background blurred image (fills full width) */
+.bg-blur {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    padding: 5px;
-    border-radius: 10px;
+    filter: blur(15px);
+    transform: scale(1.1);
+    opacity: 0.8;
 }
+
+/* Main image (centered, sharp) */
+.main-img {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    width: auto;
+    margin: auto;
+    display: block;
+    object-fit: contain;
+}
+
 
 /* Profile Details Text Area */
 .profile-details {
@@ -740,114 +1008,87 @@ body {
 
 @media (max-width: 576px) {
     .card-grid-4 {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
+/*Recent-Success-Story*/
+.recent-blur-wrapper {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+/* Background blurred image */
+.recent-blur-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(14px);
+    transform: scale(1.2);
+}
+
+/* Main clear image */
+.recent-img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* OR cover if you want */
+    z-index: 2;
+}
+
+/*Success-Story-Detail*/
+.success-image-wrapper {
+    position: relative;
+}
+
+/* Blurred background */
+.success-image-wrapper .success-blur {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(18px);
+    transform: scale(1.15);
+    z-index: 1;
+}
+
+/* Main image (no cut) */
+.success-image-wrapper .success-img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    z-index: 2;
+}
 
 /* --- Profile Completeness Styles --- */
-
-.profile-completeness-card {
-    background-color: #ffffff;
-    border-radius: 8px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
-    height: 300px;
+.profile-status {
+    background: #fffaf2 !important;
+    border: 1px solid #f1e3b5 !important;
 }
 
-/* Gauge Container */
-.completeness-gauge {
-    position: relative;
-    width: 160px;
-    height: 160px;
-    margin: 0 auto 20px auto;
+.profile-status:hover {
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 10px;
 }
 
-/* SVG Styling */
-.progress-ring {
-    width: 100%;
-    height: 100%;
-    transform: rotate(-90deg);
+/* Progress bar */
+.profile-progress {
+    height: 6px;
+    background: #f3ecd9;
 }
 
-/* Track Circle (Background) */
-.progress-ring-track {
-    fill: none;
-    stroke: #e0e0e0;
-    stroke-width: 10;
-}
-
-/* Progress Arc (Foreground) */
-.progress-ring-progress {
-    fill: none;
-    stroke: #ff3366;
-    stroke-width: 10;
-    transition: stroke-dashoffset 0.8s ease-in-out;
-    stroke-linecap: round;
-}
-
-/* Percentage Text */
-.percentage-text {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.percent-number {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #333333;
-}
-
-/* Action Links/Text Below the Gauge */
-.completeness-actions {
-    padding-top: 15px;
-    border-top: 1px solid #eee;
-    margin-top: 15px;
-}
-
-.action-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #333333;
-    margin-bottom: 5px;
-    cursor: pointer;
-    text-decoration: underline;
-    /* To match the look in your design */
-}
-
-.action-detail {
-    font-size: 0.9rem;
-    color: #ff3366;
-    margin: 0;
-    cursor: pointer;
-    text-decoration: underline;
-}
-
-
-@media only screen and (min-width:1024px) and (max-width:1440px) {
-    .completeness-actions .btn {
-        font-size: 10px;
-    }
-}
-
-/* --- Paid Membership Card Styles --- */
-
-.paid-member-card {
-    background-color: #ffffff;
-    border: 1px solid #eeeeee;
-    border-radius: 8px;
-    padding: 15px 20px;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
-    height: 300px;
-    display: flex;
-    flex-direction: column;
+.profile-progress .progress-bar {
+    background: linear-gradient(90deg,
+            #e8c76a 0%,
+            #d1a73c 100%);
 }
 
 /* Discount Header Styling */
@@ -931,8 +1172,12 @@ body {
     background-color: #ffffff;
     border-radius: 8px;
     padding: 10px 0;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    border: 1px solid #E0E0E0 !important;
     height: 300px;
+}
+
+.recent-chat-card:hover {
+    box-shadow: 0 4px 10px #00000026;
 }
 
 .chat-list {
@@ -967,6 +1212,14 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.chat-row:not(:last-child) {
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.recent-chat-card {
+    border: 1px solid #f3f3f3;
 }
 
 /* Chat Info (Name and Location) */
@@ -1039,10 +1292,6 @@ body {
     font-weight: 500;
     color: #000;
     margin-bottom: 10px;
-}
-
-.dashboard-section {
-    margin-bottom: 30px;
 }
 
 .status-row-grid {
@@ -1415,6 +1664,28 @@ body {
 
 
 /* --- Shortlist Page Styles --- */
+.short-btn {
+    background: linear-gradient(135deg,
+            #f9e7a9 0%,
+            #e7c35a 45%,
+            #c99b2e 100%);
+    color: #fff !important;
+    border: 1px solid #c99b2e !important;
+}
+
+.short-btn:hover {
+    color: #c99b2e !important;
+    background: #fff !important;
+    border: 1px solid #c99b2e !important;
+}
+
+.short-card {
+    box-shadow:
+        0 8px 22px rgba(201, 155, 46, 0.4),
+        0 3px 6px rgba(0, 0, 0, 0.08) !important;
+    border: 1px solid #c99b2e !important;
+    background: #fffaf2 !important;
+}
 
 .shortlist-page-content {
     padding: 10px;
@@ -1429,6 +1700,12 @@ body {
     display: inline-block;
 }
 
+.short-out-btn {
+    border: 1px solid #c99b2e !important;
+    color: #c99b2e !important;
+    background: none !important;
+}
+
 /* Profile Grid (Reuse the Interests grid style) */
 .shortlist-profile-grid {
     display: grid;
@@ -1436,10 +1713,6 @@ body {
     gap: 30px;
 }
 
-/* Card and Actions Group */
-.shortlist-card-wrapper {
-    /* Ensures the card and actions are grouped together vertically */
-}
 
 /* Action Buttons below the ProfileCard */
 .shortlist-actions {
@@ -1922,6 +2195,7 @@ select.form-input {
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s;
+    display: flex;
 }
 
 .edit-btn:hover {
@@ -2015,39 +2289,40 @@ select.form-input {
 }
 
 /* --- Tab Navigation --- */
-.interests-tabs-custom {
-    display: flex;
-    margin-bottom: 30px;
+.interests-tabs {
+    border-bottom: 1px solid #c99b2e !important;
 }
 
-.interests-tabs-custom .tab-button {
+.interests-tabs .tab-button {
     background: none;
-    border: 1px solid #ccc;
-    border-right: none;
     padding: 8px 20px;
     font-size: 0.95rem;
     font-weight: 500;
-    color: #777777;
+    color: #c99b2e !important;
     cursor: pointer;
     transition: background-color 0.2s, color 0.2s;
+    border: 1px solid #c99b2e !important;
+    border-bottom: none !important;
 }
 
 /* Specific button styles for the group */
 .interests-tabs-custom .tab-button:first-child {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-radius: 10px !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
 }
 
-.interests-tabs-custom .tab-button:last-child {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    border-right: 1px solid #ccc;
+.interests-tabs .tab-button:last-child {
+    border-radius: 10px;
+    border-bottom: none;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
 }
 
-.interests-tabs-custom .tab-button.active {
-    background-color: #ff3366;
-    color: #ffffff;
-    border-color: #ff3366;
+.interests-tabs .tab-button.active {
+    background-color: #c99b2e !important;
+    color: #ffffff !important;
+    border-color: #c99b2e !important;
     font-weight: 600;
 }
 

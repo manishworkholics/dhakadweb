@@ -14,30 +14,29 @@ export default function PaidMembershipCard() {
     ];
 
     return (
-        <div className="paid-member-card">
-            {/* Discount Header */}
-            <div className="discount-header">
-                <p className="discount-text text-start">
-                    Get up to <span className="discount-percentage">63% OFF</span> on paid membership!
-                </p>
-            </div>
-            
-            {/* List of Features */}
-            <ul className="benefits-list">
-                {benefits.map((benefit, index) => (
-                    <li key={index} className="benefit-item">
-                        {/* Using a simple checkmark emoji/icon placeholder */}
-                        <span className="check-icon"><i className="fa-solid fa-phone text-black"></i></span> {benefit}
-                    </li>
-                ))}
-            </ul>
+        <div className="premium-box rounded-4 p-3 mb-4">
 
-            {/* Call to Action Button */}
-            <div className="cta-container">
-                <Link href={"/myprofile/plan"}  className="membership-cta-btn">
-                    See membership plans
+            {/* Top Title */}
+            <div className="premium-header">
+                ✨ Premium Member
+            </div>
+
+            {/* Inner Card */}
+            <div className="premium-inner card rounded-4 p-3">
+                <h6 className="mb-3 fw-semibold">Premium Member</h6>
+
+                <ul className="list-unstyled premium-list mb-4">
+                    <li>Call & WhatsApp</li>
+                    <li>Unlimited messages</li>
+                    <li>View all photos</li>
+                </ul>
+                <Link href="/myprofile/plan">
+                    <button className="btn premium-btn rounded-3 w-100 text-black">
+                        Upgrade Now
+                    </button>
                 </Link>
             </div>
+
         </div>
     );
 }

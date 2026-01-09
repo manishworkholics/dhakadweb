@@ -301,7 +301,7 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
 
     return (
         <div className="position-absolute top-0 left-0 right-0 d-flex align-items-center justify-content-center z-50 p-3 w-100 h-100">
-            <div className="bg-white p-5 rounded-lg w-50 max-w-md shadow-lg overflow-auto max-h-[90vh] ">
+            <div className="bg-white p-lg-5 p-2 rounded-lg w-lg-50 w-md-50 w-100 max-w-md shadow-lg overflow-auto max-h-[90vh] ">
                 <h3 className="text-lg fw-bold mb-3">Edit Details</h3>
 
                 {fields.map((field) => {
@@ -360,7 +360,7 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                 })}
                 <div className="d-flex justify-content-end gap-2 mt-3">
                     <button onClick={onClose} className="px-3 py-2 bg-gray-300 rounded">Cancel</button>
-                    <button onClick={handleSave} className="px-3 py-2 bg-[#D4AF37] text-white rounded">Save</button>
+                    <button onClick={handleSave} className="px-3 py-2 bg-D4AF37 text-white rounded border-0">Save</button>
                 </div>
             </div>
         </div>
@@ -514,12 +514,11 @@ export default function ProfilePage() {
                         </label>
                     </div>
 
-                    <div className="gallery-grid"
+                    <div className="gallery-grid my-3"
                         style={{
                             display: "grid",
                             gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
                             gap: "10px",
-                            marginTop: "12px",
                         }}>
                         {profile?.photos?.map((img, i) => (
                             <img

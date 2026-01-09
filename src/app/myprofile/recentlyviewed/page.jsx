@@ -16,40 +16,69 @@ const ViewedCard = ({ item }) => {
   };
 
   return (
-    <div className="align-items-start py-3 border-bottom row">
+    <div className="align-items-start py-3 row">
       {/* Image */}
-      <div className="col-lg-3 col-md-3 col-6">
+      <div className="col-lg-6 col-md-6 col-12">
         <div
-          className="interest-image w-100 d-flex align-items-center justify-content-center"
-          style={{ height: "200px", overflow: "hidden" }}
+          className="interest-image w-100 d-flex align-items-center justify-content-center position-relative"
+          style={{ height: "200px", overflow: "hidden", borderRadius: "12px" }}
         >
+          {/* Blurred Background */}
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              backgroundImage: `url(${item?.photos?.[0] || "/dhakadweb/assets/images/default-profile.png"})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              filter: "blur(15px)",
+              transform: "scale(1.1)",
+              zIndex: 1,
+            }}
+          >
+            {/* Optional Dark Overlay for contrast */}
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                backgroundColor: "rgba(0,0,0,0.15)",
+              }}
+            ></div>
+          </div>
+
+          {/* Main Profile Image */}
           <img
-            src={
-              item?.photos?.[0] ||
-              "/dhakadweb/assets/images/default-profile.png"
-            }
-            alt={item?.name}
-            className="rounded w-100 h-100"
-            style={{ objectFit: "cover" }}
+            src={item?.photos?.[0] || "/dhakadweb/assets/images/default-profile.png"}
+            alt={item?.name || "Profile"}
+            className="rounded w-100 h-100 position-relative"
+            style={{ objectFit: "contain", zIndex: 2 }}
           />
         </div>
+
       </div>
 
       {/* Details */}
-      <div className="col-lg-6 col-md-6 col-6">
+      <div className="col-lg-6 col-md-6 col-12">
         <h4 className="mb-2 fw-semibold text-dark">{item?.name || "No Name"}</h4>
 
-        <p className="text-muted small mb-4">
-          City: <strong className="text-dark me-3">{item?.location || "N/A"}</strong>
-          &bull; Age:
+        <p className="text-muted small mb-1">
+          City: <strong className="text-dark me-3">{item?.location || "N/A"}</strong></p>
+        <p className="mb-1"> Age:
           <strong className="text-dark mx-2">{calculateAge(item?.dob)} Yrs</strong>
-          &bull; Job:
+        </p>
+        <p className="mb-3"> Job:
           <strong className="text-dark ms-2">{item?.occupation || "N/A"}</strong>
         </p>
 
         <Link
           href={`/profiledetail/${item?._id}`}
-          className="btn btn-sm rounded-3 fw-medium py-1 px-2 text-decoration-none text-black"
+          className="btn short-btn rounded-3 fw-medium py-2 px-3 text-decoration-none"
           style={{ border: "1px solid #BABABA" }}
         >
           View full profile
@@ -90,20 +119,32 @@ export default function RecentlyViewed() {
   return (
     <DashboardLayout>
       <div className="p-4">
-        <h4 className="fw-semibold">Recently Viewed Profiles</h4>
+        <h4 className="fw-semibold mb-4">Recently Viewed Profiles</h4>
 
-        <div className="card shadow-sm p-4">
+        <div className="row g-4">
           {loading ? (
-            <p className="text-center py-5 text-muted">Loading...</p>
+            <div className="col-12">
+              <p className="text-center py-5 text-muted">Loading...</p>
+            </div>
           ) : profiles.length > 0 ? (
-            profiles.map((item) => <ViewedCard key={item._id} item={item} />)
+            profiles.map((item) => (
+              <div key={item._id} className="col-lg-6 col-md-6 col-12">
+                {/* Add margin-bottom to each card */}
+                <div className="card p-3 h-100 rounded-3 short-card">
+                  <ViewedCard key={item._id} item={item} />
+                </div>
+              </div>
+            ))
           ) : (
-            <p className="text-center py-5 text-muted">
-              No profile found in recently viewed.
-            </p>
+            <div className="col-12">
+              <p className="text-center py-5 text-muted">
+                No profile found in recently viewed.
+              </p>
+            </div>
           )}
         </div>
       </div>
     </DashboardLayout>
+
   );
 }

@@ -15,7 +15,7 @@ export default function ChatListPage() {
   const [loadingChats, setLoadingChats] = useState(false);
   const [loadingMessages, setLoadingMessages] = useState(false);
   const [loadingRequests, setLoadingRequests] = useState(false);
-
+  const [isMobile, setIsMobile] = useState(false);
   const messagesEndRef = useRef(null);
 
   /* ---------------- AUTH ---------------- */
@@ -155,7 +155,16 @@ export default function ChatListPage() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
 
+    handleResize(); // initial check
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   /* ---------------- ACTIVE USER ---------------- */
   const activeUser = useMemo(() => {
     if (!activeChat) return null;
@@ -166,173 +175,212 @@ export default function ChatListPage() {
 
   return (
     <DashboardLayout>
-      <div className="d-flex border rounded overflow-hidden bg-white" style={{ height: "80vh" }}>
-        {/* -------- LEFT PANEL -------- */}
-        <div className="col-4 border-end overflow-auto">
-          <div className="p-3 fw-bold border-bottom">Messages</div>
+      <div
+        className="d-flex border rounded overflow-hidden bg-white"
+        style={{ height: "75vh" }}
+      >
+        {/* -------- LEFT PANEL (CHAT LIST) -------- */}
+        {(!isMobile || !activeChat) && (
+          <div className="col-12 col-md-4 border-end overflow-auto">
 
-          {/* CHAT REQUESTS */}
-          {chatRequests.length > 0 && (
-            <>
-              <div className="p-3 fw-bold border-bottom bg-light">
-                Chat Requests
-              </div>
-
-              {chatRequests.map((req) => {
-                const sender = req.participants.find(
-                  (p) => p._id.toString() !== userId
-                );
-
-                return (
-                  <div key={req._id} className="p-3 border-bottom">
-                    <div className="d-flex align-items-center gap-3">
-                      <img
-                        src={sender?.photo || "/dhakadweb/assets/images/dummy.png"}
-                        className="rounded-circle"
-                        width="40"
-                        height="40"
-                      />
-                      <div className="flex-grow-1">
-                        <div className="fw-semibold">{sender?.name}</div>
-                        <small className="text-muted">wants to chat</small>
-                      </div>
-                    </div>
-
-                    <div className="d-flex gap-2 mt-2">
-                      <button
-                        className="btn btn-sm btn-success w-100"
-                        onClick={() => respondToRequest(req._id, "accept")}
-                      >
-                        Accept
-                      </button>
-                      <button
-                        className="btn btn-sm btn-outline-danger w-100"
-                        onClick={() => respondToRequest(req._id, "reject")}
-                      >
-                        Reject
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-            </>
-          )}
-
-          {/* CHAT LIST */}
-          {chatList.map((chat) => {
-            const otherUser = chat.participants.find(
-              (p) => p._id.toString() !== userId
-            );
-
-            return (
-              <div
-                key={chat._id}
-                className={`d-flex align-items-center p-3 cursor-pointer border-bottom ${activeChat?._id === chat._id ? "bg-light" : ""
-                  }`}
-                onClick={() => {
-                  setActiveChat(chat);
-                  fetchMessages(chat._id);
-                }}
-              >
-                <img
-                  src={otherUser?.photo || "/dhakadweb/assets/images/dummy.png"}
-                  className="rounded-circle me-3"
-                  width="45"
-                  height="45"
-                />
-                <div className="flex-grow-1 overflow-hidden">
-                  <h6 className="mb-0 text-truncate">{otherUser?.name}</h6>
-                  <small className="text-muted text-truncate d-block">
-                    {chat.lastMessage?.message || "No messages yet"}
-                  </small>
+            {/* CHAT REQUESTS */}
+            {chatRequests.length > 0 && (
+              <>
+                <div className="p-3 fw-bold border-bottom bg-light">
+                  Chat Requests
                 </div>
-              </div>
-            );
-          })}
 
-          {!loadingChats &&
-            chatList.length === 0 &&
-            chatRequests.length === 0 && (
-              <p className="text-center mt-5 text-muted">
-                No conversations yet
-              </p>
-            )}
-        </div>
-
-        {/* -------- RIGHT PANEL -------- */}
-        <div className="col-8 d-flex flex-column">
-          {!activeChat ? (
-            <div className="d-flex align-items-center justify-content-center h-100 text-muted">
-              Select a chat to start messaging
-            </div>
-          ) : (
-            <>
-              <div className="border-bottom p-3 d-flex align-items-center gap-3">
-                <img
-                  src={activeUser?.photo || "/dhakadweb/assets/images/dummy.png"}
-                  className="rounded-circle"
-                  width="40"
-                  height="40"
-                />
-                <div>
-                  <div className="fw-semibold">{activeUser?.name}</div>
-                  <small className="text-muted">
-                    {activeChat.status === "active"
-                      ? "Online"
-                      : "Chat request pending"}
-                  </small>
-                </div>
-              </div>
-
-              <div className="flex-grow-1 overflow-auto p-3 bg-light">
-                {messages.map((msg, index) => {
-                  const isMe =
-                    msg.sender?._id.toString() === userId.toString();
+                {chatRequests.map((req) => {
+                  const sender = req.participants.find(
+                    (p) => p._id.toString() !== userId
+                  );
 
                   return (
-                    <div
-                      key={msg._id}
-                      className={`mb-2 d-flex ${isMe ? "justify-content-end" : "justify-content-start"
-                        }`}
-                    >
-                      <div
-                        className={`px-3 py-2 rounded ${isMe ? "bg-primary text-white" : "bg-white"
-                          }`}
-                      >
-                        {msg.message}
-                        <div className="text-end small opacity-75">
-                          {formatTime(msg.createdAt)}
+                    <div key={req._id} className="p-3 border-bottom">
+                      <div className="d-flex align-items-center gap-3">
+                        <img
+                          src={
+                            sender?.photo ||
+                            "/dhakadweb/assets/images/dummy.png"
+                          }
+                          className="rounded-circle"
+                          width="40"
+                          height="40"
+                        />
+                        <div className="flex-grow-1">
+                          <div className="fw-semibold">{sender?.name}</div>
+                          <small className="text-muted">wants to chat</small>
                         </div>
+                      </div>
+
+                      <div className="d-flex gap-2 mt-2">
+                        <button
+                          className="btn btn-sm btn-success w-100"
+                          onClick={() => respondToRequest(req._id, "accept")}
+                        >
+                          Accept
+                        </button>
+                        <button
+                          className="btn btn-sm btn-outline-danger w-100"
+                          onClick={() => respondToRequest(req._id, "reject")}
+                        >
+                          Reject
+                        </button>
                       </div>
                     </div>
                   );
                 })}
-                <div ref={messagesEndRef} />
-              </div>
+              </>
+            )}
 
-              {activeChat.status !== "active" ? (
-                <div className="p-3 text-center text-muted border-top">
-                  Chat will start after request is accepted
-                </div>
-              ) : (
-                <div className="border-top p-3 d-flex gap-2">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Type a message..."
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+            {/* CHAT LIST */}
+            {chatList.map((chat) => {
+              const otherUser = chat.participants.find(
+                (p) => p._id.toString() !== userId
+              );
+
+              return (
+                <div
+                  key={chat._id}
+                  className={`d-flex align-items-center p-3 cursor-pointer border rounded-3 my-3 mx-2 ${activeChat?._id === chat._id ? "bg-light" : ""
+                    }`}
+                  onClick={() => {
+                    const otherUser = chat.participants.find(
+                      (p) => p._id.toString() !== userId
+                    );
+
+                    setActiveChat(chat);
+                    setActiveUser(otherUser);   // ✅ THIS WAS MISSING
+                    fetchMessages(chat._id);
+                  }}
+                >
+                  <img
+                    src={
+                      otherUser?.photo ||
+                      "/dhakadweb/assets/images/dummy.png"
+                    }
+                    className="rounded-circle me-3"
+                    width="45"
+                    height="45"
                   />
-                  <button className="btn btn-primary px-4" onClick={sendMessage}>
-                    Send
-                  </button>
+                  <div className="flex-grow-1 overflow-hidden">
+                    <h6 className="mb-0 text-truncate">{otherUser?.name}</h6>
+                    <small className="text-muted text-truncate d-block">
+                      {chat.lastMessage?.message || "No messages yet"}
+                    </small>
+                  </div>
                 </div>
+              );
+            })}
+
+            {!loadingChats &&
+              chatList.length === 0 &&
+              chatRequests.length === 0 && (
+                <p className="text-center mt-5 text-muted">
+                  No conversations yet
+                </p>
               )}
-            </>
-          )}
-        </div>
+          </div>
+        )}
+
+        {/* -------- RIGHT PANEL (CHAT WINDOW) -------- */}
+        {(!isMobile || activeChat) && (
+          <div className="col-12 col-md-8 d-flex flex-column">
+            {!activeChat ? (
+              <div className="d-flex align-items-center justify-content-center h-100 text-muted">
+                Select a chat to start messaging
+              </div>
+            ) : (
+              <>
+                <div className="border-bottom p-3 d-flex align-items-center gap-2">
+                  {isMobile && (
+                    <button
+                      className="btn btn-sm btn-light"
+                      onClick={() => setActiveChat(null)}
+                    >
+                      ←
+                    </button>
+                  )}
+
+                  <img
+                    src={
+                      activeUser?.photo ||
+                      "/dhakadweb/assets/images/dummy.png"
+                    }
+                    className="rounded-circle"
+                    width="40"
+                    height="40"
+                  />
+                  <div>
+                    <div className="fw-semibold">{activeUser?.name}</div>
+                    <small className="text-muted">
+                      {activeChat.status === "active"
+                        ? "Online"
+                        : "Chat request pending"}
+                    </small>
+                  </div>
+                </div>
+
+                <div className="flex-grow-1 overflow-auto p-3 bg-light">
+                  {messages.map((msg) => {
+                    const isMe =
+                      msg.sender?._id.toString() === userId.toString();
+
+                    return (
+                      <div
+                        key={msg._id}
+                        className={`mb-2 d-flex ${isMe
+                          ? "justify-content-end"
+                          : "justify-content-start"
+                          }`}
+                      >
+                        <div
+                          className={`px-3 py-2 rounded ${isMe
+                            ? "bg-primary text-white"
+                            : "bg-white"
+                            }`}
+                        >
+                          {msg.message}
+                          <div className="text-end small opacity-75">
+                            {formatTime(msg.createdAt)}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                  <div ref={messagesEndRef} />
+                </div>
+
+                {activeChat.status !== "active" ? (
+                  <div className="p-3 text-center text-muted border-top">
+                    Chat will start after request is accepted
+                  </div>
+                ) : (
+                  <div className="border-top p-3 d-flex gap-2">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Type a message..."
+                      value={text}
+                      onChange={(e) => setText(e.target.value)}
+                      onKeyDown={(e) =>
+                        e.key === "Enter" && sendMessage()
+                      }
+                    />
+                    <button
+                      className="btn btn-primary px-4"
+                      onClick={sendMessage}
+                    >
+                      Send
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        )}
       </div>
+
     </DashboardLayout>
   );
 }

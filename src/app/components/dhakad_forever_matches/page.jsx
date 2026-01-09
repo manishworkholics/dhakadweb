@@ -40,49 +40,49 @@ export default function ViewProfileAll() {
 
           {successStorries?.map((val, index) => {
             return (
-
-              <div key={index} className="col-sm-6 mb-3">
-                <div className="card">
+              <div key={index} className="col-lg-4 col-md-4 col-12 mb-3">
+                <div className="card rounded-4 bg-fffaf2">
                   <div className="card-body">
-                    <div className="main d-flex gap-3">
-                      <div className="image">
-                        <Link href="/components/details_success_stories">
-                          <img
-                            src={val?.image}
-                            style={{
-                              width: "200px",
-                              height: "120px",
-                              objectFit: "cover",
-                              borderRadius: "10px",
-                              cursor: "pointer",
-                            }}
-                            alt="Profile"
-                          />
-                        </Link>
-                      </div>
+                    <div className="main d-flex row">
+                      <div className="col-lg-6 col-md-6 col-12">
+                        <div className="recent-blur-wrapper">
+                          <Link href="/components/details_success_stories">
+                            {/* Blurred background */}
+                            <img
+                              src={val?.image}
+                              alt=""
+                              className="recent-blur-img"
+                            />
 
-                      <div className="text fw-bold">
-                        <h4 style={{ fontWeight: "bold" }}>{val?.name} and {val?.partnerName}</h4>
-                        <h6>Posted on {new Date(val?.createdAt).toLocaleDateString("en-IN", {
-                          day: "2-digit",
-                          month: "short",
-                          year: "numeric",
-                        })}</h6>
-
-                        <p>
-                          {val?.story?.slice(0,20)}
-
-                          <Link href={`/components/details_success_stories/${val._id}`} className="text-decoration-none" style={{ color: "red" }}>
-                            More...
+                            {/* Main image */}
+                            <img
+                              src={val?.image}
+                              alt="Profile"
+                              className="recent-img"
+                            />
                           </Link>
-
-                        </p>
+                        </div>
+                      </div>
+                      <div className="col-lg-6 col-md-6 col-12">
+                        <div className="text fw-bold">
+                          <h4 style={{ fontWeight: "bold" }}>{val?.name} and {val?.partnerName}</h4>
+                          <h6>Posted on {new Date(val?.createdAt).toLocaleDateString("en-IN", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                          })}</h6>
+                          <p>
+                            {val?.story?.slice(0, 20)}
+                            <Link href={`/components/details_success_stories/${val._id}`} className="text-decoration-none" style={{ color: "red" }}>
+                              More...
+                            </Link>
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-
             )
           })}
         </div>

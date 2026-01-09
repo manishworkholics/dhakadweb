@@ -69,60 +69,60 @@ const Aboutus = () => {
                     </div>
                     <div className="accordion" id="accordionExample">
                         <div className="accordion-item mb-2 border rounded-3">
-                            <h2 className="accordion-header border rounded-3 rounded-bottom-0">
-                                <button className="accordion-button border rounded-3 rounded-bottom-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <h2 className="accordion-header border rounded-3">
+                                <button className="accordion-button border rounded-3 " type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                     Who can register?
                                 </button>
                             </h2>
-                            <div id="collapseOne" className="accordion-collapse collapse show border rounded-bottom-3" data-bs-parent="#accordionExample">
+                            <div id="collapseOne" className="accordion-collapse collapse show border rounded-3 rounded-top-0" data-bs-parent="#accordionExample">
                                 <div className="accordion-body rounded-bottom-3 rounded-top-0 border">
                                     <p>Anyone belonging to the Dhakad community who is looking for marriage can register. Both self-registered profiles and profiles created by family members are welcome on our platform.</p>
                                 </div>
                             </div>
                         </div>
                         <div className="accordion-item mb-2 border rounded-3">
-                            <h2 className="accordion-header border rounded-3 rounded-bottom-0">
-                                <button className="accordion-button collapsed border rounded-3 rounded-bottom-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <h2 className="accordion-header border rounded-3">
+                                <button className="accordion-button collapsed border rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                     Is it safe and secure?
                                 </button>
                             </h2>
-                            <div id="collapseTwo" className="accordion-collapse collapse border rounded-3 rounded-bottom-0" data-bs-parent="#accordionExample">
+                            <div id="collapseTwo" className="accordion-collapse collapse border rounded-3 rounded-top-0" data-bs-parent="#accordionExample">
                                 <div className="accordion-body rounded-bottom-3 rounded-top-0 border">
                                     <strong>This is the second item’s accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It’s also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
                                 </div>
                             </div>
                         </div>
                         <div className="accordion-item mb-2 border rounded-3">
-                            <h2 className="accordion-header border rounded-3 rounded-bottom-0">
-                                <button className="accordion-button collapsed border rounded-3 rounded-bottom-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            <h2 className="accordion-header border rounded-3">
+                                <button className="accordion-button collapsed border rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                     How is it different?
                                 </button>
                             </h2>
-                            <div id="collapseThree" className="accordion-collapse collapse border rounded-3 rounded-bottom-0" data-bs-parent="#accordionExample">
+                            <div id="collapseThree" className="accordion-collapse collapse border rounded-3 rounded-top-0" data-bs-parent="#accordionExample">
                                 <div className="accordion-body rounded-bottom-3 rounded-top-0 border">
                                     <strong>This is the third item’s accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It’s also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
                                 </div>
                             </div>
                         </div>
                         <div className="accordion-item mb-2 border rounded-3">
-                            <h2 className="accordion-header border rounded-3 rounded-bottom-0">
-                                <button className="accordion-button collapsed border rounded-3 rounded-bottom-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            <h2 className="accordion-header border rounded-3">
+                                <button className="accordion-button collapsed border rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                                     Is registration free?
                                 </button>
                             </h2>
-                            <div id="collapseFour" className="accordion-collapse collapse border rounded-3 rounded-bottom-0" data-bs-parent="#accordionExample">
+                            <div id="collapseFour" className="accordion-collapse collapse border rounded-3 rounded-top-0" data-bs-parent="#accordionExample">
                                 <div className="accordion-body rounded-bottom-3 rounded-top-0 border">
                                     <strong>This is the third item’s accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It’s also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
                                 </div>
                             </div>
                         </div>
                         <div className="accordion-item border rounded-3">
-                            <h2 className="accordion-header border rounded-3 rounded-bottom-0">
-                                <button className="accordion-button collapsed border rounded-3 rounded-bottom-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                            <h2 className="accordion-header border rounded-3">
+                                <button className="accordion-button collapsed border rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
                                     How can I find matches?
                                 </button>
                             </h2>
-                            <div id="collapseFive" className="accordion-collapse collapse border rounded-3 rounded-bottom-0" data-bs-parent="#accordionExample">
+                            <div id="collapseFive" className="accordion-collapse collapse border rounded-3 rounded-top-0" data-bs-parent="#accordionExample">
                                 <div className="accordion-body rounded-bottom-3 rounded-top-0 border">
                                     <strong>This is the third item’s accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It’s also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
                                 </div>

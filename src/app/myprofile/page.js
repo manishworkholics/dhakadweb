@@ -85,45 +85,47 @@ export default function MyProfileDashboard() {
         <DashboardLayout>
             {/* The content below renders inside the main column (col-md-9) of the DashboardLayout */}
             <div className="dashboard-content-main">
+                <div className='row'>
+                    <div className='col-lg-8'>
+                        {/* 1. NEW PROFILES MATCHES Section */}
+                        <div className="section dashboard-section new-matches mb-4">
+                            <h3 className="section-title">New Matches  ({viewedprofile?.results})</h3>
+                            <div className="card-grid-4">
+                                {viewedprofile?.profiles?.slice(0, 4).map(profile => (
+                                    // Reusing the ProfileCard component
+                                    <ProfileCard key={`viewed-${profile._id}`} data={profile} />
+                                ))}
+                            </div>
+                            {/* The View All Button is used here */}
+                            <div className="view-all-wrapper py-3">
+                                <ViewAllButton label="View All" href="/myprofile/newmatches" />
+                            </div>
+                        </div>
 
-                {/* 1. NEW PROFILES MATCHES Section */}
-                <div className="section dashboard-section new-matches">
-                    <h3 className="section-title">New Matches  ({viewedprofile?.results})</h3>
-                    <div className="card-grid-4">
-                        {viewedprofile?.profiles?.slice(0, 4).map(profile => (
-                            // Reusing the ProfileCard component
-                            <ProfileCard key={`viewed-${profile._id}`} data={profile} />
-                        ))}
+                        {/* 2. PROFILES STATUS / PAID MEMBER / CHAT LIST (Three-Column Row) */}
+                        <div className="section dashboard-section">
+
+                            {/* 2a. Profiles Status */}
+                            <div className="status-item profile-status-wrap">
+                                <h3 className="section-title">PROFILE STATUS</h3>
+                                <ProfileCompleteness percentage={profile?.profileScore ?? 0} />
+                            </div>
+                        </div>
                     </div>
-                    {/* The View All Button is used here */}
-                    <div className="view-all-wrapper">
-                        <ViewAllButton label="View All" href="/myprofile/recentlyviewed" />
+                    <div className='col-lg-4'>
+                        {/* 2b. Paid Membership CTA */}
+                        <div className="status-item membership-wrap">
+                            <h3 className="section-title">BECOME A PAID MEMBER</h3>
+                            <PaidMembershipCard />
+                        </div>
+
+                        {/* 2c. Recent Chat List */}
+                        <div className="status-item chat-list-wrap">
+                            <h3 className="section-title">RECENT CHAT LIST</h3>
+                            <RecentChatList />
+                        </div>
                     </div>
                 </div>
-
-                {/* 2. PROFILES STATUS / PAID MEMBER / CHAT LIST (Three-Column Row) */}
-                <div className="section dashboard-section status-row-grid">
-
-                    {/* 2a. Profiles Status */}
-                    <div className="status-item profile-status-wrap">
-                        <h3 className="section-title">PROFILE STATUS</h3>
-                        <ProfileCompleteness percentage={profile?.profileScore ?? 0} />
-                    </div>
-
-                    {/* 2b. Paid Membership CTA */}
-                    <div className="status-item membership-wrap">
-                        <h3 className="section-title">BECOME A PAID MEMBER</h3>
-                        <PaidMembershipCard />
-                    </div>
-
-                    {/* 2c. Recent Chat List */}
-                    <div className="status-item chat-list-wrap">
-                        <h3 className="section-title">RECENT CHAT LIST</h3>
-                        <RecentChatList />
-                    </div>
-
-                </div>
-
                 {/* 3. PROFILES YOU VIEWED Section */}
                 <div className="section dashboard-section viewed-profiles">
                     <h3 className="section-title">Recently Viewed Profiles ({viewedprofile?.results})</h3>
@@ -134,12 +136,12 @@ export default function MyProfileDashboard() {
                         ))}
                     </div>
                     {/* The View All Button is used here */}
-                    <div className="view-all-wrapper">
-                        <ViewAllButton label="View All" href="/myprofile/newmatches" />
+                    <div className="view-all-wrapper pt-2">
+                        <ViewAllButton label="View All" href="/myprofile/recentlyviewed" />
                     </div>
                 </div>
             </div>
-        </DashboardLayout>
+        </DashboardLayout >
     );
 }
 

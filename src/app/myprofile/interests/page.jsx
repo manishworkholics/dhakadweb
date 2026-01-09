@@ -13,24 +13,59 @@ const RequestListItem = ({ profile, type, mainTab, onAction }) => {
 
 
     return (
-        <div className="align-items-start py-3 border-bottom row">
-            <div className="col-lg-2 col-md-2 col-6">
-                <div className="interest-image w-100 d-flex align-items-center justify-content-center"
-                    style={{ height: "125px", overflow: 'hidden' }}>
+        <div className="align-items-start py-3 row">
+            <div className="col-lg-6 col-md-6 col-12">
+                <div
+                    className="interest-image w-100 d-flex align-items-center justify-content-center position-relative"
+                    style={{ height: "200px", overflow: "hidden", borderRadius: "12px" }}
+                >
+                    {/* Blurred Background */}
+                    <div
+                        style={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            width: "100%",
+                            height: "100%",
+                            backgroundImage: `url(${profile?.profile?.photos?.[0] || "/placeholder.png"})`,
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                            filter: "blur(12px)",
+                            transform: "scale(1.1)",
+                            zIndex: 1,
+                        }}
+                    >
+                        {/* Optional dark overlay to make main image pop */}
+                        <div
+                            style={{
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                width: "100%",
+                                height: "100%",
+                                backgroundColor: "rgba(0,0,0,0.15)",
+                            }}
+                        ></div>
+                    </div>
+
+                    {/* Main Image */}
                     <img
                         src={profile?.profile?.photos?.[0] || "/placeholder.png"}
-                        alt={profile.name}
-                        className="rounded w-100 h-100"
-                        style={{ objectFit: 'cover' }}
+                        alt={profile?.profile?.name || "Profile"}
+                        className="rounded w-100 h-100 position-relative"
+                        style={{ objectFit: "contain", zIndex: 2 }}
                     />
                 </div>
+
             </div>
 
-            <div className="col-lg-7 col-md-7 col-6">
+            <div className="col-lg-6 col-md-6 col-12">
                 <h5 className="mb-1 fw-semibold text-dark">{profile?.profile?.name}</h5>
                 <p className="text-muted small mb-1">
-                    City: <strong className="text-dark me-3">{profile?.profile?.location}</strong> &bull;
-                    Age: <strong className="text-dark me-3">{profile?.profile?.age} yrs</strong> &bull;
+                    City: <strong className="text-dark me-3">{profile?.profile?.location}</strong> </p>
+                <p className="text-muted small mb-1">
+                    Age: <strong className="text-dark me-3">{profile?.profile?.age} yrs</strong> </p>
+                <p className="text-muted small mb-1">
                     Job: <strong className="text-dark">{profile?.profile?.occupation}</strong>
                 </p>
                 <p className="text-muted small mb-2">
@@ -39,7 +74,7 @@ const RequestListItem = ({ profile, type, mainTab, onAction }) => {
 
                 <Link
                     href={`/profiledetail/${profile?.profile?._id}`}
-                    className="btn btn-sm btn-outline-secondary rounded-3 fw-medium py-1 px-2"
+                    className="btn short-btn rounded-3 fw-medium py-1 px-2 mb-2"
                     style={{ borderColor: "#cfcfcf", color: "#000000" }}
                 >
                     View full profile
@@ -47,9 +82,9 @@ const RequestListItem = ({ profile, type, mainTab, onAction }) => {
             </div>
 
             {showActions && (
-                <div className="col-lg-3 col-md-3 col-12 d-flex justify-content-between align-items-center">
+                <div className="d-flex justify-content-end align-items-center">
                     <button
-                        className="btn btn-sm btn-success rounded-pill px-4 fw-medium"
+                        className="btn btn-sm btn-success rounded-pill px-4 fw-medium me-2"
                         style={{ backgroundColor: "#e8f5e9", borderColor: "#4CAF50", color: "#4CAF50" }}
                         onClick={() => onAction(profile._id, "accept")}
                     >
@@ -175,14 +210,14 @@ export default function InterestsPage() {
                 {/* Tabs */}
                 <div className="d-flex mb-4">
                     <button
-                        className={`btn btn-sm rounded-3 me-3 fw-medium py-1 px-2 ${mainTab === "received" ? "btn-dark" : "btn-outline-dark"}`}
+                        className={`btn btn-sm rounded-3 me-3 fw-medium py-2 px-3 ${mainTab === "received" ? "short-btn" : "short-out-btn"}`}
                         onClick={() => setMainTab("received")}
                     >
                         Interest Received
                     </button>
 
                     <button
-                        className={`btn btn-sm rounded-3 fw-medium py-1 px-2 ${mainTab === "sent" ? "btn-warning" : "btn-outline-warning"}`}
+                        className={`btn btn-sm rounded-3 fw-medium py-2 px-3 ${mainTab === "sent" ? "btn-danger" : "btn-outline-danger"}`}
                         onClick={() => setMainTab("sent")}
                     >
                         Interest Sent
@@ -190,44 +225,46 @@ export default function InterestsPage() {
                 </div>
 
                 {/* Card container */}
-                <div className="card shadow-sm p-4">
+                {/* Sub Tabs */}
+                {mainTab === "received" && (
+                    <ul className="nav nav-tabs interests-tabs mb-3">
+                        {["new", "accepted", "denied"].map((tab) => (
+                            <li className="nav-item" key={tab}>
+                                <button
+                                    className={`nav-link text-capitalize tab-button me-2 ${activeSubTab === tab ? "active" : ""}`}
+                                    onClick={() => setActiveSubTab(tab)}
+                                >
+                                    {tab} Requests
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                )}
 
-                    {/* Sub Tabs */}
-                    {mainTab === "received" && (
-                        <ul className="nav nav-tabs mb-3">
-                            {["new", "accepted", "denied"].map((tab) => (
-                                <li className="nav-item" key={tab}>
-                                    <button
-                                        className={`nav-link text-capitalize ${activeSubTab === tab ? "active" : ""}`}
-                                        onClick={() => setActiveSubTab(tab)}
-                                    >
-                                        {tab} Requests
-                                    </button>
-                                </li>
+                {/* List */}
+                <div className="request-list-container">
+                    {currentProfiles.length > 0 ? (
+                        <div className="row">
+                            {currentProfiles.map((profile) => (
+                                <div className="col-lg-6 col-md-6 col-12 mb-3" key={profile._id}>
+                                    <div className="card p-3 h-100 rounded-3 short-card">
+                                        <RequestListItem
+                                            profile={profile}
+                                            type={activeSubTab}
+                                            mainTab={mainTab}
+                                            onAction={updateRequestStatus}
+                                        />
+                                    </div>
+                                </div>
                             ))}
-                        </ul>
+                        </div>
+                    ) : (
+                        <p className="text-center py-5 text-muted">
+                            No requests found.
+                        </p>
                     )}
-
-                    {/* List */}
-                    <div className="request-list-container">
-                        {currentProfiles.length > 0 ? (
-                            currentProfiles.map((profile) => (
-                                <RequestListItem
-                                    key={profile._id}
-                                    profile={profile}
-                                    type={activeSubTab}
-                                    mainTab={mainTab}
-                                    onAction={updateRequestStatus}
-                                />
-
-                            ))
-                        ) : (
-                            <p className="text-center py-5 text-muted">
-                                No requests found.
-                            </p>
-                        )}
-                    </div>
                 </div>
+
             </div>
         </DashboardLayout>
     );

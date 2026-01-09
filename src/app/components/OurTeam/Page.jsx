@@ -73,8 +73,8 @@ export default function OurTeam() {
                                 >
 
                                     <img
-                                        src={item.image}
-                                        alt="Success Story"
+                                        src="/dhakadweb/assets/images/sidebar.png"
+                                        alt="Our Team"
                                         className="w-100 h-100 object-fit-cover rounded-4"
                                     />
                                 </div>
@@ -82,7 +82,7 @@ export default function OurTeam() {
                                 <div
                                     className="bg-white p-lg-2 p-md-2 p-1 text-center mx-lg-4 mx-md-4 mx-2 rounded-3"
                                     style={{
-                                        bottom: "30px",
+                                        bottom: "50px",
                                         position: "relative",
                                         boxShadow:
                                             "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",

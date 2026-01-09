@@ -63,21 +63,29 @@ export default function DetailsSuccessStories({ params }) {
             }}
           >
             {/* IMAGE */}
-            <div className="col-lg-6 mb-3">
+            <div className="col-lg-5 mb-3">
               <div
-                className="position-relative rounded-3"
+                className="position-relative rounded-3 success-image-wrapper"
                 style={{ height: "550px", overflow: "hidden" }}
               >
+                {/* Blurred background */}
+                <img
+                  src={story?.image}
+                  alt=""
+                  className="success-blur"
+                />
+
+                {/* Main image (no cut) */}
                 <img
                   src={story?.image}
                   alt="success"
-                  className="img-fluid"
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  className="success-img"
                 />
 
+                {/* Bottom overlay */}
                 <div
-                  className="position-absolute bottom-0 start-0 w-100 p-3"
-                  style={{ background: "rgba(0,0,0,0.6)", color: "#fff" }}
+                  className="position-absolute bottom-0 start-0 w-100 p-3 text-white"
+                  style={{ background: "rgba(0,0,0,0.6)", zIndex: 3 }}
                 >
                   <h6 className="m-0">
                     {story?.name} & {story?.partnerName}
@@ -86,10 +94,11 @@ export default function DetailsSuccessStories({ params }) {
                   <small>Posted on: {formatDate(story?.createdAt)}</small>
                 </div>
               </div>
+
             </div>
 
             {/* STORY TEXT */}
-            <div className="col-lg-6 d-flex">
+            <div className="col-lg-7 d-flex">
               <p style={{ fontSize: 16, lineHeight: "25px" }}>{story?.story}</p>
             </div>
           </div>
