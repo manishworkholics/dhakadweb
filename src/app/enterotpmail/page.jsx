@@ -10,7 +10,9 @@ import "react-toastify/dist/ReactToastify.css";
 const EnterOtpMail = () => {
     const router = useRouter();
     const [otp, setOtp] = useState(["", "", "", ""]);
-    const [Loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [resendLoading, setResendLoading] = useState(false);
+
     const inputRefs = Array(4)
         .fill(0)
         .map(() => useRef(null));
@@ -68,46 +70,94 @@ const EnterOtpMail = () => {
         if (value && index < 3) inputRefs[index + 1].current.focus();
     };
 
+    // const handleVerify = async (e) => {
+    //     e.preventDefault();
+    //     if (expired) return toast.error("OTP expired. Please resend.");
+
+    //     const finalOtp = otp.join("");
+    //     if (finalOtp.length !== 4) return toast.error("Please enter valid 4-digit OTP");
+
+    //     try {
+    //         const response = await axios.post(
+    //             "http://143.110.244.163:5000/api/auth/verify-email-otp",
+    //             {
+    //                 email: localStorage.getItem("tempEmail"),
+    //                 otp: finalOtp,
+    //             },
+    //             {
+    //                 headers: {
+    //                     Authorization: `Bearer ${localStorage.getItem("tempToken")}`,
+    //                 },
+    //             }
+    //         );
+
+    //         if (response?.data?.success) {
+    //             toast.success("Email Verified Successfully");
+
+    //             localStorage.setItem("token", response?.data?.token);
+    //             localStorage.setItem("user", JSON.stringify(response?.data?.user));
+    //             localStorage.removeItem("tempToken");
+
+    //             setTimeout(() => router.push("/registrationform"), 700);
+    //         }
+    //         else {
+    //             handleInvalidOtp(); // 👈 NEW
+    //         }
+    //     }
+    //     catch (error) {
+    //         handleInvalidOtp(); // 👈 NEW
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
+
+
     const handleVerify = async (e) => {
         e.preventDefault();
+
+        if (loading) return;
+
         if (expired) return toast.error("OTP expired. Please resend.");
 
         const finalOtp = otp.join("");
-        if (finalOtp.length !== 4) return toast.error("Please enter valid 4-digit OTP");
+        if (finalOtp.length !== 4)
+            return toast.error("Please enter valid 4-digit OTP");
+
+        const email = localStorage.getItem("verifyEmail");
+        if (!email) {
+            toast.error("Session expired. Please login again.");
+            router.push("/login");
+            return;
+        }
 
         try {
+            setLoading(true);
+
             const response = await axios.post(
                 "http://143.110.244.163:5000/api/auth/verify-email-otp",
-                {
-                    email: localStorage.getItem("email"),
-                    otp: finalOtp,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("tempToken")}`,
-                    },
-                }
+                { email, otp: finalOtp }
             );
 
             if (response?.data?.success) {
-                toast.success("Email Verified Successfully");
+                toast.success("Email verified successfully");
 
-                localStorage.setItem("token", response?.data?.token);
-                localStorage.setItem("user", JSON.stringify(response?.data?.user));
-                localStorage.removeItem("tempToken");
+                localStorage.setItem("token", response.data.token);
+                localStorage.setItem("user", JSON.stringify(response.data.user));
+                localStorage.removeItem("verifyEmail");
 
                 setTimeout(() => router.push("/registrationform"), 700);
+            } else {
+                handleInvalidOtp();
             }
-            else {
-                handleInvalidOtp(); // 👈 NEW
-            }
-        }
-        catch (error) {
-            handleInvalidOtp(); // 👈 NEW
+
+        } catch (error) {
+            toast.error(error?.response?.data?.message || "Invalid OTP");
+            handleInvalidOtp();
         } finally {
             setLoading(false);
         }
     };
+
 
     const handleInvalidOtp = () => {
         toast.error("Invalid OTP. Please try again.");
@@ -119,20 +169,28 @@ const EnterOtpMail = () => {
     };
 
     const resendOtp = async () => {
-        try {
-            const res = await axios.post("http://143.110.244.163:5000/api/auth/resend-email-otp", {
-                email: localStorage.getItem("email"),
-            });
+        if (resendLoading) return;
 
-            setSaveotp(res?.data?.debugOtp);
+        try {
+            setResendLoading(true);
+
+            const email = localStorage.getItem("verifyEmail");
+
+            await axios.post("http://143.110.244.163:5000/api/auth/resend-email-otp", { email });
+
             setTimer(300);
             setExpired(false);
             setOtp(["", "", "", ""]);
+
             toast.success("OTP resent successfully");
+
         } catch {
             toast.error("Failed to resend OTP");
+        } finally {
+            setResendLoading(false);
         }
     };
+
 
     return (
         <div className="otp-page bg-FDFBF7" style={{ minHeight: "100vh" }}>
@@ -192,20 +250,41 @@ const EnterOtpMail = () => {
 
                         </div>
 
-                        <button type="submit" className="btn bg-D4AF37 text-white w-100" disabled={expired}>
-                            Verify OTP
+                        <button
+                            type="submit"
+                            className="btn bg-D4AF37 text-white w-100 d-flex justify-content-center align-items-center"
+                            disabled={expired || loading}
+                        >
+                            {loading ? (
+                                <>
+                                    <span className="spinner-border spinner-border-sm me-2"></span>
+                                    Verifying...
+                                </>
+                            ) : (
+                                "Verify OTP"
+                            )}
                         </button>
+
                     </form>
 
                     <div className="text-center mt-3">
+
                         {!expired ? (
-                            <p className="text-muted">Waiting for OTP...</p>
+                            <p className="text-muted">
+                                You can resend OTP in <b>{formatTime()}</b>
+                            </p>
                         ) : (
-                            <button className="btn btn-link text-danger" onClick={resendOtp}>
-                                Resend OTP
+                            <button
+                                className="btn btn-link text-danger"
+                                onClick={resendOtp}
+                                disabled={resendLoading}
+                            >
+                                {resendLoading ? "Sending..." : "Resend OTP"}
                             </button>
                         )}
+
                     </div>
+
                 </div>
             </div>
         </div>

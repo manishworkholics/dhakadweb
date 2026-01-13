@@ -11,17 +11,20 @@ import { useRouter } from "next/navigation";
 
 const sendotp = () => {
     const router = useRouter();
+    const [loading, setLoading] = useState(false);
+
     const [formData, setFormData] = useState({
         phone: "",
     });
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
+        const value = e.target.value.replace(/\D/g, ""); // numbers only
+
+        if (value.length <= 10) {
+            setFormData({ phone: value });
+        }
     };
+
 
     const validateForm = () => {
         if (!formData.phone) return "Phone number is required";
@@ -33,26 +36,47 @@ const sendotp = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (loading) return;
+
         const errorMessage = validateForm();
         if (errorMessage) {
             toast.error(errorMessage);
             return;
         }
+
         try {
-            const response = await axios.post('http://143.110.244.163:5000/api/auth/send-otp', {
-                phone: formData.phone,
-            });
+            setLoading(true);
+
+            const response = await axios.post(
+                "http://143.110.244.163:5000/api/auth/send-otp",
+                { phone: formData.phone },
+                { timeout: 10000 } // 10 sec safety
+            );
+
             if (response?.data?.success) {
-                toast.success("OTP sent successfully!");
+                toast.success("OTP sent successfully");
+
                 localStorage.setItem("phone", formData.phone);
+
                 router.push("/enterotp");
             } else {
                 toast.error(response?.data?.message || "Failed to send OTP");
             }
+
         } catch (error) {
-            toast.error(error?.response?.data?.message || "Server Error");
+
+            if (error.code === "ECONNABORTED") {
+                toast.error("Server timeout. Try again.");
+            } else {
+                toast.error(error?.response?.data?.message || "Server error. Please try later.");
+            }
+
+        } finally {
+            setLoading(false);
         }
-    }
+    };
+
 
     return (
         <div className='login-page bg-FDFBF7'>
@@ -75,13 +99,34 @@ const sendotp = () => {
                                         <form onSubmit={handleSubmit}>
                                             <div className="mb-3">
                                                 <label htmlFor="exampleInputEmail1" className="form-label text-6B6B6B">Phone Number</label>
-                                                <input type="text" name='phone' value={formData.phone} onChange={handleChange} className="form-control" placeholder='Enter your phone number' />
+                                                <input
+                                                    type="text"
+                                                    name="phone"
+                                                    value={formData.phone}
+                                                    onChange={handleChange}
+                                                    className="form-control"
+                                                    placeholder="Enter your phone number"
+                                                    disabled={loading}
+                                                />
+
                                             </div>
                                             <div className="d-flex justify-content-between">
                                             </div>
                                             <button
                                                 type="submit"
-                                                className="btn bg-D4AF37 w-100 text-white mb-2">Send OTP</button>
+                                                className="btn bg-D4AF37 w-100 text-white mb-2 d-flex justify-content-center align-items-center"
+                                                disabled={loading}
+                                            >
+                                                {loading ? (
+                                                    <>
+                                                        <span className="spinner-border spinner-border-sm me-2"></span>
+                                                        Sending...
+                                                    </>
+                                                ) : (
+                                                    "Send OTP"
+                                                )}
+                                            </button>
+
                                         </form>
                                     </div>
                                 </div>

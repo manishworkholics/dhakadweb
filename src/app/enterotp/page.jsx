@@ -12,6 +12,8 @@ const EnterOtp = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(30); // ⏳ Countdown timer
+  const [resendLoading, setResendLoading] = useState(false);
+
 
   const inputRefs = Array(4)
     .fill(0)
@@ -63,6 +65,8 @@ const EnterOtp = () => {
 
 
   const verifyOtp = async (finalOtp) => {
+    if (loading) return;
+
     if (finalOtp.length !== 4) {
       toast.error("Please enter a valid 4-digit OTP");
       return;
@@ -80,56 +84,62 @@ const EnterOtp = () => {
 
       const response = await axios.post(
         "http://143.110.244.163:5000/api/auth/verify-otp",
-        { phone, otp: finalOtp }
+        { phone, otp: finalOtp },
+        { timeout: 10000 }
       );
 
       if (response?.data?.success) {
         toast.success("OTP Verified Successfully");
-        localStorage.setItem("token", response?.data?.token);
-        localStorage.setItem("user", JSON.stringify(response?.data?.user));
+
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
 
         setTimeout(() => router.push("/registrationform"), 700);
       } else {
-        handleInvalidOtp(); // 👈 NEW
+        handleInvalidOtp();
       }
 
     } catch (error) {
-      handleInvalidOtp(); // 👈 NEW
+      toast.error(error?.response?.data?.message || "Invalid OTP");
+      handleInvalidOtp();
     } finally {
       setLoading(false);
     }
   };
 
+
   const handleInvalidOtp = () => {
-  toast.error("Invalid OTP. Please try again.");
+    toast.error("Invalid OTP. Please try again.");
 
-  // Clear all OTP boxes
-  setOtp(["", "", "", ""]);
+    // Clear all OTP boxes
+    setOtp(["", "", "", ""]);
 
-  // Safely focus first input
-  setTimeout(() => {
-    if (inputRefs[0]?.current) {
-      inputRefs[0].current.focus();
+    // Safely focus first input
+    setTimeout(() => {
+      if (inputRefs[0]?.current) {
+        inputRefs[0].current.focus();
+      }
+    }, 200);
+  };
+
+  const handleVerifyClick = (e) => {
+    e.preventDefault();
+
+    const otpValue = otp.join("");
+
+    if (otpValue.length < 4) {
+      toast.error("Please enter a valid 4-digit OTP.");
+      return;
     }
-  }, 200);
-};
 
-const handleVerifyClick = (e) => {
-  e.preventDefault();
-
-  const otpValue = otp.join("");
-
-  if (otpValue.length < 4) {
-    toast.error("Please enter a valid 4-digit OTP.");
-    return;
-  }
-
-  verifyOtp(otpValue);
-};
+    verifyOtp(otpValue);
+  };
 
 
   // 🔁 Resend OTP function
   const handleResend = async () => {
+    if (resendLoading) return;
+
     const phone = localStorage.getItem("phone");
 
     if (!phone) {
@@ -138,15 +148,21 @@ const handleVerifyClick = (e) => {
     }
 
     try {
+      setResendLoading(true);
       toast.info("Sending new OTP...");
+
       await axios.post("http://143.110.244.163:5000/api/auth/send-otp", { phone });
 
       setTimer(30);
       setOtp(["", "", "", ""]);
-      inputRefs[0].current.focus();
+
+      if (inputRefs[0]?.current) inputRefs[0].current.focus();
+
       toast.success("OTP resent successfully!");
     } catch {
       toast.error("Failed to resend OTP. Try again.");
+    } finally {
+      setResendLoading(false);
     }
   };
 
@@ -190,6 +206,7 @@ const handleVerifyClick = (e) => {
                       value={digit}
                       onChange={(e) => handleChange(e.target.value, index)}
                       onKeyDown={(e) => handleKeyDown(e, index)}
+                      disabled={loading}
                       className="form-control text-center fs-4 fw-bold border-bottom border-danger rounded-0"
                       style={{ width: "55px" }}
                     />
@@ -202,7 +219,14 @@ const handleVerifyClick = (e) => {
                   disabled={loading}
                   onClick={handleVerifyClick}
                 >
-                  {loading ? "Verifying..." : "Verify OTP"}
+                  {loading ? (
+                    <>
+                      <span className="spinner-border spinner-border-sm me-2"></span>
+                      Verifying...
+                    </>
+                  ) : (
+                    "Verify OTP"
+                  )}
                 </button>
 
                 {/* Resend Section */}
@@ -211,11 +235,16 @@ const handleVerifyClick = (e) => {
                   {timer > 0 ? (
                     <span className="text-secondary">Resend in {timer}s</span>
                   ) : (
-                    <span className="text-danger fw-bold" style={{ cursor: "pointer" }} onClick={handleResend}>
-                      Resend OTP
-                    </span>
+                    <button
+                      className="btn btn-link text-danger fw-bold p-0"
+                      disabled={resendLoading}
+                      onClick={handleResend}
+                    >
+                      {resendLoading ? "Sending..." : "Resend OTP"}
+                    </button>
                   )}
                 </p>
+
 
               </div>
             </div>

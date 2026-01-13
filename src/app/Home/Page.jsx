@@ -21,6 +21,7 @@ const HomePage = () => {
     const [loading, setLoading] = useState(true);
     const [passwordError, setPasswordError] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [registerLoading, setRegisterLoading] = useState(false);
 
 
     useEffect(() => {
@@ -75,7 +76,7 @@ const HomePage = () => {
     };
 
     const validateForm = () => {
-        if(!formData.createdfor||!formData.name.trim()||!formData.email||!formData.phone||!formData.password)
+        if (!formData.createdfor || !formData.name.trim() || !formData.email || !formData.phone || !formData.password)
             return "Please fill all field properly";
         if (!formData.createdfor)
             return "Please select profile type";
@@ -112,33 +113,78 @@ const HomePage = () => {
         return null;
     };
 
+    // const handleSubmit = async () => {
+    //     const errorMessage = validateForm();
+
+    //     if (errorMessage) {
+    //         toast.error(errorMessage);
+    //         return;
+    //     }
+    //     try {
+    //         const response = await axios.post('http://143.110.244.163:5000/api/auth/register', {
+    //             name: formData.name,
+    //             email: formData.email,
+    //             password: formData.password,
+    //             createdfor: formData.createdfor,
+    //             phone: formData.phone
+    //         });
+    //         if (response?.data?.success) {
+    //             alert("Registration Successful")
+    //             toast.success("Registration Successful");
+    //             // localStorage.setItem("token", response?.data?.token);
+    //             router.push("/login");
+    //         } else {
+    //             toast.error(response?.data?.message || "Registration Failed");
+    //         }
+    //     } catch (error) {
+    //         toast.error(error?.response?.data?.message || "Registration Failed!");
+    //     }
+    // }
+
+
     const handleSubmit = async () => {
+        if (registerLoading) return; // prevent double click
+
         const errorMessage = validateForm();
-       
+
         if (errorMessage) {
             toast.error(errorMessage);
             return;
         }
+
         try {
-            const response = await axios.post('http://143.110.244.163:5000/api/auth/register', {
+            setRegisterLoading(true);
+
+            const response = await axios.post("http://143.110.244.163:5000/api/auth/register", {
                 name: formData.name,
                 email: formData.email,
                 password: formData.password,
                 createdfor: formData.createdfor,
-                phone: formData.phone
+                phone: formData.phone,
             });
+
             if (response?.data?.success) {
-                alert("Registration Successful")
+
+                if (response.data.requiresVerification) {
+                    localStorage.setItem("verifyEmail", formData.email);
+                    toast.success("OTP sent to your email");
+                    router.push("/enterotpmail");
+                    return;
+                }
+
                 toast.success("Registration Successful");
-                // localStorage.setItem("token", response?.data?.token);
                 router.push("/login");
+
             } else {
                 toast.error(response?.data?.message || "Registration Failed");
             }
+
         } catch (error) {
             toast.error(error?.response?.data?.message || "Registration Failed!");
+        } finally {
+            setRegisterLoading(false);
         }
-    }
+    };
 
     if (loading) return null;
 
@@ -245,9 +291,21 @@ const HomePage = () => {
                                         </div>
 
                                         {/* Button */}
-                                        <button className="btn btn-warning w-100 py-2 fw-semibold" onClick={handleSubmit}>
-                                            Registration
+                                        <button
+                                            className="btn btn-warning w-100 py-2 fw-semibold d-flex justify-content-center align-items-center"
+                                            onClick={handleSubmit}
+                                            disabled={registerLoading}
+                                        >
+                                            {registerLoading ? (
+                                                <>
+                                                    <span className="spinner-border spinner-border-sm me-2"></span>
+                                                    Registering...
+                                                </>
+                                            ) : (
+                                                "Registration"
+                                            )}
                                         </button>
+
 
                                         <p className="small text-white mt-lg-3 mt-md-3 mt-2 mb-0">
                                             By clicking Register Free, you agree to our Terms of Use and Privacy Policy.
@@ -492,10 +550,10 @@ const HomePage = () => {
                         <MemberTestimonials />
                     </div>
 
-{!token? <div className="home-section-7">
+                    {!token ? <div className="home-section-7">
                         <Readytomeet />
-                    </div>:''}
-                   
+                    </div> : ''}
+
 
                     <Footer />
                 </div>

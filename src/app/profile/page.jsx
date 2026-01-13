@@ -226,8 +226,8 @@ export default function Profile() {
                                         onChange={(e) => setFilters({ ...filters, gender: e.target.value })}
                                     >
                                         <option value="">Any</option>
-                                        <option value="male">Men</option>
-                                        <option value="female">Women</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
                                     </select>
 
                                     <h6 className="mb-2 fw-normal">Age</h6>

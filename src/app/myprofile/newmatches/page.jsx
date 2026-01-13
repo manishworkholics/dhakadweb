@@ -8,6 +8,49 @@ import { toast } from "react-toastify";
 
 const API_URL = "http://143.110.244.163:5000/api";
 
+
+const MatchCircle = ({ percent }) => {
+  const radius = 34;
+  const stroke = 6;
+  const normalizedRadius = radius - stroke * 2;
+  const circumference = normalizedRadius * 2 * Math.PI;
+  const strokeDashoffset =
+    circumference - (percent / 100) * circumference;
+
+  const getColor = () => {
+    if (percent >= 70) return "#28a745";
+    if (percent >= 40) return "#ffc107";
+    return "#dc3545";
+  };
+
+  return (
+    <div className="match-circle-wrapper">
+      <svg height={radius * 2} width={radius * 2}>
+        <circle
+          stroke="#eee"
+          fill="transparent"
+          strokeWidth={stroke}
+          r={normalizedRadius}
+          cx={radius}
+          cy={radius}
+        />
+        <circle
+          stroke={getColor()}
+          fill="transparent"
+          strokeWidth={stroke}
+          strokeDasharray={`${circumference} ${circumference}`}
+          style={{ strokeDashoffset, transition: "0.6s ease" }}
+          strokeLinecap="round"
+          r={normalizedRadius}
+          cx={radius}
+          cy={radius}
+        />
+      </svg>
+      <div className="match-circle-text">{percent}%</div>
+    </div>
+  );
+};
+
 // ----------- Profile Card Component ----------
 const ViewedCard = ({ item }) => {
   const calculateAge = (dob) => {
@@ -16,21 +59,19 @@ const ViewedCard = ({ item }) => {
   };
 
   return (
-    <div className="align-items-start py-3 row">
+    <div className="align-items-start py-3 row position-relative">
+
+
       {/* Image */}
       <div className="col-lg-6 col-md-6 col-12">
         <div
-          className="interest-image w-100 d-flex align-items-center justify-content-center position-relative"
+          className="interest-image w-100 d-flex align-items-center justify-content-center position-relative match-img"
           style={{ height: "200px", overflow: "hidden", borderRadius: "12px" }}
         >
-          {/* Blurred Background */}
           <div
             style={{
               position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
+              inset: 0,
               backgroundImage: `url(${item?.photos?.[0] || "/dhakadweb/assets/images/default-profile.png"})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
@@ -38,21 +79,12 @@ const ViewedCard = ({ item }) => {
               transform: "scale(1.1)",
               zIndex: 1,
             }}
-          >
-            {/* Optional Dark Overlay for contrast */}
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                backgroundColor: "rgba(0,0,0,0.15)",
-              }}
-            ></div>
+          />
+
+          <div className="circle-holder">
+            <MatchCircle percent={item.matchPercent || 0} />
           </div>
 
-          {/* Main Profile Image */}
           <img
             src={item?.photos?.[0] || "/dhakadweb/assets/images/default-profile.png"}
             alt={item?.name || "Profile"}
@@ -60,21 +92,66 @@ const ViewedCard = ({ item }) => {
             style={{ objectFit: "contain", zIndex: 2 }}
           />
         </div>
-
       </div>
 
       {/* Details */}
       <div className="col-lg-6 col-md-6 col-12">
-        <h4 className="mb-2 fw-semibold text-dark">{item?.name || "No Name"}</h4>
+        <h4 className="mb-2 fw-semibold text-dark">{item?.name}</h4>
 
         <p className="text-muted small mb-1">
-          City: <strong className="text-dark me-3">{item?.location || "N/A"}</strong></p>
-        <p className="mb-1"> Age:
-          <strong className="text-dark mx-2">{calculateAge(item?.dob)} Yrs</strong>
+          City: <strong className="text-dark">{item?.location}</strong>
         </p>
-        <p className="mb-3"> Job:
-          <strong className="text-dark ms-2">{item?.occupation || "N/A"}</strong>
+
+        <p className="mb-1">
+          Age:
+          <strong className="text-dark mx-2">
+            {calculateAge(item?.dob)} Yrs
+          </strong>
         </p>
+
+        <p className="mb-2">
+          Job:
+          <strong className="text-dark ms-2">{item?.occupation}</strong>
+        </p>
+
+        {/* Profile score */}
+        <p className="mb-2 small text-muted">
+          Profile Score: <strong>{item.profileScore || 0}%</strong>
+        </p>
+
+        {/* Matched fields */}
+        {item.matchedFields?.length > 0 && (
+          <div className="mb-2">
+            <small className="fw-semibold text-success">Matched:</small>
+            <div className="d-flex flex-wrap gap-1 mt-1">
+              {item.matchedFields.map((f) => (
+                <span
+                  key={f}
+                  className="badge bg-success-subtle text-success border"
+                >
+                  {f}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Not matched fields */}
+        {item.notMatchedFields?.length > 0 && (
+          <div className="mb-3">
+            <small className="fw-semibold text-secondary">Not matched:</small>
+            <div className="d-flex flex-wrap gap-1 mt-1">
+              {item.notMatchedFields.map((f) => (
+                <span
+                  key={f}
+                  className="badge bg-light text-muted border"
+                >
+                  {f}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
 
         <Link
           href={`/profiledetail/${item?._id}`}
@@ -88,6 +165,7 @@ const ViewedCard = ({ item }) => {
   );
 };
 
+
 // ---------- MAIN COMPONENT ----------
 export default function NewMatches() {
   const [profiles, setProfiles] = useState([]);
@@ -98,12 +176,12 @@ export default function NewMatches() {
       const token = localStorage.getItem("token");
       if (!token) return;
 
-      const res = await axios.get(`${API_URL}/viewed/viewed`, {
+      const res = await axios.get(`${API_URL}/matches/new-matches`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       if (res.data.success) {
-        setProfiles(res.data.profiles);   // <-- Correct mapping
+        setProfiles(res.data.matches);   // <-- Correct mapping
       }
     } catch (err) {
       toast.error("Failed to fetch recently viewed profiles");

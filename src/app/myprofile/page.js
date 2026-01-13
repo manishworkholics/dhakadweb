@@ -21,6 +21,7 @@ export default function MyProfileDashboard() {
     const router = useRouter();
     const [profile, setProfile] = useState(null);
     const [viewedprofile, setViewedProfile] = useState(null);
+    const [matchprofile, setMatchProfile] = useState(null);
     const [userId, setUserId] = useState(null);
 
     useEffect(() => {
@@ -64,9 +65,27 @@ export default function MyProfileDashboard() {
         }
     };
 
+    const fetchMatchedProfile = async () => {
+        try {
+
+            const res = await fetch(`http://143.110.244.163:5000/api/matches/new-matches`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}` // or your auth token
+                }
+            });
+            const data = await res.json();
+
+            setMatchProfile(data);
+        } catch (error) {
+            console.log("Profile fetch error:", error);
+        }
+    };
+
+
     useEffect(() => {
         if (userId) fetchProfile();
         fetchViewedProfile();
+        fetchMatchedProfile();
     }, [userId]);
 
     useEffect(() => {
@@ -91,7 +110,7 @@ export default function MyProfileDashboard() {
                         <div className="section dashboard-section new-matches mb-4">
                             <h3 className="section-title">New Matches  ({viewedprofile?.results})</h3>
                             <div className="card-grid-4">
-                                {viewedprofile?.profiles?.slice(0, 4).map(profile => (
+                                {matchprofile?.matches?.slice(0, 4).map(profile => (
                                     // Reusing the ProfileCard component
                                     <ProfileCard key={`viewed-${profile._id}`} data={profile} />
                                 ))}

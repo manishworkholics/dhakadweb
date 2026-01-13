@@ -46,7 +46,7 @@ export default function ViewProfileAll() {
                     <div className="main d-flex row">
                       <div className="col-lg-6 col-md-6 col-12">
                         <div className="recent-blur-wrapper">
-                          <Link href="/components/details_success_stories">
+                          <Link href={`/components/details_success_stories/${val._id}`} >
                             {/* Blurred background */}
                             <img
                               src={val?.image}

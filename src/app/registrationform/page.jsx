@@ -13,6 +13,7 @@ const RegistrationForm = () => {
     const router = useRouter();
     const [token, setToken] = useState("");
     const [user, setUser] = useState(null);
+    const [existingPhotos, setExistingPhotos] = useState([]);
 
 
     useEffect(() => {
@@ -140,7 +141,7 @@ const RegistrationForm = () => {
                         // 🔥 MAIN FIX
 
                         city: profile.city || profile.location || "",
-                        location: profile.location || "",
+                        location: profile.city || profile.location || "",
 
                         height: profile.height || "",
                         physicalStatus: profile.physicalStatus || "Normal",
@@ -161,8 +162,10 @@ const RegistrationForm = () => {
 
 
                     if (profile.photos?.length > 0) {
-                        setPhoto(profile.photos[0]);
+                        setPhoto(profile.photos[0]);              // profile image
+                        setExistingPhotos(profile.photos);        // full gallery
                     }
+
 
                     // if (profile.introVideo) {
                     //     setIntroVideo(profile.introVideo);
@@ -282,7 +285,13 @@ const RegistrationForm = () => {
                 }
             );
 
-            setPhoto(upload.data.url);
+            const newUrl = upload.data.url;
+
+            setPhoto(newUrl);
+
+            // add to existing photos array
+            setExistingPhotos(prev => [...prev, newUrl]);
+
             toast.success("Photo uploaded");
         } catch (err) {
             console.log("Upload error:", err?.response?.data || err.message);
@@ -322,14 +331,21 @@ const RegistrationForm = () => {
             // upload video first (if provided)
             const finalVideoLink = await uploadVideo();
 
+            const orderedPhotos = photo
+                ? [photo, ...existingPhotos.filter(p => p !== photo)]
+                : existingPhotos;
+
             const payload = {
                 ...formData,
                 caste: formData.cast,
                 subCaste: formData.subCast,
                 educationDetails: formData.education,
-                photos: photo ? [photo] : [],
+
+                photos: orderedPhotos,
+
                 introVideo: finalVideoLink || "",
             };
+
 
 
             const res = await axios.post(
@@ -549,9 +565,9 @@ const RegistrationForm = () => {
                                                             <label className="form-label">City</label>
                                                             {!customCity ? (
                                                                 <select
-                                                                    name="city"
+                                                                    name="location"
                                                                     className="form-control"
-                                                                    value={formData.city}
+                                                                    value={formData.location}
                                                                     onChange={handleChange}
                                                                 >
 
