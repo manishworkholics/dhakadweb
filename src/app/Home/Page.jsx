@@ -495,7 +495,7 @@ const HomePage = () => {
                         <div className="container">
                             <div className="row">
                                 <div className="col-12">
-                                    <div className="card border-0 rounded-5 bg-FFEEEE mt-5">
+                                    <div className="card border-0 rounded-5 bg-FFEEEE">
                                         <div className="card-body p-5 mt-4">
                                             <div className="row">
                                                 <div className="col-12 col-lg-6 mb-5 mb-lg-0">

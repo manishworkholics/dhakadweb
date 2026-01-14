@@ -41,10 +41,10 @@ export default function SuccessStories() {
 
     // ✅ UPDATED LOGIC
     const displayedStories = isMobile
-        ? successStories.slice(0, 4) // 📱 mobile → 4 cards
+        ? successStories.slice(0, 1) // 📱 mobile → 4 cards
         : successStories.slice(0, 5); // 💻 desktop → 5 cards
 
-    const hasMoreStories = successStories.length > (isMobile ? 4 : 5);
+    const hasMoreStories = successStories.length > (isMobile ? 1 : 5);
 
     // Loading state
     if (loading) {
@@ -60,7 +60,7 @@ export default function SuccessStories() {
     // Empty state
     if (displayedStories.length === 0) {
         return (
-            <section className="py-5 text-center" style={{ background: "#fff" }}>
+            <section className="pb-5 text-center" style={{ background: "#fff" }}>
                 <div className="container">
                     <h2 className="fw-bold m-0 text-D4AF37">
                         <span className="text-D4AF37">Success</span> Story

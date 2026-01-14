@@ -151,6 +151,7 @@ export default function ProfilePage() {
     const [editFields, setEditFields] = useState([]);
     const [editData, setEditData] = useState({});
     const [uploading, setUploading] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
 
     const handlePhotoUpload = async (e) => {
         const file = e.target.files[0];
@@ -244,34 +245,56 @@ export default function ProfilePage() {
                         </label>
                     </div>
 
-                    <div
-                        style={{
-                            display: "grid",
-                            gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
-                            gap: "12px",
-                            marginTop: "10px",
-                        }}
-                    >
-                        {profile?.photos?.length > 0 ? (
-                            profile.photos.map((img, i) => (
-                                <img
-                                    key={i}
-                                    src={img}
-                                    alt="gallery"
-                                    style={{
-                                        width: "100%",
-                                        height: "120px",
-                                        objectFit: "cover",
-                                        borderRadius: "10px",
-                                        border: "1px solid #ddd",
-                                    }}
-                                />
-                            ))
-                        ) : (
-                            <p className="text-muted small">No photos uploaded yet</p>
+                    {/* <div
+                    //     style={{
+                    //         display: "grid",
+                    //         gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
+                    //         gap: "12px",
+                    //         marginTop: "10px",
+                    //     }}
+                    // > */}
+                        <div className="masonryGallery">
+                            <div className="gallery-1 gap-3">
+                                <div className="row">
+                                    {profile?.photos?.length > 0 ? (
+                                        profile.photos.map((img, i) => (
+                                            <div className="col-6 col-md-3 mb-3" key={i}>
+                                                <div key={i} className="galleryItem position-relative" onClick={() => setSelectedImage(img)}>
+                                                    <img
+                                                        key={i}
+                                                        src={img}
+                                                        alt="gallery"
+                                                        style={{
+                                                            width: "100%",
+                                                            height: "200px",
+                                                            objectFit: "cover",
+                                                            borderRadius: "10px",
+                                                            border: "1px solid #ddd",
+                                                        }}
+                                                    />
+                                                </div>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p className="text-muted small">No photos uploaded yet</p>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                        {selectedImage && (
+                            <div className="preview position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-75" onClick={() => setSelectedImage(null)}>
+                                <div className="previewContent p-3 rounded">
+                                    <img
+                                        src={selectedImage}
+                                        alt="Preview"
+                                        width={600}
+                                        style={{ maxHeight: "80vh", objectFit: "contain" }}
+                                        className="img-fluid rounded"
+                                    />
+                                </div>
+                            </div>
                         )}
                     </div>
-                </div>
 
 
                 <ProfileSection title="Personal Information" onEdit={() => handleEdit(["name", "gender", "dob", "motherTongue"])}>
@@ -316,7 +339,7 @@ export default function ProfilePage() {
                 />
 
             </div>
-        </DashboardLayout>
+        </DashboardLayout >
     );
 }
 

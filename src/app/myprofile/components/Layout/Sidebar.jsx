@@ -75,13 +75,14 @@ export default function Sidebar({ data }) {
 
             {/* ================= DESKTOP SIDEBAR ================= */}
             <div className="sidebar-wrapper d-none d-lg-block d-md-block">
-
-                <img
-                    src={data?.photos?.[0] || "/dhakadweb/assets/images/dummy.png"}
-                    className="w-100 p-2"
-                    alt="profile"
-                />
-
+                <div className="sidebar-image-wrapper">
+                    <img src={data?.photos?.[0] || "/dhakadweb/assets/images/dummy.png"} alt="" className="bg-blur" />
+                    <img
+                        src={data?.photos?.[0] || "/dhakadweb/assets/images/dummy.png"}
+                        className="w-100 main-img"
+                        alt="profile"
+                    />
+                </div>
                 <nav className="sidebar-nav">
                     <ul className="nav-menu">
                         {navItems.map((item) => (

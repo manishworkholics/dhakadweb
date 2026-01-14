@@ -124,7 +124,7 @@ export default function FeaturesProfile() {
                                         alt={item.name}
                                         width={300}
                                         height={260}
-                                        className="w-100 h-100 object-fit-cover position-relative rounded-4"
+                                        className="w-100 object-fit-cover position-relative rounded-4 feat-img"
                                     />
                                 </div>
                                 {/* USER DETAILS */}

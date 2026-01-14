@@ -60,13 +60,11 @@ const ViewedCard = ({ item }) => {
 
   return (
     <div className="align-items-start py-3 row position-relative">
-
-
       {/* Image */}
-      <div className="col-lg-6 col-md-6 col-12">
+      <div className="col-lg-4 col-md-4 col-12">
         <div
           className="interest-image w-100 d-flex align-items-center justify-content-center position-relative match-img"
-          style={{ height: "200px", overflow: "hidden", borderRadius: "12px" }}
+          style={{ height: "240px", overflow: "hidden", borderRadius: "12px" }}
         >
           <div
             style={{
@@ -80,45 +78,43 @@ const ViewedCard = ({ item }) => {
               zIndex: 1,
             }}
           />
-
-          <div className="circle-holder">
-            <MatchCircle percent={item.matchPercent || 0} />
-          </div>
-
           <img
             src={item?.photos?.[0] || "/dhakadweb/assets/images/default-profile.png"}
             alt={item?.name || "Profile"}
             className="rounded w-100 h-100 position-relative"
             style={{ objectFit: "contain", zIndex: 2 }}
           />
+          <div className="circle-holder">
+            <MatchCircle percent={item.matchPercent || 0} />
+          </div>
         </div>
       </div>
 
       {/* Details */}
-      <div className="col-lg-6 col-md-6 col-12">
+      <div className="col-lg-8 col-md-8 col-12">
         <h4 className="mb-2 fw-semibold text-dark">{item?.name}</h4>
+        <div className="detailCard d-flex">
+          <p className="text-muted mb-1 ">
+            City: <strong className="text-dark me-2">{item?.location}</strong>
+          </p>
 
-        <p className="text-muted small mb-1">
-          City: <strong className="text-dark">{item?.location}</strong>
-        </p>
+          <p className="mb-1">
+            Age:
+            <strong className="text-dark mx-2 me-2">
+              {calculateAge(item?.dob)} Yrs
+            </strong>
+          </p>
 
-        <p className="mb-1">
-          Age:
-          <strong className="text-dark mx-2">
-            {calculateAge(item?.dob)} Yrs
-          </strong>
-        </p>
+          <p className="mb-2 me-2">
+            Job:
+            <strong className="text-dark ms-2">{item?.occupation}</strong>
+          </p>
 
-        <p className="mb-2">
-          Job:
-          <strong className="text-dark ms-2">{item?.occupation}</strong>
-        </p>
-
-        {/* Profile score */}
-        <p className="mb-2 small text-muted">
-          Profile Score: <strong>{item.profileScore || 0}%</strong>
-        </p>
-
+          {/* Profile score */}
+          <p className="mb-2 small text-muted">
+            Profile Score: <strong>{item.profileScore || 0}%</strong>
+          </p>
+        </div>
         {/* Matched fields */}
         {item.matchedFields?.length > 0 && (
           <div className="mb-2">
@@ -206,7 +202,7 @@ export default function NewMatches() {
             </div>
           ) : profiles.length > 0 ? (
             profiles.map((item) => (
-              <div key={item._id} className="col-lg-6 col-md-6 col-12">
+              <div key={item._id} className="col-12">
                 {/* Add margin-bottom to each card */}
                 <div className="card p-3 h-100 rounded-3 short-card">
                   <ViewedCard key={item._id} item={item} />
