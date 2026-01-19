@@ -65,7 +65,7 @@ const ViewedCard = ({ item }) => {
 
       {/* Details */}
       <div className="col-lg-6 col-md-6 col-12">
-        <h4 className="mb-2 fw-semibold text-dark">{item?.name || "No Name"}</h4>
+        <h5 className="mb-2 fw-semibold text-dark">{item?.name || "No Name"}</h5>
 
         <p className="text-muted small mb-1">
           City: <strong className="text-dark me-3">{item?.location || "N/A"}</strong></p>

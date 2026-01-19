@@ -23,7 +23,7 @@ export default function ProfileDetail() {
   const { id } = useParams();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const [selectedImage, setSelectedImage] = useState(null);
   const [isShortlisted, setIsShortlisted] = useState(false);
   const [interestSent, setInterestSent] = useState(false);
   const [chatinterestSent, setChatInterestSent] = useState(false);
@@ -341,17 +341,36 @@ export default function ProfileDetail() {
               {/* GALLERY */}
               <div className="gallery">
                 <h5 className="fw-semibold mb-3">PHOTO GALLERY</h5>
-                <div className="row justify-content-between">
-                  {gallery && gallery.length > 0 ? (
-                    gallery.map((pic, i) => (
-                      <div className="col-6 col-md-3 mb-3" key={i}>
-                        <img src={pic} alt={`gallery-${i}`} className="w-100 rounded-4" />
-                      </div>
-                    ))
-                  ) : (
-                    <p>No photos available</p>
-                  )}
+                <div className="masonryGallery">
+                  <div className="gallery-1 gap-3">
+                    <div className="row">
+                      {gallery && gallery.length > 0 ? (
+                        gallery.map((pic, i) => (
+                          <div className="col-6 col-md-3 mb-3" key={i}>
+                            <div key={i} className="galleryItem position-relative" onClick={() => setSelectedImage(pic)}>
+                              <img src={pic} alt={`gallery-${i}`} className="w-100 rounded-4" />
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <p>No photos available</p>
+                      )}
+                    </div>
+                  </div>
                 </div>
+                {selectedImage && (
+                  <div className="preview position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-75" onClick={() => setSelectedImage(null)}>
+                    <div className="previewContent p-3 rounded">
+                      <img
+                        src={selectedImage}
+                        alt="Preview"
+                        width={800}
+                        style={{ maxHeight: "80vh", objectFit: "contain" }}
+                        className="img-fluid rounded"
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
 
               <hr />
