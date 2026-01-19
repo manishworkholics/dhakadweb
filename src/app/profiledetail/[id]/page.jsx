@@ -2,11 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import Link from "next/link";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Header from "../../components/Header/Page";
-import Readytomeet from "@/app/components/Readytomeet/page";
 import Footer from "@/app/components/Footer/page";
-import RelatedProfiles from "@/app/components/RelatedProfiles/page";
 import { useRouter } from "next/navigation";
 
 
@@ -26,6 +25,7 @@ export default function ProfileDetail() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [isShortlisted, setIsShortlisted] = useState(false);
   const [interestSent, setInterestSent] = useState(false);
+  const [interestStatus, setInterestStatus] = useState(null);
   const [chatinterestSent, setChatInterestSent] = useState(false);
 
   useEffect(() => {
@@ -62,6 +62,48 @@ export default function ProfileDetail() {
 
     getProfile();
   }, [id]);
+
+
+  const checkInterestStatus = async (profileUserId) => {
+    try {
+      const res = await fetch(
+        `http://143.110.244.163:5000/api/interest/request/sent`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      const result = await res.json();
+
+      if (result.success) {
+        const found = result.requests.find(
+          (req) => req.receiver?._id?.toString() === profileUserId?.toString()
+        );
+
+        if (found) {
+          setInterestSent(true);
+          setInterestStatus(found.status);
+        } else {
+          setInterestSent(false);
+          setInterestStatus(null);
+        }
+      }
+    } catch (err) {
+      console.error("Check interest status error", err);
+    }
+  };
+
+
+  useEffect(() => {
+    if (profile?.userId || profile?._id) {
+      const targetUserId = profile.userId || profile._id;
+      checkInterestStatus(targetUserId);
+    }
+  }, [profile]);
+
+
 
   useEffect(() => {
     if (profile?._id) {
@@ -109,13 +151,14 @@ export default function ProfileDetail() {
       const data = await res.json();
       if (data.success) {
         setInterestSent(true);
-        alert("Interest sent successfully!");
+        toast.success("Interest sent successfully!");
+
       } else {
-        alert(data.message);
+        toast.error(data.message);
       }
     } catch (err) {
       console.error(err);
-      alert("Failed to send interest");
+      toast.error("Failed to send interest");
     }
   };
 
@@ -131,19 +174,19 @@ export default function ProfileDetail() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ receiverId: profile._id }),
+        body: JSON.stringify({ receiverId: profile.userId }),
       });
 
       const data = await res.json();
       if (data.success) {
         setChatInterestSent(true);
-        alert(data.message);
+        setTimeout(() => router.push("/myprofile/chatlist"), 1000);
       } else {
-        alert(data.message);
+        toast.error(data.message);
       }
     } catch (err) {
       console.error(err);
-      alert("Failed to send interest");
+      toast.error("Failed to send interest");
     }
   };
 
@@ -184,7 +227,7 @@ export default function ProfileDetail() {
         });
 
         setIsShortlisted(false);
-        alert("Removed from shortlist");
+        toast.success("Removed from shortlist");
       } else {
         await fetch(`http://143.110.244.163:5000/api/shortlist/${profile._id}`, {
           method: "POST",
@@ -192,12 +235,12 @@ export default function ProfileDetail() {
         });
 
         setIsShortlisted(true);
-        alert("Added to shortlist");
+        toast.success("Added to shortlist");
       }
 
     } catch (error) {
       console.log(error);
-      alert("Something went wrong");
+      toast.error("Something went wrong");
     }
   };
 
@@ -206,6 +249,7 @@ export default function ProfileDetail() {
 
   return (
     <main>
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
       <Header />
 
       <div className="sub-bg">
@@ -226,10 +270,7 @@ export default function ProfileDetail() {
                 </div>
                 <div className="col-12">
                   <div className="row btn-bottom">
-                    {/* <Link href="/" className="col-4 btn bg-danger text-white fw-medium rounded-top-0 rounded-end-0 py-3" style={{ fontSize: "15px" }}>
-                      Chat Now
-                    </Link> */}
-                    {/* ACTION BUTTONS */}
+
                     <div className="col-12">
                       <div className="row btn-bottom">
 
@@ -241,18 +282,26 @@ export default function ProfileDetail() {
                           disabled={chatinterestSent}
                         >
 
-                          {chatinterestSent ? "Interest Sent ✓" : "Chat Now"}
+                          {chatinterestSent ? "Chat Now" : "Chat Now"}
                         </button>
 
-                        {/* Send Interest */}
+
+
                         <button
-                          onClick={sendInterestRequest}
                           className="col-4 btn text-white fw-medium rounded-0 bg-D4AF37 py-3"
-                          style={{ fontSize: "15px" }}
                           disabled={interestSent}
+                          tyle={{ fontSize: "15px" }}
+                          onClick={sendInterestRequest}
                         >
-                          {interestSent ? "Interest Sent ✓" : "Send Interest"}
+                          {interestSent
+                            ? interestStatus === "pending"
+                              ? "Interest Pending ⏳"
+                              : interestStatus === "accepted"
+                                ? "Interest Accepted ✅"
+                                : "Interest Sent ✓"
+                            : "Send Interest"}
                         </button>
+
 
                         {/* Shortlist Toggle */}
                         <button

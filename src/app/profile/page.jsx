@@ -135,32 +135,9 @@ export default function Profile() {
         return map[ageRange] || {};
     };
 
-    const [sentRequests, setSentRequests] = useState([]);
 
-    const handleSendInterest = async (receiverId) => {
-        try {
-            const token = localStorage.getItem("token");
-            if (!token) {
-                toast.error("Please login first");
-                return;
-            }
 
-            const res = await axios.post(
-                "http://143.110.244.163:5000/api/interest/request/send",
-                { receiverId },
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
 
-            if (res.data.success) {
-                toast.success("Interest request sent successfully!");
-                setSentRequests(prev => [...prev, receiverId]);
-            } else {
-                toast.error(res.data.message);
-            }
-        } catch (err) {
-            toast.error(err?.response?.data?.message || "Something went wrong");
-        }
-    };
 
     return (
         <main>
@@ -424,17 +401,9 @@ export default function Profile() {
                                                     <hr />
 
                                                     <div className="btn-bottom d-flex gap-2 flex-wrap">
-                                                        <button className="btn btn-sm bg-4CAF50 text-white rounded-5 fs-12">
-                                                            Chat Now
-                                                        </button>
-                                                        <button
-                                                            disabled={sentRequests.includes(item.userId)}
-                                                            onClick={() => handleSendInterest(item.userId)}
-                                                            className={`btn btn-sm border rounded-5 fs-12 ${sentRequests.includes(item.userId) ? "disabled bg-light" : ""}`}
-                                                        >
-                                                            {sentRequests.includes(item.userId) ? "Interest Sent" : "Send Interest"}
-                                                        </button>
-                                                        <Link href={`/profiledetail/${item._id}`} className="btn btn-sm border fs-12 rounded-5">
+
+
+                                                        <Link href={`/profiledetail/${item._id}`} className="btn btn-lg border fs-12 rounded-5">
                                                             More Detail
                                                         </Link>
                                                     </div>

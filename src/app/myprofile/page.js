@@ -108,7 +108,7 @@ export default function MyProfileDashboard() {
                     <div className='col-lg-8'>
                         {/* 1. NEW PROFILES MATCHES Section */}
                         <div className="section dashboard-section new-matches mb-4">
-                            <h3 className="section-title">New Matches  ({viewedprofile?.results})</h3>
+                            <h3 className="section-title">New Matches  ({matchprofile?.count})</h3>
                             <div className="card-grid-4">
                                 {matchprofile?.matches?.slice(0, 4).map(profile => (
                                     // Reusing the ProfileCard component
