@@ -65,7 +65,7 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
 
     return (
         <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center" style={{ zIndex: 9999 }}>
-            <div className="bg-white p-4 rounded-4 shadow w-100" style={{ maxWidth: 600 }}>
+            <div className="bg-white p-4 rounded-4 shadow w-100 editdetail">
                 <h5 className="mb-3">Edit Details</h5>
 
                 <div className="row g-3">
@@ -258,7 +258,7 @@ export default function ProfilePage() {
                                 <div className="row">
                                     {profile?.photos?.length > 0 ? (
                                         profile.photos.map((img, i) => (
-                                            <div className="col-6 col-md-3 mb-3" key={i}>
+                                            <div className="col-lg-3 col-md-3 col-6 mb-lg-3 mb-md-3 mb-2" key={i}>
                                                 <div key={i} className="galleryItem position-relative" onClick={() => setSelectedImage(img)}>
                                                     <img
                                                         key={i}

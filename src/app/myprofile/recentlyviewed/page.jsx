@@ -72,7 +72,7 @@ const ViewedCard = ({ item }) => {
         <p className="mb-1"> Age:
           <strong className="text-dark mx-2">{calculateAge(item?.dob)} Yrs</strong>
         </p>
-        <p className="mb-3"> Job:
+        <p className="mb-3"> occupation:
           <strong className="text-dark ms-2">{item?.occupation || "N/A"}</strong>
         </p>
 

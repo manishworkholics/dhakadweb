@@ -10,12 +10,23 @@ export default function RecentChatList() {
     const [chats, setChats] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // get token from localStorage
-    const token =
-        typeof window !== "undefined" ? localStorage.getItem("token") : null;
-    const loggedInUser = JSON.parse(localStorage.getItem("user"))?._id;
+    // ✅ FIX: token & user moved to state (SSR safe)
+    const [token, setToken] = useState(null);
+    const [loggedInUser, setLoggedInUser] = useState(null);
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const storedToken = localStorage.getItem("token");
+            const storedUser = localStorage.getItem("user");
+
+            setToken(storedToken);
+            setLoggedInUser(storedUser ? JSON.parse(storedUser)?._id : null);
+        }
+    }, []);
 
     const fetchChatList = async () => {
+        if (!token) return;
+
         try {
             setLoading(true);
             const res = await axios.get(`${API_URL}/chat/list`, {
@@ -31,7 +42,7 @@ export default function RecentChatList() {
 
     useEffect(() => {
         fetchChatList();
-    }, []);
+    }, [token]); // ✅ call only after token is ready
 
     // show max 4 chats only
     const chatsToDisplay = chats.slice(0, 4);
@@ -39,7 +50,9 @@ export default function RecentChatList() {
     return (
         <div className="recent-chat-list-card">
             {loading ? (
-                <p className="text-center py-2 text-gray-500 text-sm">Loading chats...</p>
+                <p className="text-center py-2 text-gray-500 text-sm">
+                    Loading chats...
+                </p>
             ) : chatsToDisplay.length === 0 ? (
                 <p className="text-center py-2 text-gray-500 text-sm">
                     No recent chats
@@ -50,10 +63,15 @@ export default function RecentChatList() {
                         // find opponent (not me)
                         const otherUser =
                             chat.participants &&
-                            chat.participants.find((p) => p._id !== loggedInUser);
+                            chat.participants.find(
+                                (p) => p._id !== loggedInUser
+                            );
 
                         return (
-                            <li key={chat._id} className="chat-item flex items-center gap-3 py-2">
+                            <li
+                                key={chat._id}
+                                className="chat-item flex items-center gap-3 py-2"
+                            >
                                 {/* Image */}
                                 <div className="chat-avatar-wrapper w-12 h-12 rounded-full overflow-hidden">
                                     <img

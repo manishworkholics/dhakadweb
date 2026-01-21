@@ -6,7 +6,7 @@ import Link from 'next/link'
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 const Login = () => {
@@ -134,9 +134,9 @@ const Login = () => {
                                                     style={{ cursor: "pointer", right: "15px", top: "52px" }}
                                                 >
                                                     {showPassword ? (
-                                                        <i className="bi bi-eye-slash"></i>
-                                                    ) : (
                                                         <i className="bi bi-eye"></i>
+                                                    ) : (
+                                                        <i className="bi bi-eye-slash"></i>
                                                     )}
                                                 </span>
                                             </div>

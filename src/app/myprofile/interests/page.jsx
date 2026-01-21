@@ -16,7 +16,7 @@ const RequestListItem = ({ profile, type, mainTab, onAction }) => {
         <div className="align-items-start py-3 row">
             <div className="col-lg-6 col-md-6 col-12">
                 <div
-                    className="interest-image w-100 d-flex align-items-center justify-content-center position-relative"
+                    className="interest-image w-100 d-flex align-items-center justify-content-center position-relative mb-lg-0 mb-md-0 mb-3"
                     style={{ height: "200px", overflow: "hidden", borderRadius: "12px" }}
                 >
                     {/* Blurred Background */}
@@ -66,7 +66,7 @@ const RequestListItem = ({ profile, type, mainTab, onAction }) => {
                 <p className="text-muted small mb-1">
                     Age: <strong className="text-dark me-3">{profile?.profile?.age} yrs</strong> </p>
                 <p className="text-muted small mb-1">
-                    Job: <strong className="text-dark">{profile?.profile?.occupation}</strong>
+                    Occupation: <strong className="text-dark">{profile?.profile?.occupation}</strong>
                 </p>
                 <p className="text-muted small mb-2">
                     Requested On: <strong className="text-dark">{new Date(profile.createdAt).toLocaleString()}</strong>
@@ -210,14 +210,14 @@ export default function InterestsPage() {
                 {/* Tabs */}
                 <div className="d-flex mb-4">
                     <button
-                        className={`btn btn-sm rounded-3 me-3 fw-medium py-2 px-3 ${mainTab === "received" ? "short-btn" : "short-out-btn"}`}
+                        className={`btn btn-sm rounded-3 me-3 fw-medium py-2 px-lg-3 px-md-3 px-2 ${mainTab === "received" ? "short-btn" : "short-out-btn"}`}
                         onClick={() => setMainTab("received")}
                     >
                         Interest Received
                     </button>
 
                     <button
-                        className={`btn btn-sm rounded-3 fw-medium py-2 px-3 ${mainTab === "sent" ? "btn-danger" : "btn-outline-danger"}`}
+                        className={`btn btn-sm rounded-3 fw-medium py-2 px-lg-3 px-md-3 px-2 ${mainTab === "sent" ? "btn-danger" : "btn-outline-danger"}`}
                         onClick={() => setMainTab("sent")}
                     >
                         Interest Sent
@@ -231,7 +231,7 @@ export default function InterestsPage() {
                         {["new", "accepted", "denied"].map((tab) => (
                             <li className="nav-item" key={tab}>
                                 <button
-                                    className={`nav-link text-capitalize tab-button me-2 ${activeSubTab === tab ? "active" : ""}`}
+                                    className={`nav-link text-capitalize tab-button me-lg-2 me-md-2 me-1 mb-0 p-lg-2 p-md-2 p-1 ${activeSubTab === tab ? "active" : ""}`}
                                     onClick={() => setActiveSubTab(tab)}
                                 >
                                     {tab} Requests

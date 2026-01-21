@@ -91,9 +91,9 @@ const ViewedCard = ({ item }) => {
       </div>
 
       {/* Details */}
-      <div className="col-lg-8 col-md-8 col-12">
+      <div className="col-lg-8 col-md-8 col-12 mt-lg-0 mt-md-0 mt-3">
         <h4 className="mb-2 fw-semibold text-dark">{item?.name}</h4>
-        <div className="detailCard d-flex">
+        <div className="detailCard d-lg-flex d-md-flex d-block">
           <p className="text-muted mb-1 ">
             City: <strong className="text-dark me-2">{item?.location}</strong>
           </p>
@@ -106,7 +106,7 @@ const ViewedCard = ({ item }) => {
           </p>
 
           <p className="mb-2 me-2">
-            Job:
+            Occupation:
             <strong className="text-dark ms-2">{item?.occupation}</strong>
           </p>
 

@@ -8,8 +8,8 @@ export default function SuccessStories() {
     const [successStories, setsuccessStories] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // ✅ NEW: detect mobile
-    const [isMobile, setIsMobile] = useState(false);
+    // ✅ NEW: dynamic cards count
+    const [cardsToShow, setCardsToShow] = useState(5);
 
     const getSuccess = async () => {
         try {
@@ -27,24 +27,33 @@ export default function SuccessStories() {
         getSuccess();
     }, []);
 
-    // ✅ NEW: screen size checker
+    // ✅ UPDATED: screen size based card logic
     useEffect(() => {
-        const checkMobile = () => {
-            setIsMobile(window.innerWidth <= 576);
+        const handleResize = () => {
+            const width = window.innerWidth;
+
+            if (width <= 480) {
+                setCardsToShow(1);          // 📱 very small mobile
+            } else if (width >= 481 && width <= 767) {
+                setCardsToShow(2);          // 📱 mobile
+            } else if (width >= 768 && width <= 991) {
+                setCardsToShow(3);          // 📱 tablet
+            }else if (width >= 992 && width <= 1199) {
+                setCardsToShow(4);          // 📱 tablet
+            }
+             else {
+                setCardsToShow(5);          // 💻 desktop
+            }
         };
 
-        checkMobile();
-        window.addEventListener("resize", checkMobile);
+        handleResize(); // initial check
+        window.addEventListener("resize", handleResize);
 
-        return () => window.removeEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    // ✅ UPDATED LOGIC
-    const displayedStories = isMobile
-        ? successStories.slice(0, 1) // 📱 mobile → 4 cards
-        : successStories.slice(0, 5); // 💻 desktop → 5 cards
-
-    const hasMoreStories = successStories.length > (isMobile ? 1 : 5);
+    const displayedStories = successStories.slice(0, cardsToShow);
+    const hasMoreStories = successStories.length > cardsToShow;
 
     // Loading state
     if (loading) {

@@ -40,7 +40,7 @@ export default function ViewProfileAll() {
 
           {successStorries?.map((val, index) => {
             return (
-              <div key={index} className="col-lg-4 col-md-4 col-12 mb-3">
+              <div key={index} className="col-xl-4 col-lg-6 col-md-6 col-12 mb-3">
                 <div className="card rounded-4 bg-fffaf2">
                   <div className="card-body">
                     <div className="main d-flex row">

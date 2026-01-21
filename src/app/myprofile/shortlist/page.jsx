@@ -59,12 +59,12 @@ const ShortListItem = ({ profile, onRemove }) => {
             </div>
 
             <div className="col-lg-7 col-md-7 col-12 text-lg-start text-md-start text-center">
-                <h5 className="mb-2 fw-semibold text-dark">{profile?.profile?.name}</h5>
-                <div className="mb-2">
-                    <p className="text-muted small mb-2">
+                <h5 className="mb-2 fw-semibold text-dark text-lg-start text-md-start text-center">{profile?.profile?.name}</h5>
+                <div className="mb-2 d-lg-block d-md-block d-flex justify-content-center">
+                    <p className="text-muted small mb-lg-2 mb-md-2 mb-0">
                         City: <strong className="text-dark me-3">{profile?.profile?.location || "N/A"}</strong>
-                        </p>
-                    <p className="text-muted small mb-2">
+                    </p>
+                    <p className="text-muted small mb-lg-2 mb-md-2 mb-0">
                         Age:{" "}
 
                         <strong className="text-dark me-3">
@@ -74,24 +74,38 @@ const ShortListItem = ({ profile, onRemove }) => {
                                 : "N/A"}{" "}
                             Yrs
                         </strong>{" "}</p>
-                    <p className="text-muted small">
+                    <p className="text-muted small d-lg-block d-md-block d-none">
                         Occupation: <strong className="text-dark">{profile?.profile?.occupation || "N/A"}</strong>
                     </p>
                 </div>
-                    <Link href={`/profiledetail/${profile?.profile?._id}`} className="text-decoration-none text-white short-btn rounded-4 fw-medium py-2 px-4 mb-lg-0 mb-md-0 mb-2"> View Full Profile </Link>
-            </div>
-                <div className="text-lg-end text-md-end text-center">
-                    <button
-                        onClick={() => onRemove(profile?.profile?._id)}
-                        className="btn btn-outline-danger rounded-pill px-3 py-2 fw-medium"
-                        style={{
-                            fontSize:"12px"
-                        }}
-                    >
-                        Remove Shortlist
-                    </button>
+                <p className="text-muted small d-lg-none d-md-none d-block">
+                        Occupation: <strong className="text-dark">{profile?.profile?.occupation || "N/A"}</strong>
+                    </p>
+                <div className="d-flex justify-content-between">
+                <Link href={`/profiledetail/${profile?.profile?._id}`} className="text-decoration-none text-white short-btn rounded-4 fw-medium py-2 px-lg-4 px-md-4 px-2 mb-lg-0 mb-md-0 mb-2"> View Full Profile </Link>
+                <button
+                    onClick={() => onRemove(profile?.profile?._id)}
+                    className="btn btn-outline-danger rounded-4 px-lg-3 px-md-3 px-2 py-1 fw-medium d-lg-none d-md-none d-block align-items-center mb-lg-0 mb-md-0 mb-2"
+                    style={{
+                        fontSize: "11px"
+                    }}
+                >
+                    Remove Shortlist
+                </button>
                 </div>
             </div>
+            <div className="text-lg-end text-md-end d-lg-block d-md-block d-none mt-lg-0 mt-md-0 mt-3">
+                <button
+                    onClick={() => onRemove(profile?.profile?._id)}
+                    className="btn btn-outline-danger rounded-pill px-3 py-2 fw-medium"
+                    style={{
+                        fontSize: "12px"
+                    }}
+                >
+                    Remove Shortlist
+                </button>
+            </div>
+        </div>
     );
 };
 

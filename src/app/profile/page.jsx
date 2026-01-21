@@ -333,8 +333,9 @@ export default function Profile() {
                                 {data
                                     .filter(item => item.userId !== user?._id)
                                     .map((item) => (
-                                        <div key={item._id} className="col-lg-4 col-md-4 col-12 mb-3">
-                                            <div className="card overflow-hidden position-relative">
+                                        <div key={item._id} className="col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
+                                            <Link href={`/profiledetail/${item._id}`} className="text-decoration-none">
+                                            <div className="card overflow-hidden position-relative profileCard">
 
                                                 {/* Image Container */}
                                                 <div className="position-relative" style={{ height: "230px", overflow: "hidden" }}>
@@ -381,7 +382,7 @@ export default function Profile() {
 
                                                 {/* Card Body */}
                                                 <div className="card-body">
-                                                    <h6 className="fw-semibold mb-0 text-capitalize">{item.name || "Unknown"}</h6>
+                                                    <h5 className="fw-semibold mb-0 text-capitalize">{item.name || "Unknown"}</h5>
 
                                                     <p className="d-flex align-items-center">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" height="13" viewBox="0 0 10 13" fill="none">
@@ -397,18 +398,9 @@ export default function Profile() {
                                                         </span>
                                                         <span className="bg-FFECAE py-1 px-2 rounded-2 fs-12 text-capitalize">{item.occupation || "N/A"}</span>
                                                     </div>
-
-                                                    <hr />
-
-                                                    <div className="btn-bottom d-flex gap-2 flex-wrap">
-
-
-                                                        <Link href={`/profiledetail/${item._id}`} className="btn btn-lg border fs-12 rounded-5">
-                                                            More Detail
-                                                        </Link>
-                                                    </div>
                                                 </div>
                                             </div>
+                                            </Link>
                                         </div>
                                     ))}
                             </div>

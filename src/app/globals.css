@@ -29,14 +29,33 @@ body {
 .featured-card:hover {
     box-shadow: 0 4px 10px #00000026 !important;
 }
-.feat-img{
+
+.feat-img {
     height: 300px !important;
 }
+
+.text-fea {
+    width: 114px !important;
+}
+
 @media only screen and (max-width:767px) {
-    .feat-img{
-    height: 420px !important;
+    .feat-img {
+        height: 420px !important;
+    }
 }
+
+@media only screen and (min-width:481px) and (max-width:1400px) {
+    .text-fea {
+        width: 89px !important;
+    }
 }
+
+@media only screen and (min-width:1200) and (max-width:1400px) {
+    .fea-btn .btn {
+        font-size: 11px !important;
+    }
+}
+
 /*Plan*/
 .gold-card {
     background:
@@ -132,6 +151,10 @@ body {
     border: 1px solid #dee2e6;
 }
 
+.home-card {
+    height: 315px;
+}
+
 /* Paid Membership */
 .premium-box {
     background: linear-gradient(135deg,
@@ -188,7 +211,21 @@ body {
 
 @media only screen and (max-width:767px) {
     .premium-btn {
-        width: 50% !important;
+        width: 57% !important;
+    }
+
+    .editdetail {
+        max-width: 300px;
+    }
+}
+
+.editdetail {
+    max-width: 600px;
+}
+
+@media only screen and (min-width:768px) and (max-width:1200px) {
+    .premium-btn {
+        width: 31% !important;
     }
 }
 
@@ -256,21 +293,21 @@ body {
     background-color: #fff !important;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1199px) {
     .story-grid {
         grid-template-columns: repeat(4, 1fr);
     }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 991px) {
     .story-grid {
         grid-template-columns: repeat(3, 1fr);
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .story-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .story-img-wrapper {
@@ -1016,7 +1053,6 @@ body {
 
     .galleryItem {
         break-inside: avoid;
-        margin-bottom: 1.5rem;
         position: relative;
         border-radius: 12px;
         overflow: hidden;
@@ -1109,9 +1145,13 @@ body {
     margin-bottom: 20px;
 }
 
-@media (max-width: 1200px) {
+@media only screen and (min-width:1200px) and (max-width: 1399px) {
     .card-grid-4 {
         grid-template-columns: repeat(3, 1fr);
+    }
+
+    .sidebar-wrapper {
+        width: 260px !important;
     }
 }
 
@@ -1119,11 +1159,19 @@ body {
     .card-grid-4 {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    .card-grid-4> :nth-child(n + 3) {
+        display: none;
+    }
 }
 
 @media (max-width: 576px) {
     .card-grid-4 {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card-grid-4> :nth-child(n + 3) {
+        display: none;
     }
 }
 
@@ -1182,6 +1230,16 @@ body {
     height: 100%;
     object-fit: contain;
     z-index: 2;
+}
+
+@media only screen and (min-width:768px) and (max-width:1400px) {
+    .recent-blur-wrapper {
+        width: 160px !important;
+    }
+
+    .text h4 {
+        font-size: 21px !important;
+    }
 }
 
 /* --- Profile Completeness Styles --- */
@@ -1827,8 +1885,38 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 30px;
 }
-
-
+@media only screen and (max-width:1400px) {
+    .profileCard{
+height: 400px !important;
+}
+}
+.profileRight{
+    height: 550px !important;
+}
+@media only screen and (max-width:420px) {
+   .profileRight{
+    height: 450px !important;
+} 
+}
+@media only screen and (min-width:768px) and  (max-width:991px) {
+   .profileRight{
+    height: 350px !important;
+} 
+.btn-bottom button{
+    font-size: 11px !important;
+}
+.masonryGallery .galleryItem img {
+    cursor: pointer;
+    height: 160px;
+    transition: transform .3s;
+    display: block;
+}
+}
+@media only screen and (min-width:992px) and (max-width:1199px) {
+   .profileRight{
+    height: 450px !important;
+} 
+}
 /* Action Buttons below the ProfileCard */
 .shortlist-actions {
     display: flex;
@@ -1864,6 +1952,12 @@ body {
 
 .remove-btn:hover {
     background-color: #e6e6e6;
+}
+
+@media only screen and (max-width:767px) {
+    .short-btn {
+        font-size: 11px !important;
+    }
 }
 
 /* Empty State Message */
@@ -2441,6 +2535,19 @@ select.form-input {
     font-weight: 600;
 }
 
+@media only screen and (max-width:767px) {
+
+    /* Specific button styles for the group */
+    .interests-tabs-custom .tab-button:first-child {
+        font-size: 7px !important;
+        font-weight: 400 !important;
+    }
+
+    .interests-tabs .tab-button:last-child {
+        font-size: 7px !important;
+        font-weight: 400 !important;
+    }
+}
 
 /* --- Request List Item (The Main Card Replacement) --- */
 

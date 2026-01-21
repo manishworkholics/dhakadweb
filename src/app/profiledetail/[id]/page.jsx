@@ -265,12 +265,11 @@ export default function ProfileDetail() {
             {/* LEFT SIDE — IMAGE */}
             <div className="col-md-4 px-3">
               <div className="row card rounded-3">
-                <div className="p-0" style={{ height: "550px" }}>
+                <div className="p-0 profileRight">
                   <img src={image || "/dhakadweb/assets/images/priya.png"} className="card-img-top h-100 w-100" alt={profile.name} />
                 </div>
                 <div className="col-12">
                   <div className="row btn-bottom">
-
                     <div className="col-12">
                       <div className="row btn-bottom">
 
@@ -284,9 +283,6 @@ export default function ProfileDetail() {
 
                           {chatinterestSent ? "Chat Now" : "Chat Now"}
                         </button>
-
-
-
                         <button
                           className="col-4 btn text-white fw-medium rounded-0 bg-D4AF37 py-3"
                           disabled={interestSent}
@@ -295,7 +291,7 @@ export default function ProfileDetail() {
                         >
                           {interestSent
                             ? interestStatus === "pending"
-                              ? "Interest Pending ⏳"
+                              ? "Interest Pending"
                               : interestStatus === "accepted"
                                 ? "Interest Accepted ✅"
                                 : "Interest Sent ✓"
@@ -324,8 +320,8 @@ export default function ProfileDetail() {
             {/* RIGHT SIDE */}
             <div className="col-md-8 px-lg-4">
               {/* NAME */}
-              <h5 className="fw-semibold text-capitalize mb-3">{profile.name || "No Name Available"}</h5>
-              <div className="d-flex gap-3 align-items-center flex-wrap mb-3">
+              <h4 className="fw-semibold text-capitalize my-3">{profile.name || "No Name Available"}</h4>
+              <div className="d-lg-flex d-none gap-3 align-items-center flex-wrap mb-3">
                 <div className="border text-center bg-white rounded-3 p-2 d-flex justify-content-center align-items-center"
                   style={{ width: "110px", height: "110px" }}>
                   <div className="">
@@ -377,8 +373,6 @@ export default function ProfileDetail() {
                 </div>
               </div>
 
-              <hr className="my-4" />
-
               {/* ABOUT */}
               <div className="about">
                 <h5 className="fw-semibold">ABOUT</h5>
@@ -395,7 +389,7 @@ export default function ProfileDetail() {
                     <div className="row">
                       {gallery && gallery.length > 0 ? (
                         gallery.map((pic, i) => (
-                          <div className="col-6 col-md-3 mb-3" key={i}>
+                          <div className="col-4 col-md-3 mb-3" key={i}>
                             <div key={i} className="galleryItem position-relative" onClick={() => setSelectedImage(pic)}>
                               <img src={pic} alt={`gallery-${i}`} className="w-100 rounded-4" />
                             </div>

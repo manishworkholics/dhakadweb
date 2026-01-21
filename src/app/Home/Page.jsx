@@ -268,9 +268,9 @@ const HomePage = () => {
                                                 style={{ cursor: "pointer", right: "15px" }}
                                             >
                                                 {showPassword ? (
-                                                    <i className="bi bi-eye-slash"></i>
-                                                ) : (
                                                     <i className="bi bi-eye"></i>
+                                                ) : (
+                                                    <i className="bi bi-eye-slash"></i>
                                                 )}
                                             </span>
 
@@ -422,7 +422,7 @@ const HomePage = () => {
 
                                     {/* CARD 1 */}
                                     <div className="col-12 col-md-6 col-lg-4">
-                                        <div className="p-4 rounded-4 border h-100 shadow-sm" style={{ background: "#fdf7ee" }}>
+                                        <div className="p-4 rounded-4 border h-100 shadow-sm home-card" style={{ background: "#fdf7ee" }}>
                                             <div className="mb-3">
                                                 <img
                                                     src="/dhakadweb/assets/images/user-icon.gif"
@@ -443,7 +443,7 @@ const HomePage = () => {
 
                                     {/* CARD 2 */}
                                     <div className="col-12 col-md-6 col-lg-4">
-                                        <div className="p-4 rounded-4 border h-100 shadow-sm" style={{ background: "#fdf7ee" }}>
+                                        <div className="p-4 rounded-4 border h-100 shadow-sm home-card" style={{ background: "#fdf7ee" }}>
                                             <div className="mb-3">
                                                 <img
                                                     src="/dhakadweb/assets/images/magnifier-icon.gif"
@@ -463,7 +463,7 @@ const HomePage = () => {
 
                                     {/* CARD 3 */}
                                     <div className="col-12 col-md-6 col-lg-4">
-                                        <div className="p-4 rounded-4 border h-100 shadow-sm" style={{ background: "#fdf7ee" }}>
+                                        <div className="p-4 rounded-4 border h-100 shadow-sm home-card" style={{ background: "#fdf7ee" }}>
                                             <div className="mb-3">
                                                 <img
                                                     src="/dhakadweb/assets/images/privacy-policy-icon.gif"
