@@ -368,7 +368,7 @@ export default function ProfileDetail() {
                       </svg>
                     </div>
                     <p className="mb-0">OCCUPATION</p>
-                    <h6 className="mb-0 fw-bold">{profile.employmentType || "N/A"}</h6>
+                    <h6 className="mb-0 fw-bold">{profile?.occupation || "N/A"}</h6>
                   </div>
                 </div>
               </div>

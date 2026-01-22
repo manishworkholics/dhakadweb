@@ -58,10 +58,20 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
 
 
 
+    // const handleChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setForm((p) => ({ ...p, [name]: value }));
+    // };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setForm((p) => ({ ...p, [name]: value }));
+
+        setForm((prev) => ({
+            ...prev,
+            [name === "city" ? "location" : name]: value,
+        }));
     };
+
 
     return (
         <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center" style={{ zIndex: 9999 }}>
@@ -253,48 +263,48 @@ export default function ProfilePage() {
                     //         marginTop: "10px",
                     //     }}
                     // > */}
-                        <div className="masonryGallery">
-                            <div className="gallery-1 gap-3">
-                                <div className="row">
-                                    {profile?.photos?.length > 0 ? (
-                                        profile.photos.map((img, i) => (
-                                            <div className="col-lg-3 col-md-3 col-6 mb-lg-3 mb-md-3 mb-2" key={i}>
-                                                <div key={i} className="galleryItem position-relative" onClick={() => setSelectedImage(img)}>
-                                                    <img
-                                                        key={i}
-                                                        src={img}
-                                                        alt="gallery"
-                                                        style={{
-                                                            width: "100%",
-                                                            height: "200px",
-                                                            objectFit: "cover",
-                                                            borderRadius: "10px",
-                                                            border: "1px solid #ddd",
-                                                        }}
-                                                    />
-                                                </div>
+                    <div className="masonryGallery">
+                        <div className="gallery-1 gap-3">
+                            <div className="row">
+                                {profile?.photos?.length > 0 ? (
+                                    profile.photos.map((img, i) => (
+                                        <div className="col-lg-3 col-md-3 col-6 mb-lg-3 mb-md-3 mb-2" key={i}>
+                                            <div key={i} className="galleryItem position-relative" onClick={() => setSelectedImage(img)}>
+                                                <img
+                                                    key={i}
+                                                    src={img}
+                                                    alt="gallery"
+                                                    style={{
+                                                        width: "100%",
+                                                        height: "200px",
+                                                        objectFit: "cover",
+                                                        borderRadius: "10px",
+                                                        border: "1px solid #ddd",
+                                                    }}
+                                                />
                                             </div>
-                                        ))
-                                    ) : (
-                                        <p className="text-muted small">No photos uploaded yet</p>
-                                    )}
-                                </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="text-muted small">No photos uploaded yet</p>
+                                )}
                             </div>
                         </div>
-                        {selectedImage && (
-                            <div className="preview position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-75" onClick={() => setSelectedImage(null)}>
-                                <div className="previewContent p-3 rounded">
-                                    <img
-                                        src={selectedImage}
-                                        alt="Preview"
-                                        width={600}
-                                        style={{ maxHeight: "80vh", objectFit: "contain" }}
-                                        className="img-fluid rounded"
-                                    />
-                                </div>
-                            </div>
-                        )}
                     </div>
+                    {selectedImage && (
+                        <div className="preview position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-75" onClick={() => setSelectedImage(null)}>
+                            <div className="previewContent p-3 rounded">
+                                <img
+                                    src={selectedImage}
+                                    alt="Preview"
+                                    width={600}
+                                    style={{ maxHeight: "80vh", objectFit: "contain" }}
+                                    className="img-fluid rounded"
+                                />
+                            </div>
+                        </div>
+                    )}
+                </div>
 
 
                 <ProfileSection title="Personal Information" onEdit={() => handleEdit(["name", "gender", "dob", "motherTongue"])}>
@@ -305,7 +315,7 @@ export default function ProfilePage() {
                 </ProfileSection>
 
                 <ProfileSection title="Location" onEdit={() => handleEdit(["state", "city", "location"])}>
-                    <DetailItem label="State" value={profile.state} />
+                    {/* <DetailItem label="State" value={profile.state} /> */}
                     <DetailItem label="City" value={profile.city || profile.location} />
                 </ProfileSection>
 

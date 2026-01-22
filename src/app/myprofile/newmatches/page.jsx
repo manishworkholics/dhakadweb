@@ -112,7 +112,7 @@ const ViewedCard = ({ item }) => {
 
           {/* Profile score */}
           <p className="mb-2 small text-muted">
-            Profile Score: <strong>{item.profileScore || 0}%</strong>
+            {/* Profile Score: <strong>{item.profileScore || 0}%</strong> */}
           </p>
         </div>
         {/* Matched fields */}
