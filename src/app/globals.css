@@ -2433,18 +2433,6 @@ select.form-input {
     border-bottom: 1px dotted #f0f0f0;
 }
 
-.detail-label {
-    font-weight: 600;
-    color: #555;
-    font-size: 0.95rem;
-}
-
-.detail-value {
-    font-weight: 500;
-    color: #333;
-    font-size: 0.95rem;
-}
-
 .placeholder-text {
     grid-column: 1 / -1;
     color: #999;
@@ -2731,16 +2719,6 @@ select.form-input {
 .profile-detail-item {
     display: flex;
     flex-direction: column;
-}
-
-.detail-label {
-    font-size: 12px;
-    color: #777;
-}
-
-.detail-value {
-    font-weight: 600;
-    color: #111;
 }
 
 .circle-holder {
