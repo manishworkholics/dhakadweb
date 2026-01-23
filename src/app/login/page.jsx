@@ -143,10 +143,10 @@ const Login = () => {
 
 
                                             <div className="d-flex justify-content-between">
-                                                <div className="mb-3 form-check">
+                                                {/* <div className="mb-3 form-check">
                                                     <input type="checkbox" className="form-check-input" id="exampleCheck1" />
                                                     <label className="form-check-label" htmlFor="exampleCheck1">Stay Logged in</label>
-                                                </div>
+                                                </div> */}
                                                 <div className="mb-3">
                                                     <Link href="/ForgetPassword" className='text-decoration-none text-D4AF37'>
                                                         Forgot Password?
