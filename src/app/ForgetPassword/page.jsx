@@ -10,12 +10,14 @@ import { useRouter } from "next/navigation";
 export default function ForgetPassword() {
   const router = useRouter();
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email) return toast.error("Enter Email First");
-
+    if (loading) return;
     try {
+      setLoading(true);
       const res = await axios.post(
         "http://143.110.244.163:5000/api/auth/forgot-password",
         { email }
@@ -28,6 +30,8 @@ export default function ForgetPassword() {
       setTimeout(() => router.push("/VerifyForgotOtp"), 1000);
     } catch (err) {
       toast.error(err?.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,12 +59,16 @@ export default function ForgetPassword() {
                     onChange={(e) => setEmail(e.target.value)}
                   />
 
-                  <button className="btn bg-D4AF37 w-100 text-white">
-                    Send OTP
+                  <button
+                    className="btn bg-D4AF37 w-100 text-white"
+                    disabled={loading}
+                  >
+                    {loading ? "Sending..." : "Send OTP"}
                   </button>
+
                 </form>
                 <p className="mt-3 text-center">
-                  <a href="/Login" className="text-decoration-none text-D4AF37">
+                  <a href="/dhakadweb/login" className="text-decoration-none text-D4AF37">
                     Back to Login
                   </a>
                 </p>
