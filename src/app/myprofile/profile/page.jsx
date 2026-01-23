@@ -81,8 +81,8 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                                     ))}
                                 </select>
 
-                            ) : f === "city" || f === "location" ? (
-                                <select name="city" value={form.city || form.location || ""} onChange={handleChange} className="form-select">
+                            ) : f === "city" ? (
+                                <select name="city" value={form.city ||""} onChange={handleChange} className="form-select">
                                     <option value="">Select City</option>
                                     {cities.map((c, i) => (
                                         <option key={i} value={c}>{c}</option>
@@ -304,9 +304,9 @@ export default function ProfilePage() {
                     <DetailItem label="Mother Tongue" value={profile.motherTongue} />
                 </ProfileSection>
 
-                <ProfileSection title="Location" onEdit={() => handleEdit(["state", "city", "location"])}>
+                <ProfileSection title="Location" onEdit={() => handleEdit(["state", "city"])}>
                     <DetailItem label="State" value={profile.state} />
-                    <DetailItem label="City" value={profile.city || profile.location} />
+                    <DetailItem label="City" value={profile.city } />
                 </ProfileSection>
 
                 <ProfileSection title="Religion & Culture" onEdit={() => handleEdit(["religion", "caste", "subCaste", "gotra"])}>
