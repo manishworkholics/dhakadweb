@@ -541,11 +541,15 @@ const RegistrationForm = () => {
                                                                 onChange={handleChange}
                                                             >
                                                                 <option value="">Select state</option>
-                                                                {states.map((s) => (
-                                                                    <option key={s._id} value={s.state}>
-                                                                        {s.state}
-                                                                    </option>
-                                                                ))}
+                                                                {states
+                                                                    .slice()
+                                                                    .sort((a, b) => a.state.localeCompare(b.state))
+                                                                    .map((s) => (
+                                                                        <option key={s._id} value={s.state}>
+                                                                            {s.state}
+                                                                        </option>
+                                                                    ))}
+
                                                             </select>
                                                         </div>
                                                         <div className="mb-3 p-2 rounded bg-light border">
@@ -570,9 +574,15 @@ const RegistrationForm = () => {
 
 
                                                                     <option value="">Select city</option>
-                                                                    {cities.map((city, idx) => (
-                                                                        <option key={idx} value={city}>{city}</option>
-                                                                    ))}
+                                                                    {cities
+                                                                        .slice()
+                                                                        .sort((a, b) => a.localeCompare(b))
+                                                                        .map((city, idx) => (
+                                                                            <option key={idx} value={city}>
+                                                                                {city}
+                                                                            </option>
+                                                                        ))}
+
                                                                     {cities.length > 0 && <option value="__custom">Other (Type manually)</option>}
                                                                 </select>
                                                             ) : (
@@ -686,12 +696,10 @@ const RegistrationForm = () => {
                                                             onChange={handleChange}
                                                         >
                                                             <option value="">Select</option>
-                                                            <option value="Never married"> Never Married </option>
-                                                            <option value="Previously Married (Divorced)"> Previously Married (Divorced) </option>
-                                                            <option value="Previously Married (Widowed)"> Previously Married (Widowed) </option>
-                                                            <option value="Currently Separated"> Currently Separated </option>
-                                                            <option value="Legally Separated / Awaiting Divorce"> Legally Separated / Awaiting Divorce</option>
-                                                            <option value="Single Parent (Divorced/Widowed)">Single Parent (Divorced/Widowed)</option>
+                                                            <option value="Never married">Never Married</option>
+                                                            <option value="Divorced">Previously Married (Divorced)</option>
+                                                            <option value="Widower">Previously Married (Widowed)</option>
+                                                            <option value="Awaiting divorce">Legally Separated / Awaiting Divorce</option>
                                                         </select>
                                                     </div>
 
