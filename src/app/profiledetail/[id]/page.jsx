@@ -114,9 +114,13 @@ export default function ProfileDetail() {
 
   if (loading) {
     return (
-      <div className="text-center py-5">
-        <h4>Loading Profile...</h4>
-      </div>
+     <div className="text-center mt-5">
+        <div className="position-fixed top-0 start-0 w-100 h-100 bg-white d-flex justify-content-center align-items-center" style={{ zIndex: 9999 }}>
+            <div className="spinner-border text-warning">
+
+            </div>
+        </div>
+    </div>
     );
   }
 

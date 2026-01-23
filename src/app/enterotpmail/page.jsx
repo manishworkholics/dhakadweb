@@ -12,7 +12,7 @@ const EnterOtpMail = () => {
     const [otp, setOtp] = useState(["", "", "", ""]);
     const [loading, setLoading] = useState(false);
     const [resendLoading, setResendLoading] = useState(false);
-
+    const [email, setEmail] = useState(null);
     const inputRefs = Array(4)
         .fill(0)
         .map(() => useRef(null));
@@ -25,6 +25,14 @@ const EnterOtpMail = () => {
     useEffect(() => {
         const savedOtp = localStorage.getItem("otp");
         if (savedOtp) setSaveotp(JSON.parse(savedOtp));
+    }, []);
+
+
+    /* ---------------- INIT ---------------- */
+    useEffect(() => {
+        const storedEmail = localStorage.getItem("verifyEmail");
+
+        setEmail(storedEmail);
     }, []);
 
     // Countdown Logic
@@ -208,6 +216,9 @@ const EnterOtpMail = () => {
                         <h6>
                             Enter the 4-digit OTP 
                             {/* <span className="text-danger">{saveotp}</span> */}
+                            <p className="mt-3 text-center text-6B6B6B">
+                                sent to <b>{email}</b>
+                            </p>
                         </h6>
                         <p className="fw-bold text-primary">⏳ {formatTime()}</p>
                     </div>

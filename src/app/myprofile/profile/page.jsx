@@ -276,10 +276,19 @@ export default function ProfilePage() {
 
 
 
-    if (!profile) return <div className="text-center mt-5">Loading...</div>;
+    if (!profile) return
+    <div className="text-center mt-5">
+        <div className="position-fixed top-0 start-0 w-100 h-100 bg-white d-flex justify-content-center align-items-center" style={{ zIndex: 9999 }}>
+            <div className="spinner-border text-warning">
+
+            </div>
+        </div>
+    </div>;
 
     return (
         <DashboardLayout>
+
+
             <div className="profile-page-content-custom position-relative">
 
                 {/* IMAGE GALLERY KEEP AS IS */}

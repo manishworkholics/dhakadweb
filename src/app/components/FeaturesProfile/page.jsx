@@ -11,6 +11,7 @@ import Link from "next/link";
 export default function FeaturesProfile() {
     const prevRef = useRef(null);
     const nextRef = useRef(null);
+    const [showLoginModal, setShowLoginModal] = useState(false);
 
     const [profiles, setProfiles] = useState([]);
     const [token, setToken] = useState("");
@@ -108,7 +109,7 @@ export default function FeaturesProfile() {
                         481: { slidesPerView: 2 },
                         768: { slidesPerView: 3 },
                         992: { slidesPerView: 4 },
-                        1200:{slidesPerView:5}
+                        1200: { slidesPerView: 5 }
                     }}
                 >
                     {profiles.map((item, index) => (
@@ -145,8 +146,9 @@ export default function FeaturesProfile() {
                                                     href="#"
                                                     onClick={(e) => {
                                                         e.preventDefault();
-                                                        alert("⚠️ Please login first!");
+                                                        setShowLoginModal(true);
                                                     }}
+
                                                     className="btn btn-outline-danger btn-sm rounded-4"
                                                 >
                                                     View Profile
@@ -167,6 +169,57 @@ export default function FeaturesProfile() {
                     ))}
                 </Swiper>
             </div>
+            {showLoginModal && (
+                <div
+                    className="modal fade show"
+                    style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
+                >
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content rounded-4 border-0">
+
+                            <div className="modal-header border-0">
+                                <h5 className="modal-title fw-bold text-danger">Login Required</h5>
+                                <button
+                                    className="btn-close"
+                                    onClick={() => setShowLoginModal(false)}
+                                ></button>
+                            </div>
+
+                            <div className="modal-body text-center">
+                                <p className="mb-3">
+                                    You need to login to view this profile.
+                                </p>
+
+                                {/* <img
+                                    src="/dhakadweb/assets/images/login-lock.png"
+                                    alt="login"
+                                    style={{ width: 80, opacity: 0.8 }}
+                                    className="mb-3"
+                                /> */}
+                            </div>
+
+                            <div className="modal-footer border-0 justify-content-center gap-2">
+                                <button
+                                    className="btn btn-light"
+                                    onClick={() => setShowLoginModal(false)}
+                                >
+                                    Cancel
+                                </button>
+
+                                <Link
+                                    href="/login"
+                                    className="btn btn-danger"
+                                    onClick={() => setShowLoginModal(false)}
+                                >
+                                    Login Now
+                                </Link>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </section>
     );
 }

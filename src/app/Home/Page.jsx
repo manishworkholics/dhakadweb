@@ -104,43 +104,15 @@ const HomePage = () => {
         if (!formData.password)
             return "Password is required";
 
-        if (formData.password.length < 6)
-            return "Password should be minimum 6 characters";
+        if (!validatePassword(formData.password))
+            return "Password must contain at least 1 letter, 1 number, and 1 special character (@$!%*?&) and be minimum 6 characters";
+
 
         if (!formData.agree)
             return "Please agree to the terms and conditions";
 
         return null;
     };
-
-    // const handleSubmit = async () => {
-    //     const errorMessage = validateForm();
-
-    //     if (errorMessage) {
-    //         toast.error(errorMessage);
-    //         return;
-    //     }
-    //     try {
-    //         const response = await axios.post('http://143.110.244.163:5000/api/auth/register', {
-    //             name: formData.name,
-    //             email: formData.email,
-    //             password: formData.password,
-    //             createdfor: formData.createdfor,
-    //             phone: formData.phone
-    //         });
-    //         if (response?.data?.success) {
-    //             alert("Registration Successful")
-    //             toast.success("Registration Successful");
-    //             // localStorage.setItem("token", response?.data?.token);
-    //             router.push("/login");
-    //         } else {
-    //             toast.error(response?.data?.message || "Registration Failed");
-    //         }
-    //     } catch (error) {
-    //         toast.error(error?.response?.data?.message || "Registration Failed!");
-    //     }
-    // }
-
 
     const handleSubmit = async () => {
         if (registerLoading) return; // prevent double click
@@ -277,9 +249,9 @@ const HomePage = () => {
                                         </div>
 
                                         {passwordError && (
-                                            <p className="text-danger small mt-1">
-                                                Password must contain letters, numbers & a special character.
-                                            </p>
+                                            <small className="text-danger">
+                                                Password must include letter, number & special character
+                                            </small>
                                         )}
 
                                         {/* Checkbox */}

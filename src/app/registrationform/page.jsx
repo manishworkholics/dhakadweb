@@ -613,7 +613,7 @@ const RegistrationForm = () => {
 
                                                     </div>
 
-                                                    <div className="mb-3">
+                                                    {/* <div className="mb-3">
 
                                                         <label className="form-label">Date of Birth</label>
 
@@ -633,7 +633,27 @@ const RegistrationForm = () => {
                                                                     .split("T")[0]
                                                             }
                                                         />
+                                                    </div> */}
+
+
+                                                    <div className="mb-3">
+                                                        <label className="form-label">Date of Birth</label>
+
+                                                        <input
+                                                            type="date"
+                                                            name="dob"
+                                                            value={formData.dob}
+                                                            onChange={handleChange}
+                                                            className="form-control"
+                                                            min="1942-01-01"
+                                                            max={new Date(
+                                                                new Date().setFullYear(new Date().getFullYear() - 18)
+                                                            )
+                                                                .toISOString()
+                                                                .split("T")[0]}
+                                                        />
                                                     </div>
+
 
                                                     <div className="mb-3">
                                                         <label className="form-label">Mother tongue</label>
@@ -683,7 +703,7 @@ const RegistrationForm = () => {
                                                         >
                                                             <option value="">Select</option>
                                                             <option value="Normal">Normal</option>
-                                                            <option value="Physically Challenged">Physically Challenged</option>
+                                                            <option value="Physically challenged">Physically Challenged</option>
                                                         </select>
                                                     </div>
 
