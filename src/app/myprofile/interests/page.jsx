@@ -11,6 +11,24 @@ const API_URL = "http://143.110.244.163:5000/api/interest/request";
 const RequestListItem = ({ profile, type, mainTab, onAction }) => {
     const showActions = mainTab === "received" && type === "new";
 
+    const calculateAge = (dob) => {
+        if (!dob) return "";
+
+        const birthDate = new Date(dob);
+        const today = new Date();
+
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+
+        if (
+            monthDiff < 0 ||
+            (monthDiff === 0 && today.getDate() < birthDate.getDate())
+        ) {
+            age--;
+        }
+
+        return age;
+    };
 
     return (
         <div className="align-items-start py-3 row">
@@ -64,7 +82,9 @@ const RequestListItem = ({ profile, type, mainTab, onAction }) => {
                 <p className="text-muted small mb-1">
                     City: <strong className="text-dark me-3">{profile?.profile?.location}</strong> </p>
                 <p className="text-muted small mb-1">
-                    Age: <strong className="text-dark me-3">{profile?.profile?.age} yrs</strong> </p>
+                    Age:  <strong className="text-dark me-3">
+                        {calculateAge(profile?.profile?.dob)} yrs
+                    </strong> </p>
                 <p className="text-muted small mb-1">
                     Occupation: <strong className="text-dark">{profile?.profile?.occupation}</strong>
                 </p>

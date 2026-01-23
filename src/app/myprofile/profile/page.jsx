@@ -33,8 +33,6 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
 
-
-
     useEffect(() => {
         setForm(data || {});
     }, [data]);
@@ -55,13 +53,15 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
 
     if (!open) return null;
 
-
-
-
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setForm((p) => ({ ...p, [name]: value }));
+
+        setForm((prev) => ({
+            ...prev,
+            [name === "city" ? "location" : name]: value,
+        }));
     };
+
 
     return (
         <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center" style={{ zIndex: 9999 }}>
@@ -76,17 +76,25 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                             {f === "state" ? (
                                 <select name="state" value={form.state || ""} onChange={handleChange} className="form-select">
                                     <option value="">Select State</option>
-                                    {states.map((s) => (
-                                        <option key={s._id} value={s.state}>{s.state}</option>
-                                    ))}
+                                    {states
+                                        .slice()
+                                        .sort((a, b) => a.state.localeCompare(b.state))
+                                        .map((s) => (
+                                            <option key={s._id} value={s.state}>{s.state}</option>
+                                        ))}
+
                                 </select>
 
-                            ) : f === "city" ? (
-                                <select name="city" value={form.city ||""} onChange={handleChange} className="form-select">
+                            ) : f === "city" || f === "location" ? (
+                                <select name="city" value={form.city || form.location || ""} onChange={handleChange} className="form-select">
                                     <option value="">Select City</option>
-                                    {cities.map((c, i) => (
-                                        <option key={i} value={c}>{c}</option>
-                                    ))}
+                                    {cities
+                                        .slice()
+                                        .sort((a, b) => a.localeCompare(b))
+                                        .map((c, i) => (
+                                            <option key={i} value={c}>{c}</option>
+                                        ))}
+
                                 </select>
 
                             ) : f === "gender" ? (
@@ -111,6 +119,22 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                                     <option value="Rich / Affluent (Elite)">Rich / Affluent (Elite)</option>
                                 </select>
 
+                            ) : f === "physicalStatus" ? (
+                                <select name="physicalStatus" value={form.physicalStatus || ""} onChange={handleChange} className="form-select">
+                                    <option value="">Select</option>
+                                    <option value="Normal">Normal</option>
+                                    <option value="Physically Challenged">Physically Challenged</option>
+                                </select>
+
+                            ) : f === "maritalStatus" ? (
+                                <select name="maritalStatus" value={form.maritalStatus || ""} onChange={handleChange} className="form-select">
+                                    <option value="">Select</option>
+                                    <option value="Never married">Never Married</option>
+                                    <option value="Divorced">Previously Married (Divorced)</option>
+                                    <option value="Widower">Previously Married (Widowed)</option>
+                                    <option value="Awaiting divorce">Legally Separated / Awaiting Divorce</option>
+                                </select>
+
                             ) : f === "dob" ? (
                                 <input
                                     type="date"
@@ -130,6 +154,7 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                             )}
                         </div>
                     ))}
+
 
                 </div>
 
@@ -152,6 +177,8 @@ export default function ProfilePage() {
     const [editData, setEditData] = useState({});
     const [uploading, setUploading] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [photoToDelete, setPhotoToDelete] = useState(null);
 
     const handlePhotoUpload = async (e) => {
         const file = e.target.files[0];
@@ -222,6 +249,33 @@ export default function ProfilePage() {
         fetchProfile();
     };
 
+
+    const handleDeletePhoto = async () => {
+        try {
+            const updatedPhotos = profile.photos.filter((p) => p !== photoToDelete);
+
+            await axios.put(
+                "http://143.110.244.163:5000/api/profile/update",
+                { photos: updatedPhotos },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            setProfile((prev) => ({
+                ...prev,
+                photos: updatedPhotos,
+            }));
+
+            setDeleteModalOpen(false);
+            setPhotoToDelete(null);
+
+        } catch (err) {
+            console.error(err);
+            alert("Failed to delete photo");
+        }
+    };
+
+
+
     if (!profile) return <div className="text-center mt-5">Loading...</div>;
 
     return (
@@ -245,68 +299,89 @@ export default function ProfilePage() {
                         </label>
                     </div>
 
-                    {/* <div
-                    //     style={{
-                    //         display: "grid",
-                    //         gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
-                    //         gap: "12px",
-                    //         marginTop: "10px",
-                    //     }}
-                    // > */}
-                        <div className="masonryGallery">
-                            <div className="gallery-1 gap-3">
-                                <div className="row">
-                                    {profile?.photos?.length > 0 ? (
-                                        profile.photos.map((img, i) => (
-                                            <div className="col-lg-3 col-md-3 col-6 mb-lg-3 mb-md-3 mb-2" key={i}>
-                                                <div key={i} className="galleryItem position-relative" onClick={() => setSelectedImage(img)}>
-                                                    <img
-                                                        key={i}
-                                                        src={img}
-                                                        alt="gallery"
-                                                        style={{
-                                                            width: "100%",
-                                                            height: "200px",
-                                                            objectFit: "cover",
-                                                            borderRadius: "10px",
-                                                            border: "1px solid #ddd",
-                                                        }}
-                                                    />
-                                                </div>
+
+                    <div className="masonryGallery">
+                        <div className="gallery-1 gap-3">
+                            <div className="row">
+                                {profile?.photos?.length > 0 ? (
+                                    profile.photos.map((img, i) => (
+                                        <div className="col-lg-3 col-md-3 col-6 mb-lg-3 mb-md-3 mb-2" key={i}>
+                                            <div className="galleryItem position-relative">
+
+                                                <button
+                                                    onClick={() => {
+                                                        setPhotoToDelete(img);
+                                                        setDeleteModalOpen(true);
+                                                    }}
+                                                    style={{
+                                                        position: "absolute",
+                                                        top: "6px",
+                                                        right: "6px",
+                                                        background: "rgba(0,0,0,0.7)",
+                                                        color: "#fff",
+                                                        border: "none",
+                                                        borderRadius: "50%",
+                                                        width: "28px",
+                                                        height: "28px",
+                                                        cursor: "pointer",
+                                                        zIndex: 10
+                                                    }}
+                                                >
+                                                    ×
+                                                </button>
+
+                                                <img
+                                                    src={img}
+                                                    alt="gallery"
+                                                    onClick={() => setSelectedImage(img)}
+                                                    style={{
+                                                        width: "100%",
+                                                        height: "200px",
+                                                        objectFit: "cover",
+                                                        borderRadius: "10px",
+                                                        border: "1px solid #ddd",
+                                                    }}
+                                                />
                                             </div>
-                                        ))
-                                    ) : (
-                                        <p className="text-muted small">No photos uploaded yet</p>
-                                    )}
-                                </div>
+                                        </div>
+
+                                    ))
+                                ) : (
+                                    <p className="text-muted small">No photos uploaded yet</p>
+                                )}
                             </div>
                         </div>
-                        {selectedImage && (
-                            <div className="preview position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-75" onClick={() => setSelectedImage(null)}>
-                                <div className="previewContent p-3 rounded">
-                                    <img
-                                        src={selectedImage}
-                                        alt="Preview"
-                                        width={600}
-                                        style={{ maxHeight: "80vh", objectFit: "contain" }}
-                                        className="img-fluid rounded"
-                                    />
-                                </div>
-                            </div>
-                        )}
                     </div>
+                    {selectedImage && (
+                        <div className="preview position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-75" onClick={() => setSelectedImage(null)}>
+                            <div className="previewContent p-3 rounded">
+                                <img
+                                    src={selectedImage}
+                                    alt="Preview"
+                                    width={600}
+                                    style={{ maxHeight: "80vh", objectFit: "contain" }}
+                                    className="img-fluid rounded"
+                                />
+                            </div>
+                        </div>
+                    )}
+                </div>
 
 
-                <ProfileSection title="Personal Information" onEdit={() => handleEdit(["name", "gender", "dob", "motherTongue"])}>
+                <ProfileSection title="Personal Information" onEdit={() => handleEdit(["name", "gender", "dob", "motherTongue", "height", "physicalStatus", "maritalStatus"])}>
                     <DetailItem label="Name" value={profile.name} />
                     <DetailItem label="Gender" value={profile.gender} />
                     <DetailItem label="DOB" value={profile.dob?.split("T")[0]} />
                     <DetailItem label="Mother Tongue" value={profile.motherTongue} />
+                    <DetailItem label="Height" value={profile.height} />
+                    <DetailItem label="Physical Status" value={profile.physicalStatus} />
+                    <DetailItem label="Marital Status" value={profile.maritalStatus} />
+
                 </ProfileSection>
 
                 <ProfileSection title="Location" onEdit={() => handleEdit(["state", "city"])}>
-                    <DetailItem label="State" value={profile.state} />
-                    <DetailItem label="City" value={profile.city } />
+                    {/* <DetailItem label="State" value={profile.state} /> */}
+                    <DetailItem label="City" value={profile.city || profile.location} />
                 </ProfileSection>
 
                 <ProfileSection title="Religion & Culture" onEdit={() => handleEdit(["religion", "caste", "subCaste", "gotra"])}>
@@ -328,6 +403,8 @@ export default function ProfilePage() {
                     <DetailItem label="Diet" value={profile.diet} />
                     <DetailItem label="About" value={profile.aboutYourself} />
                     <DetailItem label="Hobbies" value={profile.hobbies} />
+
+
                 </ProfileSection>
 
                 <EditModal
@@ -339,6 +416,35 @@ export default function ProfilePage() {
                 />
 
             </div>
+
+            {deleteModalOpen && (
+                <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center" style={{ zIndex: 9999 }}>
+                    <div className="bg-white p-4 rounded-4 shadow" style={{ width: "320px" }}>
+                        <h5 className="mb-3">Delete Photo</h5>
+                        <p className="text-muted">Are you sure you want to delete this photo?</p>
+
+                        <div className="d-flex justify-content-end gap-2 mt-4">
+                            <button
+                                className="btn btn-secondary"
+                                onClick={() => {
+                                    setDeleteModalOpen(false);
+                                    setPhotoToDelete(null);
+                                }}
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                className="btn btn-danger"
+                                onClick={handleDeletePhoto}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </DashboardLayout >
     );
 }
