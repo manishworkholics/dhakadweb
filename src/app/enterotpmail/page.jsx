@@ -206,7 +206,7 @@ const EnterOtpMail = () => {
                     <div className="text-center">
                         <img src="/dhakadweb/assets/images/otp-icon.png" className="mb-3" />
                         <h6>
-                            Enter the 4-digit OTP
+                            Enter the 4-digit OTP 
                             {/* <span className="text-danger">{saveotp}</span> */}
                         </h6>
                         <p className="fw-bold text-primary">⏳ {formatTime()}</p>

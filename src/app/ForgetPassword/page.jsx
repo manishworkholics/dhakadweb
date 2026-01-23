@@ -34,14 +34,22 @@ export default function ForgetPassword() {
       setLoading(false);
     }
   };
-
+  const handleBack = () => {
+    localStorage.removeItem("phone");
+    router.push("/login");
+  };
   return (
-    <div className="login-page bg-FDFBF7">
+    <div className="login-page bg-FDFBF7 vh-100">
       <ToastContainer />
       <Header />
       <div className="container py-5">
         <div className="row">
           <div className="col-12 col-md-6 col-lg-5 mx-auto">
+            {/* 🔙 Back */}
+            <div className="mb-3 d-flex align-items-center" style={{ cursor: "pointer" }} onClick={handleBack}>
+              ⬅
+              <span className="fw-medium">Back</span>
+            </div>
             <div className="card shadow border-0 rounded-4">
               <div className="card-body p-4">
                 <h5 className="text-center mb-4 fw-medium">

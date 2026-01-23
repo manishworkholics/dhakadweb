@@ -185,14 +185,14 @@ const EnterOtp = () => {
             {/* 🔙 Back */}
             <div className="mb-3 d-flex align-items-center" style={{ cursor: "pointer" }} onClick={handleBack}>
               ⬅
-              <span className="fw-medium text-primary">Edit Number</span>
+              <span className="fw-medium">Back</span>
             </div>
 
             <div className="card shadow border-0 rounded-4">
               <div className="card-body p-4 text-center">
                 <img src="/dhakadweb/assets/images/otp-icon.png" className="mb-3" />
 
-                <h6>Please enter the 4-digit OTP</h6>
+                <h6>Please enter the 4-digit OTP </h6>
 
                 {/* OTP Inputs */}
                 <div className="d-flex justify-content-center gap-3 my-4"
