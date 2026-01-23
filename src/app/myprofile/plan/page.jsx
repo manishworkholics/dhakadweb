@@ -11,6 +11,8 @@ export default function Plan() {
     const [allPlans, setAllPlans] = useState([]);
     const [paymentHistory, setPaymentHistory] = useState([]);
     const [paying, setPaying] = useState(false);
+    const [upgradeOpen, setUpgradeOpen] = useState(false);
+
 
     const token =
         typeof window !== "undefined" ? localStorage.getItem("token") : null;
@@ -183,9 +185,13 @@ export default function Plan() {
                                 </>
                             )}
 
-                            <button className="btn gold-btn px-4 fw-semibold">
+                            <button
+                                className="btn gold-btn px-4 fw-semibold"
+                                onClick={() => setUpgradeOpen(true)}
+                            >
                                 Upgrade Plan
                             </button>
+
                         </div>
                     </div>
 
@@ -305,6 +311,58 @@ export default function Plan() {
                     </div>
                 </div>
             </div>
+
+
+            {upgradeOpen && (
+                <div
+                    className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center"
+                    style={{ zIndex: 9999 }}
+                >
+                    <div className="bg-white rounded-4 p-4 shadow" style={{ width: "90%", maxWidth: "800px" }}>
+                        <div className="d-flex justify-content-between align-items-center mb-3">
+                            <h5 className="mb-0">Upgrade Your Plan</h5>
+                            <button
+                                className="btn-close"
+                                onClick={() => setUpgradeOpen(false)}
+                            ></button>
+                        </div>
+
+                        <div className="row g-3">
+                            {allPlans.map((plan) => {
+                                const gstAmount = Math.round((plan.price * plan.gstPercent) / 100);
+                                const finalPrice = plan.price + gstAmount;
+
+                                return (
+                                    <div className="col-md-4" key={plan._id}>
+                                        <div className="border rounded-3 p-3 text-center h-100">
+                                            <h6>{plan.name}</h6>
+                                            <p className="mb-1">{plan.durationMonths} Months</p>
+                                            <h5>₹{finalPrice}</h5>
+                                            <small className="text-muted">incl. GST</small>
+
+                                            <ul className="list-unstyled mt-2 small">
+                                                {plan.features.map((f, i) => (
+                                                    <li key={i}>✔ {f}</li>
+                                                ))}
+                                            </ul>
+
+                                            <button
+                                                className="btn btn-warning w-100 mt-2"
+                                                onClick={() => {
+                                                    setUpgradeOpen(false);
+                                                    handleBuy(plan._id);
+                                                }}
+                                            >
+                                                Upgrade
+                                            </button>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
+            )}
 
         </DashboardLayout>
     );

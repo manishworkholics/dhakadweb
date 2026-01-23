@@ -3,10 +3,14 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import DashboardLayout from "../components/Layout/DashboardLayout";
 import axios from "axios";
+import { io } from "socket.io-client";
 
 const API_URL = "http://143.110.244.163:5000/api";
+const SOCKET_URL = "http://143.110.244.163:5000";
 
 export default function ChatListPage() {
+  const socketRef = useRef(null);
+
   const [chatList, setChatList] = useState([]);
   const [chatRequests, setChatRequests] = useState([]);
   const [activeChat, setActiveChat] = useState(null);
@@ -38,15 +42,12 @@ export default function ChatListPage() {
       minute: "2-digit",
     });
 
-  const formatDateLabel = (date) =>
-    new Date(date).toLocaleDateString([], {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-
   const scrollToBottom = () => {
     // messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+
+     setTimeout(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, 50);
   };
 
   /* ---------------- CHAT LIST ---------------- */
@@ -83,7 +84,7 @@ export default function ChatListPage() {
     try {
       await axios.put(
         `${API_URL}/chat/respond`,
-        { chatRoomId, action }, // accept | reject
+        { chatRoomId, action },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -104,6 +105,8 @@ export default function ChatListPage() {
 
       setMessages(res.data.messages || []);
 
+      socketRef.current?.emit("joinRoom", chatId);
+
       await axios.put(
         `${API_URL}/chat/seen/${chatId}`,
         {},
@@ -122,8 +125,15 @@ export default function ChatListPage() {
   const sendMessage = async () => {
     if (!text.trim() || !activeChat || activeChat.status !== "active") return;
 
+    const receiver = activeChat.participants.find(
+      (p) => p._id !== userId
+    );
+
     const tempMessage = {
       _id: `temp-${Date.now()}`,
+      chatRoomId: activeChat._id,
+      senderId: userId,
+      receiverId: receiver._id,
       sender: { _id: userId },
       message: text,
       createdAt: new Date(),
@@ -133,18 +143,56 @@ export default function ChatListPage() {
     setText("");
     scrollToBottom();
 
+    socketRef.current?.emit("sendMessage", tempMessage);
+
     try {
       await axios.post(
         `${API_URL}/chat/messages/send`,
         { chatRoomId: activeChat._id, message: tempMessage.message },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-
-      fetchMessages(activeChat._id);
     } catch (err) {
       console.error("Send message error", err);
     }
   };
+
+  /* ---------------- SOCKET INIT ---------------- */
+  useEffect(() => {
+    if (!userId) return;
+
+    socketRef.current = io(SOCKET_URL, {
+      transports: ["websocket"],
+    });
+
+    socketRef.current.emit("join", userId);
+
+    return () => {
+      socketRef.current.disconnect();
+    };
+  }, [userId]);
+
+  /* ---------------- SOCKET LISTENER ---------------- */
+  useEffect(() => {
+    if (!socketRef.current) return;
+
+    const handler = (data) => {
+      if (data.chatRoomId === activeChat?._id) {
+        setMessages((prev) => {
+          if (prev.some((m) => m._id === data._id)) return prev;
+          return [...prev, data];
+        });
+        scrollToBottom();
+      }
+
+      fetchChatList();
+    };
+
+    socketRef.current.on("receiveMessage", handler);
+
+    return () => {
+      socketRef.current.off("receiveMessage", handler);
+    };
+  }, [activeChat]);
 
   /* ---------------- EFFECTS ---------------- */
   useEffect(() => {
@@ -153,18 +201,16 @@ export default function ChatListPage() {
   }, []);
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-  useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
 
-    handleResize(); // initial check
+    handleResize();
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
   /* ---------------- ACTIVE USER ---------------- */
   const activeUser = useMemo(() => {
     if (!activeChat) return null;
@@ -172,6 +218,13 @@ export default function ChatListPage() {
       (p) => p._id.toString() !== userId
     );
   }, [activeChat, userId]);
+
+  /* ================== UI (UNCHANGED) ================== */
+
+  useEffect(() => {
+  scrollToBottom();
+}, [messages]);
+
 
   return (
     <DashboardLayout>
@@ -199,10 +252,7 @@ export default function ChatListPage() {
                     <div key={req._id} className="p-3 border-bottom">
                       <div className="d-flex align-items-center gap-3">
                         <img
-                          src={
-                            sender?.photo ||
-                            "/dhakadweb/assets/images/dummy.png"
-                          }
+                          src={sender?.photo || "/dhakadweb/assets/images/dummy.png"}
                           className="rounded-circle"
                           width="40"
                           height="40"
@@ -245,20 +295,12 @@ export default function ChatListPage() {
                   className={`d-flex align-items-center p-3 cursor-pointer border rounded-3 my-3 mx-2 ${activeChat?._id === chat._id ? "bg-light" : ""
                     }`}
                   onClick={() => {
-                    const otherUser = chat.participants.find(
-                      (p) => p._id.toString() !== userId
-                    );
-
                     setActiveChat(chat);
-                    setActiveUser(otherUser);   // ✅ THIS WAS MISSING
                     fetchMessages(chat._id);
                   }}
                 >
                   <img
-                    src={
-                      otherUser?.photo ||
-                      "/dhakadweb/assets/images/dummy.png"
-                    }
+                    src={otherUser?.photo || "/dhakadweb/assets/images/dummy.png"}
                     className="rounded-circle me-3"
                     width="45"
                     height="45"
@@ -272,14 +314,6 @@ export default function ChatListPage() {
                 </div>
               );
             })}
-
-            {!loadingChats &&
-              chatList.length === 0 &&
-              chatRequests.length === 0 && (
-                <p className="text-center mt-5 text-muted">
-                  No conversations yet
-                </p>
-              )}
           </div>
         )}
 
@@ -303,10 +337,7 @@ export default function ChatListPage() {
                   )}
 
                   <img
-                    src={
-                      activeUser?.photo ||
-                      "/dhakadweb/assets/images/dummy.png"
-                    }
+                    src={activeUser?.photo || "/dhakadweb/assets/images/dummy.png"}
                     className="rounded-circle"
                     width="40"
                     height="40"
@@ -329,15 +360,11 @@ export default function ChatListPage() {
                     return (
                       <div
                         key={msg._id}
-                        className={`mb-2 d-flex ${isMe
-                          ? "justify-content-end"
-                          : "justify-content-start"
+                        className={`mb-2 d-flex ${isMe ? "justify-content-end" : "justify-content-start"
                           }`}
                       >
                         <div
-                          className={`px-3 py-2 rounded ${isMe
-                            ? "bg-primary text-white"
-                            : "bg-white"
+                          className={`px-3 py-2 rounded ${isMe ? "bg-primary text-white" : "bg-white"
                             }`}
                         >
                           {msg.message}
@@ -363,9 +390,7 @@ export default function ChatListPage() {
                       placeholder="Type a message..."
                       value={text}
                       onChange={(e) => setText(e.target.value)}
-                      onKeyDown={(e) =>
-                        e.key === "Enter" && sendMessage()
-                      }
+                      onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                     />
                     <button
                       className="btn btn-primary px-4"
@@ -380,7 +405,6 @@ export default function ChatListPage() {
           </div>
         )}
       </div>
-
     </DashboardLayout>
   );
 }

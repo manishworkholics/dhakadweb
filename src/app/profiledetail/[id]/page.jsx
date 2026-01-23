@@ -132,7 +132,7 @@ export default function ProfileDetail() {
   const image = profile.photos?.length ? profile.photos[0] : "/dhakadweb/assets/images/dummy.png";
   const gallery = profile.photos?.length ? profile.photos : [];
   const age = profile.dob ? new Date().getFullYear() - new Date(profile.dob).getFullYear() : "N/A";
-
+  const phone = JSON.parse(localStorage.getItem("user") || "{}").phone;
 
   // 🚀 SEND INTEREST
   const sendInterestRequest = async () => {
@@ -245,6 +245,9 @@ export default function ProfileDetail() {
   };
 
 
+  const handleSendInterestAgain = () => {
+    sendInterestAPI(); // your existing function
+  };
 
 
   return (
@@ -283,6 +286,7 @@ export default function ProfileDetail() {
 
                           {chatinterestSent ? "Chat Now" : "Chat Now"}
                         </button>
+
                         <button
                           className="col-4 btn text-white fw-medium rounded-0 bg-D4AF37 py-3"
                           disabled={interestSent}
@@ -296,6 +300,37 @@ export default function ProfileDetail() {
                                 ? "Interest Accepted ✅"
                                 : "Interest Sent ✓"
                             : "Send Interest"}
+
+
+                          {/* {interestSent ? (
+                            interestStatus === "pending" ? (
+                              <span className="text-warning">Interest Pending</span>
+                            ) : interestStatus === "accepted" ? (
+                              <span className="text-success">Interest Accepted ✅</span>
+                            ) : interestStatus === "rejected" ? (
+                              <div className="d-flex flex-column gap-1">
+                                <span className="text-danger">Interest Rejected ❌</span>
+                                <button
+                                  type="button"
+                                  className="btn btn-sm btn-outline-primary"
+                                  onClick={handleSendInterestAgain}
+                                >
+                                  Send Again
+                                </button>
+                              </div>
+                            ) : (
+                              <span>Interest Sent ✓</span>
+                            )
+                          ) : (
+                            <button
+                              type="button"
+                              className="btn btn-primary"
+                              onClick={sendInterestRequest}
+                            >
+                              Send Interest
+                            </button>
+                          )} */}
+
                         </button>
 
 
@@ -429,7 +464,7 @@ export default function ProfileDetail() {
                   </div>
                   <div className="text d-flex align-items-center">
                     <p className="mb-0 fw-medium" style={{ width: "65px" }}>Phone:</p>
-                    <span>{profile.phone || "Not Available"}</span>
+                    <span>{phone || "Not Available"}</span>
                   </div>
                 </div>
 
@@ -504,7 +539,7 @@ export default function ProfileDetail() {
                         <tbody>
                           <tr>
                             <td className="bg-transparent border-0 details">Education:</td>
-                            <td className="bg-transparent border-0 details">{profile.education || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">{profile.educationDetails || "N/A"}</td>
                           </tr>
                           <tr>
                             <td className="bg-transparent border-0 details">Occupation:</td>
@@ -538,7 +573,14 @@ export default function ProfileDetail() {
                   <div className="d-flex flex-wrap">
 
                     <span className="px-3 py-1 bg-E9E9E9 text-dark fw-medium rounded-4 me-2 mb-2" style={{ fontSize: "15px" }}>
-                      {profile?.hobbies}
+                      {/* {profile?.hobbies} */}
+                      {profile?.hobbies
+                        ?.split("\n")
+                        .map((hobby, idx) => (
+                          <div key={idx}>{hobby.trim()}</div>
+                        ))}
+
+
                     </span>
 
                   </div>
