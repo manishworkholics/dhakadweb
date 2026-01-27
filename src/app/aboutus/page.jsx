@@ -36,27 +36,25 @@ const Aboutus = () => {
                     </div>
                     <div className="col-lg-6">
                         <h1 className='fw-semibold'>Welcome To <br /><span className='text-D4AF37'>Dhakad Metrimony</span></h1>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste officia vel error ut est quas mollitia explicabo? Quisquam asperiores nisi perspiciatis! Ex odio consectetur earum debitis consequatur unde velit error!
-                            Repudiandae minus maxime sed neque distinctio, atque consectetur dolores a ducimus commodi molestias incidunt. Assumenda vitae dolores debitis a quas quae praesentium dicta ipsa earum, animi eligendi, nisi excepturi veniam!
-                            Porro eligendi perferendis eum nesciunt amet ea, tempora voluptas deserunt. Repellat facere eum est eius, architecto officia repudiandae quam sit illum sapiente hic, iste id accusantium temporibus, ab consequatur enim.</p>
+                        <p>a trusted platform dedicated to bringing together individuals and families from the Dhakad community. Our mission is to help you find a life partner who shares your values, traditions, and vision for the future.
+                            We understand that marriage is not just a bond between two individuals, but a union of families. That’s why Dhakad Matrimony focuses on authenticity, compatibility, and cultural harmony. Our platform offers a safe, reliable, and easy-to-use experience, ensuring genuine profiles and meaningful connections.
+                            With a deep respect for Dhakad traditions and modern lifestyle needs, we aim to bridge the gap between tradition and technology. Whether you are looking for a partner for yourself or for a loved one, Dhakad Matrimony is here to support you at every step of your journey.</p>
                     </div>
                 </div>
                 <div className="row pt-5">
                     <div className="vision col-lg-6 col-md-6 col-12 mb-lg-0 mb-md-0 mb-3">
-                        <div className="card rounded-4 p-4 bg-fdf7ee">
+                        <div className="card rounded-4 p-4 bg-fdf7ee" style={{ height: "280px" }}>
                             <h2 className='fw-bold mb-2'>Our <span className='text-D4AF37'>Vision </span></h2>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste officia vel error ut est quas mollitia explicabo? Quisquam asperiores nisi perspiciatis! Ex odio consectetur earum debitis consequatur unde velit error!
-                                Repudiandae minus maxime sed neque distinctio, atque consectetur dolores a ducimus commodi molestias incidunt. Assumenda vitae dolores debitis a quas quae praesentium dicta ipsa earum, animi eligendi, nisi excepturi veniam!
-                                Porro eligendi perferendis eum nesciunt amet ea, tempora voluptas deserunt. Repellat facere eum est eius, architecto officia repudiandae quam sit illum sapiente hic, iste id accusantium temporibus, ab consequatur enim.</p>
+                            <p>Our vision is to become the most trusted and respected matrimony platform for the Dhakad community. We aim to create meaningful, lifelong relationships by preserving cultural values while embracing modern technology.
+                                Dhakad Matrimony envisions a future where every individual finds a compatible life partner with dignity, transparency, and trust. We strive to strengthen family bonds, promote genuine connections, and make the journey of marriage simple, safe, and joyful for everyone.</p>
                         </div>
 
                     </div>
                     <div className="mission col-lg-6 col-md-6 col-12">
-                        <div className="card rounded-4 p-4 bg-fdf7ee">
+                        <div className="card rounded-4 p-4 bg-fdf7ee" style={{ height: "280px" }}>
                             <h2 className='fw-bold mb-2'>Our <span className='text-D4AF37'>Mission</span> </h2>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste officia vel error ut est quas mollitia explicabo? Quisquam asperiores nisi perspiciatis! Ex odio consectetur earum debitis consequatur unde velit error!
-                                Repudiandae minus maxime sed neque distinctio, atque consectetur dolores a ducimus commodi molestias incidunt. Assumenda vitae dolores debitis a quas quae praesentium dicta ipsa earum, animi eligendi, nisi excepturi veniam!
-                                Porro eligendi perferendis eum nesciunt amet ea, tempora voluptas deserunt. Repellat facere eum est eius, architecto officia repudiandae quam sit illum sapiente hic, iste id accusantium temporibus, ab consequatur enim.</p>
+                            <p>Our mission is to provide a safe, reliable, and community-focused matrimony platform for the Dhakad community. We are committed to helping individuals and families find suitable life partners through genuine profiles, transparent processes, and respectful matchmaking.
+                                Dhakad Matrimony strives to blend traditional values with modern technology, making the search for a life partner easy, trustworthy, and meaningful. We aim to support our members at every step, ensuring a positive and fulfilling matchmaking experience.</p>
                         </div>
                     </div>
                 </div>

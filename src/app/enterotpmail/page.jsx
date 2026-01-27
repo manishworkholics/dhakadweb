@@ -214,7 +214,7 @@ const EnterOtpMail = () => {
                     <div className="text-center">
                         <img src="/dhakadweb/assets/images/otp-icon.png" className="mb-3" />
                         <h6>
-                            Enter the 4-digit OTP
+                            Enter the 4-digit OTP 
                             {/* <span className="text-danger">{saveotp}</span> */}
                             <p className="mt-3 text-center text-6B6B6B">
                                 sent to <b>{email}</b>

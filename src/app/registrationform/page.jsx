@@ -493,7 +493,7 @@ const RegistrationForm = () => {
 
 
                                     {/* SHOW FORM only when profile does NOT exist */}
-                                    {!profileExists && (
+                                    {!profileExists && !submitted && (
                                         <>
                                             {/* STEP 1 */}
                                             {step === 1 && (
@@ -532,9 +532,6 @@ const RegistrationForm = () => {
                                                         {/* State Dropdown */}
 
                                                         {/* DEBUG: Selected State & City */}
-
-
-
                                                         <div className="mb-3">
                                                             <label className="form-label">State</label>
                                                             <select
@@ -1107,18 +1104,16 @@ const RegistrationForm = () => {
                                             )}
                                         </>
                                     )}
-
-                                    {/* After submit message */}
-                                    {submitted && (
-                                        <div className="text-center mt-3">
+                                </div>
+                                {/* After submit message */}
+                                {submitted && (
+                                        <div className="text-center my-3">
                                             <img src="/dhakadweb/assets/images/checkmark.png" alt="ok" width={100} />
                                             <h5 className="text-success">Congratulations</h5>
                                             <p>Your profile has been created!</p>
                                         </div>
-                                    )}
-                                </div>
+                                )}
                             </div>
-
                         </div>
                     </div>
                 </div>

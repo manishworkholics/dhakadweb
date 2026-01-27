@@ -264,7 +264,7 @@ const HomePage = () => {
 
                                         {/* Button */}
                                         <button
-                                            className="btn btn-warning w-100 py-2 fw-semibold d-flex justify-content-center align-items-center"
+                                            className="btn btn-danger w-100 py-2 fw-medium d-flex justify-content-center align-items-center"
                                             onClick={handleSubmit}
                                             disabled={registerLoading}
                                         >

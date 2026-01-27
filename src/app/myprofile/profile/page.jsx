@@ -7,8 +7,8 @@ import axios from "axios";
 // ---------------- Detail Item ----------------
 const DetailItem = ({ label, value }) => (
     <div className="profile-detail-item">
-        <div className="detail-label">{label}</div>
-        <div className="detail-value">{value || "Not Available"}</div>
+        <div className="fw-medium fs-6 text-secondary">{label}</div>
+        <div className="fw-medium fs-6 text-dark">{value || "Not Available"}</div>
     </div>
 );
 
@@ -311,7 +311,7 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
 
                 <div className="text-end mt-4">
                     <button className="btn btn-secondary me-2" onClick={onClose}>Cancel</button>
-                    <button className="btn btn-warning text-white" onClick={() => onSubmit(form)}>Save</button>
+                    <button className="btn btn-danger text-white" onClick={() => onSubmit(form)}>Save</button>
                 </div>
             </div>
         </div>

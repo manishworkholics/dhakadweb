@@ -78,7 +78,7 @@ const ViewedCard = ({ item }) => {
 
         <Link
           href={`/profiledetail/${item?._id}`}
-          className="btn short-btn rounded-3 fw-medium py-2 px-3 text-decoration-none"
+          className="btn short-btn rounded-3 fw-medium py-2 px-3 px-lg-2 text-decoration-none"
           style={{ border: "1px solid #BABABA" }}
         >
           View full profile
@@ -128,7 +128,7 @@ export default function RecentlyViewed() {
             </div>
           ) : profiles.length > 0 ? (
             profiles.map((item) => (
-              <div key={item._id} className="col-lg-6 col-md-6 col-12">
+              <div key={item._id} className="col-lg-6 col-md-12 col-sm-6 col-12">
                 {/* Add margin-bottom to each card */}
                 <div className="card p-3 h-100 rounded-3 short-card">
                   <ViewedCard key={item._id} item={item} />

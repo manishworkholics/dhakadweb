@@ -93,7 +93,7 @@ export default function SuccessStories() {
                     {hasMoreStories && (
                         <Link
                             href="/components/dhakad_forever_matches"
-                            className="btn px-4 py-2 fw-medium short-btn"
+                            className="btn px-4 py-2 fw-medium btn-outline-danger"
                         >
                             View All Profile
                         </Link>

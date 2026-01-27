@@ -232,10 +232,14 @@ export default function VerifyForgotOtp() {
     }
   };
 
+  const handleBack = () => {
+    localStorage.removeItem("phone");
+    router.push("/login");
+  };
   /* ---------------- UI ---------------- */
 
   return (
-    <div className="login-page bg-FDFBF7">
+    <div className="login-page bg-FDFBF7 vh-100">
       <ToastContainer />
       <Header />
 
@@ -253,16 +257,25 @@ export default function VerifyForgotOtp() {
         }
       `}</style>
 
-      <div className="container py-5">
-        <div className="row">
-          <div className="col-12 col-md-6 col-lg-5 mx-auto">
+      <div className="otp-content py-5">
+        <div className="container">
+          <div className="col-md-6 mx-auto">
+
+            {/* 🔙 Back */}
+            <div className="mb-3 d-flex align-items-center" style={{ cursor: "pointer" }} onClick={handleBack}>
+              ⬅
+              <span className="fw-medium">Back</span>
+            </div>
+
             <div className="card shadow border-0 rounded-4">
-              <div className={`card-body p-4 ${shake ? "shake" : ""}`}>
-                <h5 className="text-center mb-4 fw-medium">Enter OTP</h5>
+              <div className="card-body p-4 text-center">
+                <img src="/dhakadweb/assets/images/otp-icon.png" className="mb-3" />
+
+                <h6>Please enter the 4-digit OTP</h6>
 
                 <form onSubmit={handleSubmit}>
                   <div
-                    className="d-flex justify-content-between mb-3"
+                    className="d-flex justify-content-center gap-3 my-4"
                     onPaste={handlePaste}
                   >
                     {otp.map((digit, index) => (
@@ -274,15 +287,9 @@ export default function VerifyForgotOtp() {
                         value={digit}
                         onChange={(e) => handleChange(e.target.value, index)}
                         onKeyDown={(e) => handleKeyDown(e, index)}
-                        className="form-control text-center fw-bold"
+                        className="form-control text-center fs-4 fw-bold border-bottom border-danger rounded-0"
                         style={{
                           width: "55px",
-                          height: "55px",
-                          fontSize: "22px",
-                          borderRadius: "10px",
-                          border: digit ? "2px solid #D4AF37" : "1px solid #ccc",
-                          backgroundColor: digit ? "#FFF7E6" : "#fff",
-                          transition: "0.2s",
                         }}
                       />
                     ))}
@@ -290,7 +297,7 @@ export default function VerifyForgotOtp() {
 
                   <button
                     disabled={loading}
-                    className="btn bg-D4AF37 w-100 text-white"
+                    className="btn bg-D4AF37 w-75 text-white"
                   >
                     {loading ? "Verifying..." : "Verify OTP"}
                   </button>
@@ -304,7 +311,7 @@ export default function VerifyForgotOtp() {
                   {canResend ? (
                     <button
                       onClick={resendOtp}
-                      className="btn btn-link text-D4AF37 p-0"
+                      className="btn btn-link text-danger p-0 text-decoration-none fw-semibold"
                     >
                       Resend OTP
                     </button>
