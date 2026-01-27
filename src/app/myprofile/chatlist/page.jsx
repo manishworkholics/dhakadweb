@@ -5,6 +5,10 @@ import DashboardLayout from "../components/Layout/DashboardLayout";
 import axios from "axios";
 import { io } from "socket.io-client";
 
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
 const API_URL = "http://143.110.244.163:5000/api";
 const SOCKET_URL = "http://143.110.244.163:5000";
 
@@ -45,9 +49,9 @@ export default function ChatListPage() {
   const scrollToBottom = () => {
     // messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
 
-     setTimeout(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, 50);
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 50);
   };
 
   /* ---------------- CHAT LIST ---------------- */
@@ -122,6 +126,42 @@ export default function ChatListPage() {
   };
 
   /* ---------------- SEND MESSAGE ---------------- */
+  // const sendMessage = async () => {
+  //   if (!text.trim() || !activeChat || activeChat.status !== "active") return;
+
+  //   const receiver = activeChat.participants.find(
+  //     (p) => p._id !== userId
+  //   );
+
+  //   const tempMessage = {
+  //     _id: `temp-${Date.now()}`,
+  //     chatRoomId: activeChat._id,
+  //     senderId: userId,
+  //     receiverId: receiver._id,
+  //     sender: { _id: userId },
+  //     message: text,
+  //     createdAt: new Date(),
+  //   };
+
+  //   setMessages((prev) => [...prev, tempMessage]);
+  //   setText("");
+  //   scrollToBottom();
+
+  //   socketRef.current?.emit("sendMessage", tempMessage);
+
+  //   try {
+  //     await axios.post(
+  //       `${API_URL}/chat/messages/send`,
+  //       { chatRoomId: activeChat._id, message: tempMessage.message },
+  //       { headers: { Authorization: `Bearer ${token}` } }
+  //     );
+  //   } catch (err) {
+  //     toast.error(err?.message)
+  //     console.error("Send message error", err);
+  //   }
+  // };
+
+
   const sendMessage = async () => {
     if (!text.trim() || !activeChat || activeChat.status !== "active") return;
 
@@ -139,6 +179,7 @@ export default function ChatListPage() {
       createdAt: new Date(),
     };
 
+    // Optimistic UI
     setMessages((prev) => [...prev, tempMessage]);
     setText("");
     scrollToBottom();
@@ -153,6 +194,28 @@ export default function ChatListPage() {
       );
     } catch (err) {
       console.error("Send message error", err);
+
+      // Remove optimistic message
+      setMessages((prev) =>
+        prev.filter((m) => m._id !== tempMessage._id)
+      );
+
+      const apiError = err?.response?.data || {};
+
+      console.log("API ERROR DATA:", apiError);
+
+      if (apiError.code === "PREMIUM_REQUIRED") {
+        toast.error("🔒 Upgrade to premium to send messages");
+
+      } else if (apiError.code === "PLAN_EXPIRED") {
+        toast.error("⏳ Your premium plan has expired");
+
+      } else if (err.response?.status === 403) {
+        toast.error("🚫 Access denied. Premium required.");
+
+      } else {
+        toast.error(apiError.message || "Failed to send message");
+      }
     }
   };
 
@@ -222,12 +285,13 @@ export default function ChatListPage() {
   /* ================== UI (UNCHANGED) ================== */
 
   useEffect(() => {
-  scrollToBottom();
-}, [messages]);
+    scrollToBottom();
+  }, [messages]);
 
 
   return (
     <DashboardLayout>
+      <ToastContainer position="top-right" autoClose={3000} />
       <div
         className="d-flex border rounded overflow-hidden bg-white"
         style={{ height: "75vh" }}

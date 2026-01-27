@@ -8,9 +8,13 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { loadOwnProfile } from "@/redux/slices/profileSlice";
+
 
 const Login = () => {
     const router = useRouter();
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -80,6 +84,9 @@ const Login = () => {
                 localStorage.setItem("token", data?.token);
                 localStorage.setItem("user", JSON.stringify(data?.user));
                 localStorage.removeItem("tempToken");
+
+                // 🔥 Load own profile into Redux
+                dispatch(loadOwnProfile());
 
                 setTimeout(() => router.push("/registrationform"), 1000);
             } else {

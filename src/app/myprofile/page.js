@@ -218,6 +218,7 @@ export default function MyProfileDashboard() {
     const router = useRouter();
 
     const [profile, setProfile] = useState(null);
+    const [primium, setPrimium] = useState(null);
     const [viewedprofile, setViewedProfile] = useState(null);
     const [matchprofile, setMatchProfile] = useState(null);
     const [userId, setUserId] = useState(null);
@@ -262,6 +263,7 @@ export default function MyProfileDashboard() {
             );
             const data = await res.json();
             setProfile(data.profile);
+            setPrimium(data.hasPremiumAccess)
         } catch (error) {
             console.log("Profile fetch error:", error);
         }
@@ -388,14 +390,31 @@ export default function MyProfileDashboard() {
                                         ))}
                             </div>
 
-                            {showViewAllMatches && (
+                            {/* {showViewAllMatches && (
                                 <div className="view-all-wrapper py-3">
                                     <ViewAllButton
                                         label="View All"
                                         href="/myprofile/newmatches"
                                     />
                                 </div>
+                            )} */}
+
+
+                            {showViewAllMatches && (
+                                primium ? (
+                                    <div className="view-all-wrapper py-3">
+                                        <ViewAllButton
+                                            label="View All"
+                                            href="/myprofile/newmatches"
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className="alert alert-warning py-2 text-center">
+                                        🔒 Upgrade to premium to view all matches
+                                    </div>
+                                )
                             )}
+
                         </div>
 
                         {/* ---------- PROFILE STATUS ---------- */}
@@ -442,10 +461,21 @@ export default function MyProfileDashboard() {
                     </div>
 
                     <div className="view-all-wrapper pt-2">
-                        <ViewAllButton
-                            label="View All"
-                            href="/myprofile/recentlyviewed"
-                        />
+                        {viewedprofile && (
+                            primium ? (
+                                <div className="view-all-wrapper py-3">
+                                    <ViewAllButton
+                                        label="View All"
+                                        href="/myprofile/recentlyviewed"
+                                    />
+                                </div>
+                            ) : (
+                                <div className="alert alert-warning py-2 text-center">
+                                    🔒 Upgrade to premium to see all recently viewed profiles
+                                </div>
+                            )
+                        )}
+
                     </div>
                 </div>
             </div>

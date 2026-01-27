@@ -784,7 +784,7 @@ const RegistrationForm = () => {
                                             {/* STEP 3 */}
                                             {step === 3 && (
                                                 <>
-                                                    <div className="mb-3">
+                                                    {/* <div className="mb-3">
                                                         <label className="form-label">Professional Details (Education)</label>
                                                         <input
                                                             name="education"
@@ -793,9 +793,50 @@ const RegistrationForm = () => {
                                                             value={formData.education}
                                                             onChange={handleChange}
                                                         />
-                                                    </div>
+                                                    </div> */}
 
                                                     <div className="mb-3">
+                                                        <label className="form-label">Professional Details (Education)</label>
+
+                                                        <select
+                                                            name="education"
+                                                            className="form-control mb-3"
+                                                            value={formData.education}
+                                                            onChange={handleChange}
+                                                        >
+                                                            <option value="">Select education</option>
+
+                                                            {/* School */}
+                                                            <option value="10th">10th / Secondary School</option>
+                                                            <option value="12th">12th / Higher Secondary</option>
+
+                                                            {/* Diploma */}
+                                                            <option value="diploma">Diploma</option>
+
+                                                            {/* Graduation */}
+                                                            <option value="bachelors">Bachelor's Degree (BA, BSc, BCom, BTech, etc.)</option>
+
+                                                            {/* Post Graduation */}
+                                                            <option value="masters">Master's Degree (MA, MSc, MCom, MTech, MBA, etc.)</option>
+
+                                                            {/* Doctorate */}
+                                                            <option value="phd">PhD / Doctorate</option>
+
+                                                            {/* Professional */}
+                                                            <option value="ca">CA (Chartered Accountant)</option>
+                                                            <option value="cs">CS (Company Secretary)</option>
+                                                            <option value="icwa">ICWA / CMA</option>
+                                                            <option value="mbbs">MBBS</option>
+                                                            <option value="md">MD / MS</option>
+                                                            <option value="law">LLB / LLM</option>
+
+                                                            {/* Other */}
+                                                            <option value="others">Others</option>
+                                                        </select>
+                                                    </div>
+
+
+                                                    {/* <div className="mb-3">
                                                         <label className="form-label">Employment Type</label>
                                                         <input
                                                             name="employmentType"
@@ -804,9 +845,40 @@ const RegistrationForm = () => {
                                                             value={formData.employmentType}
                                                             onChange={handleChange}
                                                         />
-                                                    </div>
+                                                    </div> */}
 
                                                     <div className="mb-3">
+                                                        <label className="form-label">Employment Type</label>
+
+                                                        <select
+                                                            name="employmentType"
+                                                            className="form-control mb-3"
+                                                            value={formData.employmentType}
+                                                            onChange={handleChange}
+                                                        >
+                                                            <option value="">Select employment type</option>
+
+                                                            <option value="government">Government Job</option>
+                                                            <option value="private">Private Job</option>
+                                                            <option value="business">Business / Entrepreneur</option>
+                                                            <option value="self_employed">Self Employed</option>
+                                                            <option value="freelancer">Freelancer / Consultant</option>
+
+                                                            <option value="defense">Defence / Armed Forces</option>
+                                                            <option value="psu">PSU / Public Sector</option>
+                                                            <option value="startup">Startup</option>
+                                                            <option value="ngo">NGO / Social Work</option>
+
+                                                            <option value="student">Student</option>
+                                                            <option value="not_working">Not Working</option>
+                                                            <option value="homemaker">Homemaker</option>
+                                                            <option value="retired">Retired</option>
+                                                        </select>
+                                                    </div>
+
+
+
+                                                    {/* <div className="mb-3">
                                                         <label className="form-label">Occupation</label>
                                                         <input
                                                             name="occupation"
@@ -815,9 +887,73 @@ const RegistrationForm = () => {
                                                             value={formData.occupation}
                                                             onChange={handleChange}
                                                         />
-                                                    </div>
+                                                    </div> */}
 
                                                     <div className="mb-3">
+                                                        <label className="form-label">Occupation</label>
+
+                                                        <select
+                                                            name="occupation"
+                                                            className="form-control mb-3"
+                                                            value={formData.occupation}
+                                                            onChange={handleChange}
+                                                        >
+                                                            <option value="">Select occupation</option>
+
+                                                            {/* IT / Tech */}
+                                                            <option value="software_engineer">Software Engineer</option>
+                                                            <option value="web_developer">Web Developer</option>
+                                                            <option value="mobile_developer">Mobile App Developer</option>
+                                                            <option value="data_analyst">Data Analyst</option>
+                                                            <option value="it_support">IT Support</option>
+
+                                                            {/* Corporate */}
+                                                            <option value="manager">Manager</option>
+                                                            <option value="hr">HR Professional</option>
+                                                            <option value="accountant">Accountant</option>
+                                                            <option value="marketing">Marketing Professional</option>
+                                                            <option value="sales">Sales Executive</option>
+
+                                                            {/* Medical */}
+                                                            <option value="doctor">Doctor</option>
+                                                            <option value="nurse">Nurse</option>
+                                                            <option value="pharmacist">Pharmacist</option>
+
+                                                            {/* Education */}
+                                                            <option value="teacher">Teacher</option>
+                                                            <option value="professor">Professor / Lecturer</option>
+
+                                                            {/* Government */}
+                                                            <option value="govt_officer">Government Officer</option>
+                                                            <option value="defence">Defence Personnel</option>
+                                                            <option value="police">Police</option>
+
+                                                            {/* Business */}
+                                                            <option value="business_owner">Business Owner</option>
+                                                            <option value="shop_owner">Shop Owner</option>
+                                                            <option value="entrepreneur">Entrepreneur</option>
+
+                                                            {/* Skilled */}
+                                                            <option value="mechanic">Mechanic</option>
+                                                            <option value="electrician">Electrician</option>
+                                                            <option value="plumber">Plumber</option>
+                                                            <option value="technician">Technician</option>
+
+                                                            {/* Others */}
+                                                            <option value="farmer">Farmer</option>
+                                                            <option value="driver">Driver</option>
+                                                            <option value="clerk">Clerk</option>
+                                                            <option value="security_guard">Security Guard</option>
+                                                            <option value="homemaker">Homemaker</option>
+                                                            <option value="student">Student</option>
+                                                            <option value="not_working">Not Working</option>
+
+                                                            <option value="others">Others</option>
+                                                        </select>
+                                                    </div>
+
+
+                                                    {/* <div className="mb-3">
                                                         <label className="form-label">Annual Income</label>
                                                         <input
                                                             name="annualIncome"
@@ -826,7 +962,34 @@ const RegistrationForm = () => {
                                                             value={formData.annualIncome}
                                                             onChange={handleChange}
                                                         />
+                                                    </div> */}
+
+                                                    <div className="mb-3">
+                                                        <label className="form-label">Annual Income</label>
+
+                                                        <select
+                                                            name="annualIncome"
+                                                            className="form-control mb-3"
+                                                            value={formData.annualIncome}
+                                                            onChange={handleChange}
+                                                        >
+                                                            <option value="">Select annual income</option>
+
+                                                            <option value="below_1_lakh">Below ₹1 Lakh</option>
+                                                            <option value="1_3_lakh">₹1 – 3 Lakh</option>
+                                                            <option value="3_5_lakh">₹3 – 5 Lakh</option>
+                                                            <option value="5_8_lakh">₹5 – 8 Lakh</option>
+                                                            <option value="8_12_lakh">₹8 – 12 Lakh</option>
+                                                            <option value="12_20_lakh">₹12 – 20 Lakh</option>
+                                                            <option value="20_35_lakh">₹20 – 35 Lakh</option>
+                                                            <option value="35_50_lakh">₹35 – 50 Lakh</option>
+                                                            <option value="50_lakh_1_cr">₹50 Lakh – 1 Crore</option>
+                                                            <option value="above_1_cr">Above ₹1 Crore</option>
+
+                                                            <option value="not_disclosed">Prefer not to say</option>
+                                                        </select>
                                                     </div>
+
 
                                                     <div className="d-grid gap-2">
                                                         <button onClick={nextStep} className="btn bg-D4AF37 text-white w-100">Next</button>

@@ -37,7 +37,26 @@ const SelectedTags = ({ label, items, onRemove }) => {
 };
 
 /* ================= CHECKBOX GROUP ================= */
-const CheckboxGroup = ({ label, name, options, value, onChange }) => (
+// const CheckboxGroup = ({ label, name, options, value, onChange }) => (
+//   <div className="mb-3">
+//     <label className="form-label fw-semibold">{label}</label>
+//     <div className="d-flex flex-wrap gap-3">
+//       {options.map((opt) => (
+//         <div className="form-check" key={opt}>
+//           <input
+//             type="checkbox"
+//             className="form-check-input"
+//             checked={value?.includes(opt)}
+//             onChange={() => onChange(name, opt)}
+//           />
+//           <label className="form-check-label">{opt}</label>
+//         </div>
+//       ))}
+//     </div>
+//   </div>
+// );
+
+const CheckboxGroup = ({ label, name, options, value = [], onChange }) => (
   <div className="mb-3">
     <label className="form-label fw-semibold">{label}</label>
     <div className="d-flex flex-wrap gap-3">
@@ -55,6 +74,7 @@ const CheckboxGroup = ({ label, name, options, value, onChange }) => (
     </div>
   </div>
 );
+
 
 export default function PartnerPreferencePage() {
   const token =
@@ -78,6 +98,8 @@ export default function PartnerPreferencePage() {
     employmentType: [],
     preferredState: [],
     preferredCity: [],
+    occupation: [],
+    annualIncome: [],
   });
 
   /* ================= FETCH STATES ================= */
@@ -136,14 +158,28 @@ export default function PartnerPreferencePage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // const handleCheckboxChange = (field, value) => {
+  //   setForm((prev) => ({
+  //     ...prev,
+  //     [field]: prev[field].includes(value)
+  //       ? prev[field].filter((v) => v !== value)
+  //       : [...prev[field], value],
+  //   }));
+  // };
+
   const handleCheckboxChange = (field, value) => {
-    setForm((prev) => ({
-      ...prev,
-      [field]: prev[field].includes(value)
-        ? prev[field].filter((v) => v !== value)
-        : [...prev[field], value],
-    }));
+    setForm((prev) => {
+      const currentValues = Array.isArray(prev[field]) ? prev[field] : [];
+
+      return {
+        ...prev,
+        [field]: currentValues.includes(value)
+          ? currentValues.filter((v) => v !== value)
+          : [...currentValues, value],
+      };
+    });
   };
+
 
   const handleAddState = async (state) => {
     if (!state || form.preferredState.includes(state)) return;
@@ -280,7 +316,20 @@ export default function PartnerPreferencePage() {
         <CheckboxGroup
           label="Education"
           name="educationDetails"
-          options={["Graduate", "Post Graduate", "PhD"]}
+          options={[
+            "10th",
+            "12th",
+            "Diploma",
+            "Bachelor's Degree",
+            "Master's Degree",
+            "PhD / Doctorate",
+            "CA",
+            "CS",
+            "MBBS",
+            "LLB / LLM",
+            "Others",
+          ]}
+
           value={form.educationDetails}
           onChange={handleCheckboxChange}
         />
@@ -288,10 +337,65 @@ export default function PartnerPreferencePage() {
         <CheckboxGroup
           label="Employment Type"
           name="employmentType"
-          options={["Private", "Govt", "Business"]}
+          options={[
+            "Government Job",
+            "Private Job",
+            "Business / Entrepreneur",
+            "Self Employed",
+            "Freelancer / Consultant",
+            "Defence / Armed Forces",
+            "PSU / Public Sector",
+            "Startup",
+            "NGO / Social Work",
+            "Student",
+            "Not Working",
+            "Homemaker",
+            "Retired",
+          ]}
+
           value={form.employmentType}
           onChange={handleCheckboxChange}
         />
+
+        <CheckboxGroup
+          label="Occupation"
+          name="occupation"
+          options={[
+            "Software Engineer",
+            "Manager",
+            "Doctor",
+            "Teacher",
+            "Business Owner",
+            "Government Officer",
+            "Farmer",
+            "Student",
+            "Not Working",
+            "Others",
+          ]}
+          value={form.occupation}
+          onChange={handleCheckboxChange}
+        />
+
+
+        <CheckboxGroup
+          label="Annual Income"
+          name="annualIncome"
+          options={[
+            "Below ₹1 Lakh",
+            "₹1 – 3 Lakh",
+            "₹3 – 5 Lakh",
+            "₹5 – 8 Lakh",
+            "₹8 – 12 Lakh",
+            "₹12 – 20 Lakh",
+            "₹20 – 35 Lakh",
+            "₹35 – 50 Lakh",
+            "₹50 Lakh – 1 Crore",
+            "Above ₹1 Crore",
+          ]}
+          value={form.annualIncome}
+          onChange={handleCheckboxChange}
+        />
+
 
         {/* LOCATION */}
         <div className="row mb-3">

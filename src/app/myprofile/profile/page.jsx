@@ -69,7 +69,7 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                 <h5 className="mb-3">Edit Details</h5>
 
                 <div className="row g-3">
-                    {fields.map((f) => (
+                    {/* {fields.map((f) => (
                         <div key={f} className="col-md-6">
                             <label className="form-label text-capitalize">{f}</label>
 
@@ -133,6 +133,157 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                                     <option value="Divorced">Previously Married (Divorced)</option>
                                     <option value="Widower">Previously Married (Widowed)</option>
                                     <option value="Awaiting divorce">Legally Separated / Awaiting Divorce</option>
+                                </select>
+
+                            ) : f === "dob" ? (
+                                <input
+                                    type="date"
+                                    name="dob"
+                                    value={form.dob || ""}
+                                    onChange={handleChange}
+                                    className="form-control"
+                                />
+
+                            ) : (
+                                <input
+                                    name={f}
+                                    value={form[f] || ""}
+                                    onChange={handleChange}
+                                    className="form-control"
+                                />
+                            )}
+                        </div>
+                    ))} */}
+
+
+                    {fields.map((f) => (
+                        <div key={f} className="col-md-6">
+                            <label className="form-label text-capitalize">{f}</label>
+
+                            {/* State */}
+                            {f === "state" ? (
+                                <select name="state" value={form.state || ""} onChange={handleChange} className="form-select">
+                                    <option value="">Select State</option>
+                                    {states
+                                        .slice()
+                                        .sort((a, b) => a.state.localeCompare(b.state))
+                                        .map((s) => (
+                                            <option key={s._id} value={s.state}>{s.state}</option>
+                                        ))}
+                                </select>
+
+                            ) : f === "city" || f === "location" ? (
+                                <select name="city" value={form.city || form.location || ""} onChange={handleChange} className="form-select">
+                                    <option value="">Select City</option>
+                                    {cities
+                                        .slice()
+                                        .sort((a, b) => a.localeCompare(b))
+                                        .map((c, i) => (
+                                            <option key={i} value={c}>{c}</option>
+                                        ))}
+                                </select>
+
+                            ) : f === "gender" ? (
+                                <select name="gender" value={form.gender || ""} onChange={handleChange} className="form-select">
+                                    <option value="">Select</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+
+                            ) : f === "diet" ? (
+                                <select name="diet" value={form.diet || ""} onChange={handleChange} className="form-select">
+                                    <option value="">Select</option>
+                                    <option value="Veg">Veg</option>
+                                    <option value="Nonveg">Non Veg</option>
+                                </select>
+
+                            ) : f === "familyStatus" ? (
+                                <select name="familyStatus" value={form.familyStatus || ""} onChange={handleChange} className="form-select">
+                                    <option value="">Select</option>
+                                    <option value="Middle class">Middle class</option>
+                                    <option value="Upper middle class">Upper middle class</option>
+                                    <option value="Rich / Affluent (Elite)">Rich / Affluent (Elite)</option>
+                                </select>
+
+                            ) : f === "physicalStatus" ? (
+                                <select name="physicalStatus" value={form.physicalStatus || ""} onChange={handleChange} className="form-select">
+                                    <option value="">Select</option>
+                                    <option value="Normal">Normal</option>
+                                    <option value="Physically Challenged">Physically Challenged</option>
+                                </select>
+
+                            ) : f === "maritalStatus" ? (
+                                <select name="maritalStatus" value={form.maritalStatus || ""} onChange={handleChange} className="form-select">
+                                    <option value="">Select</option>
+                                    <option value="Never married">Never Married</option>
+                                    <option value="Divorced">Previously Married (Divorced)</option>
+                                    <option value="Widower">Previously Married (Widowed)</option>
+                                    <option value="Awaiting divorce">Legally Separated / Awaiting Divorce</option>
+                                </select>
+
+                            ) : f === "employmentType" ? (
+                                <select name="employmentType" value={form.employmentType || ""} onChange={handleChange} className="form-select">
+                                    <option value="">Select employment type</option>
+                                    <option value="government">Government Job</option>
+                                    <option value="private">Private Job</option>
+                                    <option value="business">Business / Entrepreneur</option>
+                                    <option value="self_employed">Self Employed</option>
+                                    <option value="freelancer">Freelancer / Consultant</option>
+                                    <option value="defense">Defence / Armed Forces</option>
+                                    <option value="psu">PSU / Public Sector</option>
+                                    <option value="startup">Startup</option>
+                                    <option value="ngo">NGO / Social Work</option>
+                                    <option value="student">Student</option>
+                                    <option value="not_working">Not Working</option>
+                                    <option value="homemaker">Homemaker</option>
+                                    <option value="retired">Retired</option>
+                                </select>
+
+                            ) : f === "education" ? (
+                                <select name="education" value={form.education || ""} onChange={handleChange} className="form-select">
+                                    <option value="">Select education</option>
+                                    <option value="10th">10th</option>
+                                    <option value="12th">12th</option>
+                                    <option value="diploma">Diploma</option>
+                                    <option value="bachelors">Bachelor's Degree</option>
+                                    <option value="masters">Master's Degree</option>
+                                    <option value="phd">PhD / Doctorate</option>
+                                    <option value="ca">CA</option>
+                                    <option value="cs">CS</option>
+                                    <option value="mbbs">MBBS</option>
+                                    <option value="law">LLB / LLM</option>
+                                    <option value="others">Others</option>
+                                </select>
+
+                            ) : f === "occupation" ? (
+                                <select name="occupation" value={form.occupation || ""} onChange={handleChange} className="form-select">
+                                    <option value="">Select occupation</option>
+                                    <option value="software_engineer">Software Engineer</option>
+                                    <option value="manager">Manager</option>
+                                    <option value="doctor">Doctor</option>
+                                    <option value="teacher">Teacher</option>
+                                    <option value="business_owner">Business Owner</option>
+                                    <option value="govt_officer">Government Officer</option>
+                                    <option value="farmer">Farmer</option>
+                                    <option value="student">Student</option>
+                                    <option value="not_working">Not Working</option>
+                                    <option value="others">Others</option>
+                                </select>
+
+                            ) : f === "annualIncome" ? (
+                                <select name="annualIncome" value={form.annualIncome || ""} onChange={handleChange} className="form-select">
+                                    <option value="">Select annual income</option>
+                                    <option value="below_1_lakh">Below ₹1 Lakh</option>
+                                    <option value="1_3_lakh">₹1 – 3 Lakh</option>
+                                    <option value="3_5_lakh">₹3 – 5 Lakh</option>
+                                    <option value="5_8_lakh">₹5 – 8 Lakh</option>
+                                    <option value="8_12_lakh">₹8 – 12 Lakh</option>
+                                    <option value="12_20_lakh">₹12 – 20 Lakh</option>
+                                    <option value="20_35_lakh">₹20 – 35 Lakh</option>
+                                    <option value="35_50_lakh">₹35 – 50 Lakh</option>
+                                    <option value="50_lakh_1_cr">₹50 Lakh – 1 Crore</option>
+                                    <option value="above_1_cr">Above ₹1 Crore</option>
+                                    <option value="not_disclosed">Prefer not to say</option>
                                 </select>
 
                             ) : f === "dob" ? (

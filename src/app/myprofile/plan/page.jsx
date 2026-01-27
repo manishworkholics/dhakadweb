@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import DashboardLayout from "../components/Layout/DashboardLayout";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { loadOwnProfile } from "@/redux/slices/profileSlice";
 
 const API_URL = "http://143.110.244.163:5000/api";
 
@@ -12,7 +14,7 @@ export default function Plan() {
     const [paymentHistory, setPaymentHistory] = useState([]);
     const [paying, setPaying] = useState(false);
     const [upgradeOpen, setUpgradeOpen] = useState(false);
-
+    const dispatch = useDispatch();
 
     const token =
         typeof window !== "undefined" ? localStorage.getItem("token") : null;
@@ -119,6 +121,8 @@ export default function Plan() {
 
                         if (verify.data.success) {
                             alert("🎉 Payment Successful & Plan Activated!");
+                            // 🔥 Refresh global profile state
+                            dispatch(loadOwnProfile());
                             getMyPlan();
                             getPaymentHistory();
                         } else {

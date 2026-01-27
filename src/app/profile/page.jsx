@@ -101,7 +101,11 @@ export default function Profile() {
         params.append("page", page);
         params.append("limit", limit);
 
-        fetch(`http://143.110.244.163:5000/api/profile/profiles?${params.toString()}`)
+        fetch(`http://143.110.244.163:5000/api/profile/profiles?${params.toString()}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+        })
             .then((res) => res.json())
             .then((result) => {
                 setData(result?.profiles || []);
@@ -197,7 +201,7 @@ export default function Profile() {
                                 )}
                                 {/* Filter options */}
                                 <div className="card-body">
-                                    <h6 className="mb-2 fw-normal">I am looking for</h6>
+                                    {/* <h6 className="mb-2 fw-normal">I am looking for</h6>
                                     <select
                                         className="form-select mb-3"
                                         value={filters.gender}
@@ -206,7 +210,7 @@ export default function Profile() {
                                         <option value="">Any</option>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
-                                    </select>
+                                    </select> */}
 
                                     <h6 className="mb-2 fw-normal">Age</h6>
                                     <select

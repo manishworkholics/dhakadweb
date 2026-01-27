@@ -7,9 +7,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import Header from "../../components/Header/Page";
 import Footer from "@/app/components/Footer/page";
 import { useRouter } from "next/navigation";
-
+import { useSelector } from "react-redux";
 
 export default function ProfileDetail() {
+
+  const { hasPremiumAccess } = useSelector(state => state.profile);
 
   const router = useRouter();
   useEffect(() => {
@@ -114,13 +116,13 @@ export default function ProfileDetail() {
 
   if (loading) {
     return (
-     <div className="text-center mt-5">
+      <div className="text-center mt-5">
         <div className="position-fixed top-0 start-0 w-100 h-100 bg-white d-flex justify-content-center align-items-center" style={{ zIndex: 9999 }}>
-            <div className="spinner-border text-warning">
+          <div className="spinner-border text-warning">
 
-            </div>
+          </div>
         </div>
-    </div>
+      </div>
     );
   }
 
@@ -220,31 +222,71 @@ export default function ProfileDetail() {
 
 
   // ⭐ TOGGLE SHORTLIST
+  // const toggleShortlist = async () => {
+  //   try {
+  //     const token = localStorage.getItem("token");
+
+  //     if (isShortlisted) {
+  //       await fetch(`http://143.110.244.163:5000/api/shortlist/${profile._id}`, {
+  //         method: "DELETE",
+  //         headers: { Authorization: `Bearer ${token}` }
+  //       });
+
+  //       setIsShortlisted(false);
+  //       toast.success("Removed from shortlist");
+  //     } else {
+  //       await fetch(`http://143.110.244.163:5000/api/shortlist/${profile._id}`, {
+  //         method: "POST",
+  //         headers: { Authorization: `Bearer ${token}` }
+  //       });
+
+  //       setIsShortlisted(true);
+  //       toast.success("Added to shortlist");
+  //     }
+
+  //   } catch (error) {
+  //     console.log(error);
+  //     toast.error("Something went wrong");
+  //   }
+  // };
+
+
   const toggleShortlist = async () => {
     try {
       const token = localStorage.getItem("token");
 
-      if (isShortlisted) {
-        await fetch(`http://143.110.244.163:5000/api/shortlist/${profile._id}`, {
-          method: "DELETE",
-          headers: { Authorization: `Bearer ${token}` }
-        });
+      const res = await fetch(`http://143.110.244.163:5000/api/shortlist/${profile._id}`, {
+        method: isShortlisted ? "DELETE" : "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
 
+      const data = await res.json();
+
+      if (!res.ok) {
+        // Handle premium restriction
+        if (data.code === "PREMIUM_REQUIRED") {
+          toast.error("🔒 Upgrade to premium to use shortlist feature");
+          // navigate("/plans"); // optional
+          return;
+        }
+
+        throw new Error(data.message || "Request failed");
+      }
+
+      if (isShortlisted) {
         setIsShortlisted(false);
         toast.success("Removed from shortlist");
       } else {
-        await fetch(`http://143.110.244.163:5000/api/shortlist/${profile._id}`, {
-          method: "POST",
-          headers: { Authorization: `Bearer ${token}` }
-        });
-
         setIsShortlisted(true);
         toast.success("Added to shortlist");
       }
 
     } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
+      console.error("Shortlist error:", error);
+      toast.error(error.message || "Something went wrong");
     }
   };
 
@@ -421,7 +463,8 @@ export default function ProfileDetail() {
               <hr className="my-4" />
 
               {/* GALLERY */}
-              <div className="gallery">
+
+              {/* <div className="gallery">
                 <h5 className="fw-semibold mb-3">PHOTO GALLERY</h5>
                 <div className="masonryGallery">
                   <div className="gallery-1 gap-3">
@@ -453,7 +496,87 @@ export default function ProfileDetail() {
                     </div>
                   </div>
                 )}
+              </div> */}
+
+
+              <div className="gallery">
+                <h5 className="fw-semibold mb-3">PHOTO GALLERY</h5>
+
+                <div className="masonryGallery position-relative">
+                  <div className="gallery-1 gap-3">
+                    <div className="row">
+                      {gallery && gallery.length > 0 ? (
+                        gallery.map((pic, i) => (
+                          <div className="col-4 col-md-3 mb-3" key={i}>
+                            <div
+                              className="galleryItem position-relative"
+                              onClick={() => hasPremiumAccess && setSelectedImage(pic)}
+                              style={{ cursor: hasPremiumAccess ? "pointer" : "not-allowed" }}
+                            >
+                              <img
+                                src={pic}
+                                alt={`gallery-${i}`}
+                                className="w-100 rounded-4"
+                                style={{
+                                  filter: !hasPremiumAccess && i !== 0 ? "blur(6px)" : "none",
+                                  opacity: !hasPremiumAccess && i !== 0 ? 0.5 : 1,
+                                }}
+                              />
+
+                              {/* Lock overlay for non-premium */}
+                              {!hasPremiumAccess && i === 0 && gallery.length === 1 && (
+                                <div className="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center">
+                                  <span className="badge bg-dark bg-opacity-75 px-3 py-2">
+                                    🔒 Premium Required
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <p>No photos available</p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Premium block message */}
+                  {!hasPremiumAccess && (
+                    <div className="premium-lock-box mt-3 p-3 rounded text-center border border-warning bg-light">
+                      <h6 className="mb-2">🔒 Want to see more photos?</h6>
+                      <p className="mb-2 text-muted">
+                        Upgrade to premium to unlock full photo gallery of this profile.
+                      </p>
+                      <button
+                        className="btn btn-warning text-white px-4"
+                        onClick={() => router.push("/myprofile/plan")}
+                      >
+                        Upgrade Now
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Image Preview (Premium only) */}
+                {selectedImage && hasPremiumAccess && (
+                  <div
+                    className="preview position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-75"
+                    onClick={() => setSelectedImage(null)}
+                  >
+                    <div className="previewContent p-3 rounded">
+                      <img
+                        src={selectedImage}
+                        alt="Preview"
+                        width={800}
+                        style={{ maxHeight: "80vh", objectFit: "contain" }}
+                        className="img-fluid rounded"
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
+
+
 
               <hr />
 
@@ -468,7 +591,7 @@ export default function ProfileDetail() {
                   </div>
                   <div className="text d-flex align-items-center">
                     <p className="mb-0 fw-medium" style={{ width: "65px" }}>Phone:</p>
-                    <span>{phone || "Not Available"}</span>
+                    <span>{profile.phone || "Not Available"}</span>
                   </div>
                 </div>
 
