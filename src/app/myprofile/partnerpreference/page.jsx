@@ -403,9 +403,14 @@ export default function PartnerPreferencePage() {
             <label>Select State</label>
             <select className="form-select" onChange={(e) => handleAddState(e.target.value)}>
               <option value="">Select State</option>
-              {states.map((s) => (
-                <option key={s._id} value={s.state}>{s.state}</option>
-              ))}
+              {states
+                .slice()
+                .sort((a, b) => a.state.localeCompare(b.state))
+                .map((s) => (
+                  <option key={s._id} value={s.state}>
+                    {s.state}
+                  </option>
+                ))}
             </select>
           </div>
 
@@ -413,9 +418,14 @@ export default function PartnerPreferencePage() {
             <label>Select City</label>
             <select className="form-select" onChange={(e) => handleAddCity(e.target.value)}>
               <option value="">Select City</option>
-              {cities.map((c) => (
-                <option key={c} value={c}>{c}</option>
-              ))}
+              {cities
+                .slice()
+                .sort((a, b) => a.localeCompare(b))
+                .map((city, idx) => (
+                  <option key={idx} value={city}>
+                    {city}
+                  </option>
+                ))}
             </select>
           </div>
         </div>

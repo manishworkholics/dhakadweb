@@ -73,7 +73,7 @@ export default function NotificationPage() {
                       <div className="image">
                         <img
                           src={
-                            n.profile?.photos?.[0] ||
+                            n.senderPhoto ||
                             "/dhakadweb/assets/images/default-user.png"
                           }
                           alt="profile"
@@ -102,7 +102,7 @@ export default function NotificationPage() {
                     <button
                       className="rounded-3 px-2 py-1 btn btn-outline-danger"
                       onClick={() =>
-                        router.push(`/profile/${n.profile?._id}`)
+                        router.push(`/profiledetail/${n.sender?._id}`)
                       }
                     >
                       View Profile

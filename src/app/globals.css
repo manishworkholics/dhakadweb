@@ -1885,38 +1885,46 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 30px;
 }
+
 @media only screen and (max-width:1400px) {
-    .profileCard{
-height: 400px !important;
+    .profileCard {
+        height: 400px !important;
+    }
 }
-}
-.profileRight{
+
+.profileRight {
     height: 550px !important;
 }
+
 @media only screen and (max-width:420px) {
-   .profileRight{
-    height: 450px !important;
-} 
+    .profileRight {
+        height: 450px !important;
+    }
 }
-@media only screen and (min-width:768px) and  (max-width:991px) {
-   .profileRight{
-    height: 350px !important;
-} 
-.btn-bottom button{
-    font-size: 11px !important;
+
+@media only screen and (min-width:768px) and (max-width:991px) {
+    .profileRight {
+        height: 350px !important;
+    }
+
+    .btn-bottom button {
+        font-size: 11px !important;
+    }
+
+    .masonryGallery .galleryItem img {
+        cursor: pointer;
+        height: 160px;
+        transition: transform .3s;
+        display: block;
+    }
 }
-.masonryGallery .galleryItem img {
-    cursor: pointer;
-    height: 160px;
-    transition: transform .3s;
-    display: block;
-}
-}
+
 @media only screen and (min-width:992px) and (max-width:1199px) {
-   .profileRight{
-    height: 450px !important;
-} 
+    .profileRight {
+        height: 450px !important;
+    }
 }
+
 /* Action Buttons below the ProfileCard */
 .shortlist-actions {
     display: flex;
@@ -2400,16 +2408,18 @@ select.form-input {
     border: 1px solid #d4af37;
     color: #ffff;
     padding: 5px 8px;
-    border-radius: 8px;
+    border-radius: 20px;
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s;
     display: flex;
+    align-items: center;
 }
 
 .edit-btn:hover {
     background-color: #ffff !important;
-    color: #d4af37;
+    color: #d4af37 !important;
+    border: 1px solid #d4af37 !important;
 }
 
 .in-my-own-words-text {
@@ -2693,20 +2703,6 @@ select.form-input {
     font-size: 18px;
     font-weight: 600;
     color: #222;
-}
-
-.edit-btn {
-    background: #D4AF37;
-    color: #fff;
-    border: none;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    cursor: pointer;
-}
-
-.edit-btn:hover {
-    background: #c39b2e;
 }
 
 .section-content-grid {

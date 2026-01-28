@@ -239,8 +239,8 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                                     <option value="retired">Retired</option>
                                 </select>
 
-                            ) : f === "education" ? (
-                                <select name="education" value={form.education || ""} onChange={handleChange} className="form-select">
+                            ) : f === "educationDetails" ? (
+                                <select name="educationDetails" value={form.educationDetails || ""} onChange={handleChange} className="form-select">
                                     <option value="">Select education</option>
                                     <option value="10th">10th</option>
                                     <option value="12th">12th</option>

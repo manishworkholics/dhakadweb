@@ -333,25 +333,41 @@ export default function Plan() {
 
                         <div className="row g-3">
                             {allPlans.map((plan) => {
-                                const gstAmount = Math.round((plan.price * plan.gstPercent) / 100);
+                                const gstAmount = Math.round(
+                                    (plan.price * plan.gstPercent) / 100
+                                );
                                 const finalPrice = plan.price + gstAmount;
 
+                                const cardClass =
+                                    plan.name.toLowerCase().includes("silver")
+                                        ? "silver-card"
+                                        : plan.name.toLowerCase().includes("gold")
+                                            ? "gold-plan-card"
+                                            : plan.name.toLowerCase().includes("platinum")
+                                                ? "platinum-card"
+                                                : "lifetime-card";
                                 return (
                                     <div className="col-md-4" key={plan._id}>
-                                        <div className="border rounded-3 p-3 text-center h-100">
+                                        <div
+                                            className={`${cardClass} rounded-4 py-3 px-3 text-center plan-box`}
+                                        >
                                             <h6>{plan.name}</h6>
-                                            <p className="mb-1">{plan.durationMonths} Months</p>
-                                            <h5>₹{finalPrice}</h5>
-                                            <small className="text-muted">incl. GST</small>
 
-                                            <ul className="list-unstyled mt-2 small">
+                                            <span className="pill">
+                                                {plan.durationMonths} Months
+                                            </span>
+
+                                            <h3>₹{finalPrice}</h3>
+                                            <small>incl. GST</small>
+
+                                            <ul className="list-unstyled">
                                                 {plan.features.map((f, i) => (
                                                     <li key={i}>✔ {f}</li>
                                                 ))}
                                             </ul>
 
                                             <button
-                                                className="btn btn-warning w-100 mt-2"
+                                                className="btn btn-outline-secondary w-100 mt-2"
                                                 onClick={() => {
                                                     setUpgradeOpen(false);
                                                     handleBuy(plan._id);
