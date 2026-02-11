@@ -514,9 +514,10 @@ const HomePage = () => {
 
                     </div>
 
-                    <div className="home-section-5">
-                        <FeaturesProfile />
-                    </div>
+                    {!token ?
+                        "" : <div className="home-section-5">
+                            <FeaturesProfile />
+                        </div>}
 
                     <div className="home-section-6">
                         <MemberTestimonials />

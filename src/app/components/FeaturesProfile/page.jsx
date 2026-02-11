@@ -34,7 +34,13 @@ export default function FeaturesProfile() {
     useEffect(() => {
         const fetchProfiles = async () => {
             try {
-                const res = await fetch("http://143.110.244.163:5000/api/featured?limit=10");
+                 const savedToken = localStorage.getItem("token");
+                const res = await fetch("http://143.110.244.163:5000/api/featured?limit=10", {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${savedToken}`,
+                    },
+                });
                 const data = await res.json();
                 if (data.success) {
                     setProfiles(data.profiles);

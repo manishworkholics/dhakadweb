@@ -2,20 +2,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchOwnProfile } from "../../api/profileApi";
 
-// export const loadOwnProfile = createAsyncThunk(
-//   "profile/loadOwnProfile",
-//   async (_, { rejectWithValue }) => {
-//     try {
-//       const token = localStorage.getItem("token");
-//       const data = await fetchOwnProfile(token);
-//       return data;
-//     } catch (err) {
-//       return rejectWithValue(err.response?.data || "Failed to load profile");
-//     }
-//   }
-// );
-
-
 export const loadOwnProfile = createAsyncThunk(
   "profile/loadOwnProfile",
   async (_, { rejectWithValue }) => {
