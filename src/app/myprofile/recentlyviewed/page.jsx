@@ -10,11 +10,26 @@ const API_URL = "http://143.110.244.163:5000/api";
 
 // ----------- Profile Card Component ----------
 const ViewedCard = ({ item }) => {
-  const calculateAge = (dob) => {
-    if (!dob) return "N/A";
-    return new Date().getFullYear() - new Date(dob).getFullYear();
-  };
 
+  const calculateAge = (dob) => {
+    if (!dob) return "";
+
+    const birthDate = new Date(dob);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+
+    return age;
+  };
+  
   return (
     <div className="align-items-start py-3 row">
       {/* Image */}
@@ -70,7 +85,7 @@ const ViewedCard = ({ item }) => {
         <p className="text-muted small mb-1">
           City: <strong className="text-dark me-3">{item?.location || "N/A"}</strong></p>
         <p className="mb-1"> Age:
-          <strong className="text-dark mx-2">{calculateAge(item?.dob)} Yrs</strong>
+          <strong className="text-dark mx-2"> {calculateAge(item?.dob)} Yrs</strong>
         </p>
         <p className="mb-3"> occupation:
           <strong className="text-dark ms-2">{item?.occupation || "N/A"}</strong>
