@@ -49,7 +49,7 @@ export default function Sidebar({ data }) {
     return (
         <>
             {/* ================= MOBILE MENU ================= */}
-            <ul className="nav nav-pills d-lg-none d-md-none d-flex justify-content-center sidebar-nav-mobile">
+            <ul className="nav nav-pills d-lg-none d-md-flex d-flex justify-content-center sidebar-nav-mobile">
                 {navItems.map((item) => (
                     <li key={item.name} className="nav-item m-1 custom-border rounded-1">
                         <Link
@@ -74,7 +74,7 @@ export default function Sidebar({ data }) {
 
 
             {/* ================= DESKTOP SIDEBAR ================= */}
-            <div className="sidebar-wrapper d-none d-lg-block d-md-block">
+            <div className="sidebar-wrapper d-none d-lg-block d-md-none">
                 <div className="sidebar-image-wrapper">
                     <img src={data?.photos?.[0] || "/dhakadweb/assets/images/dummy.png"} alt="" className="bg-blur" />
                     <img

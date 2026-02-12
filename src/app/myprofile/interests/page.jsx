@@ -266,7 +266,7 @@ export default function InterestsPage() {
                     {currentProfiles.length > 0 ? (
                         <div className="row">
                             {currentProfiles.map((profile) => (
-                                <div className="col-lg-6 col-md-6 col-12 mb-3" key={profile._id}>
+                                <div className="col-lg-6 col-md-12 col-12 mb-3" key={profile._id}>
                                     <div className="card p-3 h-100 rounded-3 short-card">
                                         <RequestListItem
                                             profile={profile}

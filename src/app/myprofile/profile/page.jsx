@@ -465,7 +465,7 @@ export default function ProfilePage() {
                             <div className="row">
                                 {profile?.photos?.length > 0 ? (
                                     profile.photos.map((img, i) => (
-                                        <div className="col-lg-3 col-md-3 col-6 mb-lg-3 mb-md-3 mb-2" key={i}>
+                                        <div className="col-lg-3 col-md-4 col-10 mb-lg-3 mb-md-3 mb-2" key={i}>
                                             <div className="galleryItem position-relative">
 
                                                 <button

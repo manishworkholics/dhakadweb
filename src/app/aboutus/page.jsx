@@ -26,7 +26,7 @@ const Aboutus = () => {
                 </div>
             </div>
             <div className="container py-4">
-                <div className="row my-5">
+                <div className="row mt-lg-5 mb-lg-5 mt-5 mb-0">
                     <div className="col-lg-6">
                         <div className="about-right position-relative">
                             <img src="/dhakadweb/assets/images/about.png" alt="" className='rounded-circle position-relative' />
@@ -41,20 +41,23 @@ const Aboutus = () => {
                             With a deep respect for Dhakad traditions and modern lifestyle needs, we aim to bridge the gap between tradition and technology. Whether you are looking for a partner for yourself or for a loved one, Dhakad Matrimony is here to support you at every step of your journey.</p>
                     </div>
                 </div>
-                <div className="row pt-5">
-                    <div className="vision col-lg-6 col-md-6 col-12 mb-lg-0 mb-md-0 mb-3">
-                        <div className="card rounded-4 p-4 bg-fdf7ee" style={{ height: "280px" }}>
-                            <h2 className='fw-bold mb-2'>Our <span className='text-D4AF37'>Vision </span></h2>
-                            <p>Our vision is to become the most trusted and respected matrimony platform for the Dhakad community. We aim to create meaningful, lifelong relationships by preserving cultural values while embracing modern technology.
-                                Dhakad Matrimony envisions a future where every individual finds a compatible life partner with dignity, transparency, and trust. We strive to strengthen family bonds, promote genuine connections, and make the journey of marriage simple, safe, and joyful for everyone.</p>
+                <div className="row pt-lg-5 pt-3">
+                    <div className="col-lg-6 col-md-6 col-12 mb-lg-0 mb-md-0 mb-1">
+                        <div className="vision mb-4">
+                            <div className="card rounded-4 p-4 bg-fdf7ee">
+                                <h2 className='fw-bold mb-2'>Our <span className='text-D4AF37'>Vision </span></h2>
+                                <p>Our vision is to become the most trusted and respected matrimony platform for the Dhakad community. We aim to create meaningful, lifelong relationships by preserving cultural values while embracing modern technology.
+                                    Dhakad Matrimony envisions a future where every individual finds a compatible life partner with dignity, transparency, and trust. We strive to strengthen family bonds, promote genuine connections, and make the journey of marriage simple, safe, and joyful for everyone.</p>
+                            </div>
                         </div>
-
                     </div>
-                    <div className="mission col-lg-6 col-md-6 col-12">
-                        <div className="card rounded-4 p-4 bg-fdf7ee" style={{ height: "280px" }}>
-                            <h2 className='fw-bold mb-2'>Our <span className='text-D4AF37'>Mission</span> </h2>
-                            <p>Our mission is to provide a safe, reliable, and community-focused matrimony platform for the Dhakad community. We are committed to helping individuals and families find suitable life partners through genuine profiles, transparent processes, and respectful matchmaking.
-                                Dhakad Matrimony strives to blend traditional values with modern technology, making the search for a life partner easy, trustworthy, and meaningful. We aim to support our members at every step, ensuring a positive and fulfilling matchmaking experience.</p>
+                    <div className="col-lg-6 col-md-6 col-12">
+                        <div className="mission">
+                            <div className="card rounded-4 p-4 bg-fdf7ee">
+                                <h2 className='fw-bold mb-2'>Our <span className='text-D4AF37'>Mission</span> </h2>
+                                <p>Our mission is to provide a safe, reliable, and community-focused matrimony platform for the Dhakad community. We are committed to helping individuals and families find suitable life partners through genuine profiles, transparent processes, and respectful matchmaking.
+                                    Dhakad Matrimony strives to blend traditional values with modern technology, making the search for a life partner easy, trustworthy, and meaningful. We aim to support our members at every step, ensuring a positive and fulfilling matchmaking experience.</p>
+                            </div>
                         </div>
                     </div>
                 </div>

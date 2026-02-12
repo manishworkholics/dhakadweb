@@ -321,7 +321,7 @@ export default function MyProfileDashboard() {
     }, []);
 
     /* ---------- UI Logic ---------- */
-    const newMatchLimit = isTabletRange ? 3 : 4;
+    const newMatchLimit = isTabletRange ? 4 : 4;
     const showViewAllMatches =
         (matchprofile?.matches?.length || 0) > newMatchLimit;
 
@@ -418,7 +418,7 @@ export default function MyProfileDashboard() {
                         </div>
 
                         {/* ---------- PROFILE STATUS ---------- */}
-                        <div className="section dashboard-section mb-lg-0 mb-md-0 mb-4">
+                        <div className="section dashboard-section mb-lg-0 mb-md-4 mb-4">
                             <div className="status-item profile-status-wrap">
                                 <h3 className="section-title">PROFILE STATUS</h3>
                                 <ProfileCompleteness
@@ -434,7 +434,7 @@ export default function MyProfileDashboard() {
                             <PaidMembershipCard />
                         </div>
 
-                        <div className="status-item chat-list-wrap mb-lg-0 mb-md-0 mb-4">
+                        <div className="status-item chat-list-wrap mb-lg-0 mb-md-4 mb-4">
                             <h3 className="section-title">RECENT CHAT LIST</h3>
                             <RecentChatList />
                         </div>

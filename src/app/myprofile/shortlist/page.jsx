@@ -169,7 +169,7 @@ export default function Shortlist() {
                         {shortlistedProfiles.map((profile) => (
                             <div
                                 key={profile._id}
-                                className="col-lg-6 col-md-6 col-12"
+                                className="col-lg-6 col-md-12 col-12"
                             >
                                 <div className="card p-2 rounded-3 short-card">
                                     <ShortListItem

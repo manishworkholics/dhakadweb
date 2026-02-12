@@ -60,7 +60,7 @@ const Header = () => {
                             )}
                         </ul>
 
-                        <div className="d-flex gap-3 justify-content-center">
+                        <div className="d-flex justify-content-center me-md-4">
                             {!isLoggedIn ? (
                                 <Link href="/login" className="btn btn-outline-secondary">Login</Link>
                             ) : (

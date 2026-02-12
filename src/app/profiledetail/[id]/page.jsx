@@ -297,7 +297,7 @@ export default function ProfileDetail() {
           <div className="row py-5">
 
             {/* LEFT SIDE — IMAGE */}
-            <div className="col-md-4 px-3">
+            <div className="col-lg-4 col-md-5 px-3">
               <div className="row card rounded-3">
                 <div className="p-0 profileRight">
                   <img src={image || "/dhakadweb/assets/images/priya.png"} className="card-img-top h-100 w-100" alt={profile.name} />
@@ -384,7 +384,7 @@ export default function ProfileDetail() {
             </div>
 
             {/* RIGHT SIDE */}
-            <div className="col-md-8 px-lg-4">
+            <div className="col-lg-8 col-md-7 px-lg-4">
               {/* NAME */}
               <h4 className="fw-semibold text-capitalize my-3">{profile.name || "No Name Available"}</h4>
               <div className="d-lg-flex d-none gap-3 align-items-center flex-wrap mb-3">
@@ -497,7 +497,7 @@ export default function ProfileDetail() {
                     <div className="row">
                       {gallery && gallery.length > 0 ? (
                         gallery.map((pic, i) => (
-                          <div className="col-4 col-md-3 mb-3" key={i}>
+                          <div className="col-6 col-md-4 col-lg-3 mb-3" key={i}>
                             <div
                               className="galleryItem position-relative"
                               onClick={() => hasPremiumAccess && setSelectedImage(pic)}
