@@ -102,7 +102,7 @@ export default function NotificationPage() {
                     <button
                       className="rounded-3 px-2 py-1 btn btn-outline-danger"
                       onClick={() =>
-                        router.push(`/profiledetail/${n.sender?._id}`)
+                        router.push(`/profiledetail/${n.senderProfileId}`)
                       }
                     >
                       View Profile

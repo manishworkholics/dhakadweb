@@ -8,8 +8,26 @@ import Header from "../../components/Header/Page";
 import Footer from "@/app/components/Footer/page";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { loadOwnProfile } from "@/redux/slices/profileSlice";
+
 
 export default function ProfileDetail() {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      router.replace("/login");
+      return;
+    }
+
+    // ⭐ IMPORTANT — redux profile load
+    dispatch(loadOwnProfile());
+
+  }, []);
 
   const { hasPremiumAccess } = useSelector(state => state.profile);
 
@@ -217,39 +235,6 @@ export default function ProfileDetail() {
       console.log(error);
     }
   };
-
-
-
-
-  // ⭐ TOGGLE SHORTLIST
-  // const toggleShortlist = async () => {
-  //   try {
-  //     const token = localStorage.getItem("token");
-
-  //     if (isShortlisted) {
-  //       await fetch(`http://143.110.244.163:5000/api/shortlist/${profile._id}`, {
-  //         method: "DELETE",
-  //         headers: { Authorization: `Bearer ${token}` }
-  //       });
-
-  //       setIsShortlisted(false);
-  //       toast.success("Removed from shortlist");
-  //     } else {
-  //       await fetch(`http://143.110.244.163:5000/api/shortlist/${profile._id}`, {
-  //         method: "POST",
-  //         headers: { Authorization: `Bearer ${token}` }
-  //       });
-
-  //       setIsShortlisted(true);
-  //       toast.success("Added to shortlist");
-  //     }
-
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error("Something went wrong");
-  //   }
-  // };
-
 
   const toggleShortlist = async () => {
     try {
