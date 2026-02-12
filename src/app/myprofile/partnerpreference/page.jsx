@@ -36,25 +36,7 @@ const SelectedTags = ({ label, items, onRemove }) => {
   );
 };
 
-/* ================= CHECKBOX GROUP ================= */
-// const CheckboxGroup = ({ label, name, options, value, onChange }) => (
-//   <div className="mb-3">
-//     <label className="form-label fw-semibold">{label}</label>
-//     <div className="d-flex flex-wrap gap-3">
-//       {options.map((opt) => (
-//         <div className="form-check" key={opt}>
-//           <input
-//             type="checkbox"
-//             className="form-check-input"
-//             checked={value?.includes(opt)}
-//             onChange={() => onChange(name, opt)}
-//           />
-//           <label className="form-check-label">{opt}</label>
-//         </div>
-//       ))}
-//     </div>
-//   </div>
-// );
+
 
 const CheckboxGroup = ({ label, name, options, value = [], onChange }) => (
   <div className="mb-3">
@@ -158,14 +140,7 @@ export default function PartnerPreferencePage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // const handleCheckboxChange = (field, value) => {
-  //   setForm((prev) => ({
-  //     ...prev,
-  //     [field]: prev[field].includes(value)
-  //       ? prev[field].filter((v) => v !== value)
-  //       : [...prev[field], value],
-  //   }));
-  // };
+ 
 
   const handleCheckboxChange = (field, value) => {
     setForm((prev) => {

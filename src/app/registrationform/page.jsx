@@ -37,30 +37,6 @@ const RegistrationForm = () => {
     const [submitted, setSubmitted] = useState(false);
     const [profileExists, setProfileExists] = useState(false);
 
-
-
-    const requiredFields = [
-        "name",
-        "gender",
-        "dob",
-        "motherTongue",
-        "location",
-        "height",
-        "physicalStatus",
-        "maritalStatus",
-        "religion",
-        "cast",
-        "subCast",
-        "gotra",
-        "education",
-        "employmentType",
-        "occupation",
-        "annualIncome",
-        "familyStatus",
-        "diet",
-        "aboutYourself",
-    ];
-
     const [formData, setFormData] = useState({
         // Step 1
         name: user?.name,
@@ -108,7 +84,7 @@ const RegistrationForm = () => {
 
     // Only one photo allowed for now
     const [photo, setPhoto] = useState(null); // stores URL after upload
-    const [introVideo, setIntroVideo] = useState(null); // file object
+
     const [uploading, setUploading] = useState(false);
 
     const [profileComplete, setProfileComplete] = useState(false);
@@ -162,14 +138,11 @@ const RegistrationForm = () => {
 
 
                     if (profile.photos?.length > 0) {
-                        setPhoto(profile.photos[0]);              // profile image
-                        setExistingPhotos(profile.photos);        // full gallery
+                        setPhoto(profile.photos[0]);
+                        setExistingPhotos(profile.photos);
                     }
 
 
-                    // if (profile.introVideo) {
-                    //     setIntroVideo(profile.introVideo);
-                    // }
 
 
                     const profileFieldMap = {
@@ -302,35 +275,10 @@ const RegistrationForm = () => {
     };
 
     // upload intro video (optional) — returns url or empty string
-    const uploadVideo = async () => {
-        if (!introVideo) return "";
-        try {
-            const fd = new FormData();
-            fd.append("video", introVideo);
 
-            const upload = await axios.post(
-                "http://143.110.244.163:5000/api/upload/video",
-                fd,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "multipart/form-data",
-                    },
-                }
-            );
-
-            return upload.data.url || "";
-        } catch (err) {
-            console.log("Video upload error:", err?.response?.data || err.message);
-            return "";
-        }
-    };
 
     const handleSubmit = async () => {
         try {
-            // upload video first (if provided)
-            const finalVideoLink = await uploadVideo();
-
             const orderedPhotos = photo
                 ? [photo, ...existingPhotos.filter(p => p !== photo)]
                 : existingPhotos;
@@ -340,31 +288,24 @@ const RegistrationForm = () => {
                 caste: formData.cast,
                 subCaste: formData.subCast,
                 educationDetails: formData.education,
-
                 photos: orderedPhotos,
-
-                introVideo: finalVideoLink || "",
             };
 
-
-
-            const res = await axios.post(
+            await axios.post(
                 "http://143.110.244.163:5000/api/profile/create",
                 payload,
-                {
-                    headers: { Authorization: `Bearer ${token}` },
-                }
+                { headers: { Authorization: `Bearer ${token}` } }
             );
 
             toast.success("Profile updated successfully");
             setSubmitted(true);
-            // optional redirect after slight delay
             setTimeout(() => router.push("/"), 1200);
+
         } catch (err) {
-            console.log("Create profile error:", err?.response?.data || err.message);
             toast.error(err?.response?.data?.message || "Profile creation failed");
         }
     };
+
 
     const removePhoto = () => {
         setPhoto(null);
@@ -401,16 +342,6 @@ const RegistrationForm = () => {
         // Default to step 1
         setStep(1);
     };
-
-
-    // useEffect(() => {
-    //     if (profileExists && profileComplete) {
-    //         router.push("/"); // Route to dashboard
-    //     }
-    // }, [profileExists, profileComplete, router]);
-
-
-    // UI: render step forms — using your original fields exactly
 
     useEffect(() => {
         if (!formData.state) return;
@@ -613,29 +544,6 @@ const RegistrationForm = () => {
 
                                                     </div>
 
-                                                    {/* <div className="mb-3">
-
-                                                        <label className="form-label">Date of Birth</label>
-
-
-                                                        <input
-                                                            type="date"
-                                                            name="dob"
-                                                            value={formData.dob}
-                                                            onChange={handleChange}
-                                                            className="form-control"
-                                                            min="1942-01-01"
-                                                            max={
-                                                                new Date(
-                                                                    new Date().setFullYear(new Date().getFullYear() - 18)
-                                                                )
-                                                                    .toISOString()
-                                                                    .split("T")[0]
-                                                            }
-                                                        />
-                                                    </div> */}
-
-
                                                     <div className="mb-3">
                                                         <label className="form-label">Date of Birth</label>
 
@@ -781,16 +689,6 @@ const RegistrationForm = () => {
                                             {/* STEP 3 */}
                                             {step === 3 && (
                                                 <>
-                                                    {/* <div className="mb-3">
-                                                        <label className="form-label">Professional Details (Education)</label>
-                                                        <input
-                                                            name="education"
-                                                            type="text"
-                                                            className="form-control mb-3"
-                                                            value={formData.education}
-                                                            onChange={handleChange}
-                                                        />
-                                                    </div> */}
 
                                                     <div className="mb-3">
                                                         <label className="form-label">Professional Details (Education)</label>
@@ -833,16 +731,7 @@ const RegistrationForm = () => {
                                                     </div>
 
 
-                                                    {/* <div className="mb-3">
-                                                        <label className="form-label">Employment Type</label>
-                                                        <input
-                                                            name="employmentType"
-                                                            type="text"
-                                                            className="form-control mb-3"
-                                                            value={formData.employmentType}
-                                                            onChange={handleChange}
-                                                        />
-                                                    </div> */}
+
 
                                                     <div className="mb-3">
                                                         <label className="form-label">Employment Type</label>
@@ -872,19 +761,6 @@ const RegistrationForm = () => {
                                                             <option value="retired">Retired</option>
                                                         </select>
                                                     </div>
-
-
-
-                                                    {/* <div className="mb-3">
-                                                        <label className="form-label">Occupation</label>
-                                                        <input
-                                                            name="occupation"
-                                                            type="text"
-                                                            className="form-control mb-3"
-                                                            value={formData.occupation}
-                                                            onChange={handleChange}
-                                                        />
-                                                    </div> */}
 
                                                     <div className="mb-3">
                                                         <label className="form-label">Occupation</label>
@@ -949,17 +825,6 @@ const RegistrationForm = () => {
                                                         </select>
                                                     </div>
 
-
-                                                    {/* <div className="mb-3">
-                                                        <label className="form-label">Annual Income</label>
-                                                        <input
-                                                            name="annualIncome"
-                                                            type="text"
-                                                            className="form-control mb-3"
-                                                            value={formData.annualIncome}
-                                                            onChange={handleChange}
-                                                        />
-                                                    </div> */}
 
                                                     <div className="mb-3">
                                                         <label className="form-label">Annual Income</label>
@@ -1072,28 +937,14 @@ const RegistrationForm = () => {
                                                                 />
                                                                 <div>
                                                                     <button className="btn btn-danger btn-sm me-2" onClick={removePhoto}>Cancel</button>
-                                                                    {/* keep for later: replace or re-upload */}
+
                                                                 </div>
                                                             </div>
                                                         )}
                                                     </div>
 
                                                     {/* Video upload (optional) */}
-                                                    <div className="mb-3">
-                                                        <label className="form-label">Upload Intro Video (optional)</label>
-                                                        {introVideo && typeof introVideo === "string" && (
-                                                            <video width="200" controls className="mt-2">
-                                                                <source src={introVideo} />
-                                                            </video>
-                                                        )}
 
-                                                        <input
-                                                            className="form-control"
-                                                            type="file"
-                                                            accept="video/*"
-                                                            onChange={(e) => setIntroVideo(e.target.files[0])}
-                                                        />
-                                                    </div>
 
                                                     <div className="d-grid gap-2">
                                                         <button className="btn bg-D4AF37 text-white w-100" onClick={handleSubmit} disabled={uploading}>
@@ -1107,11 +958,11 @@ const RegistrationForm = () => {
                                 </div>
                                 {/* After submit message */}
                                 {submitted && (
-                                        <div className="text-center my-3">
-                                            <img src="/dhakadweb/assets/images/checkmark.png" alt="ok" width={100} />
-                                            <h5 className="text-success">Congratulations</h5>
-                                            <p>Your profile has been created!</p>
-                                        </div>
+                                    <div className="text-center my-3">
+                                        <img src="/dhakadweb/assets/images/checkmark.png" alt="ok" width={100} />
+                                        <h5 className="text-success">Congratulations</h5>
+                                        <p>Your profile has been created!</p>
+                                    </div>
                                 )}
                             </div>
                         </div>
