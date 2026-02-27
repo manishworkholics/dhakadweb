@@ -26,16 +26,31 @@ const Contactus = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
             setLoading(true);
+
             const res = await axios.post(API_URL, form);
+
             if (res.data.success) {
                 // toast.success("Message Sent Successfully!");
-                setForm({ name: "", email: "", phone: "", subject: "", message: "" });
+                setForm({
+                    name: "",
+                    email: "",
+                    phone: "",
+                    subject: "",
+                    message: "",
+                });
+
                 setShowModal(true);
             }
-        } catch {
-            toast.error("Failed to send message");
+
+        } catch (error) {
+            const message =
+                error.response?.data?.message || "Something went wrong";
+
+            toast.error(message);
+
         } finally {
             setLoading(false);
         }
