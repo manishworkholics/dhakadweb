@@ -52,7 +52,7 @@ export default function OurTeam() {
     }
 
     return (
-        <section className="py-5">
+        <section className="py-lg-5 py-4">
             <div className="container">
                 <div className="d-flex justify-content-center align-items-center mb-4 w-100">
                     {/* Title on the Left */}

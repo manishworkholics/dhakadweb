@@ -613,6 +613,7 @@ body {
 .navbar-nav .nav-link.active {
     font-weight: 400;
     border-bottom: 2px solid #dc3545 !important;
+    display: inline-block !important;
 }
 
 @media (max-width: 768px) {
@@ -623,7 +624,7 @@ body {
 
     .navbar-nav .nav-link.active {
         border-bottom: 2px solid #dc3545 !important;
-        width: fit-content;
+        display: inline-block !important;
     }
 }
 
@@ -645,20 +646,82 @@ body {
     width: 360px;
 }
 
-@media only screen and (max-width:767px) {
+.vision .card {
+    height: 280px;
+}
+
+.mission .card {
+    height: 280px;
+}
+
+.team {
+    border-bottom: 3px solid #d4ac4a !important;
+    display: inline-block !important;
+}
+
+.accordion-button:not(.collapsed) {
+    color: black !important;
+    background-color: white !important;
+    box-shadow: none !important;
+}
+
+.accordion-button:not(.collapsed) {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+@media only screen and (max-width:479px) {
     .about-right {
         margin-bottom: 50px;
     }
 
     .about-right img {
         border: 7px solid #D4AF37;
-        height: 300px;
-        width: 300px;
+        height: 200px;
+        width: 200px;
+    }
+
+    .about-right .img2 {
+        bottom: -30px !important;
+        right: 10px !important;
+    }
+
+    .vision .card {
+        height: 410px !important;
+    }
+
+    .mission .card {
+        height: 410px !important;
+    }
+}
+
+@media only screen and (min-width:380px) and (max-width:767px) {
+    .about-right {
+        margin-bottom: 50px;
+    }
+
+    .about-right img {
+        border: 7px solid #D4AF37;
+        height: 250px;
+        width: 250px;
     }
 
     .about-right .img2 {
         bottom: -30px !important;
     }
+
+    .vision .card {
+        height: 290px !important;
+    }
+
+    .mission .card {
+        height: 290px !important;
+    }
+
+    .team {
+        font-size: 21px !important;
+    }
+
 }
 
 @media only screen and (min-width:768px) and (max-width:1023px) {
@@ -674,22 +737,16 @@ body {
 
     .about-right .img2 {
         bottom: -30px !important;
+        right: 180px !important;
     }
-}
 
-.team {
-    border-bottom: 3px solid #d4ac4a !important;
-}
+    .vision .card {
+        height: 410px !important;
+    }
 
-.accordion-button:not(.collapsed) {
-    color: black !important;
-    background-color: white !important;
-    box-shadow: none !important;
-}
-
-.accordion-button:not(.collapsed) {
-    border-bottom-left-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
+    .mission .card {
+        height: 410px !important;
+    }
 }
 
 

@@ -65,7 +65,7 @@ export default function NotificationPage() {
 
         <div className="row">
           {notifications.map((n) => (
-            <div className="col-lg-6 col-md-6 col-12 mb-3" key={n._id}>
+            <div className="col-lg-6 col-md-12 col-12 mb-3" key={n._id}>
               <div className="card p-2">
                 <div className="row">
                   <div className="col-8">
