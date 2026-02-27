@@ -1,52 +1,46 @@
-// MemberTestimonials.jsx
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
+import axios from "axios";
 
-// Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 
-// Testimonials Data
-const testimonialsData = [
-    {
-        quote: "I found my life partner here! The verified profiles and simple interface made everything so easy.",
-        name: "Rohit Dhakad",
-        location: "Indore",
-    },
-    {
-        quote: "We both loved music and travel — that’s how our story began. The match suggestions were so accurate!",
-        name: "Nikhil Dhakad",
-        location: "Indore",
-    },
-    {
-        quote: "The process was seamless and incredibly fast. Highly recommend this service!",
-        name: "Muskan Dhakad",
-        location: "Indore",
-    },
-    {
-        quote: "Finding someone who shares my values seemed impossible until I joined.",
-        name: "Priya Sharma",
-        location: "Mumbai",
-    },
-    {
-        quote: "A truly modern and efficient way to find a meaningful connection.",
-        name: "Amit Patel",
-        location: "Pune",
-    },
-];
+const API_URL = "http://143.110.244.163:5000/api";
 
 export default function MemberTestimonials() {
     const prevRef = useRef(null);
     const nextRef = useRef(null);
 
-    // 🔥 State to control left button color
     const [hasMoved, setHasMoved] = useState(false);
+    const [testimonials, setTestimonials] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetchTestimonials();
+    }, []);
+
+    const fetchTestimonials = async () => {
+        try {
+            const res = await axios.get(
+                `${API_URL}/review/testimonials?limit=8`
+            );
+
+            setTestimonials(res.data.data || []);
+        } catch (error) {
+            console.error("Error fetching testimonials:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
-        <section className="testimonials-section py-5" style={{ background: "#f8f9fa" }}>
+        <section
+            className="testimonials-section py-5"
+            style={{ background: "#f8f9fa" }}
+        >
             <div className="container">
 
                 {/* ---------- Title + Navigation ---------- */}
@@ -56,18 +50,15 @@ export default function MemberTestimonials() {
                     </h2>
 
                     <div className="d-flex gap-2">
-                        {/* LEFT BUTTON */}
                         <button
                             ref={prevRef}
-                            className={`btn shadow-sm rounded-circle ${
-                                hasMoved ? "btn-danger" : "btn-light"
-                            }`}
+                            className={`btn shadow-sm rounded-circle ${hasMoved ? "btn-danger" : "btn-light"
+                                }`}
                             style={{ width: 38, height: 38 }}
                         >
                             ←
                         </button>
 
-                        {/* RIGHT BUTTON */}
                         <button
                             ref={nextRef}
                             className="btn btn-danger shadow-sm rounded-circle"
@@ -79,52 +70,84 @@ export default function MemberTestimonials() {
                 </div>
 
                 {/* ---------- Swiper ---------- */}
-                <Swiper
-                    slidesPerView={1}
-                    spaceBetween={30}
-                    navigation={{
-                        prevEl: prevRef.current,
-                        nextEl: nextRef.current,
-                    }}
-                    onBeforeInit={(swiper) => {
-                        swiper.params.navigation.prevEl = prevRef.current;
-                        swiper.params.navigation.nextEl = nextRef.current;
-                    }}
-                    onInit={(swiper) => {
-                        swiper.navigation.update();
-                    }}
-                    onSlideChange={(swiper) => {
-                        // 🔥 Toggle left button color
-                        setHasMoved(swiper.activeIndex > 0);
-                    }}
-                    modules={[Navigation]}
-                    breakpoints={{
-                        640: {
-                            slidesPerView: 2,
-                            spaceBetween: 20,
-                        },
-                        1024: {
-                            slidesPerView: 3,
-                            spaceBetween: 30,
-                        },
-                    }}
-                    className="testimonials-swiper"
-                >
-                    {testimonialsData.map((item, index) => (
-                        <SwiperSlide key={index}>
-                            <div
-                                className="testimonial-card p-4 rounded-3 shadow-sm bg-white"
-                                style={{ height: "220px" }}
-                            >
-                                <p className="mb-4 fst-italic">"{item.quote}"</p>
-                                <div>
-                                    <h5 className="fw-bold m-0">{item.name}</h5>
-                                    <p className="text-muted m-0">{item.location}</p>
+                {loading ? (
+                    <p className="text-center">Loading testimonials...</p>
+                ) : testimonials.length === 0 ? (
+                    <p className="text-center text-muted">
+                        No testimonials available yet.
+                    </p>
+                ) : (
+                    <Swiper
+                        slidesPerView={1}
+                        spaceBetween={30}
+                        navigation={{
+                            prevEl: prevRef.current,
+                            nextEl: nextRef.current,
+                        }}
+                        onBeforeInit={(swiper) => {
+                            swiper.params.navigation.prevEl = prevRef.current;
+                            swiper.params.navigation.nextEl = nextRef.current;
+                        }}
+                        onInit={(swiper) => {
+                            swiper.navigation.update();
+                        }}
+                        onSlideChange={(swiper) => {
+                            setHasMoved(swiper.activeIndex > 0);
+                        }}
+                        modules={[Navigation]}
+                        breakpoints={{
+                            640: {
+                                slidesPerView: 2,
+                                spaceBetween: 20,
+                            },
+                            1024: {
+                                slidesPerView: 3,
+                                spaceBetween: 30,
+                            },
+                        }}
+                    >
+                        {testimonials.map((item) => (
+                            <SwiperSlide key={item._id}>
+                                <div
+                                    className="testimonial-card p-4 rounded-3 shadow-sm bg-white"
+                                    style={{ height: "240px" }}
+                                >
+                                    {/* Rating Stars */}
+                                    <div className="mb-2 text-warning">
+                                        {"★".repeat(item.rating)}
+                                    </div>
+
+                                    {/* Comment */}
+                                    <p className="mb-3 fst-italic">
+                                        "{item.comment}"
+                                    </p>
+
+                                    {/* User Info */}
+                                    <div className="d-flex align-items-center gap-3">
+                                        {item.user?.profileImage && (
+                                            <img
+                                                src={item.user.profileImage}
+                                                alt="user"
+                                                width="45"
+                                                height="45"
+                                                className="rounded-circle"
+                                            />
+                                        )}
+
+                                        <div>
+                                            <h6 className="fw-bold m-0">
+                                                {item.user?.name}
+                                            </h6>
+                                            <small className="text-muted">
+                                                {item.user?.city}
+                                            </small>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                )}
             </div>
         </section>
     );

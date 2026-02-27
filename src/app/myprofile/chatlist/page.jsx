@@ -125,43 +125,6 @@ export default function ChatListPage() {
     }
   };
 
-  /* ---------------- SEND MESSAGE ---------------- */
-  // const sendMessage = async () => {
-  //   if (!text.trim() || !activeChat || activeChat.status !== "active") return;
-
-  //   const receiver = activeChat.participants.find(
-  //     (p) => p._id !== userId
-  //   );
-
-  //   const tempMessage = {
-  //     _id: `temp-${Date.now()}`,
-  //     chatRoomId: activeChat._id,
-  //     senderId: userId,
-  //     receiverId: receiver._id,
-  //     sender: { _id: userId },
-  //     message: text,
-  //     createdAt: new Date(),
-  //   };
-
-  //   setMessages((prev) => [...prev, tempMessage]);
-  //   setText("");
-  //   scrollToBottom();
-
-  //   socketRef.current?.emit("sendMessage", tempMessage);
-
-  //   try {
-  //     await axios.post(
-  //       `${API_URL}/chat/messages/send`,
-  //       { chatRoomId: activeChat._id, message: tempMessage.message },
-  //       { headers: { Authorization: `Bearer ${token}` } }
-  //     );
-  //   } catch (err) {
-  //     toast.error(err?.message)
-  //     console.error("Send message error", err);
-  //   }
-  // };
-
-
   const sendMessage = async () => {
     if (!text.trim() || !activeChat || activeChat.status !== "active") return;
 
