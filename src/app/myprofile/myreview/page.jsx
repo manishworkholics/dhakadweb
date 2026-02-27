@@ -88,130 +88,140 @@ export default function MyReviewPage() {
 
     return (
         <DashboardLayout>
-            <div className="review-page">
-                <div className="review-card">
+            <div className="container-fluid review-bg py-5 px-0">
+                {/* HERO SECTION */}
+                <div className="hero-section position-relative">
+                    <div className="container mb-2">
+                        <div className="row align-items-center px-2">
 
-                    {/* Tabs */}
-                    <ul className="nav nav-pills justify-content-center mb-4" id="reviewTab">
-                        <li className="nav-item">
-                            <button
-                                className="nav-link active"
-                                data-bs-toggle="pill"
-                                data-bs-target="#writeReview"
-                            >
-                                ⭐ Write Review
-                            </button>
-                        </li>
-                        <li className="nav-item">
-                            <button
-                                className="nav-link"
-                                data-bs-toggle="pill"
-                                data-bs-target="#myReviews"
-                            >
-                                📋 My Reviews
-                            </button>
-                        </li>
-                    </ul>
+                            {/* LEFT TEXT */}
+                            <div className="col-lg-7 text-center">
 
-                    <div className="tab-content">
-
-                        {/* ================= WRITE REVIEW TAB ================= */}
-                        <div className="tab-pane fade show active" id="writeReview">
-
-                            <h2 className="review-title">Share Your Experience</h2>
-                            <p className="review-subtitle">
-                                Your review strengthens the Dhakad community 💕
-                            </p>
-
-                            {/* Stars */}
-                            <div className="star-container">
-                                {[1, 2, 3, 4, 5].map((star) => (
-                                    <span
-                                        key={star}
-                                        className={`star ${star <= rating ? "active" : ""}`}
-                                        onClick={() => setRating(star)}
-                                    >
-                                        ★
-                                    </span>
-                                ))}
+                                <h3 className="fw-bold display-5 review-title">
+                                    Share Your Experience
+                                </h3>
+                                <h5 className="fw-semibold review-subtitle">
+                                    ★
+                                </h5>
+                                <h5 className="text-muted mb-3">
+                                    Your review strengthens the Dhakad community.
+                                </h5>
                             </div>
 
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Review Title (Optional)"
-                                value={title}
-                                onChange={(e) => setTitle(e.target.value)}
-                            />
-
-                            <textarea
-                                rows="4"
-                                className="form-control"
-                                placeholder="Write your experience..."
-                                value={comment}
-                                onChange={(e) => setComment(e.target.value)}
-                            />
-
-                            <button
-                                className="review-btn"
-                                onClick={handleSubmit}
-                                disabled={loading || rating === 0}
-                            >
-                                Submit Your Review
-                            </button>
-
-                            <p className="review-note">
-                                Review will be visible after admin approval.
-                            </p>
+                            {/* RIGHT IMAGE */}
+                            <div className="col-lg-5 text-center">
+                                <img
+                                    src="/dhakadweb/assets/images/couple.png"
+                                    alt="couple"
+                                    className="img-fluid"
+                                />
+                            </div>
                         </div>
+                        <div className="yellow-curve">
+                            <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+                                <path
+                                    d="M0,80 C200,130 420,20 720,60 C1020,100 1240,40 1440,75"
+                                    className="yellow-line"
+                                />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                {/* FORM CARD */}
+                <div className="container mt-3">
+                    <div className="row justify-content-center">
+                        <div className="col-md-10">
+                            {/* STARS */}
+                            <div className="mx-auto text-center">
+                                <div className="fs-1 mb-2">
+                                    {[1, 2, 3, 4, 5].map(star => (
+                                        <span
+                                            key={star}
+                                            role="button"
+                                            onClick={() => setRating(star)}
+                                            className={`review-star ${star <= rating ? "active" : ""
+                                                }`}
+                                        >
+                                            ★
+                                        </span>
+                                    ))}
+                                </div>
 
-                        {/* ================= MY REVIEWS TAB ================= */}
-                        <div className="tab-pane fade" id="myReviews">
+                                <p className="text-muted small">
+                                    Tap to rate your journey with us
+                                </p>
+                            </div>
+                            <div className="card review-card mx-auto rounded-5 bg-FFF5F7">
 
-                            {reviews.length === 0 ? (
-                                <p className="text-center text-muted">No reviews yet.</p>
-                            ) : (
-                                reviews.map((review) => (
-                                    <div key={review._id} className="review-item">
+                                <div className="card-body p-4">
 
-                                        <div className="d-flex justify-content-between align-items-center mb-2">
-                                            <strong>{review.title || "No Title"}</strong>
-                                            <span className={`badge ${review.isApproved ? "bg-success" : "bg-warning text-dark"}`}>
-                                                {review.isApproved ? "Approved" : "Pending"}
-                                            </span>
-                                        </div>
+                                    <input
+                                        className="form-control mb-3"
+                                        value={userName}
+                                        readOnly
+                                    />
 
-                                        <div className="mb-2">
-                                            {"★".repeat(review.rating)}
-                                        </div>
-
-                                        <p>{review.comment}</p>
-
-                                        <div className="text-end">
-                                            <button
-                                                className="btn btn-sm btn-outline-primary me-2"
-                                                onClick={() => handleEdit(review)}
-                                            >
-                                                Edit
-                                            </button>
-
-                                            <button
-                                                className="btn btn-sm btn-outline-danger"
-                                                onClick={() => handleDelete(review._id)}
-                                            >
-                                                Delete
-                                            </button>
-                                        </div>
-
+                                    <input
+                                        className="form-control mb-3"
+                                        value={userEmail}
+                                        readOnly
+                                    />
+                                    <label className="review-title fs-4 fw-semibold">Your Review</label>
+                                    <textarea
+                                        rows="4"
+                                        className="form-control mb-3"
+                                        placeholder="Write about your experience..."
+                                        value={comment}
+                                        onChange={(e) => setComment(e.target.value)}
+                                    />
+                                    <div className="text-center">
+                                        <button
+                                            onClick={handleSubmit}
+                                            disabled={loading || rating === 0}
+                                            className="btn w-50 text-white fw-semibold py-3 review-btn rounded-pill"
+                                        >
+                                            Submit Your Review
+                                        </button>
                                     </div>
-                                ))
-                            )}
-
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                </div>
+
+                {/* TESTIMONIALS */}
+                {/* <div className="container mt-5 text-center">
+                    <h5 className="fw-semibold review-subtitle mb-4">
+                        What Our Happy Couples Say
+                    </h5>
+                    <div className="row g-4">
+
+                        {[1, 2, 3].map(i => (
+                            <div className="col-md-4" key={i}>
+                                <div className="card border-0 shadow-sm rounded-4 h-100 bg-FFF5F7">
+                                    <div className="row p-2">
+                                        <div className="col-md-6 p-0">
+                                            <img
+                                                src="/dhakadweb/assets/images/testimonial-1.png"
+                                                className="rounded mb-2"
+                                                style={{ width: "180px", height: "150px" }}
+                                            />
+                                        </div>
+                                        <div className="col-md-6">
+                                            <div className="text-warning fs-5">★★★★★</div>
+                                            <small className="text-muted">
+                                                Amazing experience with Dhakad Matrimony
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
 
                     </div>
 
-                </div>
+                </div> */}
+
             </div>
         </DashboardLayout>
     );
