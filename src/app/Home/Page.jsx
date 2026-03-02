@@ -138,9 +138,9 @@ const HomePage = () => {
             if (response?.data?.success) {
 
                 if (response.data.requiresVerification) {
-                    localStorage.setItem("verifyEmail", formData.email);
-                    toast.success("OTP sent to your email");
-                    router.push("/enterotpmail");
+                    localStorage.setItem("phone", formData.phone);
+                    toast.success("OTP sent to your Mobile No");
+                    router.push("/enterotp");
                     return;
                 }
 
