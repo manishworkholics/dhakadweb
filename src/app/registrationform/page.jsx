@@ -52,8 +52,8 @@ const RegistrationForm = () => {
         height: "",
         physicalStatus: "Normal",
         maritalStatus: "Never married",
-        religion: "",
-        cast: "",
+        religion: "Hinduism",
+        cast: "Dhakad",
         subCast: "",
         gotra: "",
 
@@ -122,7 +122,7 @@ const RegistrationForm = () => {
                         height: profile.height || "",
                         physicalStatus: profile.physicalStatus || "Normal",
                         maritalStatus: profile.maritalStatus || "Never married",
-                        religion: profile.religion || "",
+                        religion: profile.religion || "Hinduism",
                         cast: profile.caste || "",
                         subCast: profile.subCaste || "",
                         gotra: profile.gotra || "",
@@ -631,21 +631,7 @@ const RegistrationForm = () => {
                                                         </select>
                                                     </div>
 
-                                                    <div className="mb-3">
-                                                        <label className="form-label">Religion</label>
-                                                        <select
-                                                            name="religion"
-                                                            className="form-select"
-                                                            value={formData.religion}
-                                                            onChange={handleChange}
-                                                        >
-                                                            <option value="">Select religion</option>
-                                                            <option value="Hinduism">Hinduism</option>
-                                                            <option value="Islam">Islam</option>
-                                                            <option value="Sikh">Sikh</option>
-                                                            <option value="Christianity">Christianity</option>
-                                                        </select>
-                                                    </div>
+
 
                                                     <div className="mb-3">
                                                         <label className="form-label">Cast</label>
@@ -653,20 +639,29 @@ const RegistrationForm = () => {
                                                             name="cast"
                                                             type="text"
                                                             className="form-control mb-3"
-                                                            value={formData.cast}
+                                                            value={formData.cast || "Dhakad"}
                                                             onChange={handleChange}
+                                                            readOnly
                                                         />
                                                     </div>
 
                                                     <div className="mb-3">
                                                         <label className="form-label">Sub Cast</label>
-                                                        <input
+                                                        <select
                                                             name="subCast"
-                                                            type="text"
                                                             className="form-control mb-3"
                                                             value={formData.subCast}
                                                             onChange={handleChange}
-                                                        />
+                                                        >
+                                                            <option value="">Select Sub Cast</option>
+                                                            <option value="Dhakad">Dhakad</option>
+                                                            <option value="Dhakar">Dhakar</option>
+                                                            <option value="Dhaker">Dhaker</option>
+                                                            <option value="Nagar">Nagar</option>
+                                                            <option value="Malav">Malav</option>
+                                                            <option value="Kirar">Kirar</option>
+                                                            <option value="Kirat">Kirat</option>
+                                                        </select>
                                                     </div>
 
                                                     <div className="mb-3">

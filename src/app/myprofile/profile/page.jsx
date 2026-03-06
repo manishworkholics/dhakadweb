@@ -69,91 +69,7 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                 <h5 className="mb-3">Edit Details</h5>
 
                 <div className="row g-3">
-                    {/* {fields.map((f) => (
-                        <div key={f} className="col-md-6">
-                            <label className="form-label text-capitalize">{f}</label>
 
-                            {f === "state" ? (
-                                <select name="state" value={form.state || ""} onChange={handleChange} className="form-select">
-                                    <option value="">Select State</option>
-                                    {states
-                                        .slice()
-                                        .sort((a, b) => a.state.localeCompare(b.state))
-                                        .map((s) => (
-                                            <option key={s._id} value={s.state}>{s.state}</option>
-                                        ))}
-
-                                </select>
-
-                            ) : f === "city" || f === "location" ? (
-                                <select name="city" value={form.city || form.location || ""} onChange={handleChange} className="form-select">
-                                    <option value="">Select City</option>
-                                    {cities
-                                        .slice()
-                                        .sort((a, b) => a.localeCompare(b))
-                                        .map((c, i) => (
-                                            <option key={i} value={c}>{c}</option>
-                                        ))}
-
-                                </select>
-
-                            ) : f === "gender" ? (
-                                <select name="gender" value={form.gender || ""} onChange={handleChange} className="form-select">
-                                    <option value="">Select</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
-
-                            ) : f === "diet" ? (
-                                <select name="diet" value={form.diet || ""} onChange={handleChange} className="form-select">
-                                    <option value="">Select</option>
-                                    <option value="Veg">Veg</option>
-                                    <option value="Nonveg">Non Veg</option>
-                                </select>
-
-                            ) : f === "familyStatus" ? (
-                                <select name="familyStatus" value={form.familyStatus || ""} onChange={handleChange} className="form-select">
-                                    <option value="">Select</option>
-                                    <option value="Middle class">Middle class</option>
-                                    <option value="Upper middle class">Upper middle class</option>
-                                    <option value="Rich / Affluent (Elite)">Rich / Affluent (Elite)</option>
-                                </select>
-
-                            ) : f === "physicalStatus" ? (
-                                <select name="physicalStatus" value={form.physicalStatus || ""} onChange={handleChange} className="form-select">
-                                    <option value="">Select</option>
-                                    <option value="Normal">Normal</option>
-                                    <option value="Physically Challenged">Physically Challenged</option>
-                                </select>
-
-                            ) : f === "maritalStatus" ? (
-                                <select name="maritalStatus" value={form.maritalStatus || ""} onChange={handleChange} className="form-select">
-                                    <option value="">Select</option>
-                                    <option value="Never married">Never Married</option>
-                                    <option value="Divorced">Previously Married (Divorced)</option>
-                                    <option value="Widower">Previously Married (Widowed)</option>
-                                    <option value="Awaiting divorce">Legally Separated / Awaiting Divorce</option>
-                                </select>
-
-                            ) : f === "dob" ? (
-                                <input
-                                    type="date"
-                                    name="dob"
-                                    value={form.dob || ""}
-                                    onChange={handleChange}
-                                    className="form-control"
-                                />
-
-                            ) : (
-                                <input
-                                    name={f}
-                                    value={form[f] || ""}
-                                    onChange={handleChange}
-                                    className="form-control"
-                                />
-                            )}
-                        </div>
-                    ))} */}
 
 
                     {fields.map((f) => (
@@ -295,6 +211,29 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                                     className="form-control"
                                 />
 
+                            ) : f === "caste" ? (
+                                <input
+                                    name="caste"
+                                    value="Dhakad"
+                                    readOnly
+                                    className="form-control"
+                                />
+                            ) : f === "subCaste" ? (
+                                <select
+                                    name="subCaste"
+                                    value={form.subCaste || ""}
+                                    onChange={handleChange}
+                                    className="form-select"
+                                >
+                                    <option value="">Select Sub Cast</option>
+                                    <option value="Dhakad">Dhakad</option>
+                                    <option value="Dhakar">Dhakar</option>
+                                    <option value="Dhaker">Dhaker</option>
+                                    <option value="Nagar">Nagar</option>
+                                    <option value="Malav">Malav</option>
+                                    <option value="Kirar">Kirar</option>
+                                    <option value="Kirat">Kirat</option>
+                                </select>
                             ) : (
                                 <input
                                     name={f}
@@ -544,8 +483,8 @@ export default function ProfilePage() {
                     <DetailItem label="City" value={profile.city || profile.location} />
                 </ProfileSection>
 
-                <ProfileSection title="Religion & Culture" onEdit={() => handleEdit(["religion", "caste", "subCaste", "gotra"])}>
-                    <DetailItem label="Religion" value={profile.religion} />
+                <ProfileSection title="Religion & Culture" onEdit={() => handleEdit([ "caste", "subCaste", "gotra"])}>
+
                     <DetailItem label="caste" value={profile.caste} />
                     <DetailItem label="Sub caste" value={profile.subCaste} />
                     <DetailItem label="Gotra" value={profile.gotra} />

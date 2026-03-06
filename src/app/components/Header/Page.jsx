@@ -47,6 +47,10 @@ const Header = () => {
                                 <Link className={isActive("/contactus")} href="/contactus">Contact us</Link>
                             </li>
 
+                            <li className="nav-item">
+                                <Link className={isActive("/blog")} href="/blog">Blog</Link>
+                            </li>
+
                             {isLoggedIn && (
                                 <>
                                     <li className="nav-item">
