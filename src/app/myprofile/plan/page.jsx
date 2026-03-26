@@ -16,6 +16,24 @@ export default function Plan() {
     const [upgradeOpen, setUpgradeOpen] = useState(false);
     const dispatch = useDispatch();
 
+    const [selectedPlan, setSelectedPlan] = useState(null);
+    const cleanFeatures = (html) => {
+        return html
+            .replace(/<[^>]*>?/gm, "") // remove HTML tags
+            .split(/[0-9]+\./) // split by numbering
+            .map(f => f.trim())
+            .filter(f => f.length > 0);
+    };
+
+    const getCardClass = (name) => {
+        const n = name?.toLowerCase() || "";
+
+        if (n.includes("silver")) return "silver-card";
+        if (n.includes("gold")) return "gold-plan-card";
+        if (n.includes("platinum")) return "platinum-card";
+        return "lifetime-card";
+    };
+
     const token =
         typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
@@ -220,32 +238,26 @@ export default function Plan() {
                                                 : "lifetime-card";
 
                                 return (
-                                    <div className="col-md-3 pe-0" key={plan._id}>
-                                        <div
-                                            className={`${cardClass} rounded-4 py-3 px-3 text-center plan-box`}
-                                        >
-                                            <h6>{plan.name}</h6>
+                                    <div className="col-md-4 pe-0 mb-2" key={plan._id}>
+                                        <div className={`simple-plan-card p-2 text-center ${cardClass}`}>
 
-                                            <span className="pill">
+                                            <h4 className="plan-title">{plan.name}</h4>
+
+                                            <h2 className="plan-price">₹{finalPrice}</h2>
+
+                                            <p className="plan-duration">
                                                 {plan.durationMonths} Months
-                                            </span>
-
-                                            <h3>₹{finalPrice}</h3>
-                                            <small>incl. GST</small>
-
-                                            <ul className="list-unstyled">
-                                                {plan.features.map((f, i) => (
-                                                    <li key={i}>✔ {f}</li>
-                                                ))}
-                                            </ul>
+                                            </p>
 
                                             <button
-                                                className="btn btn-outline-secondary w-100"
-                                                disabled={paying}
-                                                onClick={() => handleBuy(plan._id)}
+                                                className="btn btn-outline-dark w-100"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#planModal"
+                                                onClick={() => setSelectedPlan(plan)}
                                             >
-                                                {paying ? "Processing..." : "Choose Plan"}
+                                                View Details
                                             </button>
+
                                         </div>
                                     </div>
                                 );
@@ -347,34 +359,37 @@ export default function Plan() {
                                                 ? "platinum-card"
                                                 : "lifetime-card";
                                 return (
-                                    <div className="col-md-4" key={plan._id}>
-                                        <div
-                                            className={`${cardClass} rounded-4 py-3 px-3 text-center plan-box`}
-                                        >
-                                            <h6>{plan.name}</h6>
+                                    <div className="col-md-4 pe-0 mb-2" key={plan._id}>
+                                        <div className={`simple-plan-card p-2 text-center ${cardClass}`}>
 
-                                            <span className="pill">
+                                            <h4 className="plan-title">{plan.name}</h4>
+
+                                            <h2 className="plan-price">₹{finalPrice}</h2>
+
+                                            <p className="plan-duration">
                                                 {plan.durationMonths} Months
-                                            </span>
-
-                                            <h3>₹{finalPrice}</h3>
-                                            <small>incl. GST</small>
-
-                                            <ul className="list-unstyled">
-                                                {plan.features.map((f, i) => (
-                                                    <li key={i}>✔ {f}</li>
-                                                ))}
-                                            </ul>
+                                            </p>
 
                                             <button
-                                                className="btn btn-outline-secondary w-100 mt-2"
+                                                className="btn btn-outline-dark w-100"
                                                 onClick={() => {
+                                                    setSelectedPlan(plan);
+
+                                                    // 1️⃣ Close current custom modal
                                                     setUpgradeOpen(false);
-                                                    handleBuy(plan._id);
+
+                                                    // 2️⃣ Wait for DOM update
+                                                    setTimeout(() => {
+                                                        const modal = new bootstrap.Modal(
+                                                            document.getElementById("planModal")
+                                                        );
+                                                        modal.show();
+                                                    }, 300);
                                                 }}
                                             >
-                                                Upgrade
+                                                View Details
                                             </button>
+
                                         </div>
                                     </div>
                                 );
@@ -384,6 +399,82 @@ export default function Plan() {
                 </div>
             )}
 
+
+            <div
+                className="modal fade"
+                id="planModal"
+                tabIndex="-1"
+                aria-hidden="true"
+            >
+                <div className="modal-dialog  modal-lg modal-dialog-centered">
+
+                    <div
+                        className={`modal-content rounded-4 ${getCardClass(selectedPlan?.name)}`}
+                    >
+
+                        {/* Header */}
+                        <div className="modal-header border-0">
+                            <h5 className="modal-title fw-bold">
+                                {selectedPlan?.name || "Plan Details"}
+                            </h5>
+
+                            <button
+                                type="button"
+                                className="btn-close"
+                                data-bs-dismiss="modal"
+                            ></button>
+                        </div>
+
+                        {/* Body */}
+                        <div className="modal-body">
+
+                            <h3 className="fw-bold mb-2">
+                                ₹{selectedPlan
+                                    ? selectedPlan.price +
+                                    Math.round(
+                                        (selectedPlan.price * selectedPlan.gstPercent) / 100
+                                    )
+                                    : 0}
+                            </h3>
+
+                            <p className="text-muted">
+                                {selectedPlan?.durationMonths || 0} Months
+                            </p>
+
+                            <hr />
+
+                            <ul className="list-unstyled">
+                                {selectedPlan &&
+                                    cleanFeatures(selectedPlan.features[0]).map((f, i) => (
+                                        <li key={i} className="mb-2">
+                                            ✔ {f}
+                                        </li>
+                                    ))}
+                            </ul>
+                        </div>
+
+                        {/* Footer */}
+                        <div className="modal-footer border-0">
+                            <button
+                                className="btn btn-outline-secondary"
+                                data-bs-dismiss="modal"
+                            >
+                                Close
+                            </button>
+
+                            <button
+                                className="btn btn-danger"
+                                onClick={() =>
+                                    selectedPlan && handleBuy(selectedPlan._id)
+                                }
+                            >
+                                Buy Now
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </DashboardLayout>
     );
 }
