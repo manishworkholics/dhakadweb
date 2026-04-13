@@ -2,18 +2,13 @@
 
 import React from 'react'
 import Header from '../components/Header/Page'
-import Link from 'next/link'
-import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import SuccessStories from '../components/SuccessStories/Page';
 import Footer from '../components/Footer/page';
 import OurTeam from '../components/OurTeam/Page';
 
 const Aboutus = () => {
-    const router = useRouter();
+    
     return (
         <div className='login-page bg-FDFBF7'>
             <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />

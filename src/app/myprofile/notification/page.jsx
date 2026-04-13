@@ -32,7 +32,7 @@ export default function NotificationPage() {
 
   const fetchNotifications = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("usertoken");
 
       const res = await axios.get(`${API_URL}/notifications`, {
         headers: { Authorization: `Bearer ${token}` },

@@ -17,7 +17,7 @@ export default function ProfileDetail() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("usertoken");
 
     if (!token) {
       router.replace("/login");
@@ -33,7 +33,7 @@ export default function ProfileDetail() {
 
   const router = useRouter();
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("usertoken");
     if (!token) {
       router.replace("/login");
     }
@@ -53,7 +53,7 @@ export default function ProfileDetail() {
       try {
         const res = await fetch(`http://143.110.244.163:5000/api/profile/${id}`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}` // or your auth token
+            Authorization: `Bearer ${localStorage.getItem("usertoken")}` // or your auth token
           }
         });
         const data = await res.json();
@@ -68,7 +68,7 @@ export default function ProfileDetail() {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`
+              Authorization: `Bearer ${localStorage.getItem("usertoken")}`
             }
           });
           console.log("Profile marked as viewed");
@@ -90,7 +90,7 @@ export default function ProfileDetail() {
         `http://143.110.244.163:5000/api/interest/request/sent`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
           },
         }
       );
@@ -161,7 +161,7 @@ export default function ProfileDetail() {
   // 🚀 SEND INTEREST
   const sendInterestRequest = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("usertoken");
 
       const res = await fetch(`http://143.110.244.163:5000/api/interest/request/send`, {
         method: "POST",
@@ -190,7 +190,7 @@ export default function ProfileDetail() {
   // 🚀 SEND INTEREST
   const sendChatInterestRequest = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("usertoken");
 
       const res = await fetch(`http://143.110.244.163:5000/api/chat/now`, {
         method: "POST",
@@ -219,7 +219,7 @@ export default function ProfileDetail() {
   // ⭐ CHECK SHORTLIST STATE WHEN OPENING PROFILE
   const checkShortlistStatus = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("usertoken");
 
       const res = await fetch(`http://143.110.244.163:5000/api/shortlist/`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -238,7 +238,7 @@ export default function ProfileDetail() {
 
   const toggleShortlist = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("usertoken");
 
       const res = await fetch(`http://143.110.244.163:5000/api/shortlist/${profile._id}`, {
         method: isShortlisted ? "DELETE" : "POST",

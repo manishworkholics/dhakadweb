@@ -169,7 +169,7 @@ export default function NewMatches() {
 
   const fetchViewedProfiles = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("usertoken");
       if (!token) return;
 
       const res = await axios.get(`${API_URL}/matches/new-matches`, {

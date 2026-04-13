@@ -306,7 +306,7 @@ export default function ProfilePage() {
 
     useEffect(() => {
         if (typeof window !== "undefined") {
-            setToken(localStorage.getItem("token") || "");
+            setToken(localStorage.getItem("usertoken") || "");
             setUser(JSON.parse(localStorage.getItem("user") || "null"));
         }
     }, []);

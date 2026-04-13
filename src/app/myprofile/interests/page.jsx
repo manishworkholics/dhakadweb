@@ -139,7 +139,7 @@ export default function InterestsPage() {
     // 🔥 Fetch interests from backend
     const fetchRequests = async () => {
         try {
-            const token = localStorage.getItem("token");
+            const token = localStorage.getItem("usertoken");
 
             let receivedURL = `${API_URL}/received`;
 
@@ -187,7 +187,7 @@ export default function InterestsPage() {
     // 🔥 Accept / Reject Handler
     const updateRequestStatus = async (requestId, actionType) => {
         try {
-            const token = localStorage.getItem("token");
+            const token = localStorage.getItem("usertoken");
 
             const url =
                 actionType === "accept"

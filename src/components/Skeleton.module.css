@@ -1,0 +1,51 @@
+.shimmer {
+  border-radius: 10px;
+  background: linear-gradient(
+    90deg,
+    rgba(17, 24, 39, 0.06) 0%,
+    rgba(17, 24, 39, 0.12) 45%,
+    rgba(17, 24, 39, 0.06) 100%
+  );
+  background-size: 240% 100%;
+  animation: shimmer 1.1s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.card {
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+.media {
+  height: 220px;
+  background: linear-gradient(
+    90deg,
+    rgba(212, 175, 55, 0.12) 0%,
+    rgba(212, 175, 55, 0.22) 45%,
+    rgba(212, 175, 55, 0.12) 100%
+  );
+  background-size: 240% 100%;
+  animation: shimmer 1.1s ease-in-out infinite;
+}
+
+.body {
+  padding: 14px 14px 16px;
+  display: grid;
+  gap: 10px;
+}
+
+.mt {
+  margin-top: 2px;
+}
+

@@ -91,7 +91,7 @@ const EnterOtp = () => {
       if (response?.data?.success) {
         toast.success("OTP Verified Successfully");
 
-        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("usertoken", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
 
         setTimeout(() => router.push("/registrationform"), 700);

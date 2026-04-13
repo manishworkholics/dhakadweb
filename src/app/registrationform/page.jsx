@@ -17,7 +17,7 @@ const RegistrationForm = () => {
 
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("usertoken");
         if (!token) {
             router.replace("/login");
         }
@@ -25,7 +25,7 @@ const RegistrationForm = () => {
     // Load storage only in browser
     useEffect(() => {
         if (typeof window !== "undefined") {
-            const savedToken = localStorage.getItem("token");
+            const savedToken = localStorage.getItem("usertoken");
             const savedUser = localStorage.getItem("user");
 
             if (savedToken) setToken(savedToken);

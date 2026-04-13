@@ -1,51 +1,60 @@
 "use client";
 
-import React from "react";
-import { useState, useEffect } from "react";
-export default function OurTeam() {
+import React, { useState, useEffect } from "react";
 
-    const [successStories, setsuccessStories] = useState([]);
+export default function OurTeam() {
+    const [team, setTeam] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const getSuccess = async () => {
+    const getTeam = async () => {
         try {
-            const res = await fetch("http://206.189.130.102:5000/api/success")
+            const res = await fetch("http://143.110.244.163:5000/api/team");
             const data = await res.json();
-            setsuccessStories(data?.stories || [])
+
+            if (data.success) {
+                // ✅ Sort by order
+                const sorted = data.members.sort((a, b) => a.order - b.order);
+
+                // ✅ Only active members
+                const active = sorted.filter((item) => item.isActive);
+
+                setTeam(active);
+            }
+
             setLoading(false);
         } catch (error) {
-            console.error("Error fetching success stories:", error);
+            console.error("Error fetching team:", error);
             setLoading(false);
         }
-    }
+    };
 
     useEffect(() => {
-        getSuccess();
+        getTeam();
     }, []);
 
-    // Logic to select only the first 4 stories for display
-    const displayedStories = successStories.slice(0, 4);
+    // ✅ only first 4 members (same logic as before)
+    const displayedTeam = team.slice(0, 4);
 
-    // Display a loading message
+    // 🔄 Loading State
     if (loading) {
         return (
             <section className="py-5 text-center" style={{ background: "#fff" }}>
                 <div className="container">
-                    <p>Loading success stories...</p>
+                    <p>Loading team...</p>
                 </div>
             </section>
         );
     }
 
-    // Check if there are no stories to display
-    if (displayedStories.length === 0) {
+    // ❌ No Data
+    if (displayedTeam.length === 0) {
         return (
             <section className="py-5 text-center">
                 <div className="container">
                     <h2 className="fw-bold m-0">
                         <span className="text-D4AF37 text-center"> Meet </span> Our Team
                     </h2>
-                    <p className="mt-3">No success stories found at this time.</p>
+                    <p className="mt-3">No team members found.</p>
                 </div>
             </section>
         );
@@ -55,30 +64,30 @@ export default function OurTeam() {
         <section className="py-lg-5 py-4">
             <div className="container">
                 <div className="d-flex justify-content-center align-items-center mb-4 w-100">
-                    {/* Title on the Left */}
                     <h2 className="fw-bold m-0 team">
                         <span className="text-D4AF37 "> Meet </span> Our Team
                     </h2>
                 </div>
 
-                {/* ---------- Stories Grid Layout (Limited to 4) ---------- */}
+                {/* 🔥 TEAM GRID */}
                 <div className="row g-4 justify-content-center">
-                    {displayedStories.map((item, index) => (
-                        <div key={index} className="col-lg-3 col-md-4 col-6">
+                    {displayedTeam.map((item, index) => (
+                        <div key={item._id} className="col-lg-3 col-md-4 col-6">
                             <div className="text-center">
-                                {/* IMAGE CARD */}
+
+                                {/* IMAGE */}
                                 <div
                                     className="rounded-4 overflow-hidden mb-3"
                                     style={{ height: "260px" }}
                                 >
-
                                     <img
-                                        src="/dhakadweb/assets/images/sidebar.png"
-                                        alt="Our Team"
+                                        src={item.photo || "/dhakadweb/assets/images/sidebar.png"}
+                                        alt={item.name}
                                         className="w-100 h-100 object-fit-cover rounded-4"
                                     />
                                 </div>
 
+                                {/* INFO CARD */}
                                 <div
                                     className="bg-white p-lg-2 p-md-2 p-1 text-center mx-lg-4 mx-md-4 mx-2 rounded-3"
                                     style={{
@@ -88,18 +97,26 @@ export default function OurTeam() {
                                             "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
                                     }}
                                 >
-                                    <h5 className="fw-bold mb-1 text-danger" style={{ fontSize: "15px" }}>
-                                        {item.name || `User ${index + 1}`}
+                                    {/* NAME */}
+                                    <h5
+                                        className="fw-bold mb-1 text-danger"
+                                        style={{ fontSize: "15px" }}
+                                    >
+                                        {item.name}
                                     </h5>
-                                    <p className="text-muted small m-0" style={{ fontSize: "12px" }}>
-                                        Marketing Manager
+
+                                    {/* POST */}
+                                    <p
+                                        className="text-muted small m-0"
+                                        style={{ fontSize: "12px" }}
+                                    >
+                                        {item.post}
                                     </p>
                                 </div>
                             </div>
                         </div>
                     ))}
                 </div>
-
             </div>
         </section>
     );

@@ -8,12 +8,12 @@ const Header = () => {
     const pathname = usePathname(); // 👈 current route
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("usertoken");
         if (token) setIsLoggedIn(true);
     }, []);
 
     const handleLogout = () => {
-        localStorage.removeItem("token");
+        localStorage.removeItem("usertoken");
         setIsLoggedIn(false);
         window.location.href = "/dhakadweb/login";
     };
@@ -49,6 +49,14 @@ const Header = () => {
 
                             <li className="nav-item">
                                 <Link className={isActive("/blog")} href="/blog">Blog</Link>
+                            </li>
+
+                            <li className="nav-item">
+                                <Link className={isActive("/gallery")} href="/gallery">Gallery</Link>
+                            </li>
+
+                            <li className="nav-item">
+                                <Link className={isActive("/terms-and-conditions")} href="/terms-and-conditions">Terms &amp; Conditions</Link>
                             </li>
 
                             {isLoggedIn && (

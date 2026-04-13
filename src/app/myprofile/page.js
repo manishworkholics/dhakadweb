@@ -48,7 +48,7 @@
 //                 `http://143.110.244.163:5000/api/profile/own-profile/${userId}`,
 //                 {
 //                     headers: {
-//                         Authorization: `Bearer ${localStorage.getItem("token")}`,
+//                         Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
 //                     },
 //                 }
 //             );
@@ -65,7 +65,7 @@
 //                 `http://143.110.244.163:5000/api/viewed/viewed`,
 //                 {
 //                     headers: {
-//                         Authorization: `Bearer ${localStorage.getItem("token")}`,
+//                         Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
 //                     },
 //                 }
 //             );
@@ -82,7 +82,7 @@
 //                 `http://143.110.244.163:5000/api/matches/new-matches`,
 //                 {
 //                     headers: {
-//                         Authorization: `Bearer ${localStorage.getItem("token")}`,
+//                         Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
 //                     },
 //                 }
 //             );
@@ -100,7 +100,7 @@
 //     }, [userId]);
 
 //     useEffect(() => {
-//         const token = localStorage.getItem("token");
+//         const token = localStorage.getItem("usertoken");
 //         if (!token) {
 //             router.replace("/login");
 //         }
@@ -257,7 +257,7 @@ export default function MyProfileDashboard() {
                 `http://143.110.244.163:5000/api/profile/own-profile/${userId}`,
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                        Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
                     },
                 }
             );
@@ -274,7 +274,7 @@ export default function MyProfileDashboard() {
             setLoadingViewed(true);
             const res = await fetch(`http://143.110.244.163:5000/api/viewed/viewed`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
                 },
             });
             const data = await res.json();
@@ -293,7 +293,7 @@ export default function MyProfileDashboard() {
                 `http://143.110.244.163:5000/api/matches/new-matches`,
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                        Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
                     },
                 }
             );
@@ -314,7 +314,7 @@ export default function MyProfileDashboard() {
 
     /* ---------- Auth check ---------- */
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("usertoken");
         if (!token) {
             router.replace("/login");
         }

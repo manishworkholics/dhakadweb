@@ -6,7 +6,7 @@ export const loadOwnProfile = createAsyncThunk(
   "profile/loadOwnProfile",
   async (_, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("usertoken");
       console.log("TOKEN:", token);
 
       const data = await fetchOwnProfile(token);

@@ -102,7 +102,7 @@ const EnterOtpMail = () => {
     //         if (response?.data?.success) {
     //             toast.success("Email Verified Successfully");
 
-    //             localStorage.setItem("token", response?.data?.token);
+    //             localStorage.setItem("usertoken", response?.data?.token);
     //             localStorage.setItem("user", JSON.stringify(response?.data?.user));
     //             localStorage.removeItem("tempToken");
 
@@ -149,7 +149,7 @@ const EnterOtpMail = () => {
             if (response?.data?.success) {
                 toast.success("Email verified successfully");
 
-                localStorage.setItem("token", response.data.token);
+                localStorage.setItem("usertoken", response.data.token);
                 localStorage.setItem("user", JSON.stringify(response.data.user));
                 localStorage.removeItem("verifyEmail");
 

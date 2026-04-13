@@ -18,7 +18,7 @@ export default function MyReviewPage() {
     const [reviews, setReviews] = useState([]);
 
     const token =
-        typeof window !== "undefined" ? localStorage.getItem("token") : null;
+        typeof window !== "undefined" ? localStorage.getItem("usertoken") : null;
 
     const user =
         typeof window !== "undefined"

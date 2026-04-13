@@ -16,7 +16,7 @@ export default function RecentChatList() {
 
     useEffect(() => {
         if (typeof window !== "undefined") {
-            const storedToken = localStorage.getItem("token");
+            const storedToken = localStorage.getItem("usertoken");
             const storedUser = localStorage.getItem("user");
 
             setToken(storedToken);

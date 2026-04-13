@@ -31,7 +31,7 @@ export default function DashboardPage() {
     const [profile, setProfile] = useState(null);
 
     const [userId, setUserId] = useState(null);
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("usertoken");
     useEffect(() => {
         const userData = localStorage.getItem("user");
         if (userData) {

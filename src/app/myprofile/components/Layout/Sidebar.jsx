@@ -49,7 +49,7 @@ export default function Sidebar({ data }) {
 
     /* ========== LOGOUT ========== */
     const handleLogout = () => {
-        localStorage.removeItem("token");
+        localStorage.removeItem("usertoken");
         window.location.href = "/dhakadweb/login";
     };
 

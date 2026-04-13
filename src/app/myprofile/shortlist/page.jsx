@@ -116,7 +116,7 @@ export default function Shortlist() {
     // Fetch shortlisted profiles
     const fetchShortlistedProfiles = async () => {
         try {
-            const token = localStorage.getItem("token");
+            const token = localStorage.getItem("usertoken");
 
             const res = await axios.get(`${API_URL}/shortlist`, {
                 headers: { Authorization: `Bearer ${token}` },
@@ -135,7 +135,7 @@ export default function Shortlist() {
     // Remove from shortlist handler
     const handleRemoveShortlist = async (profileId) => {
         try {
-            const token = localStorage.getItem("token");
+            const token = localStorage.getItem("usertoken");
 
             const res = await axios.delete(
                 `${API_URL}/shortlist/${profileId}`,

@@ -21,7 +21,7 @@ export default function ChatListPage() {
     /* ---------------- AUTH ---------------- */
     const token =
         typeof window !== "undefined"
-            ? localStorage.getItem("token")
+            ? localStorage.getItem("usertoken")
             : null;
 
     const user =

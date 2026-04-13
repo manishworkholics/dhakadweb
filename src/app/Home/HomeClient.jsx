@@ -26,7 +26,7 @@ const HomeClient = () => {
 
     useEffect(() => {
         if (typeof window !== "undefined") {
-            const savedToken = localStorage.getItem("token");
+            const savedToken = localStorage.getItem("usertoken");
             const savedUser = localStorage.getItem("user");
 
             if (savedToken) setToken(savedToken);

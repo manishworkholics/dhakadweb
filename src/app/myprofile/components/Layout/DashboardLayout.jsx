@@ -22,7 +22,7 @@ export default function DashboardLayout({ children }) {
       const res = await fetch(
         `http://143.110.244.163:5000/api/profile/own-profile/${userId}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}` // or your auth token
+          Authorization: `Bearer ${localStorage.getItem("usertoken")}` // or your auth token
         }
       }
       );

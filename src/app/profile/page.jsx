@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 export default function Profile() {
     const router = useRouter();
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("usertoken");
         if (!token) {
             router.replace("/login");
         }
@@ -28,7 +28,7 @@ export default function Profile() {
 
     useEffect(() => {
         if (typeof window !== "undefined") {
-            const savedToken = localStorage.getItem("token");
+            const savedToken = localStorage.getItem("usertoken");
             const savedUser = localStorage.getItem("user");
 
             if (savedToken) setToken(savedToken);
@@ -103,7 +103,7 @@ export default function Profile() {
 
         fetch(`http://143.110.244.163:5000/api/profile/profiles?${params.toString()}`, {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
             },
         })
             .then((res) => res.json())

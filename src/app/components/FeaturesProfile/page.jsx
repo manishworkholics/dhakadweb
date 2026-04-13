@@ -22,7 +22,7 @@ export default function FeaturesProfile() {
 
     useEffect(() => {
         if (typeof window !== "undefined") {
-            const savedToken = localStorage.getItem("token");
+            const savedToken = localStorage.getItem("usertoken");
             const savedUser = localStorage.getItem("user");
 
             if (savedToken) setToken(savedToken);
@@ -34,7 +34,7 @@ export default function FeaturesProfile() {
     useEffect(() => {
         const fetchProfiles = async () => {
             try {
-                 const savedToken = localStorage.getItem("token");
+                 const savedToken = localStorage.getItem("usertoken");
                 const res = await fetch("http://143.110.244.163:5000/api/featured?limit=10", {
                     headers: {
                         "Content-Type": "application/json",

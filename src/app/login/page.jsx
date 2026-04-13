@@ -24,7 +24,7 @@ const Login = () => {
 
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("usertoken");
         if (token) {
             router.replace("/");
         }
@@ -81,7 +81,7 @@ const Login = () => {
                 // 🟢 Email already verified → direct login
                 toast.success("Login Successful");
 
-                localStorage.setItem("token", data?.token);
+                localStorage.setItem("usertoken", data?.token);
                 localStorage.setItem("user", JSON.stringify(data?.user));
                 localStorage.removeItem("tempToken");
 
