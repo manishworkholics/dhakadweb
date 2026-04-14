@@ -645,6 +645,18 @@ export default function ProfileDetail() {
                             <td className="bg-transparent border-0 details">Gotra:</td>
                             <td className="bg-transparent border-0 details">{profile.gotra || "N/A"}</td>
                           </tr>
+                          <tr>
+                            <td className="bg-transparent border-0 details">Skin Tone:</td>
+                            <td className="bg-transparent border-0 details">{profile.skinTone || "N/A"}</td>
+                          </tr>
+                          <tr>
+                            <td className="bg-transparent border-0 details">Birth Place:</td>
+                            <td className="bg-transparent border-0 details">{profile.birthPlace || "N/A"}</td>
+                          </tr>
+                          <tr>
+                            <td className="bg-transparent border-0 details">Birth Time:</td>
+                            <td className="bg-transparent border-0 details">{profile.birthTime || "N/A"}</td>
+                          </tr>
                         </tbody>
                       </table>
                     </div>

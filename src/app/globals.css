@@ -902,7 +902,8 @@ body {
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
     border-radius: 10px;
     overflow: hidden;
-    height: 800px !important;
+    height: auto !important;
+    min-height: 800px;
 }
 
 @media only screen and (min-width:768px) and (max-width:1024px) {
@@ -913,6 +914,8 @@ body {
         box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
         border-radius: 10px;
         overflow: hidden;
+        height: auto !important;
+        min-height: 600px;
     }
 }
 
@@ -924,6 +927,8 @@ body {
         box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
         border-radius: 10px;
         overflow: hidden;
+        height: auto !important;
+        min-height: 700px;
     }
 
 }

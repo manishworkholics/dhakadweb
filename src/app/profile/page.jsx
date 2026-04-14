@@ -45,7 +45,8 @@ export default function Profile() {
         religions: [],
         locations: [],
         education: [],
-        occupations: []
+        occupations: [],
+        skinTones: ['Fair', 'Wheatish', 'Medium', 'Dark', 'Very Dark']
     });
 
     const [page, setPage] = useState(1);
@@ -78,6 +79,9 @@ export default function Profile() {
         location: "",
         education: "",
         profession: "",
+        skinTone: "",
+        birthPlace: "",
+        birthTime: "",
         sortBy: ""
     });
 
@@ -267,6 +271,33 @@ export default function Profile() {
                                         ))}
                                     </select>
 
+                                    <h6 className="mb-2 fw-normal">Skin Tone</h6>
+                                    <select className="form-select mb-3"
+                                        onChange={(e) => setFilters({ ...filters, skinTone: e.target.value })}
+                                    >
+                                        <option value="">Any</option>
+                                        {filterOptions.skinTones.map((item, i) => (
+                                            <option key={i}>{item}</option>
+                                        ))}
+                                    </select>
+
+                                    <h6 className="mb-2 fw-normal">Birth Place</h6>
+                                    <input
+                                        type="text"
+                                        className="form-control mb-3"
+                                        placeholder="Enter birth place"
+                                        value={filters.birthPlace}
+                                        onChange={(e) => setFilters({ ...filters, birthPlace: e.target.value })}
+                                    />
+
+                                    <h6 className="mb-2 fw-normal">Birth Time</h6>
+                                    <input
+                                        type="time"
+                                        className="form-control mb-3"
+                                        value={filters.birthTime}
+                                        onChange={(e) => setFilters({ ...filters, birthTime: e.target.value })}
+                                    />
+
                                     <div className="filter-btn">
                                         <button
                                             className="btn bg-C8C8C8 text-white px-4 rounded-3"
@@ -277,6 +308,9 @@ export default function Profile() {
                                                 location: "",
                                                 education: "",
                                                 profession: "",
+                                                skinTone: "",
+                                                birthPlace: "",
+                                                birthTime: "",
                                                 sortBy: ""
                                             })}
                                         >

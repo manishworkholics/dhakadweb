@@ -4,6 +4,20 @@ import React, { useEffect, useState } from "react";
 import DashboardLayout from "../components/Layout/DashboardLayout";
 import axios from "axios";
 
+const educationOptions = [
+    "10th",
+    "12th",
+    "diploma",
+    "bachelors",
+    "masters",
+    "phd",
+    "ca",
+    "cs",
+    "mbbs",
+    "law",
+    "others",
+];
+
 // ---------------- Detail Item ----------------
 const DetailItem = ({ label, value }) => (
     <div className="profile-detail-item">
@@ -59,6 +73,7 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
         setForm((prev) => ({
             ...prev,
             [name === "city" ? "location" : name]: value,
+            ...(name === "educationDetails" && value !== "others" ? { educationOther: "" } : {}),
         }));
     };
 
@@ -131,6 +146,7 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                             ) : f === "maritalStatus" ? (
                                 <select name="maritalStatus" value={form.maritalStatus || ""} onChange={handleChange} className="form-select">
                                     <option value="">Select</option>
+                                    <option value="Married">Married</option>
                                     <option value="Never married">Never Married</option>
                                     <option value="Divorced">Previously Married (Divorced)</option>
                                     <option value="Widower">Previously Married (Widowed)</option>
@@ -156,20 +172,36 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                                 </select>
 
                             ) : f === "educationDetails" ? (
-                                <select name="educationDetails" value={form.educationDetails || ""} onChange={handleChange} className="form-select">
-                                    <option value="">Select education</option>
-                                    <option value="10th">10th</option>
-                                    <option value="12th">12th</option>
-                                    <option value="diploma">Diploma</option>
-                                    <option value="bachelors">Bachelor's Degree</option>
-                                    <option value="masters">Master's Degree</option>
-                                    <option value="phd">PhD / Doctorate</option>
-                                    <option value="ca">CA</option>
-                                    <option value="cs">CS</option>
-                                    <option value="mbbs">MBBS</option>
-                                    <option value="law">LLB / LLM</option>
-                                    <option value="others">Others</option>
-                                </select>
+                                <>
+                                    <select name="educationDetails" value={form.educationDetails || ""} onChange={handleChange} className="form-select">
+                                        <option value="">Select education</option>
+                                        <option value="10th">10th</option>
+                                        <option value="12th">12th</option>
+                                        <option value="diploma">Diploma</option>
+                                        <option value="bachelors">Bachelor's Degree</option>
+                                        <option value="masters">Master's Degree</option>
+                                        <option value="phd">PhD / Doctorate</option>
+                                        <option value="ca">CA</option>
+                                        <option value="cs">CS</option>
+                                        <option value="mbbs">MBBS</option>
+                                        <option value="law">LLB / LLM</option>
+                                        <option value="others">Others</option>
+                                    </select>
+
+                                    {form.educationDetails === "others" && (
+                                        <div className="mt-3">
+                                            <label className="form-label">Please specify your education</label>
+                                            <input
+                                                name="educationOther"
+                                                type="text"
+                                                className="form-control"
+                                                value={form.educationOther || ""}
+                                                onChange={handleChange}
+                                                placeholder="Enter your education"
+                                            />
+                                        </div>
+                                    )}
+                                </>
 
                             ) : f === "occupation" ? (
                                 <select name="occupation" value={form.occupation || ""} onChange={handleChange} className="form-select">
@@ -234,6 +266,41 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                                     <option value="Kirar">Kirar</option>
                                     <option value="Kirat">Kirat</option>
                                 </select>
+
+                            ) : f === "skinTone" ? (
+                                <select
+                                    name="skinTone"
+                                    value={form.skinTone || ""}
+                                    onChange={handleChange}
+                                    className="form-select"
+                                >
+                                    <option value="">Select skin tone</option>
+                                    <option value="Fair">Fair</option>
+                                    <option value="Wheatish">Wheatish</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Dark">Dark</option>
+                                    <option value="Very Dark">Very Dark</option>
+                                </select>
+
+                            ) : f === "birthPlace" ? (
+                                <input
+                                    type="text"
+                                    name="birthPlace"
+                                    value={form.birthPlace || ""}
+                                    onChange={handleChange}
+                                    className="form-control"
+                                    placeholder="Enter birth place"
+                                />
+
+                            ) : f === "birthTime" ? (
+                                <input
+                                    type="time"
+                                    name="birthTime"
+                                    value={form.birthTime || ""}
+                                    onChange={handleChange}
+                                    className="form-control"
+                                />
+
                             ) : (
                                 <input
                                     name={f}
@@ -250,7 +317,21 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
 
                 <div className="text-end mt-4">
                     <button className="btn btn-secondary me-2" onClick={onClose}>Cancel</button>
-                    <button className="btn btn-danger text-white" onClick={() => onSubmit(form)}>Save</button>
+                    <button
+                        className="btn btn-danger text-white"
+                        onClick={() => {
+                            const { educationOther, ...rest } = form;
+                            onSubmit({
+                                ...rest,
+                                educationDetails:
+                                    form.educationDetails === "others"
+                                        ? form.educationOther || ""
+                                        : form.educationDetails,
+                            });
+                        }}
+                    >
+                        Save
+                    </button>
                 </div>
             </div>
         </div>
@@ -325,7 +406,20 @@ export default function ProfilePage() {
 
     const handleEdit = (fields) => {
         const data = {};
-        fields.forEach((f) => data[f] = profile[f] || "");
+        fields.forEach((f) => {
+            if (f === "educationDetails") {
+                const currentValue = profile.educationDetails || "";
+                if (educationOptions.includes(currentValue)) {
+                    data.educationDetails = currentValue;
+                    data.educationOther = "";
+                } else {
+                    data.educationDetails = currentValue ? "others" : "";
+                    data.educationOther = currentValue;
+                }
+            } else {
+                data[f] = profile[f] || "";
+            }
+        });
         setEditFields(fields);
         setEditData(data);
         setEditOpen(true);
@@ -483,11 +577,14 @@ export default function ProfilePage() {
                     <DetailItem label="City" value={profile.city || profile.location} />
                 </ProfileSection>
 
-                <ProfileSection title="Religion & Culture" onEdit={() => handleEdit([ "caste", "subCaste", "gotra"])}>
+                <ProfileSection title="Religion & Culture" onEdit={() => handleEdit([ "caste", "subCaste", "gotra", "skinTone", "birthPlace", "birthTime"])}>
 
                     <DetailItem label="caste" value={profile.caste} />
                     <DetailItem label="Sub caste" value={profile.subCaste} />
                     <DetailItem label="Gotra" value={profile.gotra} />
+                    <DetailItem label="Skin Tone" value={profile.skinTone} />
+                    <DetailItem label="Birth Place" value={profile.birthPlace} />
+                    <DetailItem label="Birth Time" value={profile.birthTime} />
                 </ProfileSection>
 
                 <ProfileSection title="Professional Information" onEdit={() => handleEdit(["educationDetails", "employmentType", "occupation", "annualIncome"])}>

@@ -37,6 +37,22 @@ const RegistrationForm = () => {
     const [submitted, setSubmitted] = useState(false);
     const [profileExists, setProfileExists] = useState(false);
 
+    const educationOptions = [
+        "10th",
+        "12th",
+        "diploma",
+        "bachelors",
+        "masters",
+        "phd",
+        "ca",
+        "cs",
+        "icwa",
+        "mbbs",
+        "md",
+        "law",
+        "others",
+    ];
+
     const [formData, setFormData] = useState({
         // Step 1
         name: user?.name,
@@ -56,9 +72,13 @@ const RegistrationForm = () => {
         cast: "Dhakad",
         subCast: "",
         gotra: "",
+        skinTone: "",
+        birthPlace: "",
+        birthTime: "",
 
         // Step 3
         education: "",
+        educationOther: "",
         employmentType: "",
         occupation: "",
         annualIncome: "",
@@ -126,7 +146,17 @@ const RegistrationForm = () => {
                         cast: profile.caste || "",
                         subCast: profile.subCaste || "",
                         gotra: profile.gotra || "",
-                        education: profile.educationDetails || "",
+                        skinTone: profile.skinTone || "",
+                        birthPlace: profile.birthPlace || "",
+                        birthTime: profile.birthTime || "",
+                        education: educationOptions.includes(profile.educationDetails)
+                            ? profile.educationDetails
+                            : profile.educationDetails
+                                ? "others"
+                                : "",
+                        educationOther: educationOptions.includes(profile.educationDetails)
+                            ? ""
+                            : profile.educationDetails || "",
                         employmentType: profile.employmentType || "",
                         occupation: profile.occupation || "",
                         annualIncome: profile.annualIncome || "",
@@ -208,7 +238,11 @@ const RegistrationForm = () => {
     const handleChange = async (e) => {
 
         const { name, value } = e.target;
-        setFormData((p) => ({ ...p, [name]: value }));
+        setFormData((p) => ({
+            ...p,
+            [name]: value,
+            ...(name === "education" && value !== "others" ? { educationOther: "" } : {}),
+        }));
 
         if (name === "state") {
             if (!value) {
@@ -287,7 +321,7 @@ const RegistrationForm = () => {
                 ...formData,
                 caste: formData.cast,
                 subCaste: formData.subCast,
-                educationDetails: formData.education,
+                educationDetails: formData.education === "others" ? formData.educationOther : formData.education,
                 photos: orderedPhotos,
             };
 
@@ -331,7 +365,7 @@ const RegistrationForm = () => {
             return setStep(2);
         }
 
-        if (!formData.education || !formData.occupation || !formData.annualIncome) {
+        if (!formData.education || (formData.education === "others" && !formData.educationOther) || !formData.occupation || !formData.annualIncome) {
             return setStep(3);
         }
 
@@ -624,6 +658,7 @@ const RegistrationForm = () => {
                                                             onChange={handleChange}
                                                         >
                                                             <option value="">Select</option>
+                                                            <option value="Married">Married</option>
                                                             <option value="Never married">Never Married</option>
                                                             <option value="Divorced">Previously Married (Divorced)</option>
                                                             <option value="Widower">Previously Married (Widowed)</option>
@@ -660,7 +695,7 @@ const RegistrationForm = () => {
                                                             <option value="Nagar">Nagar</option>
                                                             <option value="Malav">Malav</option>
                                                             <option value="Kirar">Kirar</option>
-                                                            <option value="Kirat">Kirat</option>
+
                                                         </select>
                                                     </div>
 
@@ -671,6 +706,46 @@ const RegistrationForm = () => {
                                                             type="text"
                                                             className="form-control mb-3"
                                                             value={formData.gotra}
+                                                            onChange={handleChange}
+                                                        />
+                                                    </div>
+
+                                                    <div className="mb-3">
+                                                        <label className="form-label">Skin Tone</label>
+                                                        <select
+                                                            name="skinTone"
+                                                            className="form-control mb-3"
+                                                            value={formData.skinTone}
+                                                            onChange={handleChange}
+                                                        >
+                                                            <option value="">Select skin tone</option>
+                                                            <option value="Fair">Fair</option>
+                                                            <option value="Wheatish">Wheatish</option>
+                                                            <option value="Medium">Medium</option>
+                                                            <option value="Dark">Dark</option>
+                                                            <option value="Very Dark">Very Dark</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div className="mb-3">
+                                                        <label className="form-label">Birth Place</label>
+                                                        <input
+                                                            name="birthPlace"
+                                                            type="text"
+                                                            className="form-control mb-3"
+                                                            value={formData.birthPlace}
+                                                            onChange={handleChange}
+                                                            placeholder="Enter birth place"
+                                                        />
+                                                    </div>
+
+                                                    <div className="mb-3">
+                                                        <label className="form-label">Birth Time</label>
+                                                        <input
+                                                            name="birthTime"
+                                                            type="time"
+                                                            className="form-control mb-3"
+                                                            value={formData.birthTime}
                                                             onChange={handleChange}
                                                         />
                                                     </div>
@@ -723,6 +798,20 @@ const RegistrationForm = () => {
                                                             {/* Other */}
                                                             <option value="others">Others</option>
                                                         </select>
+
+                                                        {formData.education === "others" && (
+                                                            <div className="mb-3">
+                                                                <label className="form-label">Please specify your education</label>
+                                                                <input
+                                                                    name="educationOther"
+                                                                    type="text"
+                                                                    className="form-control"
+                                                                    value={formData.educationOther}
+                                                                    onChange={handleChange}
+                                                                    placeholder="Enter your education"
+                                                                />
+                                                            </div>
+                                                        )}
                                                     </div>
 
 
