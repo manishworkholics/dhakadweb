@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import Link from "next/link";
 import DashboardLayout from "../components/Layout/DashboardLayout";
 
 const tabs = [
@@ -127,35 +128,16 @@ const PreferenceSettings = () => (
 
 const DeactivateProfile = () =>(
     <div className="settings-tab-content mt-3">
-        <div className="card p-3 rounded-3">
+        <div className="card p-4 rounded-4 border-0 shadow-sm">
             <div className="tab-head">
-                <h5 className='fw-semibold'>Edit e-mail Address</h5>
-                <p className=''>A valid e-mail id will be used to send you partner search mailers, member to member communication mailers and special offers.</p>
-            <div className="btn-input d-flex align-items-center">
-                <div className="input w-25">
-                    <input type="email" className="form-control w-100 rounded-3 fs-6" placeholder="abc@gmail.com" aria-label="email" aria-describedby="basic-addon1" />
-                </div>
-                <div className="btn">
-                    <button className='btn bg-D4AF37 text-white rounded-3 px-4 py-1 fs-6 me-3'>Save</button>
-                    <button className='btn bg-DFDFDF text-dark rounded-3 px-4 py-1 fs-6'>Reset</button>
-                </div>
-            </div>
-            </div>
-        </div>
-        <div className="card p-3 rounded-3 mt-3">
-            <div className="tab-head">
-                <h5 className='fw-semibold'>Change Password</h5>
-                <p className=''>Your password must have a minimum of 6 characters. We recommend you choose an alphanumeric password. E.g.: Matri123</p>
-            <div className="btn-input d-flex align-items-center">
-                <div className="input w-50 d-flex">
-                    <input type="password" className="form-control w-100 rounded-3 fs-12" placeholder="Enter Current Password" aria-label="password" aria-describedby="basic-addon1" />
-                    <input type="password" className="form-control w-100 rounded-3 mx-2 fs-12" placeholder="Enter New Password" aria-label="password" aria-describedby="basic-addon1" />
-                    <input type="password" className="form-control w-100 rounded-3 fs-12" placeholder="Confirm Password" aria-label="password" aria-describedby="basic-addon1" />
-                </div>
-                <div className="btn">
-                    <button className='btn bg-D4AF37 text-white rounded-3 px-3 py-1 fs-6 me-3'>Reset Password</button>
-                </div>
-            </div>
+                <span className="d-inline-flex px-3 py-2 rounded-pill mb-3 fw-semibold" style={{ backgroundColor: "#f6ead1", color: "#8a6a18" }}>
+                    Account Deactivation
+                </span>
+                <h5 className='fw-semibold'>Pause your profile from one dedicated page</h5>
+                <p className='mb-4'>We have added a full account deactivation page where members can check their current request status and submit a new reason for review.</p>
+                <Link href="/myprofile/account-deactivation" className='btn bg-D4AF37 text-white rounded-pill px-4 py-2 fs-6'>
+                    Open Deactivation Page
+                </Link>
             </div>
         </div>
     </div>

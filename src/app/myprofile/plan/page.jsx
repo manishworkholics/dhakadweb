@@ -13,6 +13,10 @@ export default function Plan() {
     const [allPlans, setAllPlans] = useState([]);
     const [paymentHistory, setPaymentHistory] = useState([]);
     const [paying, setPaying] = useState(false);
+    const [couponCode, setCouponCode] = useState("");
+    const [couponLoading, setCouponLoading] = useState(false);
+    const [couponError, setCouponError] = useState("");
+    const [appliedCoupon, setAppliedCoupon] = useState(null);
     const [upgradeOpen, setUpgradeOpen] = useState(false);
     const dispatch = useDispatch();
 
@@ -96,22 +100,81 @@ export default function Plan() {
         });
     };
 
+    const applyCoupon = async () => {
+        if (!selectedPlan?._id) {
+            setCouponError("Please select a plan first.");
+            return;
+        }
+
+        const trimmedCode = couponCode.trim();
+        if (!trimmedCode) {
+            setCouponError("Please enter coupon code.");
+            return;
+        }
+
+        setCouponLoading(true);
+        setCouponError("");
+        setAppliedCoupon(null);
+
+        try {
+            const res = await axios.post(
+                `${API_URL}/plan/apply-coupon`,
+                {
+                    planId: selectedPlan._id,
+                    couponCode: trimmedCode,
+                },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            if (res.data?.success) {
+                setAppliedCoupon({
+                    couponCode: trimmedCode,
+                    originalPrice: Number(res.data.originalPrice || 0),
+                    discount: Number(res.data.discount || 0),
+                    finalPrice: Number(res.data.finalPrice || 0),
+                });
+            } else {
+                setCouponError(res.data?.message || "Invalid coupon.");
+            }
+        } catch (err) {
+            setCouponError(
+                err?.response?.data?.message || "Failed to apply coupon."
+            );
+        } finally {
+            setCouponLoading(false);
+        }
+    };
+
+    const clearCouponState = () => {
+        setCouponCode("");
+        setCouponError("");
+        setAppliedCoupon(null);
+    };
+
     const handleBuy = async (planId) => {
         try {
+            setPaying(true);
             const isLoaded = await loadRazorpayScript();
             if (!isLoaded) {
                 alert("Failed to load Razorpay");
+                setPaying(false);
                 return;
             }
 
             const res = await axios.post(
                 `${API_URL}/plan/create-order`,
-                { planId },
+                {
+                    planId,
+                    ...(appliedCoupon?.couponCode
+                        ? { couponCode: appliedCoupon.couponCode }
+                        : {}),
+                },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
 
             if (!res.data.success) {
                 alert("Order failed");
+                setPaying(false);
                 return;
             }
 
@@ -143,6 +206,7 @@ export default function Plan() {
                             dispatch(loadOwnProfile());
                             getMyPlan();
                             getPaymentHistory();
+                            clearCouponState();
                         } else {
                             alert("❌ Payment verification failed");
                         }
@@ -165,6 +229,8 @@ export default function Plan() {
         } catch (err) {
             console.error(err);
             alert("Payment failed");
+        } finally {
+            setPaying(false);
         }
     };
 
@@ -200,9 +266,16 @@ export default function Plan() {
 
                             {myPlan && (
                                 <>
-                                    <h2 className="text-white fw-bold mb-1">
-                                        ₹{myPlan.plan.price}
-                                    </h2>
+                                    {(() => {
+                                        const currentPrice =
+                                            myPlan.plan.offerPrice || myPlan.plan.price;
+
+                                        return (
+                                            <h2 className="text-white fw-bold mb-1">
+                                                ₹{currentPrice}
+                                            </h2>
+                                        );
+                                    })()}
                                     <p className="text-white-50 mb-2">incl. GST</p>
                                 </>
                             )}
@@ -223,10 +296,11 @@ export default function Plan() {
 
                         <div className="row px-0">
                             {allPlans.map((plan) => {
+                                const displayPrice = plan.offerPrice || plan.price;
                                 const gstAmount = Math.round(
-                                    (plan.price * plan.gstPercent) / 100
+                                    (displayPrice * plan.gstPercent) / 100
                                 );
-                                const finalPrice = plan.price + gstAmount;
+                                const total = displayPrice + gstAmount;
 
                                 const cardClass =
                                     plan.name.toLowerCase().includes("silver")
@@ -243,7 +317,9 @@ export default function Plan() {
 
                                             <h4 className="plan-title">{plan.name}</h4>
 
-                                            <h2 className="plan-price">₹{finalPrice}</h2>
+                                            <h2 className="plan-price">₹{displayPrice}</h2>
+                                            <p className="text-muted small">+ ₹{gstAmount} GST</p>
+                                            <p className="fw-semibold">Total: ₹{total}</p>
 
                                             <p className="plan-duration">
                                                 {plan.durationMonths} Months
@@ -253,7 +329,10 @@ export default function Plan() {
                                                 className="btn btn-outline-dark w-100"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#planModal"
-                                                onClick={() => setSelectedPlan(plan)}
+                                                onClick={() => {
+                                                    setSelectedPlan(plan);
+                                                    clearCouponState();
+                                                }}
                                             >
                                                 View Details
                                             </button>
@@ -345,11 +424,11 @@ export default function Plan() {
 
                         <div className="row g-3">
                             {allPlans.map((plan) => {
+                                const displayPrice = plan.offerPrice || plan.price;
                                 const gstAmount = Math.round(
-                                    (plan.price * plan.gstPercent) / 100
+                                    (displayPrice * plan.gstPercent) / 100
                                 );
-                                const finalPrice = plan.price + gstAmount;
-
+                                const total = displayPrice + gstAmount;
                                 const cardClass =
                                     plan.name.toLowerCase().includes("silver")
                                         ? "silver-card"
@@ -364,7 +443,9 @@ export default function Plan() {
 
                                             <h4 className="plan-title">{plan.name}</h4>
 
-                                            <h2 className="plan-price">₹{finalPrice}</h2>
+                                            <h2 className="plan-price">₹{displayPrice}</h2>
+                                            <p className="text-muted small">+ ₹{gstAmount} GST</p>
+                                            <p className="fw-semibold">Total: ₹{total}</p>
 
                                             <p className="plan-duration">
                                                 {plan.durationMonths} Months
@@ -374,6 +455,7 @@ export default function Plan() {
                                                 className="btn btn-outline-dark w-100"
                                                 onClick={() => {
                                                     setSelectedPlan(plan);
+                                                    clearCouponState();
 
                                                     // 1️⃣ Close current custom modal
                                                     setUpgradeOpen(false);
@@ -428,18 +510,76 @@ export default function Plan() {
                         {/* Body */}
                         <div className="modal-body">
 
-                            <h3 className="fw-bold mb-2">
-                                ₹{selectedPlan
-                                    ? selectedPlan.price +
-                                    Math.round(
-                                        (selectedPlan.price * selectedPlan.gstPercent) / 100
-                                    )
-                                    : 0}
-                            </h3>
+                            {(() => {
+                                const displayPrice =
+                                    selectedPlan?.offerPrice || selectedPlan?.price || 0;
+
+                                const gstAmount = Math.round(
+                                    (displayPrice * (selectedPlan?.gstPercent || 0)) / 100
+                                );
+
+                                const total = displayPrice + gstAmount;
+                                const finalAmount = appliedCoupon
+                                    ? Number(appliedCoupon.finalPrice || 0)
+                                    : total;
+
+                                return (
+                                    <>
+                                        <h3 className="fw-bold mb-2">₹{displayPrice}</h3>
+                                        <p className="text-muted">+ ₹{gstAmount} GST</p>
+                                        <p className="fw-semibold">Total: ₹{total}</p>
+                                        {appliedCoupon && (
+                                            <>
+                                                <p className="mb-1 text-success fw-semibold">
+                                                    Coupon ({appliedCoupon.couponCode}) Applied
+                                                </p>
+                                                <p className="mb-1 text-success">
+                                                    Discount: ₹{appliedCoupon.discount}
+                                                </p>
+                                                <p className="fw-bold text-success">
+                                                    Final Payable: ₹{finalAmount}
+                                                </p>
+                                            </>
+                                        )}
+                                    </>
+                                );
+                            })()}
 
                             <p className="text-muted">
                                 {selectedPlan?.durationMonths || 0} Months
                             </p>
+
+                            <div className="card p-3 mb-3">
+                                <label className="form-label fw-semibold mb-2">
+                                    Have a coupon code?
+                                </label>
+                                <div className="d-flex gap-2">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Enter coupon code"
+                                        value={couponCode}
+                                        onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                                        disabled={couponLoading || paying}
+                                    />
+                                    <button
+                                        type="button"
+                                        className="btn btn-outline-dark"
+                                        onClick={applyCoupon}
+                                        disabled={couponLoading || paying}
+                                    >
+                                        {couponLoading ? "Applying..." : "Apply"}
+                                    </button>
+                                </div>
+                                {couponError && (
+                                    <small className="text-danger mt-2 d-block">{couponError}</small>
+                                )}
+                                {appliedCoupon && !couponError && (
+                                    <small className="text-success mt-2 d-block">
+                                        Coupon applied successfully.
+                                    </small>
+                                )}
+                            </div>
 
                             <hr />
 
@@ -467,8 +607,9 @@ export default function Plan() {
                                 onClick={() =>
                                     selectedPlan && handleBuy(selectedPlan._id)
                                 }
+                                disabled={paying || couponLoading}
                             >
-                                Buy Now
+                                {paying ? "Processing..." : "Buy Now"}
                             </button>
                         </div>
 

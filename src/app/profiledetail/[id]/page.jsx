@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Header from "../../components/Header/Page";
 import Footer from "@/app/components/Footer/page";
 import { useRouter } from "next/navigation";
@@ -11,10 +11,9 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { loadOwnProfile } from "@/redux/slices/profileSlice";
 
-
 export default function ProfileDetail() {
-
   const dispatch = useDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem("usertoken");
@@ -24,20 +23,17 @@ export default function ProfileDetail() {
       return;
     }
 
-    // ⭐ IMPORTANT — redux profile load
     dispatch(loadOwnProfile());
+  }, [dispatch, router]);
 
-  }, []);
+  const { hasPremiumAccess } = useSelector((state) => state.profile);
 
-  const { hasPremiumAccess } = useSelector(state => state.profile);
-
-  const router = useRouter();
   useEffect(() => {
     const token = localStorage.getItem("usertoken");
     if (!token) {
       router.replace("/login");
     }
-  }, []);
+  }, [router]);
 
   const { id } = useParams();
   const [profile, setProfile] = useState(null);
@@ -53,27 +49,24 @@ export default function ProfileDetail() {
       try {
         const res = await fetch(`http://143.110.244.163:5000/api/profile/${id}`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("usertoken")}` // or your auth token
-          }
+            Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
+          },
         });
-        const data = await res.json();
-        setProfile(data.profile);
+        const response = await res.json();
+        setProfile(response?.profile || null);
         setLoading(false);
 
-        // ✅ Mark profile as viewed (only if not own profile)
-        const userId = JSON.parse(localStorage.getItem("user"))?._id;
-        // or from context
-        if (data.profile._id !== userId) {
-          await fetch(`http://143.110.244.163:5000/api/viewed/view/${data.profile._id}`, {
+        const userId = JSON.parse(localStorage.getItem("user") || "{}")?._id;
+        if (response?.profile?._id && response?.profile?._id !== userId) {
+          await fetch(`http://143.110.244.163:5000/api/viewed/view/${response?.profile?._id}`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("usertoken")}`
-            }
+              Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
+            },
           });
           console.log("Profile marked as viewed");
         }
-
       } catch (error) {
         console.log(error);
         setLoading(false);
@@ -83,28 +76,24 @@ export default function ProfileDetail() {
     getProfile();
   }, [id]);
 
-
   const checkInterestStatus = async (profileUserId) => {
     try {
-      const res = await fetch(
-        `http://143.110.244.163:5000/api/interest/request/sent`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
-          },
-        }
-      );
+      const res = await fetch(`http://143.110.244.163:5000/api/interest/request/sent`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
+        },
+      });
 
       const result = await res.json();
 
-      if (result.success) {
-        const found = result.requests.find(
-          (req) => req.receiver?._id?.toString() === profileUserId?.toString()
+      if (result?.success) {
+        const found = result?.requests?.find(
+          (req) => req?.receiver?._id?.toString() === profileUserId?.toString()
         );
 
         if (found) {
           setInterestSent(true);
-          setInterestStatus(found.status);
+          setInterestStatus(found?.status || null);
         } else {
           setInterestSent(false);
           setInterestStatus(null);
@@ -115,15 +104,12 @@ export default function ProfileDetail() {
     }
   };
 
-
   useEffect(() => {
     if (profile?.userId || profile?._id) {
-      const targetUserId = profile.userId || profile._id;
+      const targetUserId = profile?.userId || profile?._id;
       checkInterestStatus(targetUserId);
     }
   }, [profile]);
-
-
 
   useEffect(() => {
     if (profile?._id) {
@@ -131,14 +117,14 @@ export default function ProfileDetail() {
     }
   }, [profile]);
 
-
   if (loading) {
     return (
       <div className="text-center mt-5">
-        <div className="position-fixed top-0 start-0 w-100 h-100 bg-white d-flex justify-content-center align-items-center" style={{ zIndex: 9999 }}>
-          <div className="spinner-border text-warning">
-
-          </div>
+        <div
+          className="position-fixed top-0 start-0 w-100 h-100 bg-white d-flex justify-content-center align-items-center"
+          style={{ zIndex: 9999 }}
+        >
+          <div className="spinner-border text-warning"></div>
         </div>
       </div>
     );
@@ -152,13 +138,35 @@ export default function ProfileDetail() {
     );
   }
 
-  // Helper fallback values
-  const image = profile.photos?.length ? profile.photos[0] : "/dhakadweb/assets/images/dummy.png";
-  const gallery = profile.photos?.length ? profile.photos : [];
-  const age = profile.dob ? new Date().getFullYear() - new Date(profile.dob).getFullYear() : "N/A";
-  const phone = JSON.parse(localStorage.getItem("user") || "{}").phone;
+  const data = profile;
+  const image = data?.photos?.length ? data?.photos?.[0] : "/dhakadweb/assets/images/dummy.png";
+  const gallery = data?.photos?.length ? data?.photos : [];
+  const age = data?.dob ? new Date().getFullYear() - new Date(data?.dob).getFullYear() : "N/A";
+  const phone = JSON.parse(localStorage.getItem("user") || "{}")?.phone;
 
-  // 🚀 SEND INTEREST
+  const educationValue =
+    data?.education === "Other"
+      ? data?.educationOther || "N/A"
+      : data?.education || data?.educationDetails || "N/A";
+
+  const employmentValue =
+    data?.employment === "Other"
+      ? data?.employmentOther || "N/A"
+      : data?.employment || data?.employmentType || "N/A";
+
+  const occupationValue =
+    data?.occupation === "Other"
+      ? data?.occupationOther || "N/A"
+      : data?.occupation || "N/A";
+
+  const formatOccupation = (value) =>
+    value
+      ? value
+          .toString()
+          .replace(/_/g, " ")
+          .replace(/\b\w/g, (char) => char.toUpperCase())
+      : "N/A";
+
   const sendInterestRequest = async () => {
     try {
       const token = localStorage.getItem("usertoken");
@@ -169,16 +177,15 @@ export default function ProfileDetail() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ receiverId: profile?.userId }),
+        body: JSON.stringify({ receiverId: data?.userId }),
       });
 
-      const data = await res.json();
-      if (data.success) {
+      const response = await res.json();
+      if (response?.success) {
         setInterestSent(true);
         toast.success("Interest sent successfully!");
-
       } else {
-        toast.error(data.message);
+        toast.error(response?.message || "Failed to send interest");
       }
     } catch (err) {
       console.error(err);
@@ -186,8 +193,6 @@ export default function ProfileDetail() {
     }
   };
 
-
-  // 🚀 SEND INTEREST
   const sendChatInterestRequest = async () => {
     try {
       const token = localStorage.getItem("usertoken");
@@ -198,15 +203,15 @@ export default function ProfileDetail() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ receiverId: profile.userId }),
+        body: JSON.stringify({ receiverId: data?.userId }),
       });
 
-      const data = await res.json();
-      if (data.success) {
+      const response = await res.json();
+      if (response?.success) {
         setChatInterestSent(true);
         setTimeout(() => router.push("/myprofile/chatlist"), 1000);
       } else {
-        toast.error(data.message);
+        toast.error(response?.message || "Failed to send interest");
       }
     } catch (err) {
       console.error(err);
@@ -214,22 +219,19 @@ export default function ProfileDetail() {
     }
   };
 
-
-
-  // ⭐ CHECK SHORTLIST STATE WHEN OPENING PROFILE
   const checkShortlistStatus = async () => {
     try {
       const token = localStorage.getItem("usertoken");
 
       const res = await fetch(`http://143.110.244.163:5000/api/shortlist/`, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       const result = await res.json();
 
-      if (result.success) {
-        const exists = result.shortlist.some(item => item.profile._id === profile._id);
-        setIsShortlisted(exists);
+      if (result?.success) {
+        const exists = result?.shortlist?.some((item) => item?.profile?._id === data?._id);
+        setIsShortlisted(!!exists);
       }
     } catch (error) {
       console.log(error);
@@ -240,7 +242,7 @@ export default function ProfileDetail() {
     try {
       const token = localStorage.getItem("usertoken");
 
-      const res = await fetch(`http://143.110.244.163:5000/api/shortlist/${profile._id}`, {
+      const res = await fetch(`http://143.110.244.163:5000/api/shortlist/${data?._id}`, {
         method: isShortlisted ? "DELETE" : "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -248,17 +250,15 @@ export default function ProfileDetail() {
         },
       });
 
-      const data = await res.json();
+      const response = await res.json();
 
       if (!res.ok) {
-        // Handle premium restriction
-        if (data.code === "PREMIUM_REQUIRED") {
-          toast.error("🔒 Upgrade to premium to use shortlist feature");
-          // navigate("/plans"); // optional
+        if (response?.code === "PREMIUM_REQUIRED") {
+          toast.error("Upgrade to premium to use shortlist feature");
           return;
         }
 
-        throw new Error(data.message || "Request failed");
+        throw new Error(response?.message || "Request failed");
       }
 
       if (isShortlisted) {
@@ -268,22 +268,25 @@ export default function ProfileDetail() {
         setIsShortlisted(true);
         toast.success("Added to shortlist");
       }
-
     } catch (error) {
       console.error("Shortlist error:", error);
-      toast.error(error.message || "Something went wrong");
+      toast.error(error?.message || "Something went wrong");
     }
   };
 
-
-  const handleSendInterestAgain = () => {
-    sendInterestAPI(); // your existing function
-  };
-
-
   return (
-    <main>
-      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+    <main style={{ overflowX: "hidden" }}>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Header />
 
       <div className="sub-bg">
@@ -292,104 +295,70 @@ export default function ProfileDetail() {
         </h4>
       </div>
 
-      <div className="container-fluid content bg-FDFBF7">
+      <div className="container-fluid content bg-FDFBF7" style={{ overflowX: "hidden" }}>
         <div className="container">
           <div className="row py-5">
-
-            {/* LEFT SIDE — IMAGE */}
             <div className="col-lg-4 col-md-5 px-3">
-              <div className="row card rounded-3">
+              <div className="row card rounded-3" style={{ overflow: "hidden" }}>
                 <div className="p-0 profileRight">
-                  <img src={image || "/dhakadweb/assets/images/priya.png"} className="card-img-top h-100 w-100" alt={profile.name} />
+                  <img
+                    src={image || "/dhakadweb/assets/images/priya.png"}
+                    className="card-img-top h-100 w-100"
+                    style={{ height: "auto", objectFit: "cover", maxWidth: "100%" }}
+                    alt={data?.name || "Profile"}
+                  />
                 </div>
                 <div className="col-12">
                   <div className="row btn-bottom">
                     <div className="col-12">
                       <div className="row btn-bottom">
-
-                        {/* Chat Now */}
                         <button
                           onClick={sendChatInterestRequest}
                           className="col-4 btn bg-danger text-white fw-medium rounded-top-0 rounded-end-0 py-3"
                           style={{ fontSize: "15px" }}
                           disabled={chatinterestSent}
                         >
-
                           {chatinterestSent ? "Chat Now" : "Chat Now"}
                         </button>
 
                         <button
                           className="col-4 btn text-white fw-medium rounded-0 bg-D4AF37 py-3"
                           disabled={interestSent}
-                          tyle={{ fontSize: "15px" }}
+                          style={{ fontSize: "15px" }}
                           onClick={sendInterestRequest}
                         >
                           {interestSent
                             ? interestStatus === "pending"
                               ? "Interest Pending"
                               : interestStatus === "accepted"
-                                ? "Interest Accepted ✅"
+                                ? "Interest Accepted ✓"
                                 : "Interest Sent ✓"
                             : "Send Interest"}
-
-
-                          {/* {interestSent ? (
-                            interestStatus === "pending" ? (
-                              <span className="text-warning">Interest Pending</span>
-                            ) : interestStatus === "accepted" ? (
-                              <span className="text-success">Interest Accepted ✅</span>
-                            ) : interestStatus === "rejected" ? (
-                              <div className="d-flex flex-column gap-1">
-                                <span className="text-danger">Interest Rejected ❌</span>
-                                <button
-                                  type="button"
-                                  className="btn btn-sm btn-outline-primary"
-                                  onClick={handleSendInterestAgain}
-                                >
-                                  Send Again
-                                </button>
-                              </div>
-                            ) : (
-                              <span>Interest Sent ✓</span>
-                            )
-                          ) : (
-                            <button
-                              type="button"
-                              className="btn btn-primary"
-                              onClick={sendInterestRequest}
-                            >
-                              Send Interest
-                            </button>
-                          )} */}
-
                         </button>
 
-
-                        {/* Shortlist Toggle */}
                         <button
                           onClick={toggleShortlist}
-                          className={`col-4 btn fw-medium rounded-top-0 rounded-start-0 py-3 
-                          ${isShortlisted ? "bg-danger text-white" : "bg-E3E3E3 text-black"}`}
+                          className={`col-4 btn fw-medium rounded-top-0 rounded-start-0 py-3 ${
+                            isShortlisted ? "bg-danger text-white" : "bg-E3E3E3 text-black"
+                          }`}
                           style={{ fontSize: "15px" }}
                         >
                           {isShortlisted ? "Remove Shortlist" : "Add Shortlist"}
                         </button>
-
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* RIGHT SIDE */}
-            <div className="col-lg-8 col-md-7 px-lg-4">
-              {/* NAME */}
-              <h4 className="fw-semibold text-capitalize my-3">{profile.name || "No Name Available"}</h4>
+            <div className="col-lg-8 col-md-7 px-lg-4" style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>
+              <h4 className="fw-semibold text-capitalize my-3">{data?.name || "No Name Available"}</h4>
               <div className="d-lg-flex d-none gap-3 align-items-center flex-wrap mb-3">
-                <div className="border text-center bg-white rounded-3 p-2 d-flex justify-content-center align-items-center"
-                  style={{ width: "110px", height: "110px" }}>
+                <div
+                  className="border text-center bg-white rounded-3 p-2 d-flex justify-content-center align-items-center"
+                  style={{ width: "110px", height: "110px" }}
+                >
                   <div className="">
                     <div className="mb-2">
                       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="28" viewBox="0 0 26 32" fill="none">
@@ -398,11 +367,13 @@ export default function ProfileDetail() {
                       </svg>
                     </div>
                     <p className="mb-0">CITY</p>
-                    <h6 className="mb-0 fw-bold">{profile.location || "Not Provided"}</h6>
+                    <h6 className="mb-0 fw-bold">{data?.location || "Not Provided"}</h6>
                   </div>
                 </div>
-                <div className="border text-center bg-white rounded-3 p-2 d-flex justify-content-center align-items-center"
-                  style={{ width: "110px", height: "110px" }}>
+                <div
+                  className="border text-center bg-white rounded-3 p-2 d-flex justify-content-center align-items-center"
+                  style={{ width: "110px", height: "110px" }}
+                >
                   <div className="">
                     <div className="mb-2">
                       <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 32 32" fill="none">
@@ -413,8 +384,10 @@ export default function ProfileDetail() {
                     <h6 className="mb-0 fw-bold">{age || "N/A"}</h6>
                   </div>
                 </div>
-                <div className="border text-center bg-white rounded-3 p-2 d-flex justify-content-center align-items-center"
-                  style={{ width: "110px", height: "110px" }}>
+                <div
+                  className="border text-center bg-white rounded-3 p-2 d-flex justify-content-center align-items-center"
+                  style={{ width: "110px", height: "110px" }}
+                >
                   <div className="">
                     <div className="mb-2">
                       <svg xmlns="http://www.w3.org/2000/svg" width="13" height="29" viewBox="0 0 13 32" fill="none">
@@ -422,11 +395,13 @@ export default function ProfileDetail() {
                       </svg>
                     </div>
                     <p className="mb-0">HEIGHT</p>
-                    <h6 className="mb-0 fw-bold">{profile.height || "N/A"}</h6>
+                    <h6 className="mb-0 fw-bold">{data?.height || "N/A"}</h6>
                   </div>
                 </div>
-                <div className="border text-center bg-white rounded-3 p-2 d-flex justify-content-center align-items-center overflow-hidden"
-                  style={{ width: "110px", height: "110px" }}>
+                <div
+                  className="border text-center bg-white rounded-3 p-2 d-flex justify-content-center align-items-center overflow-hidden"
+                  style={{ width: "110px", height: "110px" }}
+                >
                   <div className="">
                     <div className="mb-2">
                       <svg xmlns="http://www.w3.org/2000/svg" width="30" height="28" viewBox="0 0 34 32" fill="none">
@@ -435,59 +410,18 @@ export default function ProfileDetail() {
                     </div>
                     <div style={{ width: "100px" }}>
                       <p className="mb-0">OCCUPATION</p>
-                      <h6 className="mb-0 fw-bold">{profile?.occupation
-                        ? profile.occupation
-                          .replace(/_/g, " ")
-                          .replace(/\b\w/g, (c) => c.toUpperCase())
-                        : "N/A"}</h6></div>
+                      <h6 className="mb-0 fw-bold">{formatOccupation(occupationValue)}</h6>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* ABOUT */}
               <div className="about">
                 <h5 className="fw-semibold">ABOUT</h5>
-                <p className="fw-medium">{profile.aboutYourself || "No bio available"}</p>
+                <p className="fw-medium">{data?.aboutYourself || "No bio available"}</p>
               </div>
 
               <hr className="my-4" />
-
-              {/* GALLERY */}
-
-              {/* <div className="gallery">
-                <h5 className="fw-semibold mb-3">PHOTO GALLERY</h5>
-                <div className="masonryGallery">
-                  <div className="gallery-1 gap-3">
-                    <div className="row">
-                      {gallery && gallery.length > 0 ? (
-                        gallery.map((pic, i) => (
-                          <div className="col-4 col-md-3 mb-3" key={i}>
-                            <div key={i} className="galleryItem position-relative" onClick={() => setSelectedImage(pic)}>
-                              <img src={pic} alt={`gallery-${i}`} className="w-100 rounded-4" />
-                            </div>
-                          </div>
-                        ))
-                      ) : (
-                        <p>No photos available</p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                {selectedImage && (
-                  <div className="preview position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-75" onClick={() => setSelectedImage(null)}>
-                    <div className="previewContent p-3 rounded">
-                      <img
-                        src={selectedImage}
-                        alt="Preview"
-                        width={800}
-                        style={{ maxHeight: "80vh", objectFit: "contain" }}
-                        className="img-fluid rounded"
-                      />
-                    </div>
-                  </div>
-                )}
-              </div> */}
-
 
               <div className="gallery">
                 <h5 className="fw-semibold mb-3">PHOTO GALLERY</h5>
@@ -510,14 +444,16 @@ export default function ProfileDetail() {
                                 style={{
                                   filter: !hasPremiumAccess && i !== 0 ? "blur(6px)" : "none",
                                   opacity: !hasPremiumAccess && i !== 0 ? 0.5 : 1,
+                                  height: "auto",
+                                  maxWidth: "100%",
+                                  objectFit: "cover",
                                 }}
                               />
 
-                              {/* Lock overlay for non-premium */}
                               {!hasPremiumAccess && i === 0 && gallery.length === 1 && (
                                 <div className="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center">
                                   <span className="badge bg-dark bg-opacity-75 px-3 py-2">
-                                    🔒 Premium Required
+                                    Premium Required
                                   </span>
                                 </div>
                               )}
@@ -530,10 +466,9 @@ export default function ProfileDetail() {
                     </div>
                   </div>
 
-                  {/* Premium block message */}
                   {!hasPremiumAccess && (
                     <div className="premium-lock-box mt-3 p-3 rounded text-center border border-warning bg-light">
-                      <h6 className="mb-2">🔒 Want to see more photos?</h6>
+                      <h6 className="mb-2">Want to see more photos?</h6>
                       <p className="mb-2 text-muted">
                         Upgrade to premium to unlock full photo gallery of this profile.
                       </p>
@@ -547,7 +482,6 @@ export default function ProfileDetail() {
                   )}
                 </div>
 
-                {/* Image Preview (Premium only) */}
                 {selectedImage && hasPremiumAccess && (
                   <div
                     className="preview position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-75"
@@ -558,7 +492,7 @@ export default function ProfileDetail() {
                         src={selectedImage}
                         alt="Preview"
                         width={800}
-                        style={{ maxHeight: "80vh", objectFit: "contain" }}
+                        style={{ maxHeight: "80vh", objectFit: "contain", maxWidth: "100%", height: "auto" }}
                         className="img-fluid rounded"
                       />
                     </div>
@@ -566,11 +500,8 @@ export default function ProfileDetail() {
                 )}
               </div>
 
-
-
               <hr />
 
-              {/* CONTACT INFO */}
               <div className="contact">
                 <h5 className="fw-semibold mb-3">CONTACT INFO</h5>
                 <div className="icon-text d-flex mb-3">
@@ -579,9 +510,9 @@ export default function ProfileDetail() {
                       <path fillRule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
                     </svg>
                   </div>
-                  <div className="text d-flex align-items-center">
+                  <div className="text d-flex align-items-center" style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>
                     <p className="mb-0 fw-medium" style={{ width: "65px" }}>Phone:</p>
-                    <span>{profile.phone || "Not Available"}</span>
+                    <span>{data?.phone || phone || "Not Available"}</span>
                   </div>
                 </div>
 
@@ -591,9 +522,9 @@ export default function ProfileDetail() {
                       <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z" />
                     </svg>
                   </div>
-                  <div className="text d-flex align-items-center">
+                  <div className="text d-flex align-items-center" style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>
                     <p className="mb-0 fw-medium" style={{ width: "65px" }}>Email:</p>
-                    <span>{profile.email || "Not Available"}</span>
+                    <span>{data?.email || "Not Available"}</span>
                   </div>
                 </div>
 
@@ -604,16 +535,15 @@ export default function ProfileDetail() {
                       <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
                     </svg>
                   </div>
-                  <div className="text d-flex align-items-center">
+                  <div className="text d-flex align-items-center" style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>
                     <p className="mb-0 fw-medium" style={{ width: "65px" }}>Address:</p>
-                    <span>{profile.location || "Not Provided"}</span>
+                    <span>{data?.location || "Not Provided"}</span>
                   </div>
                 </div>
               </div>
 
               <hr />
 
-              {/* PERSONAL INFORMATION */}
               <div className="personal-information">
                 <h5 className="fw-semibold mb-3">PERSONAL INFORMATION</h5>
                 <div className="row">
@@ -623,7 +553,7 @@ export default function ProfileDetail() {
                         <tbody>
                           <tr>
                             <td className="bg-transparent border-0 details">Name:</td>
-                            <td className="bg-transparent border-0 details">{profile.name || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">{data?.name || "N/A"}</td>
                           </tr>
                           <tr>
                             <td className="bg-transparent border-0 details">Age:</td>
@@ -631,31 +561,31 @@ export default function ProfileDetail() {
                           </tr>
                           <tr>
                             <td className="bg-transparent border-0 details">DOB:</td>
-                            <td className="bg-transparent border-0 details">{profile.dob?.slice(0, 10) || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">{data?.dob?.slice?.(0, 10) || "N/A"}</td>
                           </tr>
                           <tr>
                             <td className="bg-transparent border-0 details">Height:</td>
-                            <td className="bg-transparent border-0 details">{profile.height || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">{data?.height || "N/A"}</td>
                           </tr>
                           <tr>
                             <td className="bg-transparent border-0 details">Religion:</td>
-                            <td className="bg-transparent border-0 details">{profile.religion || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">{data?.religion || "N/A"}</td>
                           </tr>
                           <tr>
                             <td className="bg-transparent border-0 details">Gotra:</td>
-                            <td className="bg-transparent border-0 details">{profile.gotra || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">{data?.gotra || "N/A"}</td>
                           </tr>
                           <tr>
                             <td className="bg-transparent border-0 details">Skin Tone:</td>
-                            <td className="bg-transparent border-0 details">{profile.skinTone || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">{data?.skinTone || "N/A"}</td>
                           </tr>
                           <tr>
                             <td className="bg-transparent border-0 details">Birth Place:</td>
-                            <td className="bg-transparent border-0 details">{profile.birthPlace || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">{data?.birthPlace || "N/A"}</td>
                           </tr>
                           <tr>
                             <td className="bg-transparent border-0 details">Birth Time:</td>
-                            <td className="bg-transparent border-0 details">{profile.birthTime || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">{data?.birthTime || "N/A"}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -668,23 +598,23 @@ export default function ProfileDetail() {
                         <tbody>
                           <tr>
                             <td className="bg-transparent border-0 details">Education:</td>
-                            <td className="bg-transparent border-0 details">{profile.educationDetails || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">{educationValue || "N/A"}</td>
                           </tr>
                           <tr>
                             <td className="bg-transparent border-0 details">Occupation:</td>
-                            <td className="bg-transparent border-0 details">{profile.occupation || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">{occupationValue || "N/A"}</td>
                           </tr>
                           <tr>
                             <td className="bg-transparent border-0 details">Income:</td>
-                            <td className="bg-transparent border-0 details">{profile.annualIncome || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">{data?.annualIncome || "N/A"}</td>
                           </tr>
                           <tr>
                             <td className="bg-transparent border-0 details">Family Status:</td>
-                            <td className="bg-transparent border-0 details">{profile.familyStatus || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">{data?.familyStatus || "N/A"}</td>
                           </tr>
                           <tr>
                             <td className="bg-transparent border-0 details">Employment Type:</td>
-                            <td className="bg-transparent border-0 details">{profile.employmentType || "N/A"}</td>
+                            <td className="bg-transparent border-0 details">{employmentValue || "N/A"}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -695,38 +625,173 @@ export default function ProfileDetail() {
 
               <hr />
 
-              {/* HOBBIES */}
+              <div className="personal-information">
+                <h5 className="fw-semibold mb-3">PHYSICAL DETAILS</h5>
+                <div className="row">
+                  <div className="col-md-6 col-12">
+                    <div className="table-responsive">
+                      <table className="table bg-transparent mb-0">
+                        <tbody>
+                          <tr>
+                            <td className="bg-transparent border-0 details">Body Type:</td>
+                            <td className="bg-transparent border-0 details">{data?.bodyType || "N/A"}</td>
+                          </tr>
+                          <tr>
+                            <td className="bg-transparent border-0 details">Smoke:</td>
+                            <td className="bg-transparent border-0 details">{data?.smoke || "N/A"}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div className="col-md-6 col-12">
+                    <div className="table-responsive">
+                      <table className="table bg-transparent">
+                        <tbody>
+                          <tr>
+                            <td className="bg-transparent border-0 details">Drink:</td>
+                            <td className="bg-transparent border-0 details">{data?.drink || "N/A"}</td>
+                          </tr>
+                          <tr>
+                            <td className="bg-transparent border-0 details">Physical Challenge:</td>
+                            <td className="bg-transparent border-0 details">{data?.physicalChallenge || "N/A"}</td>
+                          </tr>
+                          {data?.physicalChallengeDescription ? (
+                            <tr>
+                              <td className="bg-transparent border-0 details">Physical Challenge Description:</td>
+                              <td className="bg-transparent border-0 details">
+                                {data?.physicalChallengeDescription || "N/A"}
+                              </td>
+                            </tr>
+                          ) : null}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <hr />
+
+              <div className="personal-information">
+                <h5 className="fw-semibold mb-3">FAMILY DETAILS</h5>
+                <div className="row">
+                  <div className="col-md-6 col-12">
+                    <div className="table-responsive">
+                      <table className="table bg-transparent mb-0">
+                        <tbody>
+                          <tr>
+                            <td className="bg-transparent border-0 details">Mama Gotra:</td>
+                            <td className="bg-transparent border-0 details">{data?.mamaGotra || "N/A"}</td>
+                          </tr>
+                          <tr>
+                            <td className="bg-transparent border-0 details">Father Name:</td>
+                            <td className="bg-transparent border-0 details">{data?.fatherName || "N/A"}</td>
+                          </tr>
+                          <tr>
+                            <td className="bg-transparent border-0 details">Mother Name:</td>
+                            <td className="bg-transparent border-0 details">{data?.motherName || "N/A"}</td>
+                          </tr>
+                          <tr>
+                            <td className="bg-transparent border-0 details">Father Contact No:</td>
+                            <td className="bg-transparent border-0 details">{data?.fatherContactNo || "N/A"}</td>
+                          </tr>
+                          <tr>
+                            <td className="bg-transparent border-0 details">Father Status:</td>
+                            <td className="bg-transparent border-0 details">{data?.fatherStatus || "N/A"}</td>
+                          </tr>
+                          <tr>
+                            <td className="bg-transparent border-0 details">Father Occupation:</td>
+                            <td className="bg-transparent border-0 details">{data?.fatherOccupation || "N/A"}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div className="col-md-6 col-12">
+                    <div className="table-responsive">
+                      <table className="table bg-transparent">
+                        <tbody>
+                          <tr>
+                            <td className="bg-transparent border-0 details">Mother Status:</td>
+                            <td className="bg-transparent border-0 details">{data?.motherStatus || "N/A"}</td>
+                          </tr>
+                          <tr>
+                            <td className="bg-transparent border-0 details">Mother Occupation:</td>
+                            <td className="bg-transparent border-0 details">{data?.motherOccupation || "N/A"}</td>
+                          </tr>
+                          <tr>
+                            <td className="bg-transparent border-0 details">No Of Brothers:</td>
+                            <td className="bg-transparent border-0 details">{data?.noOfBrothers ?? "N/A"}</td>
+                          </tr>
+                          <tr>
+                            <td className="bg-transparent border-0 details">No Of Sisters:</td>
+                            <td className="bg-transparent border-0 details">{data?.noOfSisters ?? "N/A"}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <hr />
+
+              <div className="personal-information">
+                <h5 className="fw-semibold mb-3">HOROSCOPE DETAILS</h5>
+                <div className="row">
+                  <div className="col-md-6 col-12">
+                    <div className="table-responsive">
+                      <table className="table bg-transparent mb-0">
+                        <tbody>
+                          <tr>
+                            <td className="bg-transparent border-0 details">Rashi Nakshatra:</td>
+                            <td className="bg-transparent border-0 details">{data?.rashiNakshatra || "N/A"}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div className="col-md-6 col-12">
+                    <div className="table-responsive">
+                      <table className="table bg-transparent">
+                        <tbody>
+                          <tr>
+                            <td className="bg-transparent border-0 details">Mangalik:</td>
+                            <td className="bg-transparent border-0 details">{data?.mangalik || "N/A"}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <hr />
+
               <div className="hobbies">
                 <h5 className="fw-semibold mb-3">HOBBIES</h5>
-                {profile.hobbies && profile.hobbies.length > 0 ? (
+                {data?.hobbies && data?.hobbies?.length > 0 ? (
                   <div className="d-flex flex-wrap">
-
-                    <span className="px-3 py-1 bg-E9E9E9 text-dark fw-medium rounded-4 me-2 mb-2" style={{ fontSize: "15px" }}>
-                      {/* {profile?.hobbies} */}
-                      {profile?.hobbies
-                        ?.split("\n")
-                        .map((hobby, idx) => (
-                          <div key={idx}>{hobby.trim()}</div>
-                        ))}
-
-
+                    <span className="px-3 py-1 bg-E9E9E9 text-dark fw-medium rounded-4 me-2 mb-2" style={{ fontSize: "15px", overflowWrap: "break-word", wordBreak: "break-word" }}>
+                      {data?.hobbies?.split("\n")?.map((hobby, idx) => (
+                        <div key={idx}>{hobby?.trim?.()}</div>
+                      ))}
                     </span>
-
                   </div>
                 ) : (
                   <span className="px-3 py-1 bg-E9E9E9 rounded-4">No hobbies added</span>
                 )}
               </div>
-
             </div>
           </div>
-          {/* <RelatedProfiles /> */}
         </div>
-      </div >
+      </div>
 
-      {/* Footer */}
       <Footer />
-
-    </main >
+    </main>
   );
 }

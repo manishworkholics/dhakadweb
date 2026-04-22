@@ -15,8 +15,43 @@ const educationOptions = [
     "cs",
     "mbbs",
     "law",
-    "others",
+    "Other",
 ];
+
+const employmentOptions = [
+    "government",
+    "private",
+    "business",
+    "self_employed",
+    "freelancer",
+    "defense",
+    "psu",
+    "startup",
+    "ngo",
+    "student",
+    "not_working",
+    "homemaker",
+    "retired",
+    "Other",
+];
+
+const occupationOptions = [
+    "software_engineer",
+    "manager",
+    "doctor",
+    "teacher",
+    "business_owner",
+    "govt_officer",
+    "farmer",
+    "student",
+    "not_working",
+    "Other",
+];
+
+const formatLabel = (value = "") => {
+    if (!value) return "";
+    return value.charAt(0).toUpperCase() + value.slice(1);
+};
 
 // ---------------- Detail Item ----------------
 const DetailItem = ({ label, value }) => (
@@ -43,13 +78,9 @@ const ProfileSection = ({ title, children, onEdit }) => (
 
 // ---------------- Edit Modal ----------------
 const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
-    const [form, setForm] = useState({});
+    const [form, setForm] = useState(data || {});
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
-
-    useEffect(() => {
-        setForm(data || {});
-    }, [data]);
 
     useEffect(() => {
         axios.get("http://143.110.244.163:5000/api/location/states").then((res) => {
@@ -73,7 +104,12 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
         setForm((prev) => ({
             ...prev,
             [name === "city" ? "location" : name]: value,
-            ...(name === "educationDetails" && value !== "others" ? { educationOther: "" } : {}),
+            ...(name === "educationDetails" && value !== "Other" ? { educationOther: "" } : {}),
+            ...(name === "employmentType" && value !== "Other" ? { employmentOther: "" } : {}),
+            ...(name === "occupation" && value !== "Other" ? { occupationOther: "" } : {}),
+            ...(name === "physicalChallenge" && value !== "Yes"
+                ? { physicalChallengeDescription: "" }
+                : {}),
         }));
     };
 
@@ -89,7 +125,7 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
 
                     {fields.map((f) => (
                         <div key={f} className="col-md-6">
-                            <label className="form-label text-capitalize">{f}</label>
+                            <label className="form-label">{formatLabel(f)}</label>
 
                             {/* State */}
                             {f === "state" ? (
@@ -115,7 +151,7 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                                 </select>
 
                             ) : f === "gender" ? (
-                                <select name="gender" value={form.gender || ""} onChange={handleChange} className="form-select">
+                                <select name="gender" value={form.gender || ""} onChange={handleChange} className="form-select" disabled>
                                     <option value="">Select</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
@@ -144,7 +180,7 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                                 </select>
 
                             ) : f === "maritalStatus" ? (
-                                <select name="maritalStatus" value={form.maritalStatus || ""} onChange={handleChange} className="form-select">
+                                <select name="maritalStatus" value={form.maritalStatus || ""} onChange={handleChange} className="form-select" disabled>
                                     <option value="">Select</option>
                                     <option value="Married">Married</option>
                                     <option value="Never married">Never Married</option>
@@ -153,23 +189,86 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                                     <option value="Awaiting divorce">Legally Separated / Awaiting Divorce</option>
                                 </select>
 
-                            ) : f === "employmentType" ? (
-                                <select name="employmentType" value={form.employmentType || ""} onChange={handleChange} className="form-select">
-                                    <option value="">Select employment type</option>
-                                    <option value="government">Government Job</option>
-                                    <option value="private">Private Job</option>
-                                    <option value="business">Business / Entrepreneur</option>
-                                    <option value="self_employed">Self Employed</option>
-                                    <option value="freelancer">Freelancer / Consultant</option>
-                                    <option value="defense">Defence / Armed Forces</option>
-                                    <option value="psu">PSU / Public Sector</option>
-                                    <option value="startup">Startup</option>
-                                    <option value="ngo">NGO / Social Work</option>
-                                    <option value="student">Student</option>
-                                    <option value="not_working">Not Working</option>
-                                    <option value="homemaker">Homemaker</option>
-                                    <option value="retired">Retired</option>
+                            ) : f === "bodyType" ? (
+                                <select name="bodyType" value={form.bodyType || ""} onChange={handleChange} className="form-select">
+                                    <option value="">Select</option>
+                                    <option value="Slim">Slim</option>
+                                    <option value="Athletic">Athletic</option>
+                                    <option value="Average">Average</option>
+                                    <option value="Heavy">Heavy</option>
                                 </select>
+
+                            ) : f === "smoke" ? (
+                                <select name="smoke" value={form.smoke || ""} onChange={handleChange} className="form-select">
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+
+                            ) : f === "drink" ? (
+                                <select name="drink" value={form.drink || ""} onChange={handleChange} className="form-select">
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+
+                            ) : f === "physicalChallenge" ? (
+                                <>
+                                    <select name="physicalChallenge" value={form.physicalChallenge || ""} onChange={handleChange} className="form-select">
+                                        <option value="">Select</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+
+                                    {form.physicalChallenge === "Yes" && (
+                                        <div className="mt-3">
+                                            <label className="form-label">{formatLabel("physicalChallengeDescription")}</label>
+                                            <input
+                                                name="physicalChallengeDescription"
+                                                type="text"
+                                                className="form-control"
+                                                value={form.physicalChallengeDescription || ""}
+                                                onChange={handleChange}
+                                                placeholder="Enter description"
+                                            />
+                                        </div>
+                                    )}
+                                </>
+
+                            ) : f === "employmentType" ? (
+                                <>
+                                    <select name="employmentType" value={form.employmentType || ""} onChange={handleChange} className="form-select">
+                                        <option value="">Select employment type</option>
+                                        <option value="government">Government Job</option>
+                                        <option value="private">Private Job</option>
+                                        <option value="business">Business / Entrepreneur</option>
+                                        <option value="self_employed">Self Employed</option>
+                                        <option value="freelancer">Freelancer / Consultant</option>
+                                        <option value="defense">Defence / Armed Forces</option>
+                                        <option value="psu">PSU / Public Sector</option>
+                                        <option value="startup">Startup</option>
+                                        <option value="ngo">NGO / Social Work</option>
+                                        <option value="student">Student</option>
+                                        <option value="not_working">Not Working</option>
+                                        <option value="homemaker">Homemaker</option>
+                                        <option value="retired">Retired</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+
+                                    {form.employmentType === "Other" && (
+                                        <div className="mt-3">
+                                            <label className="form-label">{formatLabel("employmentOther")}</label>
+                                            <input
+                                                name="employmentOther"
+                                                type="text"
+                                                className="form-control"
+                                                value={form.employmentOther || ""}
+                                                onChange={handleChange}
+                                                placeholder="Enter your employment"
+                                            />
+                                        </div>
+                                    )}
+                                </>
 
                             ) : f === "educationDetails" ? (
                                 <>
@@ -178,19 +277,19 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                                         <option value="10th">10th</option>
                                         <option value="12th">12th</option>
                                         <option value="diploma">Diploma</option>
-                                        <option value="bachelors">Bachelor's Degree</option>
-                                        <option value="masters">Master's Degree</option>
+                                        <option value="bachelors">Bachelor&#39;s Degree</option>
+                                        <option value="masters">Master&#39;s Degree</option>
                                         <option value="phd">PhD / Doctorate</option>
                                         <option value="ca">CA</option>
                                         <option value="cs">CS</option>
                                         <option value="mbbs">MBBS</option>
                                         <option value="law">LLB / LLM</option>
-                                        <option value="others">Others</option>
+                                        <option value="Other">Other</option>
                                     </select>
 
-                                    {form.educationDetails === "others" && (
+                                    {form.educationDetails === "Other" && (
                                         <div className="mt-3">
-                                            <label className="form-label">Please specify your education</label>
+                                            <label className="form-label">{formatLabel("educationOther")}</label>
                                             <input
                                                 name="educationOther"
                                                 type="text"
@@ -204,18 +303,42 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                                 </>
 
                             ) : f === "occupation" ? (
-                                <select name="occupation" value={form.occupation || ""} onChange={handleChange} className="form-select">
-                                    <option value="">Select occupation</option>
-                                    <option value="software_engineer">Software Engineer</option>
-                                    <option value="manager">Manager</option>
-                                    <option value="doctor">Doctor</option>
-                                    <option value="teacher">Teacher</option>
-                                    <option value="business_owner">Business Owner</option>
-                                    <option value="govt_officer">Government Officer</option>
-                                    <option value="farmer">Farmer</option>
-                                    <option value="student">Student</option>
-                                    <option value="not_working">Not Working</option>
-                                    <option value="others">Others</option>
+                                <>
+                                    <select name="occupation" value={form.occupation || ""} onChange={handleChange} className="form-select">
+                                        <option value="">Select occupation</option>
+                                        <option value="software_engineer">Software Engineer</option>
+                                        <option value="manager">Manager</option>
+                                        <option value="doctor">Doctor</option>
+                                        <option value="teacher">Teacher</option>
+                                        <option value="business_owner">Business Owner</option>
+                                        <option value="govt_officer">Government Officer</option>
+                                        <option value="farmer">Farmer</option>
+                                        <option value="student">Student</option>
+                                        <option value="not_working">Not Working</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+
+                                    {form.occupation === "Other" && (
+                                        <div className="mt-3">
+                                            <label className="form-label">{formatLabel("occupationOther")}</label>
+                                            <input
+                                                name="occupationOther"
+                                                type="text"
+                                                className="form-control"
+                                                value={form.occupationOther || ""}
+                                                onChange={handleChange}
+                                                placeholder="Enter your occupation"
+                                            />
+                                        </div>
+                                    )}
+                                </>
+
+                            ) : f === "mangalik" ? (
+                                <select name="mangalik" value={form.mangalik || ""} onChange={handleChange} className="form-select">
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                    <option value="Anshik">Anshik</option>
                                 </select>
 
                             ) : f === "annualIncome" ? (
@@ -240,6 +363,7 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                                     name="dob"
                                     value={form.dob || ""}
                                     onChange={handleChange}
+                                    disabled
                                     className="form-control"
                                 />
 
@@ -307,6 +431,11 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                                     value={form[f] || ""}
                                     onChange={handleChange}
                                     className="form-control"
+                                    type={
+                                        f === "noOfBrothers" || f === "noOfSisters"
+                                            ? "number"
+                                            : "text"
+                                    }
                                 />
                             )}
                         </div>
@@ -320,13 +449,20 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
                     <button
                         className="btn btn-danger text-white"
                         onClick={() => {
-                            const { educationOther, ...rest } = form;
                             onSubmit({
-                                ...rest,
+                                ...form,
                                 educationDetails:
-                                    form.educationDetails === "others"
+                                    form.educationDetails === "Other"
                                         ? form.educationOther || ""
                                         : form.educationDetails,
+                                employmentType:
+                                    form.employmentType === "Other"
+                                        ? form.employmentOther || ""
+                                        : form.employmentType,
+                                occupation:
+                                    form.occupation === "Other"
+                                        ? form.occupationOther || ""
+                                        : form.occupation,
                             });
                         }}
                     >
@@ -413,9 +549,30 @@ export default function ProfilePage() {
                     data.educationDetails = currentValue;
                     data.educationOther = "";
                 } else {
-                    data.educationDetails = currentValue ? "others" : "";
+                    data.educationDetails = currentValue ? "Other" : "";
                     data.educationOther = currentValue;
                 }
+            } else if (f === "employmentType") {
+                const currentValue = profile.employmentType || "";
+                if (employmentOptions.includes(currentValue)) {
+                    data.employmentType = currentValue;
+                    data.employmentOther = "";
+                } else {
+                    data.employmentType = currentValue ? "Other" : "";
+                    data.employmentOther = currentValue;
+                }
+            } else if (f === "occupation") {
+                const currentValue = profile.occupation || "";
+                if (occupationOptions.includes(currentValue)) {
+                    data.occupation = currentValue;
+                    data.occupationOther = "";
+                } else {
+                    data.occupation = currentValue ? "Other" : "";
+                    data.occupationOther = currentValue;
+                }
+            } else if (f === "physicalChallenge") {
+                data.physicalChallenge = profile.physicalChallenge || "";
+                data.physicalChallengeDescription = profile.physicalChallengeDescription || "";
             } else {
                 data[f] = profile[f] || "";
             }
@@ -561,49 +718,67 @@ export default function ProfilePage() {
                 </div>
 
 
-                <ProfileSection title="Personal Information" onEdit={() => handleEdit(["name", "gender", "dob", "motherTongue", "height", "physicalStatus", "maritalStatus"])}>
-                    <DetailItem label="Name" value={profile.name} />
-                    <DetailItem label="Gender" value={profile.gender} />
-                    <DetailItem label="DOB" value={profile.dob?.split("T")[0]} />
-                    <DetailItem label="Mother Tongue" value={profile.motherTongue} />
-                    <DetailItem label="Height" value={profile.height} />
-                    <DetailItem label="Physical Status" value={profile.physicalStatus} />
-                    <DetailItem label="Marital Status" value={profile.maritalStatus} />
+                <ProfileSection title="Personal Information" onEdit={() => handleEdit(["name", "gender", "dob", "motherTongue", "height", "physicalStatus", "maritalStatus", "bodyType", "smoke", "drink", "physicalChallenge"])} >
+                    <DetailItem label={formatLabel("name")} value={profile.name} />
+                    <DetailItem label={formatLabel("gender")} value={profile.gender} />
+                    <DetailItem label={formatLabel("dob")} value={profile.dob?.split("T")[0]} />
+                    <DetailItem label={formatLabel("motherTongue")} value={profile.motherTongue} />
+                    <DetailItem label={formatLabel("height")} value={profile.height} />
+                    <DetailItem label={formatLabel("physicalStatus")} value={profile.physicalStatus} />
+                    <DetailItem label={formatLabel("bodyType")} value={profile.bodyType} />
+                    <DetailItem label={formatLabel("smoke")} value={profile.smoke} />
+                    <DetailItem label={formatLabel("drink")} value={profile.drink} />
+                    <DetailItem label={formatLabel("physicalChallenge")} value={profile.physicalChallenge} />
+                    <DetailItem label={formatLabel("physicalChallengeDescription")} value={profile.physicalChallengeDescription} />
+                    <DetailItem label={formatLabel("maritalStatus")} value={profile.maritalStatus} />
 
                 </ProfileSection>
 
                 <ProfileSection title="Location" onEdit={() => handleEdit(["state", "city"])}>
                     {/* <DetailItem label="State" value={profile.state} /> */}
-                    <DetailItem label="City" value={profile.city || profile.location} />
+                    <DetailItem label={formatLabel("city")} value={profile.city || profile.location} />
                 </ProfileSection>
 
-                <ProfileSection title="Religion & Culture" onEdit={() => handleEdit([ "caste", "subCaste", "gotra", "skinTone", "birthPlace", "birthTime"])}>
+                <ProfileSection title="Religion & Culture" onEdit={() => handleEdit([ "caste", "subCaste", "gotra", "skinTone", "birthPlace", "birthTime", "rashiNakshatra", "mangalik"])}>
 
-                    <DetailItem label="caste" value={profile.caste} />
-                    <DetailItem label="Sub caste" value={profile.subCaste} />
-                    <DetailItem label="Gotra" value={profile.gotra} />
-                    <DetailItem label="Skin Tone" value={profile.skinTone} />
-                    <DetailItem label="Birth Place" value={profile.birthPlace} />
-                    <DetailItem label="Birth Time" value={profile.birthTime} />
+                    <DetailItem label={formatLabel("caste")} value={profile.caste} />
+                    <DetailItem label={formatLabel("subCaste")} value={profile.subCaste} />
+                    <DetailItem label={formatLabel("gotra")} value={profile.gotra} />
+                    <DetailItem label={formatLabel("skinTone")} value={profile.skinTone} />
+                    <DetailItem label={formatLabel("birthPlace")} value={profile.birthPlace} />
+                    <DetailItem label={formatLabel("birthTime")} value={profile.birthTime} />
+                    <DetailItem label={formatLabel("rashiNakshatra")} value={profile.rashiNakshatra} />
+                    <DetailItem label={formatLabel("mangalik")} value={profile.mangalik} />
                 </ProfileSection>
 
                 <ProfileSection title="Professional Information" onEdit={() => handleEdit(["educationDetails", "employmentType", "occupation", "annualIncome"])}>
-                    <DetailItem label="Education" value={profile.educationDetails} />
-                    <DetailItem label="Employment Type" value={profile.employmentType} />
-                    <DetailItem label="Occupation" value={profile.occupation} />
-                    <DetailItem label="Annual Income" value={profile.annualIncome} />
+                    <DetailItem label={formatLabel("educationDetails")} value={profile.educationDetails} />
+                    <DetailItem label={formatLabel("employmentType")} value={profile.employmentType} />
+                    <DetailItem label={formatLabel("occupation")} value={profile.occupation} />
+                    <DetailItem label={formatLabel("annualIncome")} value={profile.annualIncome} />
                 </ProfileSection>
 
-                <ProfileSection title="Family & Lifestyle" onEdit={() => handleEdit(["familyStatus", "diet", "aboutYourself", "hobbies"])}>
-                    <DetailItem label="Family Status" value={profile.familyStatus} />
-                    <DetailItem label="Diet" value={profile.diet} />
-                    <DetailItem label="About" value={profile.aboutYourself} />
-                    <DetailItem label="Hobbies" value={profile.hobbies} />
+                <ProfileSection title="Family & Lifestyle" onEdit={() => handleEdit(["familyStatus", "diet", "mamaGotra", "fatherName", "motherName", "fatherContactNo", "fatherStatus", "fatherOccupation", "motherStatus", "motherOccupation", "noOfBrothers", "noOfSisters", "aboutYourself", "hobbies"])}>
+                    <DetailItem label={formatLabel("familyStatus")} value={profile.familyStatus} />
+                    <DetailItem label={formatLabel("diet")} value={profile.diet} />
+                    <DetailItem label={formatLabel("mamaGotra")} value={profile.mamaGotra} />
+                    <DetailItem label={formatLabel("fatherName")} value={profile.fatherName} />
+                    <DetailItem label={formatLabel("motherName")} value={profile.motherName} />
+                    <DetailItem label={formatLabel("fatherContactNo")} value={profile.fatherContactNo} />
+                    <DetailItem label={formatLabel("fatherStatus")} value={profile.fatherStatus} />
+                    <DetailItem label={formatLabel("fatherOccupation")} value={profile.fatherOccupation} />
+                    <DetailItem label={formatLabel("motherStatus")} value={profile.motherStatus} />
+                    <DetailItem label={formatLabel("motherOccupation")} value={profile.motherOccupation} />
+                    <DetailItem label={formatLabel("noOfBrothers")} value={profile.noOfBrothers} />
+                    <DetailItem label={formatLabel("noOfSisters")} value={profile.noOfSisters} />
+                    <DetailItem label={formatLabel("aboutYourself")} value={profile.aboutYourself} />
+                    <DetailItem label={formatLabel("hobbies")} value={profile.hobbies} />
 
 
                 </ProfileSection>
 
                 <EditModal
+                    key={`${editFields.join("-")}-${Object.values(editData).join("-")}`}
                     open={editOpen}
                     onClose={() => setEditOpen(false)}
                     fields={editFields}
