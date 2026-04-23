@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { buildApiUrl } from "@/lib/api";
 
 export default function OurTeam() {
     const [team, setTeam] = useState([]);
@@ -8,7 +9,7 @@ export default function OurTeam() {
 
     const getTeam = async () => {
         try {
-            const res = await fetch("http://143.110.244.163:5000/api/team");
+            const res = await fetch(buildApiUrl("/api/team"));
             const data = await res.json();
 
             if (data.success) {
@@ -81,7 +82,7 @@ export default function OurTeam() {
                                     style={{ height: "260px" }}
                                 >
                                     <img
-                                        src={item.photo || "/dhakadweb/assets/images/sidebar.png"}
+                                        src={item.photo || "/assets/images/sidebar.png"}
                                         alt={item.name}
                                         className="w-100 h-100 object-fit-cover rounded-4"
                                     />

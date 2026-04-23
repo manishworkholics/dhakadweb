@@ -5,9 +5,10 @@ import DashboardLayout from "../components/Layout/DashboardLayout";
 import Link from "next/link";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { buildApiUrl } from "@/lib/api";
 
 // --- API Base URL ---
-const API_URL = "http://143.110.244.163:5000/api";
+const API_URL = buildApiUrl("/api");
 
 // --- Sub-Component: Shortlisted User Card ---
 const ShortListItem = ({ profile, onRemove }) => {
@@ -26,7 +27,7 @@ const ShortListItem = ({ profile, onRemove }) => {
                             left: 0,
                             width: "100%",
                             height: "100%",
-                            backgroundImage: `url(${profile?.profile?.photos?.[0] || "/dhakadweb/assets/images/default-profile.png"})`,
+                            backgroundImage: `url(${profile?.profile?.photos?.[0] || "/assets/images/dummy.png"})`,
                             backgroundSize: "cover",
                             backgroundPosition: "center",
                             filter: "blur(15px)",
@@ -49,7 +50,7 @@ const ShortListItem = ({ profile, onRemove }) => {
 
                     {/* Main Profile Image */}
                     <img
-                        src={profile?.profile?.photos?.[0] || "/dhakadweb/assets/images/default-profile.png"}
+                        src={profile?.profile?.photos?.[0] || "/assets/images/dummy.png"}
                         alt={profile?.profile?.name || "Profile"}
                         className="rounded w-100 h-100 position-relative"
                         style={{ objectFit: "contain", zIndex: 2 }}

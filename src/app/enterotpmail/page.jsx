@@ -6,6 +6,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
 import "react-toastify/dist/ReactToastify.css";
+import { buildApiUrl } from "@/lib/api";
 
 const EnterOtpMail = () => {
     const router = useRouter();
@@ -87,7 +88,7 @@ const EnterOtpMail = () => {
 
     //     try {
     //         const response = await axios.post(
-    //             "http://143.110.244.163:5000/api/auth/verify-email-otp",
+    //             buildApiUrl("/api/auth/verify-email-otp"),
     //             {
     //                 email: localStorage.getItem("tempEmail"),
     //                 otp: finalOtp,
@@ -142,7 +143,7 @@ const EnterOtpMail = () => {
             setLoading(true);
 
             const response = await axios.post(
-                "http://143.110.244.163:5000/api/auth/verify-email-otp",
+                buildApiUrl("/api/auth/verify-email-otp"),
                 { email, otp: finalOtp }
             );
 
@@ -184,7 +185,7 @@ const EnterOtpMail = () => {
 
             const email = localStorage.getItem("verifyEmail");
 
-            await axios.post("http://143.110.244.163:5000/api/auth/resend-email-otp", { email });
+            await axios.post(buildApiUrl("/api/auth/resend-email-otp"), { email });
 
             setTimer(300);
             setExpired(false);
@@ -212,7 +213,7 @@ const EnterOtpMail = () => {
 
                 <div className="card shadow rounded-4 p-4 mx-auto" style={{ maxWidth: "460px" }}>
                     <div className="text-center">
-                        <img src="/dhakadweb/assets/images/otp-icon.png" className="mb-3" />
+                        <img src="/assets/images/otp-icon.png" className="mb-3" />
                         <h6>
                             Enter the 4-digit OTP 
                             {/* <span className="text-danger">{saveotp}</span> */}

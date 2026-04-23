@@ -3,8 +3,9 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import DashboardLayout from "../components/Layout/DashboardLayout";
 import axios from "axios";
+import { buildApiUrl } from "@/lib/api";
 
-const API_URL = "http://143.110.244.163:5000/api";
+const API_URL = buildApiUrl("/api");
 
 export default function ChatListPage() {
     const [chatList, setChatList] = useState([]);
@@ -201,7 +202,7 @@ export default function ChatListPage() {
                                                 <img
                                                     src={
                                                         sender?.photo ||
-                                                        "/dhakadweb/assets/images/dummy.png"
+                                                        "/assets/images/dummy.png"
                                                     }
                                                     className="rounded-circle"
                                                     width="40"
@@ -257,7 +258,7 @@ export default function ChatListPage() {
                                     <img
                                         src={
                                             otherUser?.photo ||
-                                            "/dhakadweb/assets/images/dummy.png"
+                                            "/assets/images/dummy.png"
                                         }
                                         className="rounded-circle me-3"
                                         width="45"
@@ -305,7 +306,7 @@ export default function ChatListPage() {
                                     <img
                                         src={
                                             activeUser?.photo ||
-                                            "/dhakadweb/assets/images/dummy.png"
+                                            "/assets/images/dummy.png"
                                         }
                                         className="rounded-circle"
                                         width="40"

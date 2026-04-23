@@ -11,6 +11,7 @@ import PaidMembershipCard from "../components/Dashboard/PaidMembershipCard";
 import RecentChatList from "../components/Dashboard/RecentChatList";
 import ProfileCard from "../components/Dashboard/ProfileCard";
 import ViewAllButton from "../components/Shared/ViewAllButton"; // <-- Your new button!
+import { buildApiUrl, buildAuthHeaders } from "@/lib/api";
 
 
 // --- Mock Data (As used previously) ---
@@ -43,7 +44,7 @@ export default function DashboardPage() {
     const fetchProfile = async () => {
         try {
             const res = await fetch(
-                `http://143.110.244.163:5000/api/profile/own-profile/${userId}`, { headers: { Authorization: `Bearer ${token}` }, }
+                buildApiUrl(`/api/profile/own-profile/${userId}`), { headers: buildAuthHeaders({}, token) }
             );
             const data = await res.json();
 

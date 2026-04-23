@@ -5,8 +5,9 @@ import DashboardLayout from "../components/Layout/DashboardLayout";
 import Link from "next/link";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { buildApiUrl } from "@/lib/api";
 
-const API_URL = "http://143.110.244.163:5000/api";
+const API_URL = buildApiUrl("/api");
 
 
 const MatchCircle = ({ percent }) => {
@@ -70,7 +71,7 @@ const ViewedCard = ({ item }) => {
             style={{
               position: "absolute",
               inset: 0,
-              backgroundImage: `url(${item?.photos?.[0] || "/dhakadweb/assets/images/default-profile.png"})`,
+              backgroundImage: `url(${item?.photos?.[0] || "/assets/images/dummy.png"})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
               filter: "blur(15px)",
@@ -79,7 +80,7 @@ const ViewedCard = ({ item }) => {
             }}
           />
           <img
-            src={item?.photos?.[0] || "/dhakadweb/assets/images/default-profile.png"}
+            src={item?.photos?.[0] || "/assets/images/dummy.png"}
             alt={item?.name || "Profile"}
             className="rounded w-100 h-100 position-relative"
             style={{ objectFit: "contain", zIndex: 2 }}

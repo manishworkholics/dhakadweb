@@ -24,8 +24,8 @@ const Aboutus = () => {
                 <div className="row mt-lg-5 mb-lg-5 mt-5 mb-0">
                     <div className="col-lg-6">
                         <div className="about-right position-relative">
-                            <img src="/dhakadweb/assets/images/about.png" alt="" className='rounded-circle position-relative' />
-                            <img src="/dhakadweb/assets/images/about.png" alt="" className='rounded-circle position-absolute img2' style={{ right: "60px", bottom: "-50px" }} />
+                            <img src="/assets/images/about.png" alt="" className='rounded-circle position-relative' />
+                            <img src="/assets/images/about.png" alt="" className='rounded-circle position-absolute img2' style={{ right: "60px", bottom: "-50px" }} />
                         </div>
 
                     </div>

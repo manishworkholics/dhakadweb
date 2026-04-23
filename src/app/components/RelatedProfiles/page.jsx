@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
+import { buildApiUrl } from "@/lib/api";
 
 const NavLink = ({ href, children, className, style }) => (
   <a href={href} className={className} style={style}>
@@ -24,7 +25,7 @@ export default function RelatedProfiles() {
   useEffect(() => {
     const getProfiles = async () => {
       try {
-        const res = await fetch("http://143.110.244.163:5000/api/featured?limit=10");
+        const res = await fetch(buildApiUrl("/api/featured?limit=10"));
         const data = await res.json();
         setFeaturedProfiles(data?.profiles || []);
         setLoading(false);

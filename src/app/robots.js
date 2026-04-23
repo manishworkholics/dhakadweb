@@ -1,3 +1,5 @@
+import { toAbsoluteUrl } from "@/lib/site";
+
 export default function robots() {
   return {
     rules: [
@@ -6,6 +8,6 @@ export default function robots() {
         allow: "/",
       },
     ],
-    sitemap: "https://dhakadmatrimony.com/sitemap.xml",
+    sitemap: toAbsoluteUrl("/sitemap.xml"),
   };
 }

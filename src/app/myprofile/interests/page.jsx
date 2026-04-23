@@ -5,8 +5,9 @@ import DashboardLayout from "../components/Layout/DashboardLayout";
 import Link from "next/link";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { buildApiUrl } from "@/lib/api";
 
-const API_URL = "http://143.110.244.163:5000/api/interest/request";
+const API_URL = buildApiUrl("/api/interest/request");
 
 const RequestListItem = ({ profile, type, mainTab, onAction }) => {
     const showActions = mainTab === "received" && type === "new";

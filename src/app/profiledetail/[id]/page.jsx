@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { loadOwnProfile } from "@/redux/slices/profileSlice";
+import { buildApiUrl, buildAuthHeaders } from "@/lib/api";
 
 export default function ProfileDetail() {
   const dispatch = useDispatch();
@@ -47,9 +48,9 @@ export default function ProfileDetail() {
   useEffect(() => {
     const getProfile = async () => {
       try {
-        const res = await fetch(`http://143.110.244.163:5000/api/profile/${id}`, {
+        const res = await fetch(buildApiUrl(`/api/profile/${id}`), {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
+            ...buildAuthHeaders(),
           },
         });
         const response = await res.json();
@@ -58,11 +59,11 @@ export default function ProfileDetail() {
 
         const userId = JSON.parse(localStorage.getItem("user") || "{}")?._id;
         if (response?.profile?._id && response?.profile?._id !== userId) {
-          await fetch(`http://143.110.244.163:5000/api/viewed/view/${response?.profile?._id}`, {
+          await fetch(buildApiUrl(`/api/viewed/view/${response?.profile?._id}`), {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
+              ...buildAuthHeaders(),
             },
           });
           console.log("Profile marked as viewed");
@@ -78,9 +79,9 @@ export default function ProfileDetail() {
 
   const checkInterestStatus = async (profileUserId) => {
     try {
-      const res = await fetch(`http://143.110.244.163:5000/api/interest/request/sent`, {
+      const res = await fetch(buildApiUrl("/api/interest/request/sent"), {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
+          ...buildAuthHeaders(),
         },
       });
 
@@ -139,7 +140,7 @@ export default function ProfileDetail() {
   }
 
   const data = profile;
-  const image = data?.photos?.length ? data?.photos?.[0] : "/dhakadweb/assets/images/dummy.png";
+  const image = data?.photos?.length ? data?.photos?.[0] : "/assets/images/dummy.png";
   const gallery = data?.photos?.length ? data?.photos : [];
   const age = data?.dob ? new Date().getFullYear() - new Date(data?.dob).getFullYear() : "N/A";
   const phone = JSON.parse(localStorage.getItem("user") || "{}")?.phone;
@@ -171,11 +172,11 @@ export default function ProfileDetail() {
     try {
       const token = localStorage.getItem("usertoken");
 
-      const res = await fetch(`http://143.110.244.163:5000/api/interest/request/send`, {
+      const res = await fetch(buildApiUrl("/api/interest/request/send"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          ...buildAuthHeaders({}, token),
         },
         body: JSON.stringify({ receiverId: data?.userId }),
       });
@@ -197,11 +198,11 @@ export default function ProfileDetail() {
     try {
       const token = localStorage.getItem("usertoken");
 
-      const res = await fetch(`http://143.110.244.163:5000/api/chat/now`, {
+      const res = await fetch(buildApiUrl("/api/chat/now"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          ...buildAuthHeaders({}, token),
         },
         body: JSON.stringify({ receiverId: data?.userId }),
       });
@@ -223,7 +224,7 @@ export default function ProfileDetail() {
     try {
       const token = localStorage.getItem("usertoken");
 
-      const res = await fetch(`http://143.110.244.163:5000/api/shortlist/`, {
+      const res = await fetch(buildApiUrl("/api/shortlist/"), {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -242,10 +243,10 @@ export default function ProfileDetail() {
     try {
       const token = localStorage.getItem("usertoken");
 
-      const res = await fetch(`http://143.110.244.163:5000/api/shortlist/${data?._id}`, {
+      const res = await fetch(buildApiUrl(`/api/shortlist/${data?._id}`), {
         method: isShortlisted ? "DELETE" : "POST",
         headers: {
-          Authorization: `Bearer ${token}`,
+          ...buildAuthHeaders({}, token),
           "Content-Type": "application/json",
         },
       });
@@ -302,7 +303,7 @@ export default function ProfileDetail() {
               <div className="row card rounded-3" style={{ overflow: "hidden" }}>
                 <div className="p-0 profileRight">
                   <img
-                    src={image || "/dhakadweb/assets/images/priya.png"}
+                    src={image || "/assets/images/priya.png"}
                     className="card-img-top h-100 w-100"
                     style={{ height: "auto", objectFit: "cover", maxWidth: "100%" }}
                     alt={data?.name || "Profile"}

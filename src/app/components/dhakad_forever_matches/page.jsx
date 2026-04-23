@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Header from "../Header/Page";
 import Footer from "../Footer/page";
+import { buildApiUrl } from "@/lib/api";
 
 export default function ViewProfileAll() {
 
@@ -11,7 +12,7 @@ export default function ViewProfileAll() {
 
   const getSuccess = async () => {
     try {
-      const res = await fetch('http://143.110.244.163:5000/api/success');
+      const res = await fetch(buildApiUrl("/api/success"));
       const data = await res.json();
       setsuccessStories(data?.stories || []);
       setLoading(false)

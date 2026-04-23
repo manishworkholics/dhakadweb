@@ -13,6 +13,7 @@ import RecentChatList from "./components/Dashboard/RecentChatList";
 import ProfileCard from "./components/Dashboard/ProfileCard";
 import ViewAllButton from "./components/Shared/ViewAllButton";
 import { useRouter } from "next/navigation";
+import { buildApiUrl, buildAuthHeaders } from "@/lib/api";
 
 export default function MyProfileDashboard() {
     const router = useRouter();
@@ -54,10 +55,10 @@ export default function MyProfileDashboard() {
     const fetchProfile = async () => {
         try {
             const res = await fetch(
-                `http://143.110.244.163:5000/api/profile/own-profile/${userId}`,
+                buildApiUrl(`/api/profile/own-profile/${userId}`),
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
+                        ...buildAuthHeaders(),
                     },
                 }
             );
@@ -72,9 +73,9 @@ export default function MyProfileDashboard() {
     const fetchViewedProfile = async () => {
         try {
             setLoadingViewed(true);
-            const res = await fetch(`http://143.110.244.163:5000/api/viewed/viewed`, {
+            const res = await fetch(buildApiUrl("/api/viewed/viewed"), {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
+                    ...buildAuthHeaders(),
                 },
             });
             const data = await res.json();
@@ -90,10 +91,10 @@ export default function MyProfileDashboard() {
         try {
             setLoadingMatches(true);
             const res = await fetch(
-                `http://143.110.244.163:5000/api/matches/new-matches`,
+                buildApiUrl("/api/matches/new-matches"),
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
+                        ...buildAuthHeaders(),
                     },
                 }
             );
@@ -121,7 +122,7 @@ export default function MyProfileDashboard() {
     }, []);
 
     /* ---------- UI Logic ---------- */
-    const newMatchLimit = isTabletRange ? 4 : 4;
+    const newMatchLimit = isTabletRange ? 3 : 3;
     const showViewAllMatches =
         (matchprofile?.matches?.length || 0) > newMatchLimit;
 

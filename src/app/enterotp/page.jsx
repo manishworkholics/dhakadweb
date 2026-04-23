@@ -6,6 +6,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
+import { buildApiUrl } from "@/lib/api";
 
 const EnterOtp = () => {
   const router = useRouter();
@@ -83,7 +84,7 @@ const EnterOtp = () => {
       setLoading(true);
 
       const response = await axios.post(
-        "http://143.110.244.163:5000/api/auth/verify-otp",
+        buildApiUrl("/api/auth/verify-otp"),
         { phone, otp: finalOtp },
         { timeout: 10000 }
       );
@@ -151,7 +152,7 @@ const EnterOtp = () => {
       setResendLoading(true);
       toast.info("Sending new OTP...");
 
-      await axios.post("http://143.110.244.163:5000/api/auth/send-otp", { phone });
+      await axios.post(buildApiUrl("/api/auth/send-otp"), { phone });
 
       setTimer(30);
       setOtp(["", "", "", ""]);
@@ -190,7 +191,7 @@ const EnterOtp = () => {
 
             <div className="card shadow border-0 rounded-4">
               <div className="card-body p-4 text-center">
-                <img src="/dhakadweb/assets/images/otp-icon.png" className="mb-3" />
+                <img src="/assets/images/otp-icon.png" className="mb-3" />
 
                 <h6>Please enter the 4-digit OTP </h6>
 

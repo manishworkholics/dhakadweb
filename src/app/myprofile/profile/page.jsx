@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import DashboardLayout from "../components/Layout/DashboardLayout";
 import axios from "axios";
+import { buildApiUrl } from "@/lib/api";
 
 const educationOptions = [
     "10th",
@@ -83,7 +84,7 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
     const [cities, setCities] = useState([]);
 
     useEffect(() => {
-        axios.get("http://143.110.244.163:5000/api/location/states").then((res) => {
+        axios.get(buildApiUrl("/api/location/states")).then((res) => {
             setStates(res.data || []);
         });
     }, []);
@@ -91,7 +92,7 @@ const EditModal = ({ open, onClose, fields, data, onSubmit }) => {
     useEffect(() => {
         if (form.state) {
             axios
-                .get(`http://143.110.244.163:5000/api/location/cities/${form.state}`)
+                .get(buildApiUrl(`/api/location/cities/${form.state}`))
                 .then((res) => setCities(res.data.cities || []));
         }
     }, [form.state]);
@@ -498,7 +499,7 @@ export default function ProfilePage() {
             fd.append("photo", file);
 
             const uploadRes = await axios.post(
-                "http://143.110.244.163:5000/api/upload/photo",
+                buildApiUrl("/api/upload/photo"),
                 fd,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -508,7 +509,7 @@ export default function ProfilePage() {
             const updatedPhotos = [...(profile.photos || []), newUrl];
 
             await axios.put(
-                "http://143.110.244.163:5000/api/profile/update",
+                buildApiUrl("/api/profile/update"),
                 { photos: updatedPhotos },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -532,7 +533,7 @@ export default function ProfilePage() {
 
     const fetchProfile = async () => {
         if (!userId) return;
-        const res = await axios.get(`http://143.110.244.163:5000/api/profile/own-profile/${userId}`, {
+        const res = await axios.get(buildApiUrl(`/api/profile/own-profile/${userId}`), {
             headers: { Authorization: `Bearer ${token}` },
         });
         setProfile(res.data.profile);
@@ -583,7 +584,7 @@ export default function ProfilePage() {
     };
 
     const saveProfileUpdate = async (updated) => {
-        await axios.put("http://143.110.244.163:5000/api/profile/update", updated, {
+        await axios.put(buildApiUrl("/api/profile/update"), updated, {
             headers: { Authorization: `Bearer ${token}` },
         });
         setEditOpen(false);
@@ -596,7 +597,7 @@ export default function ProfilePage() {
             const updatedPhotos = profile.photos.filter((p) => p !== photoToDelete);
 
             await axios.put(
-                "http://143.110.244.163:5000/api/profile/update",
+                buildApiUrl("/api/profile/update"),
                 { photos: updatedPhotos },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

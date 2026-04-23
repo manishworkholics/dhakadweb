@@ -1,25 +1,22 @@
+import { fetchJson } from "@/lib/api";
+import { getSiteUrl, toAbsoluteUrl } from "@/lib/site";
+
 export default async function sitemap() {
-
-  const res = await fetch(
-    "http://143.110.244.163:5000/api/blogs"
-  );
-
-  const data = await res.json();
-
+  const data = await fetchJson("/api/blogs", { cache: "no-store" }).catch(() => ({}));
   const blogs = data.blogs || [];
 
   const blogUrls = blogs.map((blog) => ({
-    url: `https://dhakadmatrimony.com/blog/${blog.slug}`,
+    url: toAbsoluteUrl(`/blog/${blog.slug}`),
     lastModified: blog.updatedAt,
   }));
 
   return [
     {
-      url: "https://dhakadmatrimony.com",
+      url: getSiteUrl(),
       lastModified: new Date(),
     },
     {
-      url: "https://dhakadmatrimony.com/blog",
+      url: toAbsoluteUrl("/blog"),
       lastModified: new Date(),
     },
     ...blogUrls,

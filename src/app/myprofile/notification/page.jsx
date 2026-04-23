@@ -4,8 +4,9 @@ import React, { useEffect, useState } from "react";
 import DashboardLayout from "../components/Layout/DashboardLayout";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { buildApiUrl } from "@/lib/api";
 
-const API_URL = "http://143.110.244.163:5000/api";
+const API_URL = buildApiUrl("/api");
 
 function timeAgo(date) {
   const seconds = Math.floor((new Date() - new Date(date)) / 1000);
@@ -74,7 +75,7 @@ export default function NotificationPage() {
                         <img
                           src={
                             n.senderPhoto ||
-                            "/dhakadweb/assets/images/default-user.png"
+                            "/assets/images/dummy.png"
                           }
                           alt="profile"
                           style={{

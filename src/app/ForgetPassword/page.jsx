@@ -6,6 +6,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
+import { buildApiUrl } from "@/lib/api";
 
 export default function ForgetPassword() {
   const router = useRouter();
@@ -19,7 +20,7 @@ export default function ForgetPassword() {
     try {
       setLoading(true);
       const res = await axios.post(
-        "http://143.110.244.163:5000/api/auth/forgot-password",
+        buildApiUrl("/api/auth/forgot-password"),
         { email }
       );
 
@@ -76,7 +77,7 @@ export default function ForgetPassword() {
 
                 </form>
                 <p className="mt-3 text-center">
-                  <a href="/dhakadweb/login" className="text-decoration-none text-D4AF37">
+                  <a href="/login" className="text-decoration-none text-D4AF37">
                     Back to Login
                   </a>
                 </p>

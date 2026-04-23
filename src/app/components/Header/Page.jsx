@@ -15,7 +15,7 @@ const Header = () => {
     const handleLogout = () => {
         localStorage.removeItem("usertoken");
         setIsLoggedIn(false);
-        window.location.href = "/dhakadweb/login";
+        window.location.href = "/login";
     };
 
     const isActive = (path) => pathname === path ? "nav-link active" : "nav-link";
@@ -25,7 +25,7 @@ const Header = () => {
             <div className="container">
                 <nav className="navbar navbar-expand-lg">
                     <Link className="navbar-brand" href="/">
-                        <img src={`/dhakadweb/assets/images/dhakadlogo.png`} />
+                        <img src="/assets/images/dhakadlogo.png" alt="Dhakad Matrimony" />
                     </Link>
 
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">

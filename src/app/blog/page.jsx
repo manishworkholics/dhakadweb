@@ -1,7 +1,8 @@
 import BlogClient from "./BlogClient";
+import { buildApiUrl } from "@/lib/api";
 
 async function getBlogs() {
-  const res = await fetch("http://143.110.244.163:5000/api/blogs", {
+  const res = await fetch(buildApiUrl("/api/blogs"), {
     cache: "no-store",
   });
 

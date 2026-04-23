@@ -8,6 +8,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { buildApiUrl } from "@/lib/api";
 
 const sendotp = () => {
     const router = useRouter();
@@ -49,7 +50,7 @@ const sendotp = () => {
             setLoading(true);
 
             const response = await axios.post(
-                "http://143.110.244.163:5000/api/auth/send-otp",
+                buildApiUrl("/api/auth/send-otp"),
                 { phone: formData.phone },
                 { timeout: 10000 } // 10 sec safety
             );
@@ -93,7 +94,7 @@ const sendotp = () => {
                                 <div className="card-body p-4">
                                     <div className="login-form">
                                         <div className="text-center">
-                                            {/* <img src="/dhakadweb/assets/images/dhakad-logo.png" alt="" className="mb-4" /> */}
+                                            {/* <img src="/assets/images/dhakad-logo.png" alt="" className="mb-4" /> */}
                                             <h5 className='text-center mb-4 fw-medium'> Please Login</h5>
                                         </div>
                                         <form onSubmit={handleSubmit}>
@@ -151,12 +152,12 @@ const sendotp = () => {
                                                             <p className="mb-4 text-6B6B6B text-center">Point your phone camera at the QR code or use one of the download links below</p>
                                                             <div className="col-12 col-lg-6 mb-lg-0 mb-4">
                                                                 <div className="text-center">
-                                                                    <img src="/dhakadweb/assets/images/download-barcode.png" alt="qr-code" className='w-75' />
+                                                                    <img src="/assets/images/download-barcode.png" alt="qr-code" className='w-75' />
                                                                 </div>
                                                             </div>
                                                             <div className="col-12 col-lg-6 d-flex flex-column justify-content-center align-items-center">
-                                                                <img src="/dhakadweb/assets/images/appstore.png" alt="app-store" className='mb-2 w-75' />
-                                                                <img src="/dhakadweb/assets/images/playstore.png" alt="google-play" className='w-75' />
+                                                                <img src="/assets/images/appstore.png" alt="app-store" className='mb-2 w-75' />
+                                                                <img src="/assets/images/playstore.png" alt="google-play" className='w-75' />
                                                             </div>
                                                             <p className="mt-4 text-6B6B6B text-center">Or
                                                                 <span className="text-danger fw-medium"> Get Download </span>
@@ -170,7 +171,7 @@ const sendotp = () => {
                                         </div>
                                         <div className="col-12 col-lg-6">
                                             <div className="">
-                                                <img src="/dhakadweb/assets/images/download-app-img.png" alt="" className="w-100" />
+                                                <img src="/assets/images/download-app-img.png" alt="" className="w-100" />
                                             </div>
                                         </div>
                                     </div>

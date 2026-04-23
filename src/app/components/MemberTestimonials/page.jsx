@@ -4,11 +4,12 @@ import React, { useRef, useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import axios from "axios";
+import { buildApiUrl } from "@/lib/api";
 
 import "swiper/css";
 import "swiper/css/navigation";
 
-const API_URL = "http://143.110.244.163:5000/api";
+const API_URL = buildApiUrl("/api");
 
 export default function MemberTestimonials() {
     const prevRef = useRef(null);

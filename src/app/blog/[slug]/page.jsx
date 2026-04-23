@@ -1,11 +1,12 @@
 import BlogDetailClient from "./BlogDetailClient";
+import { buildApiUrl } from "@/lib/api";
 
 async function getBlog(slug) {
 
   try {
 
     const res = await fetch(
-      `http://143.110.244.163:5000/api/blogs/${slug}`,
+      buildApiUrl(`/api/blogs/${slug}`),
       { cache: "no-store" }
     );
 

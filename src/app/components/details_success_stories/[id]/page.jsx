@@ -3,6 +3,7 @@
 import React, { useEffect, useState, use } from "react";
 import Header from "../../Header/Page";
 import Footer from "../../Footer/page";
+import { buildApiUrl } from "@/lib/api";
 
 export default function DetailsSuccessStories({ params }) {
   // 🟢 unwrap params promise using use()
@@ -13,7 +14,7 @@ export default function DetailsSuccessStories({ params }) {
   useEffect(() => {
     const fetchStory = async () => {
       try {
-        const res = await fetch(`http://143.110.244.163:5000/api/success/${id}`);
+        const res = await fetch(buildApiUrl(`/api/success/${id}`));
         const data = await res.json();
         setStory(data?.story);
       } catch (error) {

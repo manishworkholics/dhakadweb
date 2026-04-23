@@ -5,8 +5,9 @@ import DashboardLayout from "../components/Layout/DashboardLayout";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { buildApiUrl } from "@/lib/api";
 
-const API_URL = "http://143.110.244.163:5000/api";
+const API_URL = buildApiUrl("/api");
 
 /* ================= TAG VIEW ================= */
 const SelectedTags = ({ label, items, onRemove }) => {

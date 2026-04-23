@@ -8,6 +8,7 @@ import Footer from "../components/Footer/page";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { buildApiUrl, buildAuthHeaders } from "@/lib/api";
 
 
 export default function Profile() {
@@ -55,7 +56,7 @@ export default function Profile() {
 
     const getFilterOptions = async () => {
         try {
-            const res = await fetch("http://143.110.244.163:5000/api/profile/filters");
+            const res = await fetch(buildApiUrl("/api/profile/filters"));
             const result = await res.json();
             if (result.success) setFilterOptions(result.filters);
         } catch (err) {
@@ -105,9 +106,9 @@ export default function Profile() {
         params.append("page", page);
         params.append("limit", limit);
 
-        fetch(`http://143.110.244.163:5000/api/profile/profiles?${params.toString()}`, {
+        fetch(buildApiUrl(`/api/profile/profiles?${params.toString()}`), {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
+                ...buildAuthHeaders(),
             },
         })
             .then((res) => res.json())

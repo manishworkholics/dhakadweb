@@ -5,8 +5,9 @@ import DashboardLayout from "../components/Layout/DashboardLayout";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { loadOwnProfile } from "@/redux/slices/profileSlice";
+import { buildApiUrl } from "@/lib/api";
 
-const API_URL = "http://143.110.244.163:5000/api";
+const API_URL = buildApiUrl("/api");
 
 export default function Plan() {
     const [myPlan, setMyPlan] = useState(null);

@@ -61,7 +61,7 @@ export default function Sidebar({ data }) {
     /* ========== LOGOUT ========== */
     const handleLogout = () => {
         localStorage.removeItem("usertoken");
-        window.location.href = "/dhakadweb/login";
+        window.location.href = "/login";
     };
 
     return (
@@ -94,9 +94,9 @@ export default function Sidebar({ data }) {
             {/* ================= DESKTOP SIDEBAR ================= */}
             <div className="sidebar-wrapper d-none d-lg-block d-md-none">
                 <div className="sidebar-image-wrapper">
-                    <img src={data?.photos?.[0] || "/dhakadweb/assets/images/dummy.png"} alt="" className="bg-blur" />
+                    <img src={data?.photos?.[0] || "/assets/images/dummy.png"} alt="" className="bg-blur" />
                     <img
-                        src={data?.photos?.[0] || "/dhakadweb/assets/images/dummy.png"}
+                        src={data?.photos?.[0] || "/assets/images/dummy.png"}
                         className="w-100 main-img"
                         alt="profile"
                     />

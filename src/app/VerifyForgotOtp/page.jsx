@@ -29,7 +29,7 @@
 //     try {
 //       setLoading(true);
 //       await axios.post(
-//         "http://143.110.244.163:5000/api/auth/verify-forgot-otp",
+//         buildApiUrl("/api/auth/verify-forgot-otp"),
 //         { email, otp }
 //       );
 
@@ -93,6 +93,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
 import "react-toastify/dist/ReactToastify.css";
+import { buildApiUrl } from "@/lib/api";
 
 export default function VerifyForgotOtp() {
   const router = useRouter();
@@ -180,7 +181,7 @@ export default function VerifyForgotOtp() {
       setLoading(true);
 
       await axios.post(
-        "http://143.110.244.163:5000/api/auth/verify-forgot-otp",
+        buildApiUrl("/api/auth/verify-forgot-otp"),
         { email, otp: finalOtp }
       );
 
@@ -216,7 +217,7 @@ export default function VerifyForgotOtp() {
 
     try {
       await axios.post(
-        "http://143.110.244.163:5000/api/auth/forgot-password",
+        buildApiUrl("/api/auth/forgot-password"),
         { email }
       );
 
@@ -269,7 +270,7 @@ export default function VerifyForgotOtp() {
 
             <div className="card shadow border-0 rounded-4">
               <div className="card-body p-4 text-center">
-                <img src="/dhakadweb/assets/images/otp-icon.png" className="mb-3" />
+                <img src="/assets/images/otp-icon.png" className="mb-3" />
 
                 <h6>Please enter the 4-digit OTP</h6>
 

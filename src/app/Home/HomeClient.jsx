@@ -13,6 +13,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { buildApiUrl } from "@/lib/api";
 
 const HomeClient = () => {
     const [token, setToken] = useState("");
@@ -127,7 +128,7 @@ const HomeClient = () => {
         try {
             setRegisterLoading(true);
 
-            const response = await axios.post("http://143.110.244.163:5000/api/auth/register", {
+            const response = await axios.post(buildApiUrl("/api/auth/register"), {
                 name: formData.name,
                 email: formData.email,
                 password: formData.password,
@@ -298,7 +299,7 @@ const HomeClient = () => {
                             <SwiperSlide>
                                 <div className="banner-content position-relative" style={{ height: "85vh" }}>
                                     <img
-                                        src="/dhakadweb/assets/images/home-banner.png"
+                                        src="/assets/images/home-banner.png"
                                         alt="Home Banner"
                                         className="w-100 h-100 object-fit-cover"
                                     />
@@ -337,7 +338,7 @@ const HomeClient = () => {
                             <SwiperSlide>
                                 <div className="banner-content position-relative" style={{ height: "85vh" }}>
                                     <img
-                                        src="/dhakadweb/assets/images/home-banner.png"
+                                        src="/assets/images/home-banner.png"
                                         alt="Home Banner"
                                         className="w-100 h-100 object-fit-cover"
                                     />
@@ -398,7 +399,7 @@ const HomeClient = () => {
                                         <div className="p-4 rounded-4 border h-100 shadow-sm home-card" style={{ background: "#fdf7ee" }}>
                                             <div className="mb-3">
                                                 <img
-                                                    src="/dhakadweb/assets/images/user-icon.gif"
+                                                    src="/assets/images/user-icon.gif"
                                                     width={50}
                                                     height={50}
                                                     alt="Verified Profiles"
@@ -419,7 +420,7 @@ const HomeClient = () => {
                                         <div className="p-4 rounded-4 border h-100 shadow-sm home-card" style={{ background: "#fdf7ee" }}>
                                             <div className="mb-3">
                                                 <img
-                                                    src="/dhakadweb/assets/images/magnifier-icon.gif"
+                                                    src="/assets/images/magnifier-icon.gif"
                                                     width={50}
                                                     height={50}
                                                     alt="Verification Visits"
@@ -439,7 +440,7 @@ const HomeClient = () => {
                                         <div className="p-4 rounded-4 border h-100 shadow-sm home-card" style={{ background: "#fdf7ee" }}>
                                             <div className="mb-3">
                                                 <img
-                                                    src="/dhakadweb/assets/images/privacy-policy-icon.gif"
+                                                    src="/assets/images/privacy-policy-icon.gif"
                                                     width={50}
                                                     height={50}
                                                     alt="Your Privacy" />
@@ -484,12 +485,12 @@ const HomeClient = () => {
                                                                     <p className="mb-4 text-6B6B6B text-center">Point your phone camera at the QR code or use one of the download links below</p>
                                                                     <div className="col-12 col-lg-6 mb-lg-0 mb-4">
                                                                         <div className="text-center">
-                                                                            <img src="/dhakadweb/assets/images/download-barcode.png" alt="qr-code" className='w-75' />
+                                                                            <img src="/assets/images/download-barcode.png" alt="qr-code" className='w-75' />
                                                                         </div>
                                                                     </div>
                                                                     <div className="col-12 col-lg-6 d-flex flex-column justify-content-center align-items-center">
-                                                                        <img src="/dhakadweb/assets/images/appstore.png" alt="app-store" className='mb-2 w-75' />
-                                                                        <img src="/dhakadweb/assets/images/playstore.png" alt="google-play" className='w-75' />
+                                                                        <img src="/assets/images/appstore.png" alt="app-store" className='mb-2 w-75' />
+                                                                        <img src="/assets/images/playstore.png" alt="google-play" className='w-75' />
                                                                     </div>
                                                                     <p className="mt-4 text-6B6B6B text-center">Or
                                                                         <span className="text-danger fw-medium"> Get Download </span>
@@ -503,7 +504,7 @@ const HomeClient = () => {
                                                 </div>
                                                 <div className="col-12 col-lg-6">
                                                     <div className="">
-                                                        <img src="/dhakadweb/assets/images/download-app-img.png" alt="" className="w-100" />
+                                                        <img src="/assets/images/download-app-img.png" alt="" className="w-100" />
                                                     </div>
                                                 </div>
                                             </div>

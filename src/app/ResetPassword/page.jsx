@@ -6,6 +6,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
 import "react-toastify/dist/ReactToastify.css";
+import { buildApiUrl } from "@/lib/api";
 
 export default function ResetPassword() {
   const router = useRouter();
@@ -32,7 +33,7 @@ export default function ResetPassword() {
       return toast.error("Passwords do not match");
 
     try {
-      await axios.post("http://143.110.244.163:5000/api/auth/reset-password", {
+      await axios.post(buildApiUrl("/api/auth/reset-password"), {
         email,
         newPassword: password,
       });

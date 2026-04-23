@@ -6,6 +6,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
+import { buildApiUrl } from "@/lib/api";
 
 const educationOptionValues = [
     "10th",
@@ -180,7 +181,7 @@ const RegistrationForm = () => {
 
         const checkProfile = async () => {
             try {
-                const res = await axios.get("http://143.110.244.163:5000/api/profile/me", {
+                const res = await axios.get(buildApiUrl("/api/profile/me"), {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -303,7 +304,7 @@ const RegistrationForm = () => {
     }, [token]);
 
     useEffect(() => {
-        fetch("http://143.110.244.163:5000/api/location/states")
+        fetch(buildApiUrl("/api/location/states"))
             .then((res) => res.json())
             .then((data) => setStates(data))
             .catch((err) => console.error(err));
@@ -312,7 +313,7 @@ const RegistrationForm = () => {
     useEffect(() => {
         if (!formData.state) return;
 
-        fetch(`http://143.110.244.163:5000/api/location/cities/${formData.state}`)
+        fetch(buildApiUrl(`/api/location/cities/${formData.state}`))
             .then((res) => res.json())
             .then((data) => {
                 setCities(data.cities || []);
@@ -349,7 +350,7 @@ const RegistrationForm = () => {
             }
 
             try {
-                const res = await fetch(`http://143.110.244.163:5000/api/location/cities/${value}`);
+                const res = await fetch(buildApiUrl(`/api/location/cities/${value}`));
                 const data = await res.json();
                 setCities(data.cities || []);
                 setCustomCity(false);
@@ -413,7 +414,7 @@ const RegistrationForm = () => {
             const fd = new FormData();
             fd.append("image", file);
 
-            const upload = await axios.post("http://143.110.244.163:5000/api/upload-image", fd, {
+            const upload = await axios.post(buildApiUrl("/api/upload-image"), fd, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "multipart/form-data",
@@ -454,7 +455,7 @@ const RegistrationForm = () => {
                 photos: orderedPhotos,
             };
 
-            await axios.post("http://143.110.244.163:5000/api/profile/create", payload, {
+            await axios.post(buildApiUrl("/api/profile/create"), payload, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 
@@ -1507,7 +1508,7 @@ const RegistrationForm = () => {
                                 {submitted && (
                                     <div className="text-center my-3">
                                         <img
-                                            src="/dhakadweb/assets/images/checkmark.png"
+                                            src="/assets/images/checkmark.png"
                                             alt="ok"
                                             width={100}
                                         />

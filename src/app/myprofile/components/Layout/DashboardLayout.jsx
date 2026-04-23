@@ -6,6 +6,7 @@ import Sidebar from './Sidebar'; // Import the Sidebar we already created
 // Assuming you will create these components soon:
 import Header from '../../../components/Header/Page';
 import Footer from '../../../components/Footer/page';
+import { buildApiUrl, buildAuthHeaders } from "@/lib/api";
 
 export default function DashboardLayout({ children }) {
 
@@ -20,10 +21,8 @@ export default function DashboardLayout({ children }) {
   const fetchProfile = async () => {
     try {
       const res = await fetch(
-        `http://143.110.244.163:5000/api/profile/own-profile/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("usertoken")}` // or your auth token
-        }
+        buildApiUrl(`/api/profile/own-profile/${userId}`), {
+        headers: buildAuthHeaders(), // or your auth token
       }
       );
       const data = await res.json();

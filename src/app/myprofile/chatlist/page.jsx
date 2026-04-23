@@ -7,10 +7,10 @@ import { io } from "socket.io-client";
 
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { buildApiUrl, buildSocketUrl } from "@/lib/api";
 
-
-const API_URL = "http://143.110.244.163:5000/api";
-const SOCKET_URL = "http://143.110.244.163:5000";
+const API_URL = buildApiUrl("/api");
+const SOCKET_URL = buildSocketUrl();
 
 export default function ChatListPage() {
   const socketRef = useRef(null);
@@ -279,7 +279,7 @@ export default function ChatListPage() {
                     <div key={req._id} className="p-3 border-bottom">
                       <div className="d-flex align-items-center gap-3">
                         <img
-                          src={sender?.photo || "/dhakadweb/assets/images/dummy.png"}
+                          src={sender?.photo || "/assets/images/dummy.png"}
                           className="rounded-circle"
                           width="40"
                           height="40"
@@ -327,7 +327,7 @@ export default function ChatListPage() {
                   }}
                 >
                   <img
-                    src={otherUser?.photo || "/dhakadweb/assets/images/dummy.png"}
+                    src={otherUser?.photo || "/assets/images/dummy.png"}
                     className="rounded-circle me-3"
                     width="45"
                     height="45"
@@ -364,7 +364,7 @@ export default function ChatListPage() {
                   )}
 
                   <img
-                    src={activeUser?.photo || "/dhakadweb/assets/images/dummy.png"}
+                    src={activeUser?.photo || "/assets/images/dummy.png"}
                     className="rounded-circle"
                     width="40"
                     height="40"

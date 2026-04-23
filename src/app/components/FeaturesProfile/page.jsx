@@ -7,6 +7,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import Link from "next/link";
+import { buildApiUrl, buildAuthHeaders } from "@/lib/api";
 
 export default function FeaturesProfile() {
     const prevRef = useRef(null);
@@ -35,10 +36,11 @@ export default function FeaturesProfile() {
         const fetchProfiles = async () => {
             try {
                  const savedToken = localStorage.getItem("usertoken");
-                const res = await fetch("http://143.110.244.163:5000/api/featured?limit=10", {
+                const res = await fetch(buildApiUrl("/api/featured?limit=10"), {
                     headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${savedToken}`,
+                        ...buildAuthHeaders({
+                            "Content-Type": "application/json",
+                        }, savedToken),
                     },
                 });
                 const data = await res.json();
@@ -128,7 +130,7 @@ export default function FeaturesProfile() {
                                     style={{ height: "100%" }}
                                 >
                                     <img
-                                        src={item.photos?.[0] || "/dhakadweb/assets/images/dummy.png"}
+                                        src={item.photos?.[0] || "/assets/images/dummy.png"}
                                         alt={item.name}
                                         width={300}
                                         height={260}
@@ -197,7 +199,7 @@ export default function FeaturesProfile() {
                                 </p>
 
                                 {/* <img
-                                    src="/dhakadweb/assets/images/login-lock.png"
+                                    src="/assets/images/login-lock.png"
                                     alt="login"
                                     style={{ width: 80, opacity: 0.8 }}
                                     className="mb-3"

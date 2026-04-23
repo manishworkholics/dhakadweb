@@ -6,9 +6,10 @@ import Footer from '../components/Footer/page'
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { buildApiUrl } from "@/lib/api";
 
 const Contactus = () => {
-    const API_URL = "http://143.110.244.163:5000/api/contact";
+    const API_URL = buildApiUrl("/api/contact");
     const [showModal, setShowModal] = useState(false);
 
     const [loading, setLoading] = useState(false);

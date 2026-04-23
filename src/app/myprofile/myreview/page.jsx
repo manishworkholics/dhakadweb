@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from "react";
 import DashboardLayout from "../components/Layout/DashboardLayout";
 import axios from "axios";
+import { buildApiUrl } from "@/lib/api";
 
-const API_URL = "http://143.110.244.163:5000/api";
+const API_URL = buildApiUrl("/api");
 
 export default function MyReviewPage() {
     const [activeTab, setActiveTab] = useState("add"); // NEW
@@ -111,7 +112,7 @@ export default function MyReviewPage() {
                             </div>
                             <div className="col-lg-5 text-center">
                                 <img
-                                    src="/dhakadweb/assets/images/couple.png"
+                                    src="/assets/images/couple.png"
                                     alt="couple"
                                     className="img-fluid"
                                 />
