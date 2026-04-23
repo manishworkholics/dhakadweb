@@ -3090,3 +3090,221 @@ select.form-input {
 .lifetime-card {
   border: 2px solid #22c55e;
 }
+
+.galleryPage {
+  padding: 44px 0 64px;
+  background: radial-gradient(circle at 80% 0%, rgba(212, 175, 55, 0.14), rgba(255, 255, 255, 0) 45%), #ffffff;
+}
+
+.galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.galleryCard {
+  margin: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.galleryCardMedia {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: rgba(17, 24, 39, 0.04);
+}
+
+.galleryCardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1);
+  transition: transform 320ms ease;
+}
+
+.galleryCardOverlay {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 70% 20%, rgba(212, 175, 55, 0.18), rgba(0, 0, 0, 0) 55%);
+  opacity: 0;
+  transition: opacity 320ms ease;
+}
+
+.galleryCardCaption {
+  padding: 14px 14px 16px;
+}
+
+.galleryCardTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  line-height: 1.4;
+}
+
+.galleryStateBox {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 26px 22px;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px dashed rgba(17, 24, 39, 0.18);
+}
+
+.galleryStateTitle {
+  margin: 0 0 6px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.galleryStateText {
+  margin: 0;
+  color: rgba(17, 24, 39, 0.7);
+  line-height: 1.6;
+}
+
+.galleryRetryBtn,
+.termsRetryBtn {
+  margin-top: 14px;
+  border: 1px solid rgba(212, 175, 55, 0.55);
+  background: linear-gradient(180deg, #f7e7b3, #d4af37);
+  color: #111827;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 700;
+  transition: transform 160ms ease, filter 160ms ease;
+}
+
+.galleryRetryBtn:hover,
+.termsRetryBtn:hover {
+  filter: brightness(1.03);
+  transform: translateY(-1px);
+}
+
+.galleryCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+}
+
+.galleryCard:hover .galleryCardImg {
+  transform: scale(1.06);
+}
+
+.galleryCard:hover .galleryCardOverlay {
+  opacity: 1;
+}
+
+.termsPage {
+  padding: 44px 0 64px;
+  background: radial-gradient(circle at 20% 0%, rgba(212, 175, 55, 0.12), rgba(255, 255, 255, 0) 45%), #ffffff;
+}
+
+.termsContent,
+.termsLoadingBox,
+.termsStateBox {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 26px 22px;
+  border-radius: 18px;
+}
+
+.termsContent {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.08);
+}
+
+.termsContent h1,
+.termsContent h2,
+.termsContent h3 {
+  color: #111827;
+  font-weight: 700;
+  margin: 18px 0 10px;
+  line-height: 1.2;
+}
+
+.termsContent h1 {
+  font-size: 28px;
+}
+
+.termsContent h2 {
+  font-size: 22px;
+}
+
+.termsContent p,
+.termsContent li {
+  color: rgba(17, 24, 39, 0.82);
+  line-height: 1.75;
+  font-size: 16px;
+}
+
+.termsContent p {
+  margin: 0 0 12px;
+}
+
+.termsContent ul,
+.termsContent ol {
+  padding-left: 22px;
+  margin: 0 0 14px;
+}
+
+.termsContent a {
+  color: #b58c1b;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.termsLoadingBox {
+  background: #fff;
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.08);
+  display: grid;
+  gap: 12px;
+}
+
+.termsStateBox {
+  background: #fff;
+  border: 1px dashed rgba(17, 24, 39, 0.18);
+}
+
+.termsStateTitle {
+  margin: 0 0 6px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.termsStateText {
+  margin: 0;
+  color: rgba(17, 24, 39, 0.7);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .galleryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+}
+
+@media (max-width: 576px) {
+  .termsContent,
+  .termsLoadingBox,
+  .termsStateBox {
+    padding: 18px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .galleryCard,
+  .galleryCardImg,
+  .galleryCardOverlay {
+    transition: none;
+  }
+}

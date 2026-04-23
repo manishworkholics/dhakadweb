@@ -1,5 +1,4 @@
 import SectionTitle from "@/components/SectionTitle";
-import styles from "./terms.module.css";
 import { fetchJson } from "@/lib/api";
 
 export const metadata = {
@@ -19,20 +18,20 @@ export default async function TermsAndConditionsPage() {
   const terms = await getTerms();
 
   return (
-    <div className={styles.page}>
+    <div className="termsPage">
       <div className="container">
         <SectionTitle title={terms?.title || "Terms & Conditions"} />
 
         {!terms?.content ? (
-          <div className={styles.stateBox}>
-            <p className={styles.stateTitle}>No terms available</p>
-            <p className={styles.stateText}>
+          <div className="termsStateBox">
+            <p className="termsStateTitle">No terms available</p>
+            <p className="termsStateText">
               Please check back later. If this keeps happening, contact support.
             </p>
           </div>
         ) : (
           <article
-            className={styles.content}
+            className="termsContent"
             dangerouslySetInnerHTML={{ __html: terms.content }}
           />
         )}
@@ -40,4 +39,3 @@ export default async function TermsAndConditionsPage() {
     </div>
   );
 }
-

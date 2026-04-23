@@ -1,13 +1,12 @@
 import SectionTitle from "@/components/SectionTitle";
 import { SkeletonLine } from "@/components/Skeleton";
-import styles from "./terms.module.css";
 
 export default function Loading() {
   return (
-    <div className={styles.page}>
+    <div className="termsPage">
       <div className="container">
         <SectionTitle title="Terms & Conditions" />
-        <div className={styles.loadingBox}>
+        <div className="termsLoadingBox">
           <SkeletonLine height={18} width="60%" />
           <SkeletonLine height={12} width="95%" />
           <SkeletonLine height={12} width="92%" />
@@ -19,4 +18,3 @@ export default function Loading() {
     </div>
   );
 }
-

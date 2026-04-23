@@ -1,19 +1,18 @@
 "use client";
 
 import SectionTitle from "@/components/SectionTitle";
-import styles from "./terms.module.css";
 
 export default function Error({ error, reset }) {
   return (
-    <div className={styles.page}>
+    <div className="termsPage">
       <div className="container">
         <SectionTitle title="Terms & Conditions" />
-        <div className={styles.stateBox}>
-          <p className={styles.stateTitle}>Something went wrong</p>
-          <p className={styles.stateText}>
+        <div className="termsStateBox">
+          <p className="termsStateTitle">Something went wrong</p>
+          <p className="termsStateText">
             {error?.message || "Failed to load terms. Please try again."}
           </p>
-          <button className={styles.retryBtn} onClick={() => reset()}>
+          <button className="termsRetryBtn" onClick={() => reset()}>
             Retry
           </button>
         </div>
@@ -21,4 +20,3 @@ export default function Error({ error, reset }) {
     </div>
   );
 }
-

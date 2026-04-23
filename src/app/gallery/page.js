@@ -1,6 +1,5 @@
 import SectionTitle from "@/components/SectionTitle";
 import ImageCard from "@/components/ImageCard";
-import styles from "./gallery.module.css";
 import { fetchJson } from "@/lib/api";
 
 export const metadata = {
@@ -23,7 +22,7 @@ export default async function GalleryPage() {
   const gallery = await getGallery();
 
   return (
-    <div className={styles.page}>
+    <div className="galleryPage">
       <div className="container">
         <SectionTitle
           title="Gallery"
@@ -32,14 +31,14 @@ export default async function GalleryPage() {
         />
 
         {gallery.length === 0 ? (
-          <div className={styles.stateBox}>
-            <p className={styles.stateTitle}>No gallery items yet</p>
-            <p className={styles.stateText}>
-              New photos will appear here as soon as they’re published.
+          <div className="galleryStateBox">
+            <p className="galleryStateTitle">No gallery items yet</p>
+            <p className="galleryStateText">
+              New photos will appear here as soon as they&apos;re published.
             </p>
           </div>
         ) : (
-          <div className={styles.grid}>
+          <div className="galleryGrid">
             {gallery.map((item, idx) => (
               <ImageCard
                 key={item?._id || `${item?.image || "img"}-${idx}`}
@@ -54,4 +53,3 @@ export default async function GalleryPage() {
     </div>
   );
 }
-

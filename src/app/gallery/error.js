@@ -1,19 +1,18 @@
 "use client";
 
 import SectionTitle from "@/components/SectionTitle";
-import styles from "./gallery.module.css";
 
 export default function Error({ error, reset }) {
   return (
-    <div className={styles.page}>
+    <div className="galleryPage">
       <div className="container">
         <SectionTitle title="Gallery" subtitle="Our moments" align="center" />
-        <div className={styles.stateBox}>
-          <p className={styles.stateTitle}>Couldn’t load gallery</p>
-          <p className={styles.stateText}>
+        <div className="galleryStateBox">
+          <p className="galleryStateTitle">Couldn&apos;t load gallery</p>
+          <p className="galleryStateText">
             {error?.message || "Please try again in a moment."}
           </p>
-          <button className={styles.retryBtn} onClick={() => reset()}>
+          <button className="galleryRetryBtn" onClick={() => reset()}>
             Retry
           </button>
         </div>
@@ -21,4 +20,3 @@ export default function Error({ error, reset }) {
     </div>
   );
 }
-
