@@ -16,6 +16,14 @@ export default async function sitemap() {
       lastModified: new Date(),
     },
     {
+      url: toAbsoluteUrl("/terms-and-conditions"),
+      lastModified: new Date(),
+    },
+    {
+      url: toAbsoluteUrl("/privacy-policy"),
+      lastModified: new Date(),
+    },
+    {
       url: toAbsoluteUrl("/blog"),
       lastModified: new Date(),
     },

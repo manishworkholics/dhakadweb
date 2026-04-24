@@ -77,7 +77,11 @@ export default function Footer() {
                             <p className="mb-0 fw-normal text-787878 text-center text-lg-start text-md-start" style={{ fontSize: "14px" }}>Copyright 2025. All Rights Reserved</p>
                         </div>
                         <div className="col-lg-6 col-md-6 col-12">
-                            <p className="mb-0 fw-normal text-787878 text-center text-lg-end text-md-end" style={{ fontSize: "14px" }}>Term & conditions     |    Privacy Policy</p>
+                            <p className="mb-0 fw-normal text-787878 text-center text-lg-end text-md-end" style={{ fontSize: "14px" }}>
+                                <Link href="/terms-and-conditions" className="text-787878 text-decoration-none">Terms &amp; Conditions</Link>
+                                {" | "}
+                                <Link href="/privacy-policy" className="text-787878 text-decoration-none">Privacy Policy</Link>
+                            </p>
                         </div>
                     </div>
                 </div>

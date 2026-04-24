@@ -1,20 +1,14 @@
 "use client";
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { usePathname } from "next/navigation";
 
 const Header = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const pathname = usePathname(); // 👈 current route
-
-    useEffect(() => {
-        const token = localStorage.getItem("usertoken");
-        if (token) setIsLoggedIn(true);
-    }, []);
+    const pathname = usePathname(); // ðŸ‘ˆ current route
+    const isLoggedIn = typeof window !== "undefined" && Boolean(localStorage.getItem("usertoken"));
 
     const handleLogout = () => {
         localStorage.removeItem("usertoken");
-        setIsLoggedIn(false);
         window.location.href = "/login";
     };
 
@@ -57,6 +51,10 @@ const Header = () => {
 
                             <li className="nav-item">
                                 <Link className={isActive("/terms-and-conditions")} href="/terms-and-conditions">Terms &amp; Conditions</Link>
+                            </li>
+
+                            <li className="nav-item">
+                                <Link className={isActive("/privacy-policy")} href="/privacy-policy">Privacy Policy</Link>
                             </li>
 
                             {isLoggedIn && (
