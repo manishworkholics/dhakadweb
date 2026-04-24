@@ -1,5 +1,7 @@
 import SectionTitle from "@/components/SectionTitle";
 import { fetchJson } from "@/lib/api";
+import Header from "@/app/components/Header/Page";
+import Footer from "@/app/components/Footer/page";
 
 export const metadata = {
   title: "Terms & Conditions | Dhakad Matrimony",
@@ -18,24 +20,28 @@ export default async function TermsAndConditionsPage() {
   const terms = await getTerms();
 
   return (
-    <div className="termsPage">
-      <div className="container">
-        <SectionTitle title={terms?.title || "Terms & Conditions"} />
+    <div className="publicPageLayout">
+      <Header />
+      <div className="publicPageContent termsPage">
+        <div className="container">
+          <SectionTitle title={terms?.title || "Terms & Conditions"} />
 
-        {!terms?.content ? (
-          <div className="termsStateBox">
-            <p className="termsStateTitle">No terms available</p>
-            <p className="termsStateText">
-              Please check back later. If this keeps happening, contact support.
-            </p>
-          </div>
-        ) : (
-          <article
-            className="termsContent"
-            dangerouslySetInnerHTML={{ __html: terms.content }}
-          />
-        )}
+          {!terms?.content ? (
+            <div className="termsStateBox">
+              <p className="termsStateTitle">No terms available</p>
+              <p className="termsStateText">
+                Please check back later. If this keeps happening, contact support.
+              </p>
+            </div>
+          ) : (
+            <article
+              className="termsContent"
+              dangerouslySetInnerHTML={{ __html: terms.content }}
+            />
+          )}
+        </div>
       </div>
+      <Footer />
     </div>
   );
 }
